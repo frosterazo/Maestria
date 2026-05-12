@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaestrIA · Escritura Persuasiva · 1° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <style>
+    /* ── Interactividad ── */
+    .btn-opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:#fff;border:2px solid #d0d4e8;border-radius:10px;padding:10px 14px;margin:5px 0;font-size:10pt;font-family:inherit;cursor:pointer;transition:border-color .2s,background .2s;}
+    .btn-opt:hover:not(:disabled){border-color:#0B0F3F;background:#f4f5fb;}
+    .btn-opt:disabled{cursor:default;}
+    .opt-letter-b{min-width:26px;height:26px;border-radius:50%;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9.5pt;flex-shrink:0;}
+    .opt-selected-ok{background:#e8f7ee !important;border-color:#1a7a3c !important;}
+    .opt-selected-ok .opt-letter-b{background:#1a7a3c;}
+    .opt-selected-err{background:#fdecea !important;border-color:#c0392b !important;}
+    .opt-selected-err .opt-letter-b{background:#c0392b;}
+    .opt-correct-reveal{background:#fff9e6 !important;border-color:#D4AF37 !important;}
+    .opt-correct-reveal .opt-letter-b{background:#D4AF37;color:#0B0F3F;}
+    .q-feedback{display:none;border-radius:8px;padding:8px 12px;margin-top:6px;font-size:9pt;line-height:1.5;}
+    .fb-ok{display:block !important;background:#e8f7ee;border-left:4px solid #1a7a3c;color:#145a2c;}
+    .fb-err{display:block !important;background:#fdecea;border-left:4px solid #c0392b;color:#8b1a14;}
+    /* ── Score bar ── */
+    .score-bar{position:fixed;bottom:0;left:0;right:0;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;z-index:999;font-size:10pt;box-shadow:0 -2px 12px rgba(0,0,0,.25);}
+    .score-bar .sb-pts{font-weight:700;font-size:12pt;}
+    .score-bar .sb-label{opacity:.8;font-size:9pt;}
+    .btn-pdf-bar{background:#D4AF37;color:#0B0F3F;border:none;border-radius:8px;padding:7px 18px;font-weight:700;font-size:10pt;cursor:pointer;font-family:inherit;}
+    .btn-pdf-bar:hover{background:#c9a42e;}
+    /* ── PDF ── */
+    .pdf-sol{display:none;}
+    @media print{
+      .score-bar{display:none !important;}
+      .btn-opt{border:1.5px solid #ccc !important;background:#fff !important;}
+      .opt-selected-ok,.opt-selected-err,.opt-correct-reveal{background:#fff !important;border-color:#999 !important;}
+      .q-feedback{display:none !important;}
+      .pdf-sol{display:block !important;}
+      .no-print{display:none !important;}
+    }
+    /* ── Contenido específico ── */
+    .card-warn{background:#fffbea;border-left:4px solid #D4AF37;}
+    .steps-num{padding-left:20px;line-height:1.9;}
+    .steps-num li{margin-bottom:4px;}
+    .ensayo-modelo{background:#f8f4ff;border:1.5px solid #6A2C91;border-radius:10px;padding:16px 20px;font-size:9.5pt;line-height:1.7;margin:12px 0;}
+    .ensayo-modelo .label{display:block;font-weight:700;font-size:8.5pt;color:#6A2C91;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 4px;}
+    .ensayo-modelo .label:first-child{margin-top:0;}
+    .ensayo-modelo p{margin:0 0 4px 0;}
+  </style>
+</head>
+<body>
+
+<!-- SCORE BAR -->
+<div class="score-bar no-print" id="scoreBar">
+  <div><div class="sb-label">Puntaje</div><div class="sb-pts" id="sbPts">0 / 20</div></div>
+  <div id="sbFinal" style="display:none;color:#D4AF37;font-weight:700;">¡Guía completada!</div>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- PÁGINA 1 -->
+<div class="page">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Lengua y Literatura · 1° Año Medio<br>
+      Unidad: Escritura Persuasiva<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="guide-banner">
+    <div class="subject-pill">Lengua y Literatura · Eje Escritura</div>
+    <h2>Escribe para Persuadir: Domina el ensayo argumentativo</h2>
+    <div class="meta-chips">
+      <div class="chip"><strong>Nivel:</strong> 1° Año Medio</div>
+      <div class="chip"><strong>Eje:</strong> Escritura</div>
+      <div class="chip"><strong>Duración:</strong> 90 min</div>
+      <div class="chip"><strong>Currículum:</strong> MINEDUC 2026</div>
+    </div>
+  </div>
+
+  <div class="oa-box">
+    <div class="oa-badge">OA 14</div>
+    <div class="oa-text">
+      <strong>Objetivo de Aprendizaje:</strong> Escribir, con el propósito de persuadir, textos de
+      diversos géneros —en particular ensayos— sobre temas o lecturas, caracterizados por: la
+      <strong>presentación de una hipótesis o tesis</strong> sobre un tema contingente o literario;
+      la <strong>presencia de evidencias e información pertinente</strong> extraída de textos
+      literarios y no literarios; la <strong>coherencia temática</strong>; una <strong>conclusión
+      coherente</strong> con los argumentos; y el <strong>uso de citas y referencias</strong>.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">1</div>¿Qué es un ensayo argumentativo?</div>
+      <p>El <strong>ensayo argumentativo</strong> es un texto escrito en el que defendemos una idea
+      —una tesis— con argumentos, evidencias y citas. No es un resumen ni una opinión sin sustento:
+      es <strong>pensamiento organizado y demostrado</strong>.</p>
+
+      <div class="card card-def">
+        <div class="card-label">Definición — Ensayo</div>
+        Texto reflexivo, en prosa, de extensión media, en el que el autor expone una tesis personal
+        sobre un tema y la <strong>defiende con argumentos</strong>. El propósito es <strong>persuadir</strong>
+        al lector sin imponerse: mediante razones bien construidas.
+      </div>
+
+      <table class="tbl">
+        <thead><tr><th>Característica</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td>Subjetivo pero fundamentado</td><td>Refleja un punto de vista personal apoyado en evidencias.</td></tr>
+          <tr><td>Estructura clara</td><td>Introducción, desarrollo y conclusión.</td></tr>
+          <tr><td>Coherencia temática</td><td>Todas las partes giran en torno a la tesis.</td></tr>
+          <tr><td>Lenguaje preciso</td><td>Formal, claro, sin coloquialismos innecesarios.</td></tr>
+          <tr><td>Citas y referencias</td><td>Cuando se usan ideas o palabras de otros, se citan.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">2</div>Estructura del ensayo</div>
+
+      <table class="tbl">
+        <thead><tr><th>Parte</th><th>Función</th><th>Qué incluir</th></tr></thead>
+        <tbody>
+          <tr><td>Introducción</td><td>Presentar el tema y anunciar la tesis.</td><td>Contexto del tema · Pregunta central · Tesis clara.</td></tr>
+          <tr><td>Desarrollo</td><td>Defender la tesis con argumentos.</td><td>2–4 argumentos sólidos · Evidencias · Citas · Contraargumentos refutados.</td></tr>
+          <tr><td>Conclusión</td><td>Cerrar reafirmando la tesis.</td><td>Síntesis · Reafirmación · Reflexión final o invitación.</td></tr>
+        </tbody>
+      </table>
+
+      <!-- SVG 1: Estructura del ensayo argumentativo -->
+      <svg viewBox="0 0 700 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:16px auto;" aria-label="Estructura del ensayo argumentativo">
+        <!-- Introducción -->
+        <rect x="10" y="20" width="190" height="120" rx="12" fill="#e8f0ff" stroke="#0B0F3F" stroke-width="2"/>
+        <text x="105" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="13" fill="#0B0F3F">INTRODUCCIÓN</text>
+        <line x1="105" y1="55" x2="105" y2="57" stroke="#0B0F3F" stroke-width="1"/>
+        <text x="105" y="72" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Contexto del tema</text>
+        <text x="105" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Pregunta central</text>
+        <text x="105" y="104" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#0B0F3F">→ Tesis clara</text>
+        <!-- Flecha 1 -->
+        <polygon points="218,80 235,72 235,88" fill="#D4AF37"/>
+        <line x1="200" y1="80" x2="234" y2="80" stroke="#D4AF37" stroke-width="2.5"/>
+        <!-- Desarrollo -->
+        <rect x="238" y="20" width="220" height="120" rx="12" fill="#f0e8ff" stroke="#6A2C91" stroke-width="2"/>
+        <text x="348" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="13" fill="#6A2C91">DESARROLLO</text>
+        <text x="348" y="68" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Arg. 1: Afirmación + Evidencia + Análisis</text>
+        <text x="348" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Arg. 2: Afirmación + Evidencia + Análisis</text>
+        <text x="348" y="100" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Arg. 3: Afirmación + Evidencia + Análisis</text>
+        <text x="348" y="120" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6A2C91" font-weight="600">+ Contraargumento refutado</text>
+        <!-- Flecha 2 -->
+        <polygon points="476,80 493,72 493,88" fill="#D4AF37"/>
+        <line x1="458" y1="80" x2="492" y2="80" stroke="#D4AF37" stroke-width="2.5"/>
+        <!-- Conclusión -->
+        <rect x="496" y="20" width="194" height="120" rx="12" fill="#e8faf0" stroke="#1a7a3c" stroke-width="2"/>
+        <text x="593" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="13" fill="#1a7a3c">CONCLUSIÓN</text>
+        <text x="593" y="68" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Síntesis de argumentos</text>
+        <text x="593" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#1a7a3c">Reafirmación de tesis</text>
+        <text x="593" y="100" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Reflexión final</text>
+        <text x="593" y="116" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">o invitación al lector</text>
+      </svg>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">3</div>La tesis: el corazón del ensayo</div>
+
+      <div class="card card-def">
+        <div class="card-label">Tesis</div>
+        Afirmación clara que <strong>defiendes</strong> y demuestras a lo largo del ensayo. Debe ser
+        <strong>discutible</strong> (alguien podría no estar de acuerdo) y <strong>específica</strong>
+        (no vaga).
+      </div>
+
+      <div class="two-col">
+        <div class="col-card">
+          <div class="col-card-title">❌ Tesis débil</div>
+          <p style="font-style:italic;">"Las redes sociales son un tema importante."</p>
+          <p style="margin-top:6px;">No es discutible, no afirma nada concreto.</p>
+        </div>
+        <div class="col-card">
+          <div class="col-card-title">✓ Tesis fuerte</div>
+          <p style="font-style:italic;">"El uso prolongado de redes sociales en menores de 14 años deteriora su autoestima y debe ser regulado por el Estado."</p>
+          <p style="margin-top:6px;">Es discutible, específica y comprometida.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <div class="card-label"><span class="card-icon">💡</span>Test de la tesis</div>
+        Pregúntate: <strong>"¿Alguien podría defender lo contrario?"</strong> Si la respuesta es
+        no, tu tesis es trivial. Si es sí, está lista para un buen ensayo.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">4</div>Argumentos y evidencias</div>
+
+      <p>Cada argumento debe tener tres componentes:</p>
+
+      <ol class="steps-num">
+        <li><strong>Afirmación:</strong> la idea que defiendes en ese párrafo.</li>
+        <li><strong>Evidencia:</strong> dato, cita, ejemplo o referencia que prueba la afirmación.</li>
+        <li><strong>Análisis:</strong> explicas <em>por qué</em> esa evidencia respalda tu tesis.</li>
+      </ol>
+
+      <div class="card card-ex">
+        <div class="card-label">Ejemplo de párrafo argumentativo bien construido</div>
+        <strong>(Afirmación)</strong> El uso excesivo de redes sociales afecta la salud mental de los
+        adolescentes. <strong>(Evidencia)</strong> Un estudio de la Universidad de Oxford (2023)
+        mostró que jóvenes que pasan más de 4 horas al día en plataformas como TikTok presentan un
+        25% más de síntomas de ansiedad. <strong>(Análisis)</strong> Estos resultados sugieren que
+        no se trata solo de una cuestión de hábitos, sino de un riesgo real para el desarrollo
+        emocional, lo que justifica la urgencia de regulación.
+      </div>
+
+      <!-- SVG 2: Anatomía del párrafo argumentativo -->
+      <svg viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:16px auto;" aria-label="Anatomía del párrafo argumentativo">
+        <text x="350" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#0B0F3F">Anatomía del párrafo argumentativo</text>
+        <!-- Afirmación -->
+        <rect x="10" y="28" width="200" height="80" rx="10" fill="#dde6ff" stroke="#0B0F3F" stroke-width="2"/>
+        <text x="110" y="54" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="12" fill="#0B0F3F">1. AFIRMACIÓN</text>
+        <text x="110" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">La idea que defiendes</text>
+        <text x="110" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">en ese párrafo</text>
+        <!-- Flecha -->
+        <polygon points="224,68 242,60 242,76" fill="#D4AF37"/>
+        <line x1="210" y1="68" x2="241" y2="68" stroke="#D4AF37" stroke-width="2.5"/>
+        <!-- Evidencia -->
+        <rect x="245" y="28" width="200" height="80" rx="10" fill="#ede0ff" stroke="#6A2C91" stroke-width="2"/>
+        <text x="345" y="54" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="12" fill="#6A2C91">2. EVIDENCIA</text>
+        <text x="345" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">Dato, cita, ejemplo</text>
+        <text x="345" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">que la prueba</text>
+        <!-- Flecha -->
+        <polygon points="459,68 477,60 477,76" fill="#D4AF37"/>
+        <line x1="445" y1="68" x2="476" y2="68" stroke="#D4AF37" stroke-width="2.5"/>
+        <!-- Análisis -->
+        <rect x="480" y="28" width="210" height="80" rx="10" fill="#e0f4ec" stroke="#1a7a3c" stroke-width="2"/>
+        <text x="585" y="54" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="12" fill="#1a7a3c">3. ANÁLISIS</text>
+        <text x="585" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">¿Por qué la evidencia</text>
+        <text x="585" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#333">respalda tu tesis?</text>
+      </svg>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">5</div>Citas y referencias</div>
+
+      <p>Citar significa <strong>reconocer</strong> de dónde sacaste una idea o información. Hay
+      tres tipos básicos:</p>
+
+      <table class="tbl">
+        <thead><tr><th>Tipo</th><th>Cómo se usa</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Cita textual breve</td>
+            <td>Reproduces literalmente entre comillas, citas autor y obra.</td>
+            <td>Como afirma Lorca: "La poesía no quiere adeptos, quiere amantes."</td>
+          </tr>
+          <tr>
+            <td>Cita textual extensa</td>
+            <td>Si supera las 40 palabras, va en bloque aparte, sin comillas.</td>
+            <td>(Sangrada, sin comillas, con cita al final.)</td>
+          </tr>
+          <tr>
+            <td>Paráfrasis</td>
+            <td>Reformulas la idea con tus palabras, citando la fuente.</td>
+            <td>Según Borges, todo escritor crea sus propios precursores.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card card-warn">
+        <div class="card-label"><span class="card-icon">⚠️</span>Plagio</div>
+        Usar palabras o ideas ajenas sin citar es <strong>plagio</strong>. No es un detalle:
+        es éticamente grave y, en contextos académicos, puede invalidar tu trabajo. Cita siempre.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">6</div>Coherencia y conectores</div>
+
+      <p>Un ensayo coherente es aquel donde <strong>todo se conecta con todo</strong>. Los conectores
+      hacen visible esa conexión.</p>
+
+      <table class="tbl">
+        <thead><tr><th>Función</th><th>Conectores</th></tr></thead>
+        <tbody>
+          <tr><td>Adición</td><td>Además, asimismo, por otra parte, también</td></tr>
+          <tr><td>Causa</td><td>Porque, ya que, debido a, puesto que</td></tr>
+          <tr><td>Consecuencia</td><td>Por lo tanto, en consecuencia, así, de modo que</td></tr>
+          <tr><td>Contraste</td><td>Sin embargo, no obstante, en cambio, por el contrario</td></tr>
+          <tr><td>Ejemplificación</td><td>Por ejemplo, en particular, como muestra</td></tr>
+          <tr><td>Conclusión</td><td>En conclusión, finalmente, en síntesis, para terminar</td></tr>
+        </tbody>
+      </table>
+
+      <!-- SVG 3: Rueda de conectores por función -->
+      <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:16px auto;" aria-label="Conectores discursivos por función">
+        <text x="350" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#0B0F3F">Conectores según su función</text>
+        <!-- Adición -->
+        <rect x="10" y="28" width="200" height="60" rx="8" fill="#dde6ff" stroke="#0B0F3F" stroke-width="1.5"/>
+        <text x="110" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#0B0F3F">Adición</text>
+        <text x="110" y="68" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#333">Además · Asimismo · También</text>
+        <!-- Causa -->
+        <rect x="250" y="28" width="200" height="60" rx="8" fill="#ede0ff" stroke="#6A2C91" stroke-width="1.5"/>
+        <text x="350" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#6A2C91">Causa</text>
+        <text x="350" y="68" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#333">Porque · Ya que · Puesto que</text>
+        <!-- Consecuencia -->
+        <rect x="490" y="28" width="200" height="60" rx="8" fill="#e0f4ec" stroke="#1a7a3c" stroke-width="1.5"/>
+        <text x="590" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#1a7a3c">Consecuencia</text>
+        <text x="590" y="68" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#333">Por lo tanto · En consecuencia</text>
+        <!-- Contraste -->
+        <rect x="10" y="112" width="200" height="60" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+        <text x="110" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#c0392b">Contraste</text>
+        <text x="110" y="152" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#333">Sin embargo · No obstante</text>
+        <!-- Ejemplificación -->
+        <rect x="250" y="112" width="200" height="60" rx="8" fill="#fffbea" stroke="#D4AF37" stroke-width="1.5"/>
+        <text x="350" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#b8860b">Ejemplificación</text>
+        <text x="350" y="152" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#333">Por ejemplo · Como muestra</text>
+        <!-- Conclusión -->
+        <rect x="490" y="112" width="200" height="60" rx="8" fill="#f8f4e9" stroke="#0B0F3F" stroke-width="1.5"/>
+        <text x="590" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#0B0F3F">Conclusión</text>
+        <text x="590" y="152" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#333">En conclusión · En síntesis</text>
+        <!-- Tip inferior -->
+        <text x="350" y="210" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#555" font-style="italic">Elige el conector según el tipo de relación lógica que quieres expresar.</text>
+      </svg>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">7</div>Modelo de ensayo breve</div>
+
+      <div class="ensayo-modelo">
+        <span class="label">Tema: ¿Debe regularse el uso de redes sociales en menores?</span>
+
+        <span class="label">Introducción</span>
+        <p>En la última década, las redes sociales han transformado la vida cotidiana de los
+        adolescentes. Plataformas como Instagram y TikTok ofrecen entretenimiento y socialización,
+        pero también plantean preguntas urgentes: <em>¿qué efectos tienen en la salud mental de los
+        más jóvenes? ¿Es responsabilidad del Estado intervenir?</em> En este ensayo defenderé que
+        <strong>el uso prolongado de redes sociales en menores de 14 años deteriora su autoestima
+        y debe ser regulado por el Estado</strong>.</p>
+
+        <span class="label">Desarrollo — Argumento 1</span>
+        <p>En primer lugar, existe evidencia científica clara sobre el impacto psicológico. Un
+        estudio de la Universidad de Oxford (2023) mostró que adolescentes que pasan más de cuatro
+        horas diarias en redes presentan un 25% más de síntomas de ansiedad. Este dato sugiere que
+        el problema no es marginal sino estructural.</p>
+
+        <span class="label">Desarrollo — Argumento 2</span>
+        <p>Por otra parte, los algoritmos de estas plataformas están diseñados para maximizar la
+        permanencia, no el bienestar. Como afirma la investigadora Tristan Harris: "Estamos
+        compitiendo por la atención humana en condiciones de profunda asimetría". Los adolescentes,
+        cuyo cerebro está en formación, son particularmente vulnerables.</p>
+
+        <span class="label">Desarrollo — Contraargumento refutado</span>
+        <p>Algunos podrán objetar que regular limita la libertad. Sin embargo, así como prohibimos
+        a los menores conducir o consumir alcohol, regular productos digitales potencialmente
+        dañinos no es censura: es protección.</p>
+
+        <span class="label">Conclusión</span>
+        <p>En síntesis, los datos científicos y el diseño adictivo de las plataformas justifican
+        una regulación estatal del acceso de menores a las redes sociales. No se trata de demonizar
+        la tecnología, sino de cuidar a quienes aún no tienen las herramientas para protegerse.
+        El verdadero debate no es si regular, sino <strong>cuándo y cómo</strong> empezar.</p>
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva</div>
+      <ul>
+        <li>¿Cómo distingues una opinión de una tesis bien formulada?</li>
+        <li>¿Por qué un ensayo sin citas es más débil que uno con evidencias?</li>
+        <li>¿Para qué sirve incluir un contraargumento si lo vas a refutar?</li>
+        <li>¿Qué pasaría si tu conclusión repitiera literalmente la introducción?</li>
+        <li>¿Cómo notarías que un ensayo perdió coherencia temática?</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 2 -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ejercicios Progresivos</strong>
+      Escritura Persuasiva · 1° Año Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Básico</div><h3>Reconocer elementos del ensayo</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 1</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Cuál de las siguientes frases es una <strong>tesis bien formulada</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e1','A','err')"><span class="opt-letter-b">A</span>"La educación es un tema importante."</button>
+          <button class="btn-opt" onclick="pick(this,'e1','B','err')"><span class="opt-letter-b">B</span>"Existen muchos colegios en Chile."</button>
+          <button class="btn-opt" onclick="pick(this,'e1','C','ok')"><span class="opt-letter-b">C</span>"La educación pública chilena requiere mayor inversión estatal para garantizar igualdad de oportunidades."</button>
+          <button class="btn-opt" onclick="pick(this,'e1','D','err')"><span class="opt-letter-b">D</span>"Yo estudio en un colegio público."</button>
+          <div class="q-feedback" id="fb-e1-ok">✓ Correcto. La opción C es específica, discutible y comprometida: alguien podría defender que no se necesita más inversión. Las otras son triviales o datos neutros, no posiciones.</div>
+          <div class="q-feedback" id="fb-e1-err">✗ Incorrecto. Una tesis debe ser discutible (alguien podría contradecirla) y específica. Las opciones A y B son hechos o generalidades vacías; D es un dato personal. Solo C cumple ambos criterios.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 2</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Qué parte del ensayo se encarga de presentar la tesis?</div>
+          <button class="btn-opt" onclick="pick(this,'e2','A','err')"><span class="opt-letter-b">A</span>Conclusión</button>
+          <button class="btn-opt" onclick="pick(this,'e2','B','ok')"><span class="opt-letter-b">B</span>Introducción</button>
+          <button class="btn-opt" onclick="pick(this,'e2','C','err')"><span class="opt-letter-b">C</span>Desarrollo</button>
+          <button class="btn-opt" onclick="pick(this,'e2','D','err')"><span class="opt-letter-b">D</span>Bibliografía</button>
+          <div class="q-feedback" id="fb-e2-ok">✓ Correcto. La introducción tiene la función de contextualizar el tema y presentar la tesis al lector. El desarrollo la defiende; la conclusión la reafirma.</div>
+          <div class="q-feedback" id="fb-e2-err">✗ Incorrecto. La tesis se presenta en la introducción, que es la parte de apertura del ensayo. La conclusión cierra y reafirma; el desarrollo argumenta; la bibliografía lista fuentes.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 3</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Cuál es el conector de <strong>contraste</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e3','A','err')"><span class="opt-letter-b">A</span>Por lo tanto</button>
+          <button class="btn-opt" onclick="pick(this,'e3','B','ok')"><span class="opt-letter-b">B</span>Sin embargo</button>
+          <button class="btn-opt" onclick="pick(this,'e3','C','err')"><span class="opt-letter-b">C</span>Además</button>
+          <button class="btn-opt" onclick="pick(this,'e3','D','err')"><span class="opt-letter-b">D</span>Por ejemplo</button>
+          <div class="q-feedback" id="fb-e3-ok">✓ Correcto. "Sin embargo" introduce una idea que se opone o contrasta con la anterior. Es uno de los conectores adversativos más usados en ensayos.</div>
+          <div class="q-feedback" id="fb-e3-err">✗ Incorrecto. "Por lo tanto" expresa consecuencia; "Además" expresa adición; "Por ejemplo" introduce ejemplificación. Solo "Sin embargo" marca contraste u oposición.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Medio</div><h3>Aplicación a la escritura</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 4</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">Lee el siguiente párrafo. ¿Qué le falta para ser un argumento completo?</div>
+          <div class="ex-frag">"Las redes sociales afectan la autoestima de los adolescentes. Esto es un problema grave."</div>
+          <button class="btn-opt" onclick="pick(this,'e4','A','err')"><span class="opt-letter-b">A</span>Está completo: tiene afirmación y conclusión.</button>
+          <button class="btn-opt" onclick="pick(this,'e4','B','ok')"><span class="opt-letter-b">B</span>Le falta la evidencia (dato, cita o ejemplo) y el análisis que conecta la evidencia con la afirmación.</button>
+          <button class="btn-opt" onclick="pick(this,'e4','C','err')"><span class="opt-letter-b">C</span>Le falta un título.</button>
+          <button class="btn-opt" onclick="pick(this,'e4','D','err')"><span class="opt-letter-b">D</span>Está mal escrito.</button>
+          <div class="q-feedback" id="fb-e4-ok">✓ Correcto. El párrafo solo tiene la afirmación ("afectan la autoestima") y una conclusión vaga ("es grave"). Le falta evidencia concreta (estudio, dato, cita) y el análisis que explique por qué esa evidencia respalda la afirmación.</div>
+          <div class="q-feedback" id="fb-e4-err">✗ Incorrecto. Un argumento completo necesita tres partes: afirmación, evidencia y análisis. Este párrafo solo afirma, sin demostrar. No es cuestión de título ni redacción.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 5</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">¿Cuál es la mejor introducción para un ensayo sobre el cuidado del medio ambiente?</div>
+          <button class="btn-opt" onclick="pick(this,'e5','A','err')"><span class="opt-letter-b">A</span>"Hola, voy a hablar del medio ambiente."</button>
+          <button class="btn-opt" onclick="pick(this,'e5','B','ok')"><span class="opt-letter-b">B</span>"En las últimas décadas, el deterioro ambiental se ha acelerado a niveles sin precedentes. ¿Estamos a tiempo de revertirlo? En este ensayo defenderé que la educación ambiental desde la infancia es la herramienta más eficaz para construir una ciudadanía sustentable."</button>
+          <button class="btn-opt" onclick="pick(this,'e5','C','err')"><span class="opt-letter-b">C</span>"Los árboles son importantes."</button>
+          <button class="btn-opt" onclick="pick(this,'e5','D','err')"><span class="opt-letter-b">D</span>"El medio ambiente es algo que existe."</button>
+          <div class="q-feedback" id="fb-e5-ok">✓ Correcto. La opción B cumple los tres requisitos de una buena introducción: contextualiza el tema, plantea una pregunta problematizadora y anuncia una tesis clara y específica.</div>
+          <div class="q-feedback" id="fb-e5-err">✗ Incorrecto. Las opciones A, C y D son vagas, coloquiales o triviales. Una buena introducción debe contextualizar el problema, generar interés en el lector y presentar la tesis del ensayo.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 6</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">¿Cuál es el uso correcto de una cita textual?</div>
+          <button class="btn-opt" onclick="pick(this,'e6','A','err')"><span class="opt-letter-b">A</span>"como dijo neruda el amor es asi" (sin comillas, sin mayúsculas, sin referencia)</button>
+          <button class="btn-opt" onclick="pick(this,'e6','B','ok')"><span class="opt-letter-b">B</span>Como afirma Pablo Neruda en <em>Veinte poemas de amor</em>: "Es la hora de partir, oh abandonado".</button>
+          <button class="btn-opt" onclick="pick(this,'e6','C','err')"><span class="opt-letter-b">C</span>Yo escuché que alguien dijo algo sobre el amor.</button>
+          <button class="btn-opt" onclick="pick(this,'e6','D','err')"><span class="opt-letter-b">D</span>Neruda escribió cosas bonitas.</button>
+          <div class="q-feedback" id="fb-e6-ok">✓ Correcto. La opción B cumple todos los requisitos: texto entrecomillado, autor identificado, obra citada. Es el formato académico estándar para citas textuales breves.</div>
+          <div class="q-feedback" id="fb-e6-err">✗ Incorrecto. La opción A no tiene comillas ni referencias. C es imprecisa. D es una apreciación sin citar. Solo B tiene la estructura correcta: comillas + autor + obra.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Avanzado</div><h3>Análisis crítico de un ensayo</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 7</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">Lee el fragmento. ¿Qué problema de coherencia presenta?</div>
+          <div class="ex-frag">"Mi tesis es que la lectura mejora el rendimiento académico. Por otra parte, los videojuegos son entretenidos y los jóvenes los disfrutan mucho. En conclusión, leer es importante."</div>
+          <button class="btn-opt" onclick="pick(this,'e7','A','ok')"><span class="opt-letter-b">A</span>El párrafo intermedio (sobre videojuegos) no se conecta con la tesis (lectura). Rompe la coherencia temática.</button>
+          <button class="btn-opt" onclick="pick(this,'e7','B','err')"><span class="opt-letter-b">B</span>El texto está bien estructurado.</button>
+          <button class="btn-opt" onclick="pick(this,'e7','C','err')"><span class="opt-letter-b">C</span>Le falta puntuación.</button>
+          <button class="btn-opt" onclick="pick(this,'e7','D','err')"><span class="opt-letter-b">D</span>Es un buen ensayo.</button>
+          <div class="q-feedback" id="fb-e7-ok">✓ Correcto. El fragmento sobre videojuegos introduce un tema ajeno a la tesis (lectura y rendimiento académico). Todo párrafo del desarrollo debe conectarse directamente con la tesis: esto es coherencia temática.</div>
+          <div class="q-feedback" id="fb-e7-err">✗ Incorrecto. El error es de coherencia temática: el párrafo central habla de videojuegos, que no tiene ninguna relación con la tesis anunciada (lectura y rendimiento). No es un problema de puntuación ni es un buen ensayo.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 8</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">¿Cuál es la mejor conclusión para un ensayo cuya tesis es: <em>"El acceso gratuito a la educación superior es clave para reducir la desigualdad en Chile"</em>?</div>
+          <button class="btn-opt" onclick="pick(this,'e8','A','err')"><span class="opt-letter-b">A</span>"En conclusión, los chilenos vivimos en Chile."</button>
+          <button class="btn-opt" onclick="pick(this,'e8','B','ok')"><span class="opt-letter-b">B</span>"En síntesis, los datos sobre movilidad social, las experiencias internacionales (Finlandia, Alemania) y el principio de equidad demuestran que la gratuidad no es un costo, sino una inversión: invertir en educación es invertir en el país que queremos construir."</button>
+          <button class="btn-opt" onclick="pick(this,'e8','C','err')"><span class="opt-letter-b">C</span>"Voy a terminar aquí porque ya escribí mucho."</button>
+          <button class="btn-opt" onclick="pick(this,'e8','D','err')"><span class="opt-letter-b">D</span>"La educación es buena."</button>
+          <div class="q-feedback" id="fb-e8-ok">✓ Correcto. La opción B sintetiza los argumentos desarrollados (datos, comparaciones internacionales, principios éticos) y reafirma la tesis con una frase de impacto. Es una conclusión sólida y coherente.</div>
+          <div class="q-feedback" id="fb-e8-err">✗ Incorrecto. Las opciones A, C y D son irrelevantes o triviales. Una buena conclusión debe retomar los argumentos del desarrollo y reafirmar la tesis con peso y convicción, como hace la opción B.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 9</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">Una compañera escribió: <em>"Según una persona en Twitter, las vacunas no funcionan."</em> ¿Por qué esa cita es problemática como evidencia?</div>
+          <button class="btn-opt" onclick="pick(this,'e9','A','err')"><span class="opt-letter-b">A</span>Es una excelente evidencia porque cita una fuente.</button>
+          <button class="btn-opt" onclick="pick(this,'e9','B','ok')"><span class="opt-letter-b">B</span>La fuente no es identificable, no tiene autoridad científica y contradice el consenso médico verificable: no sirve como evidencia válida.</button>
+          <button class="btn-opt" onclick="pick(this,'e9','C','err')"><span class="opt-letter-b">C</span>Es válida porque está en internet.</button>
+          <button class="btn-opt" onclick="pick(this,'e9','D','err')"><span class="opt-letter-b">D</span>El problema es que cita en español.</button>
+          <div class="q-feedback" id="fb-e9-ok">✓ Correcto. Una buena evidencia requiere fuente identificable, autoridad reconocida en el campo y coherencia con el conocimiento verificado. Una cuenta anónima de Twitter no cumple ninguno de estos criterios.</div>
+          <div class="q-feedback" id="fb-e9-err">✗ Incorrecto. No toda cita es válida. La calidad de la fuente importa: debe ser identificable, tener autoridad en la materia y no contradecir evidencia científica consolidada. Estar en internet no garantiza validez.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 10</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">¿Cuál de las siguientes es la mejor estrategia para incluir un <strong>contraargumento refutado</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e10','A','err')"><span class="opt-letter-b">A</span>Ignorar las posiciones contrarias.</button>
+          <button class="btn-opt" onclick="pick(this,'e10','B','ok')"><span class="opt-letter-b">B</span>Mencionar la objeción ("Algunos podrían argumentar que…"), reconocerla como válida en algún sentido y luego refutarla con evidencia.</button>
+          <button class="btn-opt" onclick="pick(this,'e10','C','err')"><span class="opt-letter-b">C</span>Insultar a quienes piensan distinto.</button>
+          <button class="btn-opt" onclick="pick(this,'e10','D','err')"><span class="opt-letter-b">D</span>Repetir la propia tesis varias veces.</button>
+          <div class="q-feedback" id="fb-e10-ok">✓ Correcto. Presentar la objeción, reconocer lo que tiene de válida y luego refutarla con evidencia demuestra que el autor conoce el debate completo y hace la argumentación más sólida y honesta.</div>
+          <div class="q-feedback" id="fb-e10-err">✗ Incorrecto. Ignorar las objeciones debilita el ensayo porque el lector puede haberlas tenido en mente. Insultar o repetir la tesis no es argumentación. Solo la estrategia de reconocer y refutar (opción B) fortalece la posición.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="autoeval">
+      <div class="autoeval-head"><h3>✦ Autoevaluación — ¿Qué aprendí hoy?</h3></div>
+      <table class="autoeval-tbl">
+        <thead><tr><th style="text-align:left; width:64%">Indicador de aprendizaje</th><th>Lo logré ✓</th><th>En proceso ~</th><th>Lo necesito ✗</th></tr></thead>
+        <tbody>
+          <tr><td>Formulo una tesis clara, discutible y específica</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Construyo argumentos con afirmación, evidencia y análisis</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Uso citas textuales y paráfrasis correctamente</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Mantengo coherencia temática en mi texto</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Uso conectores apropiados según la función</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Escribo conclusiones coherentes con los argumentos presentados</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 3 -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ensayo Tipo PAES</strong>
+      Escritura Persuasiva · 1° Año Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="paes-wrap">
+      <div class="paes-head">
+        <div class="paes-badge">Ensayo tipo PAES — 10 preguntas</div>
+        <p>Comprensión y escritura · Una alternativa correcta · Tiempo sugerido: 25 min</p>
+      </div>
+      <div class="paes-body">
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 1</div>
+          <div class="paes-stmt">¿Cuál es el propósito principal de un ensayo argumentativo?</div>
+          <button class="btn-opt" onclick="pick(this,'p1','A','err')"><span class="opt-letter-b">A</span>Resumir información objetiva sin tomar postura.</button>
+          <button class="btn-opt" onclick="pick(this,'p1','B','ok')"><span class="opt-letter-b">B</span>Persuadir al lector defendiendo una tesis con argumentos.</button>
+          <button class="btn-opt" onclick="pick(this,'p1','C','err')"><span class="opt-letter-b">C</span>Entretener mediante una historia ficticia.</button>
+          <button class="btn-opt" onclick="pick(this,'p1','D','err')"><span class="opt-letter-b">D</span>Describir un fenómeno sin opinión.</button>
+          <div class="q-feedback" id="fb-p1-ok">✓ Correcto. El ensayo argumentativo tiene como propósito central persuadir: convencer al lector de una posición mediante argumentos sólidos y evidencias. No es narrar ni describir de forma neutra.</div>
+          <div class="q-feedback" id="fb-p1-err">✗ Incorrecto. Resumir, entretener o describir sin opinión corresponden a otros tipos textuales. El ensayo argumentativo defiende una tesis: busca convencer al lector con razones y evidencias.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 2</div>
+          <div class="paes-frag">"En la vida hay cosas buenas y cosas malas, y por eso hay que pensar."</div>
+          <div class="paes-stmt">Esta afirmación, como tesis de ensayo, es:</div>
+          <button class="btn-opt" onclick="pick(this,'p2','A','err')"><span class="opt-letter-b">A</span>Excelente: clara y específica.</button>
+          <button class="btn-opt" onclick="pick(this,'p2','B','ok')"><span class="opt-letter-b">B</span>Débil: es vaga, indiscutible y no afirma nada concreto.</button>
+          <button class="btn-opt" onclick="pick(this,'p2','C','err')"><span class="opt-letter-b">C</span>Polémica.</button>
+          <button class="btn-opt" onclick="pick(this,'p2','D','err')"><span class="opt-letter-b">D</span>Profunda y bien fundamentada.</button>
+          <div class="q-feedback" id="fb-p2-ok">✓ Correcto. La frase es vaga e indiscutible: nadie negaría que "hay cosas buenas y malas". Una tesis sólida debe ser específica y alguien debería poder defenderle lo contrario.</div>
+          <div class="q-feedback" id="fb-p2-err">✗ Incorrecto. La frase no dice nada concreto ni defendible. Una buena tesis requiere especificidad y discutibilidad. Esta es una generalidad que nadie cuestionaría, por lo que no sirve como punto de partida argumentativo.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 3</div>
+          <div class="paes-stmt">¿Cuál es el conector adecuado para introducir una <strong>consecuencia</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'p3','A','ok')"><span class="opt-letter-b">A</span>Por lo tanto</button>
+          <button class="btn-opt" onclick="pick(this,'p3','B','err')"><span class="opt-letter-b">B</span>Sin embargo</button>
+          <button class="btn-opt" onclick="pick(this,'p3','C','err')"><span class="opt-letter-b">C</span>Por ejemplo</button>
+          <button class="btn-opt" onclick="pick(this,'p3','D','err')"><span class="opt-letter-b">D</span>Además</button>
+          <div class="q-feedback" id="fb-p3-ok">✓ Correcto. "Por lo tanto" es un conector consecutivo: introduce el resultado o consecuencia lógica de lo dicho anteriormente. Es uno de los más usados en la argumentación formal.</div>
+          <div class="q-feedback" id="fb-p3-err">✗ Incorrecto. "Sin embargo" es adversativo (contraste); "Por ejemplo" es ejemplificativo; "Además" es aditivo. Solo "Por lo tanto" introduce una consecuencia lógica.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 4</div>
+          <div class="paes-frag">"La lectura es muy importante. La gente debería leer más. Yo leo todos los días y me hace bien."</div>
+          <div class="paes-stmt">¿Qué le falta a este texto para ser un argumento sólido?</div>
+          <button class="btn-opt" onclick="pick(this,'p4','A','err')"><span class="opt-letter-b">A</span>Está perfecto.</button>
+          <button class="btn-opt" onclick="pick(this,'p4','B','ok')"><span class="opt-letter-b">B</span>Le faltan evidencias (estudios, datos, citas) y análisis. La experiencia personal aislada no basta como argumento general.</button>
+          <button class="btn-opt" onclick="pick(this,'p4','C','err')"><span class="opt-letter-b">C</span>Le falta más exclamación.</button>
+          <button class="btn-opt" onclick="pick(this,'p4','D','err')"><span class="opt-letter-b">D</span>Le falta un título.</button>
+          <div class="q-feedback" id="fb-p4-ok">✓ Correcto. El texto solo contiene afirmaciones y una experiencia personal. Para ser un argumento válido necesita evidencias verificables (estudios, estadísticas, citas de expertos) y el análisis que las conecte con la afirmación.</div>
+          <div class="q-feedback" id="fb-p4-err">✗ Incorrecto. El texto solo hace afirmaciones y cita experiencia personal, que es insuficiente como evidencia general. No es cuestión de signos ni título: le falta la base empírica y el análisis argumentativo.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 5</div>
+          <div class="paes-stmt">Cuando reformulas con tus palabras una idea de otro autor citando la fuente, estás haciendo:</div>
+          <button class="btn-opt" onclick="pick(this,'p5','A','err')"><span class="opt-letter-b">A</span>Plagio</button>
+          <button class="btn-opt" onclick="pick(this,'p5','B','err')"><span class="opt-letter-b">B</span>Cita textual</button>
+          <button class="btn-opt" onclick="pick(this,'p5','C','ok')"><span class="opt-letter-b">C</span>Paráfrasis</button>
+          <button class="btn-opt" onclick="pick(this,'p5','D','err')"><span class="opt-letter-b">D</span>Resumen</button>
+          <div class="q-feedback" id="fb-p5-ok">✓ Correcto. La paráfrasis consiste en reformular la idea de otro autor con tus propias palabras, reconociendo la fuente. Es distinta de la cita textual (que reproduce literalmente) y del plagio (que no cita).</div>
+          <div class="q-feedback" id="fb-p5-err">✗ Incorrecto. El plagio no cita; la cita textual reproduce la frase exacta entre comillas; el resumen condensa varias ideas. Reformular con palabras propias citando la fuente es específicamente una paráfrasis.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 6</div>
+          <div class="paes-frag">"Algunos podrán objetar que la tecnología nos aísla. Sin embargo, también es cierto que conecta a millones de familias separadas por la migración. Por lo tanto, su valor depende del uso que le demos."</div>
+          <div class="paes-stmt">¿Qué estrategia argumentativa se observa?</div>
+          <button class="btn-opt" onclick="pick(this,'p6','A','err')"><span class="opt-letter-b">A</span>Solo apela a las emociones.</button>
+          <button class="btn-opt" onclick="pick(this,'p6','B','ok')"><span class="opt-letter-b">B</span>Plantea un contraargumento, lo reconoce y propone una postura matizada.</button>
+          <button class="btn-opt" onclick="pick(this,'p6','C','err')"><span class="opt-letter-b">C</span>Repite la misma idea varias veces.</button>
+          <button class="btn-opt" onclick="pick(this,'p6','D','err')"><span class="opt-letter-b">D</span>Solo describe la tecnología.</button>
+          <div class="q-feedback" id="fb-p6-ok">✓ Correcto. El fragmento presenta una objeción ("nos aísla"), la reconoce con un argumento contrario real (familias migrantes) y concluye con una postura equilibrada. Es la estrategia clásica de contraargumentación matizada.</div>
+          <div class="q-feedback" id="fb-p6-err">✗ Incorrecto. No hay apelación emocional pura, repetición ni descripción neutra. El texto sigue el patrón: objeción → reconocimiento → refutación matizada, que es la estructura del contraargumento bien manejado.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 7</div>
+          <div class="paes-stmt">¿Cuál es el orden lógico de las partes de un ensayo?</div>
+          <button class="btn-opt" onclick="pick(this,'p7','A','err')"><span class="opt-letter-b">A</span>Conclusión → Desarrollo → Introducción</button>
+          <button class="btn-opt" onclick="pick(this,'p7','B','ok')"><span class="opt-letter-b">B</span>Introducción → Desarrollo → Conclusión</button>
+          <button class="btn-opt" onclick="pick(this,'p7','C','err')"><span class="opt-letter-b">C</span>Desarrollo → Introducción → Conclusión</button>
+          <button class="btn-opt" onclick="pick(this,'p7','D','err')"><span class="opt-letter-b">D</span>El orden es libre.</button>
+          <div class="q-feedback" id="fb-p7-ok">✓ Correcto. El ensayo argumentativo tiene una estructura fija y funcional: la introducción presenta la tesis, el desarrollo la argumenta, y la conclusión la reafirma. Alterar este orden rompe la lógica del texto.</div>
+          <div class="q-feedback" id="fb-p7-err">✗ Incorrecto. El ensayo argumentativo tiene una estructura determinada por su lógica interna: no puedes concluir antes de argumentar, ni argumentar antes de presentar la tesis. El orden B es el único correcto.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 8</div>
+          <div class="paes-frag">"En conclusión, los datos del INE, las experiencias comparadas y los principios éticos que hemos analizado convergen en una sola idea: la equidad educativa no es un lujo, es la base sobre la que se construye una sociedad justa."</div>
+          <div class="paes-stmt">¿Qué hace bien esta conclusión?</div>
+          <button class="btn-opt" onclick="pick(this,'p8','A','ok')"><span class="opt-letter-b">A</span>Sintetiza los argumentos previos y reafirma la tesis con fuerza retórica.</button>
+          <button class="btn-opt" onclick="pick(this,'p8','B','err')"><span class="opt-letter-b">B</span>Introduce un tema nuevo no tratado antes.</button>
+          <button class="btn-opt" onclick="pick(this,'p8','C','err')"><span class="opt-letter-b">C</span>Solo repite la introducción.</button>
+          <button class="btn-opt" onclick="pick(this,'p8','D','err')"><span class="opt-letter-b">D</span>No se conecta con el resto del ensayo.</button>
+          <div class="q-feedback" id="fb-p8-ok">✓ Correcto. La conclusión menciona explícitamente los argumentos usados (datos del INE, comparaciones, principios éticos) y los une en una afirmación final poderosa. Es exactamente lo que debe hacer una buena conclusión.</div>
+          <div class="q-feedback" id="fb-p8-err">✗ Incorrecto. La conclusión retoma los argumentos desarrollados (datos, comparaciones, ética) y los unifica en una reafirmación de la tesis. No introduce temas nuevos ni repite sin más la introducción.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 9</div>
+          <div class="paes-stmt">¿Cuándo NO es necesario citar una fuente?</div>
+          <button class="btn-opt" onclick="pick(this,'p9','A','err')"><span class="opt-letter-b">A</span>Cuando uso una idea ajena con mis palabras.</button>
+          <button class="btn-opt" onclick="pick(this,'p9','B','err')"><span class="opt-letter-b">B</span>Cuando reproduzco textualmente lo que otro escribió.</button>
+          <button class="btn-opt" onclick="pick(this,'p9','C','ok')"><span class="opt-letter-b">C</span>Cuando se trata de información de conocimiento general (ej.: "Chile está en Sudamérica").</button>
+          <button class="btn-opt" onclick="pick(this,'p9','D','err')"><span class="opt-letter-b">D</span>Nunca: siempre hay que citar todo.</button>
+          <div class="q-feedback" id="fb-p9-ok">✓ Correcto. El conocimiento de dominio público y ampliamente compartido no requiere cita. Si es un dato básico que cualquier persona sabe, no es necesario atribuirlo a nadie. Todo lo demás —ideas ajenas, citas textuales, datos específicos— debe citarse.</div>
+          <div class="q-feedback" id="fb-p9-err">✗ Incorrecto. Usar ideas ajenas (aunque parafrasees) y reproducir textos literalmente siempre requiere cita. La excepción es el conocimiento de dominio público o general, que nadie posee como propiedad intelectual.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 10</div>
+          <div class="paes-frag">Dos compañeros entregan ensayos sobre el mismo tema. El de Ana cita 4 fuentes (estudios, autores). El de Luis dice "porque sí" y "todos saben que…". Ambos defienden la misma tesis.</div>
+          <div class="paes-stmt">¿Cuál es más persuasivo y por qué?</div>
+          <button class="btn-opt" onclick="pick(this,'p10','A','err')"><span class="opt-letter-b">A</span>El de Luis: es más espontáneo.</button>
+          <button class="btn-opt" onclick="pick(this,'p10','B','ok')"><span class="opt-letter-b">B</span>El de Ana: las evidencias y referencias verificables transforman su opinión en argumento sólido.</button>
+          <button class="btn-opt" onclick="pick(this,'p10','C','err')"><span class="opt-letter-b">C</span>Ambos son igualmente persuasivos.</button>
+          <button class="btn-opt" onclick="pick(this,'p10','D','err')"><span class="opt-letter-b">D</span>Ninguno: la persuasión depende solo del estilo.</button>
+          <div class="q-feedback" id="fb-p10-ok">✓ Correcto. Las fuentes verificables son el núcleo de la persuasión argumentativa. Ana transforma su posición personal en una posición fundamentada. Luis apela a la autoridad difusa ("todos saben"), que es una falacia lógica.</div>
+          <div class="q-feedback" id="fb-p10-err">✗ Incorrecto. La espontaneidad no es persuasión; decir "todos saben" es una falacia. La persuasión en el ensayo argumentativo se basa en evidencias verificables y fuentes identificables, que solo tiene el ensayo de Ana.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sol-wrap pdf-sol">
+      <h3>✦ Solucionario completo</h3>
+      <div class="sol-grid">
+        <div>
+          <div class="sol-col-title">Ejercicios Progresivos</div>
+          <div class="sol-item"><div class="sn">Ejercicio 1</div><span class="sc">C — Tesis específica y discutible</span><br><span style="font-size:8.5pt;">Clara, defendible y alguien puede argumentar en contra.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 2</div><span class="sc">B — Introducción</span><br><span style="font-size:8.5pt;">Es donde se anuncia la tesis al lector.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 3</div><span class="sc">B — Sin embargo</span><br><span style="font-size:8.5pt;">Conector adversativo: marca oposición o contraste.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 4</div><span class="sc">B — Falta evidencia y análisis</span><br><span style="font-size:8.5pt;">Sin datos ni explicación, queda en mera afirmación.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 5</div><span class="sc">B — Introducción completa y bien construida</span><br><span style="font-size:8.5pt;">Contextualiza, problematiza y anuncia tesis.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 6</div><span class="sc">B — Cita textual correcta</span><br><span style="font-size:8.5pt;">Comillas + autor + obra: formato adecuado.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 7</div><span class="sc">A — Pierde coherencia temática</span><br><span style="font-size:8.5pt;">Los videojuegos no se conectan con la tesis sobre lectura.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 8</div><span class="sc">B — Síntesis y reafirmación con fuerza</span><br><span style="font-size:8.5pt;">Recoge argumentos previos y cierra con peso retórico.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 9</div><span class="sc">B — Fuente no verificable</span><br><span style="font-size:8.5pt;">Cuenta anónima en Twitter no es autoridad válida frente a consenso científico.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 10</div><span class="sc">B — Reconocer y refutar</span><br><span style="font-size:8.5pt;">Mostrar que se conoce la objeción y demostrar que la propia posición es más sólida.</span></div>
+        </div>
+        <div>
+          <div class="sol-col-title">Ensayo Tipo PAES</div>
+          <div class="sol-item"><div class="sn">Pregunta 1</div><span class="sc">B — Persuadir defendiendo una tesis</span><br><span style="font-size:8.5pt;">Finalidad central del ensayo argumentativo.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 2</div><span class="sc">B — Tesis débil</span><br><span style="font-size:8.5pt;">Vaga e indiscutible: nadie negaría que hay cosas buenas y malas.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 3</div><span class="sc">A — Por lo tanto</span><br><span style="font-size:8.5pt;">Conector consecutivo: introduce consecuencia.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 4</div><span class="sc">B — Faltan evidencias y análisis</span><br><span style="font-size:8.5pt;">Sin estudios o datos, la opinión personal es insuficiente.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 5</div><span class="sc">C — Paráfrasis</span><br><span style="font-size:8.5pt;">Reformular con palabras propias citando la fuente.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 6</div><span class="sc">B — Contraargumento + postura matizada</span><br><span style="font-size:8.5pt;">Reconoce la objeción y propone una visión equilibrada.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 7</div><span class="sc">B — Introducción → Desarrollo → Conclusión</span><br><span style="font-size:8.5pt;">Estructura estándar y lógica del ensayo.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 8</div><span class="sc">A — Síntesis y reafirmación con fuerza</span><br><span style="font-size:8.5pt;">Recoge los argumentos previos y cierra con peso retórico.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 9</div><span class="sc">C — Conocimiento general</span><br><span style="font-size:8.5pt;">Datos de dominio público no requieren cita.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 10</div><span class="sc">B — Ensayo de Ana, por evidencias verificables</span><br><span style="font-size:8.5pt;">Las fuentes transforman opinión en argumento sólido.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing">
+      <h3>Resumen — Lo que aprendiste hoy</h3>
+      <p>Escribir bien para persuadir es <strong>una de las habilidades más poderosas</strong> que
+      puedes desarrollar. Te permite defender lo que crees, participar en debates importantes y
+      hacerte escuchar con seriedad. No se trata de tener "la voz más fuerte", sino la
+      <strong>argumentación más sólida</strong>.</p>
+      <p>Practica escribiendo sobre temas que te importen. Cada ensayo que escribas te entrena para
+      pensar mejor — y pensar bien es el primer paso para vivir mejor.</p>
+      <div class="next-pill">Siguiente eje → Comunicación oral y discurso público</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var GUIDE_ID = 'maestria_EscrituraPersuasiva';
+  var TOTAL = 20;
+  var answers = {};
+
+  function save(){
+    try{ localStorage.setItem(GUIDE_ID, JSON.stringify(answers)); }catch(e){}
+  }
+
+  function updateBar(){
+    var pts = 0;
+    Object.keys(answers).forEach(function(k){ if(answers[k]==='ok') pts++; });
+    var el = document.getElementById('sbPts');
+    if(el) el.textContent = pts + ' / ' + TOTAL;
+  }
+
+  function showFinal(){
+    if(Object.keys(answers).length === TOTAL){
+      var el = document.getElementById('sbFinal');
+      if(el) el.style.display = 'block';
+    }
+  }
+
+  window.pick = function(btn, qid, letter, verdict){
+    var group = document.querySelectorAll('[onclick*="\''+qid+'\'"]');
+    if(group[0] && group[0].disabled) return;
+    group.forEach(function(b){ b.disabled = true; });
+    if(verdict === 'ok'){
+      btn.classList.add('opt-selected-ok');
+      var fb = document.getElementById('fb-'+qid+'-ok');
+      if(fb) fb.classList.add('fb-ok');
+    } else {
+      btn.classList.add('opt-selected-err');
+      var fbe = document.getElementById('fb-'+qid+'-err');
+      if(fbe) fbe.classList.add('fb-err');
+      group.forEach(function(b){
+        var oc = b.getAttribute('onclick')||'';
+        if(oc.indexOf("'ok'") > -1) b.classList.add('opt-correct-reveal');
+      });
+    }
+    answers[qid] = verdict;
+    save();
+    updateBar();
+    showFinal();
+  };
+
+  window.exportPDF = function(){
+    var sol = document.querySelector('.sol-wrap.pdf-sol');
+    if(sol) sol.style.display = 'block';
+    window.print();
+    setTimeout(function(){ if(sol) sol.style.display = ''; }, 1000);
+  };
+
+  function restore(){
+    try{
+      var saved = localStorage.getItem(GUIDE_ID);
+      if(!saved) return;
+      var data = JSON.parse(saved);
+      Object.keys(data).forEach(function(qid){
+        var verdict = data[qid];
+        var group = document.querySelectorAll('[onclick*="\''+qid+'\'"]');
+        if(!group.length) return;
+        group.forEach(function(b){ b.disabled = true; });
+        group.forEach(function(b){
+          var oc = b.getAttribute('onclick')||'';
+          if(verdict === 'ok' && oc.indexOf("'ok'") > -1){
+            b.classList.add('opt-selected-ok');
+          } else if(verdict === 'err'){
+            if(oc.indexOf("'ok'") > -1) b.classList.add('opt-correct-reveal');
+          }
+        });
+        if(verdict === 'err'){
+          var fbe = document.getElementById('fb-'+qid+'-err');
+          if(fbe) fbe.classList.add('fb-err');
+        } else {
+          var fbo = document.getElementById('fb-'+qid+'-ok');
+          if(fbo) fbo.classList.add('fb-ok');
+        }
+        answers[qid] = verdict;
+      });
+      updateBar();
+      showFinal();
+    }catch(e){}
+  }
+
+  restore();
+})();
+</script>
+
+</body>
+</html>

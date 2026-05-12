@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaestrIA · Fracciones · 1° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <style>
+    /* ── Navegación de páginas ── */
+    .page-nav {
+      position: sticky; top: 0; z-index: 200;
+      display: flex; background: #0B0F3F;
+      border-bottom: 2px solid #D4AF37;
+    }
+    .pn-btn {
+      flex: 1; padding: 10px 6px; background: transparent; border: none;
+      color: rgba(255,255,255,.65); cursor: pointer;
+      font-family: inherit; font-size: 9pt; font-weight: 600;
+      border-right: 1px solid rgba(255,255,255,.1); transition: background .15s, color .15s;
+    }
+    .pn-btn:last-child { border-right: none; }
+    .pn-btn.active { background: #D4AF37; color: #0B0F3F; font-weight: 800; }
+    .pn-btn:hover:not(.active) { background: rgba(255,255,255,.1); color: #fff; }
+
+    /* ── Botones interactivos ── */
+    .btn-opt {
+      display: flex; align-items: flex-start; gap: 10px;
+      width: 100%; background: #fff;
+      border: 1.5px solid #d0d0d0; border-radius: 7px;
+      padding: 8px 12px; margin: 5px 0;
+      cursor: pointer; text-align: left;
+      font-size: 9.5pt; font-family: inherit; color: #222;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-opt:hover:not(:disabled) { background: #f0edf8; border-color: #6A2C91; }
+    .btn-opt:disabled { cursor: default; }
+    .btn-opt .opt-letter {
+      min-width: 22px; height: 22px; background: #0B0F3F; color: #fff;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 8pt; font-weight: 700; flex-shrink: 0;
+    }
+    .btn-opt.opt-selected-ok  { border-color: #1a7a3c; background: #d4edda; }
+    .btn-opt.opt-selected-ok  .opt-letter { background: #1a7a3c; }
+    .btn-opt.opt-selected-err { border-color: #c0392b; background: #fdecea; }
+    .btn-opt.opt-selected-err .opt-letter { background: #c0392b; }
+    .btn-opt.opt-correct-reveal { border-color: #1a7a3c !important; background: #eafaf1 !important; }
+    .btn-opt.opt-correct-reveal .opt-letter { background: #1a7a3c !important; }
+    .q-feedback { display: none; border-radius: 7px; padding: 8px 12px; margin: 6px 0 2px; font-size: 9pt; line-height: 1.5; }
+    .q-feedback.fb-ok  { display: block; background: #d4edda; border-left: 4px solid #1a7a3c; color: #155724; }
+    .q-feedback.fb-err { display: block; background: #fdecea; border-left: 4px solid #c0392b; color: #721c24; }
+
+    /* ── Barra de progreso (sticky bottom) ── */
+    .score-bar {
+      position: sticky; bottom: 0; background: #0B0F3F; color: #D4AF37;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 20px; font-size: 9.5pt; font-weight: 700;
+      z-index: 100; border-top: 2px solid #D4AF37; gap: 14px;
+    }
+    .score-track { flex: 1; height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; }
+    .score-fill  { height: 100%; background: #D4AF37; border-radius: 4px; transition: width .3s; }
+    .btn-pdf-bar {
+      background: #D4AF37; color: #0B0F3F; border: none; border-radius: 6px;
+      padding: 5px 14px; font-family: inherit; font-size: 8.5pt; font-weight: 800;
+      cursor: pointer; white-space: nowrap;
+    }
+
+    /* ── Solucionario: solo en PDF/print ── */
+    .pdf-sol { display: none; }
+    body.pdf-mode .pdf-sol { display: block; }
+
+    /* ── SVG contenedores ── */
+    .svg-row { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 14px 0; }
+    .svg-box  { text-align: center; }
+    .svg-box figcaption { font-size: 8pt; color: #555; margin-top: 4px; }
+
+    /* ── Pasos de operación ── */
+    .paso-row { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+    .paso { background: #f0f4ff; border: 1px solid #b0c4de; border-radius: 7px; padding: 7px 12px; font-size: 9pt; text-align: center; }
+    .paso .pn { font-size: 10.5pt; font-weight: 700; color: #0B0F3F; }
+    .parrow { font-size: 1.1em; color: #888; }
+
+    /* ── Trinidad Fracción-Decimal-% ── */
+    .trinity { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 12px 0; }
+    .tcard { border-radius: 9px; padding: 12px 10px; text-align: center; font-size: 9pt; }
+    .tcard.t-fr { background: #e3f2fd; border: 2px solid #1976d2; }
+    .tcard.t-de { background: #f3e5f5; border: 2px solid #7b1fa2; }
+    .tcard.t-pc { background: #e8f5e9; border: 2px solid #2e7d32; }
+    .tcard .tbig { font-size: 1.5em; font-weight: 800; display: block; margin: 5px 0; }
+
+    /* ── Aplicaciones reales ── */
+    .apps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin: 12px 0; }
+    .app-card { background: #fff; border: 1.5px solid #d0d5e8; border-radius: 9px; padding: 10px 8px; text-align: center; font-size: 8.5pt; }
+    .app-card .aic { font-size: 1.7em; display: block; margin-bottom: 4px; }
+
+    /* ── Final score ── */
+    .final-score { background: #0B0F3F; color: #fff; border-radius: 10px; padding: 20px 24px; margin: 20px 0; text-align: center; }
+    .final-score h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13pt; font-weight: 800; color: #D4AF37; margin-bottom: 8px; }
+    .final-score .fs-num { font-size: 22pt; font-weight: 900; color: #D4AF37; display: block; }
+
+    /* ── Print ── */
+    @media print {
+      .no-print, .score-bar { display: none !important; }
+      .page { box-shadow: none !important; page-break-after: always; }
+      .btn-opt { pointer-events: none; }
+      .btn-opt.opt-correct-reveal { background: #d4edda !important; }
+      .q-feedback { display: none !important; }
+      .pdf-sol { display: block !important; }
+    }
+
+    /* ── Móvil ── */
+    @media (max-width: 640px) {
+      .page-nav { flex-wrap: wrap; }
+      .pn-btn { font-size: 8pt; padding: 8px 4px; flex: 1 1 45%; }
+      .score-bar { flex-wrap: wrap; gap: 6px; padding: 8px 14px; font-size: 9pt; }
+      .paso-row { flex-direction: column; align-items: flex-start; }
+      .trinity { grid-template-columns: 1fr; }
+      .apps-grid { grid-template-columns: 1fr 1fr; }
+      .svg-row { flex-direction: column; align-items: center; }
+      svg { max-width: 100%; height: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVEGACIÓN (sticky top) ══ -->
+<nav class="page-nav no-print">
+  <button class="pn-btn active" onclick="showPage(1)">📐 Teoría I</button>
+  <button class="pn-btn" onclick="showPage(2)">🔢 Teoría II</button>
+  <button class="pn-btn" onclick="showPage(3)">✏️ Ejercicios</button>
+  <button class="pn-btn" onclick="showPage(4)">🎯 Ensayo PAES</button>
+</nav>
+
+<!-- ════════════════════════════════════
+     PÁGINA 1 — TEORÍA I
+════════════════════════════════════ -->
+<div class="page" id="pg1">
+
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Año Medio<br>
+      Unidad 1: Números y Operaciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="guide-banner">
+    <div class="subject-pill">Matemática · Números y Operaciones</div>
+    <h2>Fracciones: La Base de las Matemáticas</h2>
+    <div class="meta-chips">
+      <div class="chip"><strong>Nivel:</strong> 1° Año Medio</div>
+      <div class="chip"><strong>Dificultad:</strong> Básico → Avanzado</div>
+      <div class="chip"><strong>Duración:</strong> 90 min</div>
+      <div class="chip"><strong>Currículum:</strong> MINEDUC 2026</div>
+    </div>
+  </div>
+
+  <div class="oa-box">
+    <div class="oa-badge">OA 1</div>
+    <div class="oa-text">
+      <strong>Objetivo de Aprendizaje:</strong> Representar, comparar y operar con fracciones en
+      contextos variados, comprendiendo las relaciones entre fracciones, decimales y porcentajes.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- §1 Qué es una fracción -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">1</div>¿Qué es una fracción?</div>
+      <p>Una <strong>fracción</strong> representa una o más partes iguales de un todo.
+      Se escribe <span class="fr fr-lg"><span class="fn">numerador</span><span class="fd">denominador</span></span>:
+      el <strong>numerador</strong> indica cuántas partes tomamos y el <strong>denominador</strong> en cuántas partes iguales se dividió el todo.</p>
+
+      <div class="card card-err">
+        <div class="card-label">⚠ Regla fundamental</div>
+        El denominador <strong>nunca</strong> puede ser 0. Dividir entre 0 no está definido en matemáticas.
+      </div>
+
+      <!-- SVG: pizza 3/8 + barra 2/5 -->
+      <div class="svg-row">
+        <div class="svg-box">
+          <svg width="155" height="155" viewBox="0 0 155 155">
+            <path d="M77,77 L77,10 A67,67 0 0,1 124,29 Z" fill="#ffcc80" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L124,29 A67,67 0 0,1 144,77 Z" fill="#ff8a65" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L144,77 A67,67 0 0,1 124,125 Z" fill="#ff8a65" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L124,125 A67,67 0 0,1 77,144 Z" fill="#ffcc80" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L77,144 A67,67 0 0,1 30,125 Z" fill="#ffcc80" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L30,125 A67,67 0 0,1 10,77 Z" fill="#ffcc80" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L10,77 A67,67 0 0,1 30,29 Z" fill="#ffcc80" stroke="#aaa" stroke-width="1.2"/>
+            <path d="M77,77 L30,29 A67,67 0 0,1 77,10 Z" fill="#ffcc80" stroke="#aaa" stroke-width="1.2"/>
+            <circle cx="77" cy="77" r="67" fill="none" stroke="#666" stroke-width="1.8"/>
+            <text x="77" y="83" text-anchor="middle" font-size="17" font-weight="bold" font-family="inherit" fill="#c62828">3/8</text>
+          </svg>
+          <figcaption><strong>3/8</strong> — 3 partes de 8 (naranja)</figcaption>
+        </div>
+        <div class="svg-box">
+          <svg width="230" height="75" viewBox="0 0 230 75">
+            <rect x="5" y="10" width="220" height="42" fill="#e3f2fd" stroke="#1976d2" stroke-width="1.8" rx="4"/>
+            <rect x="5" y="10" width="88" height="42" fill="#1976d2" rx="4 0 0 4"/>
+            <line x1="49" y1="10" x2="49" y2="52" stroke="white" stroke-width="1.2"/>
+            <line x1="93" y1="10" x2="93" y2="52" stroke="#1976d2" stroke-width="1.5"/>
+            <line x1="137" y1="10" x2="137" y2="52" stroke="#1976d2" stroke-width="1.5"/>
+            <line x1="181" y1="10" x2="181" y2="52" stroke="#1976d2" stroke-width="1.5"/>
+            <text x="46" y="36" text-anchor="middle" font-size="12" fill="white" font-weight="bold">2/5</text>
+            <text x="157" y="36" text-anchor="middle" font-size="11" fill="#1976d2">3/5</text>
+            <text x="115" y="68" text-anchor="middle" font-size="10" fill="#555">5 partes iguales</text>
+          </svg>
+          <figcaption><strong>2/5</strong> — 2 de 5 partes</figcaption>
+        </div>
+      </div>
+
+      <div class="card card-def">
+        <div class="card-label">💡 ¿Por qué partes iguales?</div>
+        Si los trozos fueran distintos, "3 trozos" no daría información útil.
+        La igualdad de las partes es la condición que hace que el denominador tenga sentido matemático.
+      </div>
+    </div>
+
+    <!-- §2 Tipos -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">2</div>Tipos de Fracciones</div>
+      <table class="tipos">
+        <thead><tr><th>Tipo</th><th>Condición</th><th>Ejemplo</th><th>Relación con 1</th></tr></thead>
+        <tbody>
+          <tr><td>Propia</td><td>numerador &lt; denominador</td><td><span class="fr"><span class="fn">3</span><span class="fd">5</span></span></td><td>Menor que 1</td></tr>
+          <tr><td>Impropia</td><td>numerador &gt; denominador</td><td><span class="fr"><span class="fn">7</span><span class="fd">4</span></span></td><td>Mayor que 1</td></tr>
+          <tr><td>Mixta</td><td>Entero + fracción propia</td><td>1<span class="fr"><span class="fn">3</span><span class="fd">4</span></span></td><td>Mayor que 1</td></tr>
+          <tr><td>Unitaria</td><td>num. = den.</td><td><span class="fr"><span class="fn">5</span><span class="fd">5</span></span> = 1</td><td>Igual a 1</td></tr>
+          <tr><td>Aparente</td><td>num. múltiplo de den.</td><td><span class="fr"><span class="fn">12</span><span class="fd">4</span></span> = 3</td><td>Número entero</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsec">Conversión: fracción impropia ↔ número mixto</div>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">7/4</div>Impropia</div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">7 ÷ 4 = 1 resto 3</div>Divide</div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">1¾</div>Mixta ✓</div>
+      </div>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">2⅓</div>Mixta</div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">(2×3) + 1 = 7</div>Entero × den + num</div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">7/3</div>Impropia ✓</div>
+      </div>
+
+      <!-- SVG: representación 7/4 -->
+      <div class="svg-row">
+        <div class="svg-box">
+          <svg width="280" height="60" viewBox="0 0 280 60">
+            <rect x="4" y="6" width="124" height="36" fill="#1976d2" stroke="#1565c0" stroke-width="1.5" rx="4"/>
+            <line x1="35" y1="6" x2="35" y2="42" stroke="white" stroke-width="1.2"/>
+            <line x1="66" y1="6" x2="66" y2="42" stroke="white" stroke-width="1.2"/>
+            <line x1="97" y1="6" x2="97" y2="42" stroke="white" stroke-width="1.2"/>
+            <text x="64" y="29" text-anchor="middle" font-size="11" fill="white">1 entero (4/4)</text>
+            <rect x="142" y="6" width="124" height="36" fill="#e3f2fd" stroke="#1976d2" stroke-width="1.5" rx="4"/>
+            <rect x="142" y="6" width="93" height="36" fill="#1976d2" fill-opacity=".55" rx="4 0 0 4"/>
+            <line x1="173" y1="6" x2="173" y2="42" stroke="#1976d2" stroke-width="1.2"/>
+            <line x1="204" y1="6" x2="204" y2="42" stroke="#1976d2" stroke-width="1.2"/>
+            <line x1="235" y1="6" x2="235" y2="42" stroke="#1976d2" stroke-width="1.2"/>
+            <text x="204" y="29" text-anchor="middle" font-size="11" fill="#1a3a5c">3/4</text>
+            <text x="140" y="56" text-anchor="middle" font-size="10" fill="#555">7/4 = 1 entero + ¾</text>
+          </svg>
+          <figcaption>Representación visual de 7/4</figcaption>
+        </div>
+      </div>
+    </div>
+
+    <!-- §3 Equivalentes y simplificación -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">3</div>Fracciones Equivalentes y Simplificación</div>
+      <p>Dos fracciones son <strong>equivalentes</strong> cuando representan la misma cantidad con distintos numeradores y denominadores.</p>
+
+      <!-- SVG: barras 1/2 = 2/4 = 4/8 -->
+      <div class="svg-row">
+        <div class="svg-box">
+          <svg width="290" height="128" viewBox="0 0 290 128">
+            <rect x="4" y="4" width="282" height="28" fill="#e3f2fd" stroke="#1976d2" stroke-width="1.5" rx="3"/>
+            <rect x="4" y="4" width="141" height="28" fill="#1976d2" rx="3 0 0 3"/>
+            <line x1="145" y1="4" x2="145" y2="32" stroke="#1976d2" stroke-width="1.5"/>
+            <text x="72" y="23" text-anchor="middle" font-size="12" fill="white" font-weight="bold">1/2</text>
+
+            <rect x="4" y="44" width="282" height="28" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="3"/>
+            <rect x="4" y="44" width="141" height="28" fill="#2e7d32" rx="3 0 0 3"/>
+            <line x1="74.5" y1="44" x2="74.5" y2="72" stroke="#2e7d32" stroke-width="1.5"/>
+            <line x1="145" y1="44" x2="145" y2="72" stroke="#2e7d32" stroke-width="1.5"/>
+            <line x1="215.5" y1="44" x2="215.5" y2="72" stroke="#2e7d32" stroke-width="1.5"/>
+            <text x="38" y="63" text-anchor="middle" font-size="11" fill="white">2/4</text>
+
+            <rect x="4" y="84" width="282" height="28" fill="#fce4ec" stroke="#c62828" stroke-width="1.5" rx="3"/>
+            <rect x="4" y="84" width="141" height="28" fill="#c62828" rx="3 0 0 3"/>
+            <line x1="39.3" y1="84" x2="39.3" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <line x1="74.5" y1="84" x2="74.5" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <line x1="109.8" y1="84" x2="109.8" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <line x1="145" y1="84" x2="145" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <line x1="180.3" y1="84" x2="180.3" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <line x1="215.5" y1="84" x2="215.5" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <line x1="250.8" y1="84" x2="250.8" y2="112" stroke="#c62828" stroke-width="1.2"/>
+            <text x="22" y="103" text-anchor="middle" font-size="10" fill="white">4/8</text>
+            <text x="147" y="126" text-anchor="middle" font-size="10" fill="#555">Las tres barras tienen la misma longitud sombreada: 1/2 = 2/4 = 4/8</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <div class="card-label">Regla de equivalencia</div>
+        <span class="fr"><span class="fn">a</span><span class="fd">b</span></span> =
+        <span class="fr"><span class="fn">a × k</span><span class="fd">b × k</span></span>
+        — multiplica o divide numerador <em>y</em> denominador por el mismo número k ≠ 0.
+      </div>
+
+      <div class="subsec">Simplificación — usar el MCD</div>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">18/24</div>Original</div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">MCD(18,24) = 6</div>18=2·3², 24=2³·3</div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">18÷6 / 24÷6</div></div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">3/4 ✓</div>Irreducible</div>
+      </div>
+
+      <div class="card card-def">
+        <div class="card-label">💡 ¿Por qué el MCD?</div>
+        Dividir por el MCD garantiza llegar a la fracción más simple en un solo paso.
+        Usar un divisor menor da el mismo resultado final pero requiere más pasos.
+      </div>
+      <div class="card card-err">
+        <div class="card-label">🪤 Trampa frecuente</div>
+        Simplificar solo el numerador o solo el denominador. Debes dividir <strong>ambos</strong> por el mismo número; de lo contrario la fracción cambia completamente.
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva</div>
+      <ul>
+        <li>¿Puedes dar un ejemplo de cada tipo de fracción con objetos de tu vida diaria?</li>
+        <li>¿Cuál es la diferencia entre amplificar y simplificar?</li>
+      </ul>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Validación de Menores</span></div>
+    <div class="footer-meta">Matemática · 1° Medio · Decreto N°614/2013 · 2026</div>
+  </div>
+
+</div><!-- /pg1 -->
+
+<!-- ════════════════════════════════════
+     PÁGINA 2 — TEORÍA II
+════════════════════════════════════ -->
+<div class="page" id="pg2" style="display:none">
+
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Año Medio<br>
+      Fracciones — Teoría II<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- §4 Recta numérica -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">4</div>Fracciones en la Recta Numérica</div>
+      <p>Toda fracción ocupa un lugar exacto en la recta numérica. Las fracciones propias están entre 0 y 1; las impropias, más allá del 1.</p>
+
+      <div class="svg-row">
+        <div class="svg-box">
+          <svg width="400" height="85" viewBox="0 0 400 85">
+            <line x1="12" y1="42" x2="390" y2="42" stroke="#333" stroke-width="2.2"/>
+            <polygon points="384,36 396,42 384,48" fill="#333"/>
+            <line x1="12" y1="35" x2="12" y2="49" stroke="#333" stroke-width="2.2"/>
+            <line x1="200" y1="35" x2="200" y2="49" stroke="#333" stroke-width="2.2"/>
+            <line x1="388" y1="35" x2="388" y2="49" stroke="#333" stroke-width="2.2"/>
+            <text x="12" y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">0</text>
+            <text x="200" y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">1</text>
+            <text x="381" y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">2</text>
+            <!-- Cuartos -->
+            <line x1="56" y1="38" x2="56" y2="46" stroke="#888" stroke-width="1.4"/>
+            <line x1="106" y1="38" x2="106" y2="46" stroke="#888" stroke-width="1.4"/>
+            <line x1="153" y1="38" x2="153" y2="46" stroke="#888" stroke-width="1.4"/>
+            <text x="56" y="80" text-anchor="middle" font-size="10" fill="#1976d2">1/4</text>
+            <text x="106" y="80" text-anchor="middle" font-size="10" fill="#1976d2">1/2</text>
+            <text x="153" y="80" text-anchor="middle" font-size="10" fill="#1976d2">3/4</text>
+            <!-- 2/3 -->
+            <circle cx="145" cy="42" r="6" fill="#ff5722" stroke="white" stroke-width="1.4"/>
+            <text x="145" y="22" text-anchor="middle" font-size="10" fill="#ff5722" font-weight="bold">2/3</text>
+            <line x1="145" y1="26" x2="145" y2="36" stroke="#ff5722" stroke-width="1.4" stroke-dasharray="2,2"/>
+            <!-- 5/4 -->
+            <circle cx="250" cy="42" r="6" fill="#7b1fa2" stroke="white" stroke-width="1.4"/>
+            <text x="250" y="22" text-anchor="middle" font-size="10" fill="#7b1fa2" font-weight="bold">5/4</text>
+            <line x1="250" y1="26" x2="250" y2="36" stroke="#7b1fa2" stroke-width="1.4" stroke-dasharray="2,2"/>
+          </svg>
+          <figcaption>Las propias (2/3) están entre 0 y 1 · Las impropias (5/4) están más allá de 1</figcaption>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <div class="card-label">Comparar fracciones</div>
+        <strong>Mismo denominador:</strong> es mayor la de mayor numerador.<br>
+        <strong>Distinto denominador:</strong> convierte ambas al MCM y compara numeradores.
+      </div>
+    </div>
+
+    <!-- §5 Las cuatro operaciones -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">5</div>Las Cuatro Operaciones con Fracciones</div>
+
+      <div class="subsec">5.1 Suma y Resta — Denominador Común</div>
+      <p><strong>Mismo denominador:</strong> opera los numeradores, conserva el denominador.</p>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">2/7 + 3/7</div></div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">(2+3)/7 = 5/7</div></div>
+      </div>
+      <p><strong>Distinto denominador:</strong> busca el MCM de los denominadores.</p>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">1/4 + 1/6</div></div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">MCM(4,6) = 12</div></div>
+        <div class="parrow">→</div>
+        <div class="paso"><div class="pn">3/12 + 2/12</div></div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">5/12 ✓</div></div>
+      </div>
+
+      <!-- SVG: suma visual -->
+      <div class="svg-row">
+        <div class="svg-box">
+          <svg width="320" height="120" viewBox="0 0 320 120">
+            <text x="4" y="17" font-size="11" font-weight="bold" fill="#1976d2">1/4</text>
+            <rect x="4" y="22" width="312" height="26" fill="#e3f2fd" stroke="#1976d2" stroke-width="1.4" rx="3"/>
+            <rect x="4" y="22" width="78" height="26" fill="#1976d2" rx="3 0 0 3"/>
+            <line x1="82" y1="22" x2="82" y2="48" stroke="#1976d2" stroke-width="1.4"/>
+            <line x1="160" y1="22" x2="160" y2="48" stroke="#1976d2" stroke-width="1.4"/>
+            <line x1="238" y1="22" x2="238" y2="48" stroke="#1976d2" stroke-width="1.4"/>
+            <text x="42" y="40" text-anchor="middle" font-size="10" fill="white">1/4</text>
+            <text x="4" y="70" font-size="11" font-weight="bold" fill="#2e7d32">1/6</text>
+            <rect x="4" y="75" width="312" height="26" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.4" rx="3"/>
+            <rect x="4" y="75" width="52" height="26" fill="#2e7d32" rx="3 0 0 3"/>
+            <line x1="56" y1="75" x2="56" y2="101" stroke="#2e7d32" stroke-width="1.4"/>
+            <line x1="108" y1="75" x2="108" y2="101" stroke="#2e7d32" stroke-width="1.4"/>
+            <line x1="160" y1="75" x2="160" y2="101" stroke="#2e7d32" stroke-width="1.4"/>
+            <line x1="212" y1="75" x2="212" y2="101" stroke="#2e7d32" stroke-width="1.4"/>
+            <line x1="264" y1="75" x2="264" y2="101" stroke="#2e7d32" stroke-width="1.4"/>
+            <text x="28" y="93" text-anchor="middle" font-size="10" fill="white">1/6</text>
+            <text x="160" y="118" text-anchor="middle" font-size="10" fill="#c62828" font-weight="bold">MCM(4,6) = 12 → 3/12 + 2/12 = 5/12</text>
+          </svg>
+          <figcaption>Necesitamos el MCM para unir "cuartos" con "sextos"</figcaption>
+        </div>
+      </div>
+
+      <div class="card card-def">
+        <div class="card-label">💡 ¿Por qué el MCM?</div>
+        No podemos sumar cuartos con sextos directamente, igual que no podemos sumar metros con pies sin convertir. El MCM da la unidad de medida común más pequeña posible.
+      </div>
+
+      <div class="subsec">5.2 Multiplicación — Numerador × Numerador</div>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">3/4 × 2/5</div></div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">(3×2)/(4×5)</div></div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">6/20 = 3/10 ✓</div></div>
+      </div>
+
+      <!-- SVG: área de multiplicación -->
+      <div class="svg-row">
+        <div class="svg-box">
+          <svg width="175" height="180" viewBox="0 0 175 180">
+            <rect x="8" y="8" width="160" height="155" fill="#f5f5f5" stroke="#aaa" stroke-width="1.4" rx="3"/>
+            <line x1="48" y1="8" x2="48" y2="163" stroke="#1976d2" stroke-width="1.4"/>
+            <line x1="88" y1="8" x2="88" y2="163" stroke="#1976d2" stroke-width="1.4"/>
+            <line x1="128" y1="8" x2="128" y2="163" stroke="#1976d2" stroke-width="1.4"/>
+            <line x1="8" y1="60" x2="168" y2="60" stroke="#ff5722" stroke-width="1.4"/>
+            <line x1="8" y1="112" x2="168" y2="112" stroke="#ff5722" stroke-width="1.4"/>
+            <rect x="8" y="8" width="120" height="104" fill="#1976d2" fill-opacity=".28" rx="2"/>
+            <text x="68" y="58" text-anchor="middle" font-size="11" font-weight="bold" fill="#0B0F3F">6 celdas</text>
+            <text x="68" y="72" text-anchor="middle" font-size="10" fill="#0B0F3F">de 12 = 1/2</text>
+            <text x="88" y="178" text-anchor="middle" font-size="10" fill="#1976d2">← 3/4 →</text>
+            <text x="3" y="88" text-anchor="middle" font-size="9" fill="#ff5722" transform="rotate(-90,3,88)">← 2/3 →</text>
+          </svg>
+          <figcaption><strong>2/3 × 3/4 = 6/12 = 1/2</strong></figcaption>
+        </div>
+      </div>
+
+      <div class="subsec">5.3 División — Invertir y Multiplicar</div>
+      <div class="paso-row">
+        <div class="paso"><div class="pn">3/4 ÷ 2/5</div></div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">3/4 × 5/2</div>Invierte el divisor</div>
+        <div class="parrow">=</div>
+        <div class="paso"><div class="pn">15/8 ✓</div></div>
+      </div>
+      <div class="card card-def">
+        <div class="card-label">💡 ¿Por qué invertir?</div>
+        Dividir por X es lo mismo que multiplicar por 1/X. La inversa de a/b es b/a, porque (a/b)×(b/a) = 1.
+      </div>
+    </div>
+
+    <!-- §6 Trinidad -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">6</div>Fracciones, Decimales y Porcentajes</div>
+      <p>Son tres formas de expresar la misma cantidad. Convertir entre ellas es esencial en el PAES.</p>
+      <div class="trinity">
+        <div class="tcard t-fr"><strong>Fracción</strong><span class="tbig">3/4</span>"3 de 4 partes"</div>
+        <div class="tcard t-de"><strong>Decimal</strong><span class="tbig">0,75</span>3 ÷ 4 = 0,75</div>
+        <div class="tcard t-pc"><strong>Porcentaje</strong><span class="tbig">75%</span>0,75 × 100</div>
+      </div>
+      <table class="tipos">
+        <thead><tr><th>Fracción</th><th>Decimal</th><th>Porcentaje</th><th>Truco</th></tr></thead>
+        <tbody>
+          <tr><td>1/2</td><td>0,5</td><td>50%</td><td>Memorizar</td></tr>
+          <tr><td>1/4</td><td>0,25</td><td>25%</td><td>Mitad de 1/2</td></tr>
+          <tr><td>3/4</td><td>0,75</td><td>75%</td><td>100% − 25%</td></tr>
+          <tr><td>1/5</td><td>0,2</td><td>20%</td><td>100 ÷ 5</td></tr>
+          <tr><td>1/3</td><td>0,333…</td><td>33,3%</td><td>Periódico</td></tr>
+          <tr><td>1/8</td><td>0,125</td><td>12,5%</td><td>Mitad de 1/4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §7 Aplicaciones + Trampas -->
+    <div class="section">
+      <div class="section-title"><div class="sec-num">7</div>Aplicaciones Reales y Trampas del Examen</div>
+      <div class="apps-grid">
+        <div class="app-card"><span class="aic">🍕</span><strong>Cocina</strong><br>¾ taza de harina</div>
+        <div class="app-card"><span class="aic">🗺️</span><strong>Mapas</strong><br>Escala 1/50.000</div>
+        <div class="app-card"><span class="aic">🎵</span><strong>Música</strong><br>Compás 3/4 (vals)</div>
+        <div class="app-card"><span class="aic">🏗️</span><strong>Arquitectura</strong><br>Planos 1/100</div>
+        <div class="app-card"><span class="aic">💊</span><strong>Farmacia</strong><br>½ comprimido</div>
+        <div class="app-card"><span class="aic">📊</span><strong>Estadística</strong><br>3/5 encuestados</div>
+      </div>
+      <div class="card card-err" style="margin-top:14px">
+        <div class="card-label">🪤 Trampas del examen</div>
+        <ol style="margin:6px 0 0 18px;line-height:2">
+          <li>Sumar denominadores: <strong>1/3 + 1/4 ≠ 2/7</strong> (¡error clásico!)</li>
+          <li>Olvidar simplificar el resultado final</li>
+          <li>Confundir división: a/b ÷ c/d ≠ a/b × c/d</li>
+          <li>Creer que mayor denominador = fracción mayor (1/8 &lt; 1/3)</li>
+          <li>Mixta a impropia: entero × denominador, <em>luego</em> + numerador</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva</div>
+      <ul>
+        <li>¿Por qué no podemos sumar 1/3 + 1/4 directamente?</li>
+        <li>¿Cuándo usamos el MCM y cuándo el MCD?</li>
+        <li>¿Cuál es la diferencia entre dividir y multiplicar fracciones?</li>
+      </ul>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Validación de Menores</span></div>
+    <div class="footer-meta">Matemática · 1° Medio · Decreto N°614/2013 · 2026</div>
+  </div>
+
+</div><!-- /pg2 -->
+
+<!-- ════════════════════════════════════
+     PÁGINA 3 — EJERCICIOS PROGRESIVOS
+════════════════════════════════════ -->
+<div class="page" id="pg3" style="display:none">
+
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ejercicios Progresivos</strong>
+      Matemática · Fracciones<br>
+      10 preguntas · Básico → Avanzado<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Básico -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <span class="ex-level-badge">Básico</span>
+        <h3>Nivel Básico — Preguntas E1 a E3</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item" id="q01">
+          <div class="ex-header-row"><span class="ex-num-label">E1</span><span class="diff diff-b">Básico</span></div>
+          <p class="ex-stmt">Convierte 1<span class="fr"><span class="fn">3</span><span class="fd">5</span></span> a fracción impropia.</p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q01" data-letter="A" data-msg="Incorrecto. 1×5=5, luego 5+3=8. El resultado es 8/5."><div class="opt-letter">A</div>4/5</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q01" data-letter="B" data-msg="Incorrecto. No se suma el denominador al numerador. Es 1×5+3=8."><div class="opt-letter">B</div>13/5</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q01" data-letter="C" data-correct data-msg="¡Correcto! 1×5 + 3 = 8 → 8/5."><div class="opt-letter">C</div>8/5</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q01" data-letter="D" data-msg="Incorrecto. 3/5 es solo la parte fraccionaria, sin el entero."><div class="opt-letter">D</div>3/5</button>
+          </div>
+          <p class="q-feedback" id="fb-q01"></p>
+        </div>
+
+        <div class="ex-item" id="q02">
+          <div class="ex-header-row"><span class="ex-num-label">E2</span><span class="diff diff-b">Básico</span></div>
+          <p class="ex-stmt">Simplifica 18/24 a su mínima expresión.</p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q02" data-letter="A" data-msg="Incorrecto. 9/12 se puede simplificar más (÷3=3/4). Busca el MCD completo."><div class="opt-letter">A</div>9/12</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q02" data-letter="B" data-correct data-msg="¡Correcto! MCD(18,24)=6 → 18÷6=3, 24÷6=4 → 3/4."><div class="opt-letter">B</div>3/4</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q02" data-letter="C" data-msg="Incorrecto. 6/8 aún se simplifica ÷2=3/4."><div class="opt-letter">C</div>6/8</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q02" data-letter="D" data-msg="Incorrecto. Dividiste solo el numerador. Debes dividir ambos por el MCD."><div class="opt-letter">D</div>3/24</button>
+          </div>
+          <p class="q-feedback" id="fb-q02"></p>
+        </div>
+
+        <div class="ex-item" id="q03">
+          <div class="ex-header-row"><span class="ex-num-label">E3</span><span class="diff diff-b">Básico</span></div>
+          <p class="ex-stmt">¿Cuál de las siguientes fracciones es equivalente a 2/5?</p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q03" data-letter="A" data-msg="Incorrecto. 5/10=1/2≠2/5."><div class="opt-letter">A</div>5/10</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q03" data-letter="B" data-correct data-msg="¡Correcto! 2×3=6, 5×3=15 → 6/15 ✓"><div class="opt-letter">B</div>6/15</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q03" data-letter="C" data-msg="Incorrecto. 3/7: verifica 2×7=14≠5×3=15."><div class="opt-letter">C</div>3/7</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q03" data-letter="D" data-msg="Incorrecto. 4/9: 2×9=18≠5×4=20."><div class="opt-letter">D</div>4/9</button>
+          </div>
+          <p class="q-feedback" id="fb-q03"></p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Intermedio -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <span class="ex-level-badge">Intermedio</span>
+        <h3>Nivel Intermedio — Preguntas E4 a E7</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item" id="q04">
+          <div class="ex-header-row"><span class="ex-num-label">E4</span><span class="diff diff-m">Intermedio</span></div>
+          <p class="ex-stmt">Calcula: <span class="fr"><span class="fn">1</span><span class="fd">2</span></span> + <span class="fr"><span class="fn">1</span><span class="fd">3</span></span> + <span class="fr"><span class="fn">1</span><span class="fd">6</span></span></p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q04" data-letter="A" data-correct data-msg="¡Correcto! MCM(2,3,6)=6 → 3/6+2/6+1/6=6/6=1."><div class="opt-letter">A</div>1</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q04" data-letter="B" data-msg="Incorrecto. ¡No se suman denominadores! MCM=6."><div class="opt-letter">B</div>3/11</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q04" data-letter="C" data-msg="Incorrecto. Revisa la amplificación al denominador 6."><div class="opt-letter">C</div>5/6</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q04" data-letter="D" data-msg="Incorrecto. 7/6 > 1; verifica de nuevo con MCM=6."><div class="opt-letter">D</div>7/6</button>
+          </div>
+          <p class="q-feedback" id="fb-q04"></p>
+        </div>
+
+        <div class="ex-item" id="q05">
+          <div class="ex-header-row"><span class="ex-num-label">E5</span><span class="diff diff-m">Intermedio</span></div>
+          <p class="ex-stmt">Calcula: <span class="fr"><span class="fn">4</span><span class="fd">5</span></span> × <span class="fr"><span class="fn">5</span><span class="fd">6</span></span></p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q05" data-letter="A" data-msg="Incorrecto. 20/30 es sin simplificar; MCD=10 → 2/3."><div class="opt-letter">A</div>20/30</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q05" data-letter="B" data-correct data-msg="¡Correcto! (4×5)/(5×6)=20/30; MCD=10 → 2/3."><div class="opt-letter">B</div>2/3</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q05" data-letter="C" data-msg="Incorrecto. No se suman numeradores; se multiplican."><div class="opt-letter">C</div>9/11</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q05" data-letter="D" data-msg="Incorrecto. 4/6 no es correcto ni está simplificada."><div class="opt-letter">D</div>4/6</button>
+          </div>
+          <p class="q-feedback" id="fb-q05"></p>
+        </div>
+
+        <div class="ex-item" id="q06">
+          <div class="ex-header-row"><span class="ex-num-label">E6</span><span class="diff diff-m">Intermedio</span></div>
+          <p class="ex-stmt">Calcula: <span class="fr"><span class="fn">3</span><span class="fd">4</span></span> ÷ 3</p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q06" data-letter="A" data-correct data-msg="¡Correcto! 3/4 ÷ 3 = 3/4 × 1/3 = 3/12 = 1/4."><div class="opt-letter">A</div>1/4</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q06" data-letter="B" data-msg="Incorrecto. Dividir por 3 ≠ multiplicar por 3."><div class="opt-letter">B</div>9/4</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q06" data-letter="C" data-msg="Incorrecto. 3/4 ÷ 3 = 3/4 × 1/3, no 3/7."><div class="opt-letter">C</div>3/7</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q06" data-letter="D" data-msg="Incorrecto. Dividir por 3 = multiplicar por 1/3."><div class="opt-letter">D</div>3/1</button>
+          </div>
+          <p class="q-feedback" id="fb-q06"></p>
+        </div>
+
+        <div class="ex-item" id="q07">
+          <div class="ex-header-row"><span class="ex-num-label">E7</span><span class="diff diff-m">Intermedio</span></div>
+          <p class="ex-stmt">Una barra de chocolate tiene 8 porciones iguales. Sofía come 2 y su hermano 1. ¿Qué fracción de la barra queda?</p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q07" data-letter="A" data-msg="Incorrecto. 3/8 es lo que comieron, no lo que queda."><div class="opt-letter">A</div>3/8</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q07" data-letter="B" data-correct data-msg="¡Correcto! 2/8+1/8=3/8 comidos → 8/8−3/8=5/8 quedan."><div class="opt-letter">B</div>5/8</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q07" data-letter="C" data-msg="Incorrecto. Comieron 2+1=3 porciones, no 2."><div class="opt-letter">C</div>6/8</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q07" data-letter="D" data-msg="Incorrecto. Revisa la resta con igual denominador."><div class="opt-letter">D</div>2/8</button>
+          </div>
+          <p class="q-feedback" id="fb-q07"></p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Avanzado -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <span class="ex-level-badge">Avanzado</span>
+        <h3>Nivel Avanzado — Preguntas E8 a E10</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item" id="q08">
+          <div class="ex-header-row"><span class="ex-num-label">E8</span><span class="diff diff-a">Avanzado</span></div>
+          <p class="ex-stmt">En un curso, 2/3 de los estudiantes aprobó matemática. Si aprobaron 12 estudiantes, ¿cuántos hay en total?</p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q08" data-letter="A" data-correct data-msg="¡Correcto! Total = 12 ÷ (2/3) = 12 × 3/2 = 18."><div class="opt-letter">A</div>18 estudiantes</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q08" data-letter="B" data-msg="Incorrecto. 8 = 12×(2/3); es otra fracción del total."><div class="opt-letter">B</div>8 estudiantes</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q08" data-letter="C" data-msg="Incorrecto. 24 sería 12÷(1/2). Debes dividir entre 2/3."><div class="opt-letter">C</div>24 estudiantes</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q08" data-letter="D" data-msg="Incorrecto. 36=12×3; falta dividir también por 2."><div class="opt-letter">D</div>36 estudiantes</button>
+          </div>
+          <p class="q-feedback" id="fb-q08"></p>
+        </div>
+
+        <div class="ex-item" id="q09">
+          <div class="ex-header-row"><span class="ex-num-label">E9</span><span class="diff diff-a">Avanzado</span></div>
+          <p class="ex-stmt">Ordena de menor a mayor: <span class="fr"><span class="fn">7</span><span class="fd">9</span></span>, <span class="fr"><span class="fn">5</span><span class="fd">6</span></span>, <span class="fr"><span class="fn">11</span><span class="fd">15</span></span></p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q09" data-letter="A" data-msg="Incorrecto. MCM=90: 7/9=70/90, 5/6=75/90, 11/15=66/90."><div class="opt-letter">A</div>5/6 &lt; 7/9 &lt; 11/15</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q09" data-letter="B" data-msg="Incorrecto. Con MCM=90: 66 &lt; 70 &lt; 75."><div class="opt-letter">B</div>7/9 &lt; 11/15 &lt; 5/6</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q09" data-letter="C" data-correct data-msg="¡Correcto! MCM(9,6,15)=90: 11/15=66/90 &lt; 7/9=70/90 &lt; 5/6=75/90."><div class="opt-letter">C</div>11/15 &lt; 7/9 &lt; 5/6</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q09" data-letter="D" data-msg="Incorrecto. Sin igualar denominadores no se puede comparar directamente."><div class="opt-letter">D</div>5/6 &lt; 11/15 &lt; 7/9</button>
+          </div>
+          <p class="q-feedback" id="fb-q09"></p>
+        </div>
+
+        <div class="ex-item" id="q10">
+          <div class="ex-header-row"><span class="ex-num-label">E10</span><span class="diff diff-a">Avanzado</span></div>
+          <p class="ex-stmt">Simplifica al máximo: <span class="fr"><span class="fn">5</span><span class="fd">6</span></span> + <span class="fr"><span class="fn">1</span><span class="fd">3</span></span> − <span class="fr"><span class="fn">1</span><span class="fd">9</span></span> − <span class="fr"><span class="fn">1</span><span class="fd">18</span></span></p>
+          <div>
+            <button class="btn-opt" onclick="pick(this)" data-q="q10" data-letter="A" data-correct data-msg="¡Correcto! MCM=18: 15/18+6/18−2/18−1/18=18/18=1."><div class="opt-letter">A</div>1</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q10" data-letter="B" data-msg="Incorrecto. Amplifica todas al denominador 18 y opera."><div class="opt-letter">B</div>17/18</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q10" data-letter="C" data-msg="Incorrecto. MCM(6,3,9,18)=18, no 9."><div class="opt-letter">C</div>5/9</button>
+            <button class="btn-opt" onclick="pick(this)" data-q="q10" data-letter="D" data-msg="Incorrecto. 19/18 &gt; 1; revisa la conversión de cada fracción."><div class="opt-letter">D</div>19/18</button>
+          </div>
+          <p class="q-feedback" id="fb-q10"></p>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Validación de Menores</span></div>
+    <div class="footer-meta">Matemática · 1° Medio · Decreto N°614/2013 · 2026</div>
+  </div>
+
+</div><!-- /pg3 -->
+
+<!-- ════════════════════════════════════
+     PÁGINA 4 — ENSAYO PAES
+════════════════════════════════════ -->
+<div class="page" id="pg4" style="display:none">
+
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ensayo PAES</strong>
+      Matemática · Fracciones<br>
+      10 preguntas estilo PAES<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <div class="paes-badge">Ensayo PAES · Fracciones</div>
+      <p>10 preguntas · Selección múltiple · Estilo oficial PAES</p>
+    </div>
+    <div class="paes-body">
+
+      <div class="paes-item" id="q11">
+        <div class="paes-num">Pregunta 1</div>
+        <p class="paes-stmt">Si <span class="fr"><span class="fn">3</span><span class="fd">5</span></span> de los estudiantes de un colegio practica deporte, ¿qué fracción <strong>NO</strong> practica?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q11" data-letter="A" data-msg="Incorrecto. 1−3/5=5/5−3/5=2/5."><div class="opt-letter">A</div>2/3</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q11" data-letter="B" data-msg="Incorrecto. 1/5 sería si hubieran practicado 4/5."><div class="opt-letter">B</div>1/5</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q11" data-letter="C" data-correct data-msg="¡Correcto! 1−3/5=2/5."><div class="opt-letter">C</div>2/5</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q11" data-letter="D" data-msg="Incorrecto. 3/5 son los que SÍ practican."><div class="opt-letter">D</div>3/5</button>
+        </div>
+        <p class="q-feedback" id="fb-q11"></p>
+      </div>
+
+      <div class="paes-item" id="q12">
+        <div class="paes-num">Pregunta 2</div>
+        <p class="paes-stmt">Calcula: <span class="fr"><span class="fn">5</span><span class="fd">8</span></span> + <span class="fr"><span class="fn">3</span><span class="fd">8</span></span></p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q12" data-letter="A" data-msg="Incorrecto. No se suman denominadores. (5+3)/8=8/8=1."><div class="opt-letter">A</div>8/16</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q12" data-letter="B" data-correct data-msg="¡Correcto! (5+3)/8=8/8=1."><div class="opt-letter">B</div>1</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q12" data-letter="C" data-msg="Incorrecto. 15/64 sería el producto, no la suma."><div class="opt-letter">C</div>15/64</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q12" data-letter="D" data-msg="Incorrecto. Con igual denominador, solo operas numeradores."><div class="opt-letter">D</div>2/8</button>
+        </div>
+        <p class="q-feedback" id="fb-q12"></p>
+      </div>
+
+      <div class="paes-item" id="q13">
+        <div class="paes-num">Pregunta 3</div>
+        <p class="paes-stmt">Ana tiene <span class="fr"><span class="fn">5</span><span class="fd">6</span></span> de un pastel. Le regala <span class="fr"><span class="fn">2</span><span class="fd">3</span></span> de <em>lo que tiene</em>. ¿Qué fracción del pastel original le queda?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q13" data-letter="A" data-msg="Incorrecto. Regala (2/3)×(5/6)=5/9. Queda 5/6−5/9=5/18."><div class="opt-letter">A</div>3/6</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q13" data-letter="B" data-correct data-msg="¡Correcto! Regala (2/3)×(5/6)=10/18=5/9. Queda 5/6−5/9=15/18−10/18=5/18."><div class="opt-letter">B</div>5/18</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q13" data-letter="C" data-msg="Incorrecto. Primero calcula fracción de fracción (multiplicación)."><div class="opt-letter">C</div>1/6</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q13" data-letter="D" data-msg="Incorrecto. No restes directamente; primero halla 2/3 de 5/6."><div class="opt-letter">D</div>1/2</button>
+        </div>
+        <p class="q-feedback" id="fb-q13"></p>
+      </div>
+
+      <div class="paes-item" id="q14">
+        <div class="paes-num">Pregunta 4</div>
+        <p class="paes-stmt">¿Cuánto es <span class="fr"><span class="fn">3</span><span class="fd">4</span></span> ÷ <span class="fr"><span class="fn">1</span><span class="fd">2</span></span>?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q14" data-letter="A" data-msg="Incorrecto. 3/4 ÷ 1/2 = 3/4 × 2 = 6/4 = 3/2, no 3/8."><div class="opt-letter">A</div>3/8</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q14" data-letter="B" data-correct data-msg="¡Correcto! 3/4 × 2/1 = 6/4 = 3/2."><div class="opt-letter">B</div>3/2</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q14" data-letter="C" data-msg="Incorrecto. 6/2=3, no 3/2."><div class="opt-letter">C</div>6/2</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q14" data-letter="D" data-msg="Incorrecto. 3/4 es la fracción original antes de dividir."><div class="opt-letter">D</div>3/4</button>
+        </div>
+        <p class="q-feedback" id="fb-q14"></p>
+      </div>
+
+      <div class="paes-item" id="q15">
+        <div class="paes-num">Pregunta 5</div>
+        <p class="paes-stmt">El 35% de los encuestados prefiere fruta. ¿Cuál es la fracción irreducible equivalente?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q15" data-letter="A" data-msg="Incorrecto. 35/100 no está simplificada. MCD(35,100)=5."><div class="opt-letter">A</div>35/100</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q15" data-letter="B" data-correct data-msg="¡Correcto! 35÷5=7, 100÷5=20 → 7/20."><div class="opt-letter">B</div>7/20</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q15" data-letter="C" data-msg="Incorrecto. 7/10=70%, no 35%."><div class="opt-letter">C</div>7/10</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q15" data-letter="D" data-msg="Incorrecto. 1/3≈33,3%, no 35%."><div class="opt-letter">D</div>1/3</button>
+        </div>
+        <p class="q-feedback" id="fb-q15"></p>
+      </div>
+
+      <div class="paes-item" id="q16">
+        <div class="paes-num">Pregunta 6</div>
+        <p class="paes-stmt">Un recipiente tiene <span class="fr"><span class="fn">3</span><span class="fd">8</span></span> L de agua. Se añaden <span class="fr"><span class="fn">3</span><span class="fd">8</span></span> L más. ¿Cuántos litros hay ahora? (fracción simplificada)</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q16" data-letter="A" data-msg="Incorrecto. 6/16=3/8≠6/8. No se suman denominadores."><div class="opt-letter">A</div>6/16</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q16" data-letter="B" data-correct data-msg="¡Correcto! 3/8+3/8=6/8; MCD=2 → 3/4."><div class="opt-letter">B</div>3/4</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q16" data-letter="C" data-msg="Incorrecto. 6/8 no está simplificada; MCD(6,8)=2 → 3/4."><div class="opt-letter">C</div>6/8</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q16" data-letter="D" data-msg="Incorrecto. 3/8+3/8=6/8=3/4, no llega a 1."><div class="opt-letter">D</div>1</button>
+        </div>
+        <p class="q-feedback" id="fb-q16"></p>
+      </div>
+
+      <div class="paes-item" id="q17">
+        <div class="paes-num">Pregunta 7</div>
+        <p class="paes-stmt">Una piscina de 420 L está al <span class="fr"><span class="fn">1</span><span class="fd">4</span></span> de capacidad. Se llena hasta <span class="fr"><span class="fn">3</span><span class="fd">4</span></span>. ¿Cuántos litros se añadieron?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q17" data-letter="A" data-msg="Incorrecto. 315=(3/4)×420 es el volumen final, no lo añadido."><div class="opt-letter">A</div>315 litros</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q17" data-letter="B" data-msg="Incorrecto. 105=(1/4)×420 es lo que ya había."><div class="opt-letter">B</div>105 litros</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q17" data-letter="C" data-correct data-msg="¡Correcto! (3/4−1/4)×420=(2/4)×420=1/2×420=210 L."><div class="opt-letter">C</div>210 litros</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q17" data-letter="D" data-msg="Incorrecto. No se añadió la capacidad completa."><div class="opt-letter">D</div>420 litros</button>
+        </div>
+        <p class="q-feedback" id="fb-q17"></p>
+      </div>
+
+      <div class="paes-item" id="q18">
+        <div class="paes-num">Pregunta 8</div>
+        <p class="paes-stmt">En una clase de 30 estudiantes, <span class="fr"><span class="fn">2</span><span class="fd">5</span></span> son mujeres. ¿Cuántos son hombres?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q18" data-letter="A" data-msg="Incorrecto. 12 es el número de mujeres (2/5×30), no de hombres."><div class="opt-letter">A</div>12</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q18" data-letter="B" data-msg="Incorrecto. 15 sería la mitad del curso."><div class="opt-letter">B</div>15</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q18" data-letter="C" data-correct data-msg="¡Correcto! Mujeres: (2/5)×30=12. Hombres: 30−12=18."><div class="opt-letter">C</div>18</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q18" data-letter="D" data-msg="Incorrecto. (2/5)×30=12 mujeres, no 10."><div class="opt-letter">D</div>20</button>
+        </div>
+        <p class="q-feedback" id="fb-q18"></p>
+      </div>
+
+      <div class="paes-item" id="q19">
+        <div class="paes-num">Pregunta 9</div>
+        <p class="paes-stmt">¿Cuál es la fracción equivalente al decimal periódico 0,555…?</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q19" data-letter="A" data-correct data-msg="¡Correcto! 0,555…=5/9 (periódico). Comprueba: 5÷9=0,555…"><div class="opt-letter">A</div>5/9</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q19" data-letter="B" data-msg="Incorrecto. 5/10=0,5 exacto, no 0,555…"><div class="opt-letter">B</div>5/10</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q19" data-letter="C" data-msg="Incorrecto. 55/100=0,55 exacto (solo dos decimales)."><div class="opt-letter">C</div>55/100</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q19" data-letter="D" data-msg="Incorrecto. 1/2=0,5 exacto."><div class="opt-letter">D</div>1/2</button>
+        </div>
+        <p class="q-feedback" id="fb-q19"></p>
+      </div>
+
+      <div class="paes-item" id="q20">
+        <div class="paes-num">Pregunta 10</div>
+        <p class="paes-stmt">El valor de <span class="fr"><span class="fn">3</span><span class="fd">4</span></span> × <span class="fr"><span class="fn">8</span><span class="fd">9</span></span> ÷ <span class="fr"><span class="fn">1</span><span class="fd">2</span></span> es:</p>
+        <div>
+          <button class="btn-opt" onclick="pick(this)" data-q="q20" data-letter="A" data-msg="Incorrecto. Paso a paso: 3/4×8/9=2/3; luego 2/3÷1/2=4/3."><div class="opt-letter">A</div>1/3</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q20" data-letter="B" data-msg="Incorrecto. 2/3 es el resultado parcial antes de dividir por 1/2."><div class="opt-letter">B</div>2/3</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q20" data-letter="C" data-correct data-msg="¡Correcto! 3/4×8/9=24/36=2/3; luego 2/3÷1/2=2/3×2=4/3."><div class="opt-letter">C</div>4/3</button>
+          <button class="btn-opt" onclick="pick(this)" data-q="q20" data-letter="D" data-msg="Incorrecto. Opera de izquierda a derecha."><div class="opt-letter">D</div>3/4</button>
+        </div>
+        <p class="q-feedback" id="fb-q20"></p>
+      </div>
+
+      <div id="finalScore" style="display:none"></div>
+
+    </div><!-- /paes-body -->
+  </div><!-- /paes-wrap -->
+
+  <!-- SOLUCIONARIO (solo PDF) -->
+  <div class="sol-wrap pdf-sol">
+    <h3>📋 Solucionario Completo</h3>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-col-title">Ejercicios E1–E10</div>
+        <div class="sol-item"><div class="sn">E1</div><span class="sc">C</span> — 8/5 · 1×5+3=8</div>
+        <div class="sol-item"><div class="sn">E2</div><span class="sc">B</span> — 3/4 · MCD=6</div>
+        <div class="sol-item"><div class="sn">E3</div><span class="sc">B</span> — 6/15 · 2×3/5×3</div>
+        <div class="sol-item"><div class="sn">E4</div><span class="sc">A</span> — 1 · MCM=6: 6/6</div>
+        <div class="sol-item"><div class="sn">E5</div><span class="sc">B</span> — 2/3 · 20/30÷10</div>
+        <div class="sol-item"><div class="sn">E6</div><span class="sc">A</span> — 1/4 · 3/4×1/3</div>
+        <div class="sol-item"><div class="sn">E7</div><span class="sc">B</span> — 5/8 · 8/8−3/8</div>
+        <div class="sol-item"><div class="sn">E8</div><span class="sc">A</span> — 18 · 12×3/2</div>
+        <div class="sol-item"><div class="sn">E9</div><span class="sc">C</span> — 11/15&lt;7/9&lt;5/6 · MCM=90</div>
+        <div class="sol-item"><div class="sn">E10</div><span class="sc">A</span> — 1 · MCM=18: 18/18</div>
+      </div>
+      <div>
+        <div class="sol-col-title">PAES P1–P10</div>
+        <div class="sol-item"><div class="sn">P1</div><span class="sc">C</span> — 2/5 · 1−3/5</div>
+        <div class="sol-item"><div class="sn">P2</div><span class="sc">B</span> — 1 · 8/8</div>
+        <div class="sol-item"><div class="sn">P3</div><span class="sc">B</span> — 5/18 · 5/9 regala</div>
+        <div class="sol-item"><div class="sn">P4</div><span class="sc">B</span> — 3/2 · 3/4×2</div>
+        <div class="sol-item"><div class="sn">P5</div><span class="sc">B</span> — 7/20 · 35÷5</div>
+        <div class="sol-item"><div class="sn">P6</div><span class="sc">B</span> — 3/4 · 6/8÷2</div>
+        <div class="sol-item"><div class="sn">P7</div><span class="sc">C</span> — 210 L · ½×420</div>
+        <div class="sol-item"><div class="sn">P8</div><span class="sc">C</span> — 18 · 30−12</div>
+        <div class="sol-item"><div class="sn">P9</div><span class="sc">A</span> — 5/9 · periódico</div>
+        <div class="sol-item"><div class="sn">P10</div><span class="sc">C</span> — 4/3 · 2/3÷½</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Validación de Menores</span></div>
+    <div class="footer-meta">Matemática · 1° Medio · Decreto N°614/2013 · 2026</div>
+  </div>
+
+</div><!-- /pg4 -->
+
+<!-- ══ BARRA DE PROGRESO (sticky bottom) ══ -->
+<div class="score-bar no-print" id="scoreBar">
+  <span id="scoreText">Progreso: 0 / 20</span>
+  <div class="score-track"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+(function(){
+  var GUIDE_ID = 'maestria_Fracciones';
+  var TOTAL    = 20;
+  var answers  = {};
+
+  /* ── Navegación ── */
+  function showPage(n){
+    for(var i=1;i<=4;i++){
+      var p=document.getElementById('pg'+i);
+      if(p) p.style.display=(i===n)?'block':'none';
+    }
+    var btns=document.querySelectorAll('.pn-btn');
+    btns.forEach(function(b,i){ b.classList.toggle('active',i===n-1); });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  window.showPage=showPage;
+
+  /* ── Selección de respuesta ── */
+  function pick(btn){
+    var qid=btn.getAttribute('data-q');
+    if(!qid||answers[qid]) return;
+    var isOk=btn.hasAttribute('data-correct');
+    var msg=btn.getAttribute('data-msg')||'';
+    btn.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+    if(!isOk){
+      btn.closest('div').querySelectorAll('.btn-opt').forEach(function(s){
+        if(s.hasAttribute('data-correct')) s.classList.add('opt-correct-reveal');
+      });
+    }
+    var fb=document.getElementById('fb-'+qid);
+    if(fb){ fb.textContent=(isOk?'✅ ':'❌ ')+msg; fb.className='q-feedback '+(isOk?'fb-ok':'fb-err'); }
+    answers[qid]=isOk?'ok':'err';
+    save(); updateBar();
+    if(Object.keys(answers).length===TOTAL) showFinal();
+  }
+  window.pick=pick;
+
+  /* ── Barra ── */
+  function updateBar(){
+    var done=Object.keys(answers).length;
+    var t=document.getElementById('scoreText'),f=document.getElementById('scoreFill');
+    if(t) t.textContent='Progreso: '+done+' / '+TOTAL;
+    if(f) f.style.width=Math.round(done/TOTAL*100)+'%';
+  }
+
+  /* ── Score final ── */
+  function showFinal(){
+    var ok=Object.values(answers).filter(function(v){return v==='ok';}).length;
+    var pct=Math.round(ok/TOTAL*100);
+    var msg=pct>=90?'¡Excelente! Dominas las fracciones.':
+            pct>=70?'Muy bien. Repasa los errores y vuelve a intentarlo.':
+            pct>=50?'Vas por buen camino. Refuerza la teoría.':
+                    '¡Las fracciones se dominan con práctica! Revisa la teoría.';
+    var box=document.getElementById('finalScore');
+    if(!box) return;
+    box.className='final-score';
+    box.innerHTML='<h3>Resultado Final</h3><span class="fs-num">'+ok+'/'+TOTAL+' ('+pct+'%)</span><p style="margin-top:8px;opacity:.85">'+msg+'</p>';
+    box.style.display='block';
+    box.scrollIntoView({behavior:'smooth'});
+  }
+
+  /* ── localStorage ── */
+  function save(){ try{ localStorage.setItem(GUIDE_ID,JSON.stringify(answers)); }catch(e){} }
+
+  function restore(){
+    var raw; try{ raw=localStorage.getItem(GUIDE_ID); }catch(e){ return; }
+    if(!raw) return;
+    var saved; try{ saved=JSON.parse(raw); }catch(e){ return; }
+    Object.keys(saved).forEach(function(qid){
+      var r=saved[qid]; answers[qid]=r;
+      var block=document.getElementById(qid); if(!block) return;
+      block.querySelectorAll('.btn-opt').forEach(function(b){
+        if(r==='ok'&&b.hasAttribute('data-correct')) b.classList.add('opt-selected-ok');
+        else if(r==='err'&&b.hasAttribute('data-correct')) b.classList.add('opt-correct-reveal');
+      });
+      var fb=document.getElementById('fb-'+qid);
+      if(fb&&r==='ok'){
+        var okb=block.querySelector('[data-correct]');
+        if(okb){ fb.textContent='✅ '+(okb.getAttribute('data-msg')||''); fb.className='q-feedback fb-ok'; }
+      }
+    });
+    updateBar();
+    if(Object.keys(answers).length===TOTAL) showFinal();
+  }
+
+  /* ── Exportar PDF ── */
+  function exportPDF(){
+    for(var i=1;i<=4;i++){
+      var p=document.getElementById('pg'+i);
+      if(p) p.style.display='block';
+    }
+    document.body.classList.add('pdf-mode');
+    window.print();
+    document.body.classList.remove('pdf-mode');
+    // Restaurar página activa
+    var active=document.querySelector('.pn-btn.active');
+    var idx=active?Array.from(document.querySelectorAll('.pn-btn')).indexOf(active)+1:1;
+    for(var j=1;j<=4;j++){
+      var pg=document.getElementById('pg'+j);
+      if(pg) pg.style.display=(j===idx)?'block':'none';
+    }
+  }
+  window.exportPDF=exportPDF;
+
+  restore();
+})();
+</script>
+</body>
+</html>

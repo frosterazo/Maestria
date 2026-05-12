@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaestrIA · Potencias · 1° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <style>
+    .btn-opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:#fff;border:2px solid #d0d4e8;border-radius:10px;padding:10px 14px;margin:5px 0;font-size:10pt;font-family:inherit;cursor:pointer;transition:border-color .2s,background .2s;}
+    .btn-opt:hover:not(:disabled){border-color:#0B0F3F;background:#f4f5fb;}
+    .btn-opt:disabled{cursor:default;}
+    .opt-letter-b{min-width:26px;height:26px;border-radius:50%;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9.5pt;flex-shrink:0;}
+    .opt-selected-ok{background:#e8f7ee !important;border-color:#1a7a3c !important;}
+    .opt-selected-ok .opt-letter-b{background:#1a7a3c;}
+    .opt-selected-err{background:#fdecea !important;border-color:#c0392b !important;}
+    .opt-selected-err .opt-letter-b{background:#c0392b;}
+    .opt-correct-reveal{background:#fff9e6 !important;border-color:#D4AF37 !important;}
+    .opt-correct-reveal .opt-letter-b{background:#D4AF37;color:#0B0F3F;}
+    .q-feedback{display:none;border-radius:8px;padding:8px 12px;margin-top:6px;font-size:9pt;line-height:1.5;}
+    .fb-ok{display:block !important;background:#e8f7ee;border-left:4px solid #1a7a3c;color:#145a2c;}
+    .fb-err{display:block !important;background:#fdecea;border-left:4px solid #c0392b;color:#8b1a14;}
+    .score-bar{position:fixed;bottom:0;left:0;right:0;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;z-index:999;font-size:10pt;box-shadow:0 -2px 12px rgba(0,0,0,.25);}
+    .score-bar .sb-pts{font-weight:700;font-size:12pt;}
+    .score-bar .sb-label{opacity:.8;font-size:9pt;}
+    .btn-pdf-bar{background:#D4AF37;color:#0B0F3F;border:none;border-radius:8px;padding:7px 18px;font-weight:700;font-size:10pt;cursor:pointer;font-family:inherit;}
+    .btn-pdf-bar:hover{background:#c9a42e;}
+    .pdf-sol{display:none;}
+    @media print{
+      .score-bar{display:none !important;}
+      .btn-opt{border:1.5px solid #ccc !important;background:#fff !important;}
+      .opt-selected-ok,.opt-selected-err,.opt-correct-reveal{background:#fff !important;border-color:#999 !important;}
+      .q-feedback{display:none !important;}
+      .pdf-sol{display:block !important;}
+      .no-print{display:none !important;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="score-bar no-print" id="scoreBar">
+  <div><div class="sb-label">Puntaje</div><div class="sb-pts" id="sbPts">0 / 20</div></div>
+  <div id="sbFinal" style="display:none;color:#D4AF37;font-weight:700;">¡Guía completada!</div>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- PÁGINA 1 -->
+<div class="page">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Año Medio<br>
+      Eje: Números y Operaciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="guide-banner">
+    <div class="subject-pill">Matemática · Números y Operaciones</div>
+    <h2>Potencias: Base racional y exponente entero</h2>
+    <div class="meta-chips">
+      <div class="chip"><strong>Nivel:</strong> 1° Año Medio</div>
+      <div class="chip"><strong>Eje:</strong> Números</div>
+      <div class="chip"><strong>Duración:</strong> 90 min</div>
+      <div class="chip"><strong>Currículum:</strong> MINEDUC 2026</div>
+    </div>
+  </div>
+
+  <div class="oa-box">
+    <div class="oa-badge">OA 2</div>
+    <div class="oa-text">
+      <strong>Objetivo de Aprendizaje:</strong> Comprender potencias de <strong>base racional y
+      exponente entero</strong>, aplicando las propiedades de multiplicación y división de potencias,
+      relacionándolas con el crecimiento y decrecimiento de cantidades, y resolviendo problemas
+      de la vida diaria y otras asignaturas.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">1</div>¿Qué es una potencia?</div>
+      <p>Una <strong>potencia</strong> es una multiplicación abreviada de un número por sí mismo.
+      Tiene dos componentes:</p>
+
+      <div class="card card-formula">
+        <div class="card-label">Forma general</div>
+        <span style="font-size:18pt;">a<sup>n</sup></span><br>
+        <span style="font-size:9pt; color:#D4AF37;">a = base · n = exponente</span>
+      </div>
+
+      <!-- SVG 1: Anatomía de una potencia -->
+      <svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:14px auto;" aria-label="Anatomía de una potencia">
+        <!-- Texto principal: 2⁵ = 32 -->
+        <text x="350" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#0B0F3F">Anatomía de una potencia</text>
+        <!-- Fondo -->
+        <rect x="200" y="30" width="300" height="80" rx="14" fill="#f8f4e9" stroke="#D4AF37" stroke-width="2"/>
+        <!-- Base -->
+        <text x="285" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="44" font-weight="800" fill="#0B0F3F">2</text>
+        <!-- Exponente -->
+        <text x="340" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="28" font-weight="700" fill="#6A2C91">5</text>
+        <!-- = 32 -->
+        <text x="390" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="28" fill="#555">= 32</text>
+        <!-- Flecha base -->
+        <line x1="285" y1="116" x2="200" y2="136" stroke="#0B0F3F" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <text x="148" y="144" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#0B0F3F" font-weight="700">BASE</text>
+        <text x="148" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#555">el que se multiplica</text>
+        <!-- Flecha exponente -->
+        <line x1="340" y1="50" x2="470" y2="30" stroke="#6A2C91" stroke-width="1.5"/>
+        <text x="530" y="30" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#6A2C91" font-weight="700">EXPONENTE</text>
+        <text x="530" y="44" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#555">¿cuántas veces?</text>
+        <!-- Ejemplo escrito -->
+        <text x="350" y="148" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#555">2⁵ = 2 · 2 · 2 · 2 · 2 = 32</text>
+        <defs>
+          <marker id="arr1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#0B0F3F"/>
+          </marker>
+        </defs>
+      </svg>
+
+      <div class="two-col">
+        <div class="col-card">
+          <div class="col-card-title">Base (a)</div>
+          <p>Es el número que se multiplica por sí mismo. Puede ser racional: entero, fracción o decimal.</p>
+        </div>
+        <div class="col-card">
+          <div class="col-card-title">Exponente (n)</div>
+          <p>Indica cuántas veces se multiplica la base por sí misma. Puede ser entero (positivo, negativo o cero).</p>
+        </div>
+      </div>
+
+      <div class="card card-ex">
+        <div class="card-label">Ejemplos</div>
+        <strong>2³ = 2 · 2 · 2 = 8</strong> (base 2, exponente 3)<br>
+        <strong>(<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>)² = <span class="fr"><span class="fn">1</span><span class="fd">2</span></span> · <span class="fr"><span class="fn">1</span><span class="fd">2</span></span> = <span class="fr"><span class="fn">1</span><span class="fd">4</span></span></strong> (base racional, exponente positivo)<br>
+        <strong>(0,5)² = 0,25</strong> (base decimal)
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">2</div>Casos especiales del exponente</div>
+
+      <table class="tbl">
+        <thead><tr><th>Caso</th><th>Regla</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Exponente 1</td><td>a¹ = a</td><td>5¹ = 5</td></tr>
+          <tr><td>Exponente 0</td><td>a⁰ = 1 (a ≠ 0)</td><td>(<span class="fr"><span class="fn">3</span><span class="fd">7</span></span>)⁰ = 1</td></tr>
+          <tr><td>Exponente negativo</td><td>a⁻ⁿ = <span class="fr"><span class="fn">1</span><span class="fd">aⁿ</span></span></td><td>2⁻³ = <span class="fr"><span class="fn">1</span><span class="fd">2³</span></span> = <span class="fr"><span class="fn">1</span><span class="fd">8</span></span></td></tr>
+          <tr><td>Base fracción · exp. negativo</td><td>(<span class="fr"><span class="fn">a</span><span class="fd">b</span></span>)⁻ⁿ = (<span class="fr"><span class="fn">b</span><span class="fd">a</span></span>)ⁿ</td><td>(<span class="fr"><span class="fn">2</span><span class="fd">3</span></span>)⁻² = (<span class="fr"><span class="fn">3</span><span class="fd">2</span></span>)² = <span class="fr"><span class="fn">9</span><span class="fd">4</span></span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <div class="card-label"><span class="card-icon">💡</span>Truco para exponente negativo</div>
+        Cuando el exponente es negativo, <strong>"da vuelta" la fracción</strong> y el exponente se vuelve positivo. Es la regla más útil con fracciones.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">3</div>Signo del resultado</div>
+
+      <table class="tbl">
+        <thead><tr><th>Signo de la base</th><th>Exponente</th><th>Resultado</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Positivo</td><td>Cualquiera</td><td>Positivo</td><td>3² = 9</td></tr>
+          <tr><td>Negativo</td><td>Par</td><td>Positivo</td><td>(−2)⁴ = 16</td></tr>
+          <tr><td>Negativo</td><td>Impar</td><td>Negativo</td><td>(−2)³ = −8</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-err">
+        <div class="card-label"><span class="card-icon">⚠️</span>OJO con los paréntesis</div>
+        <strong>(−2)² = 4</strong> (negativo elevado al cuadrado: signo positivo)<br>
+        <strong>−2² = −4</strong> (solo el 2 está elevado, el signo va al final)<br>
+        ¡La diferencia entre tener o no paréntesis es enorme!
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">4</div>Propiedades de las potencias</div>
+
+      <table class="tbl">
+        <thead><tr><th>Propiedad</th><th>Regla</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Producto de igual base</td><td>aᵐ · aⁿ = aᵐ⁺ⁿ</td><td>2³ · 2² = 2⁵ = 32</td></tr>
+          <tr><td>Cociente de igual base</td><td>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td>3⁵ ÷ 3² = 3³ = 27</td></tr>
+          <tr><td>Potencia de potencia</td><td>(aᵐ)ⁿ = aᵐ·ⁿ</td><td>(2²)³ = 2⁶ = 64</td></tr>
+          <tr><td>Producto de igual exponente</td><td>aⁿ · bⁿ = (a·b)ⁿ</td><td>2³ · 5³ = 10³ = 1000</td></tr>
+          <tr><td>Cociente de igual exponente</td><td>aⁿ ÷ bⁿ = (<span class="fr"><span class="fn">a</span><span class="fd">b</span></span>)ⁿ</td><td>6² ÷ 2² = 3² = 9</td></tr>
+        </tbody>
+      </table>
+
+      <!-- SVG 2: Propiedades de potencias como bloques visuales -->
+      <svg viewBox="0 0 700 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:14px auto;" aria-label="Resumen visual de propiedades de potencias">
+        <text x="350" y="14" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" font-weight="700" fill="#0B0F3F">Propiedades clave — regla y operación con exponentes</text>
+        <!-- Bloque 1: igual base · -->
+        <rect x="4" y="22" width="136" height="80" rx="8" fill="#dde6ff" stroke="#0B0F3F" stroke-width="1.5"/>
+        <text x="72" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="700" fill="#0B0F3F">Igual base · </text>
+        <text x="72" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#0B0F3F">aᵐ · aⁿ = aᵐ⁺ⁿ</text>
+        <text x="72" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#555">Suma exponentes</text>
+        <!-- Bloque 2: igual base ÷ -->
+        <rect x="144" y="22" width="136" height="80" rx="8" fill="#ede0ff" stroke="#6A2C91" stroke-width="1.5"/>
+        <text x="212" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="700" fill="#6A2C91">Igual base ÷</text>
+        <text x="212" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#6A2C91">aᵐ ÷ aⁿ = aᵐ⁻ⁿ</text>
+        <text x="212" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#555">Resta exponentes</text>
+        <!-- Bloque 3: potencia de potencia -->
+        <rect x="284" y="22" width="136" height="80" rx="8" fill="#e0f4ec" stroke="#1a7a3c" stroke-width="1.5"/>
+        <text x="352" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="700" fill="#1a7a3c">Pot. de potencia</text>
+        <text x="352" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#1a7a3c">(aᵐ)ⁿ = aᵐ·ⁿ</text>
+        <text x="352" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#555">Multiplica exponentes</text>
+        <!-- Bloque 4: igual exponente · -->
+        <rect x="424" y="22" width="130" height="80" rx="8" fill="#fff9e6" stroke="#D4AF37" stroke-width="1.5"/>
+        <text x="489" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="700" fill="#b8860b">Igual exp. ·</text>
+        <text x="489" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#b8860b">aⁿ · bⁿ = (a·b)ⁿ</text>
+        <text x="489" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#555">Agrupa las bases</text>
+        <!-- Bloque 5: igual exponente ÷ -->
+        <rect x="558" y="22" width="138" height="80" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+        <text x="627" y="46" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="700" fill="#c0392b">Igual exp. ÷</text>
+        <text x="627" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#c0392b">aⁿ ÷ bⁿ = (a/b)ⁿ</text>
+        <text x="627" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#555">Agrupa en fracción</text>
+      </svg>
+
+      <div class="card card-ex">
+        <div class="card-label">Ejemplo aplicado — Producto de igual base</div>
+        <strong>(<span class="fr"><span class="fn">2</span><span class="fd">3</span></span>)⁴ · (<span class="fr"><span class="fn">2</span><span class="fd">3</span></span>)⁻²</strong>
+        <div class="step-list">
+          <div class="step"><div class="step-dot">1</div><div class="step-body"><span class="lbl">Misma base, sumar exponentes</span>(<span class="fr"><span class="fn">2</span><span class="fd">3</span></span>)<sup>4 + (−2)</sup> = (<span class="fr"><span class="fn">2</span><span class="fd">3</span></span>)²</div></div>
+          <div class="step"><div class="step-dot">✓</div><div class="step-body"><span class="lbl">Calcular</span>(<span class="fr"><span class="fn">2</span><span class="fd">3</span></span>)² = <span class="fr"><span class="fn"><strong>4</strong></span><span class="fd"><strong>9</strong></span></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">5</div>Crecimiento y decrecimiento</div>
+
+      <div class="two-col">
+        <div class="col-card">
+          <div class="col-card-title">Crecimiento (base &gt; 1)</div>
+          <p>Si una población se duplica cada año, la cantidad después de n años es: P · 2ⁿ</p>
+          <p style="margin-top:6px; font-style:italic;">Ej.: 1.000 bacterias se duplican cada hora. ¿Cuántas habrá tras 5 horas? → 1.000 · 2⁵ = 32.000</p>
+        </div>
+        <div class="col-card">
+          <div class="col-card-title">Decrecimiento (0 &lt; base &lt; 1)</div>
+          <p>Si una sustancia pierde la mitad cada hora, queda: M · (<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>)ⁿ</p>
+          <p style="margin-top:6px; font-style:italic;">Ej.: 100 g de elemento radiactivo, vida media 1 año. Tras 4 años: 100 · (<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>)⁴ = 6,25 g</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <div class="card-label"><span class="card-icon">📈</span>Aplicaciones reales</div>
+        Las potencias aparecen en: interés compuesto bancario, crecimiento de bacterias, desintegración radiactiva, propagación de virus y depreciación de bienes.
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva</div>
+      <ul>
+        <li>¿Por qué a⁰ = 1? ¿Tiene sentido "no multiplicar nada" y dar 1?</li>
+        <li>¿Qué pasa si la base es 0 y el exponente es 0?</li>
+        <li>¿Cómo cambia el resultado si pongo o no paréntesis al elevar un negativo?</li>
+        <li>¿Qué significa intuitivamente que el exponente sea negativo?</li>
+        <li>¿Cómo distingues una propiedad de "igual base" de una de "igual exponente"?</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 2 -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ejercicios Progresivos</strong>
+      Potencias · 1° Año Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Básico</div><h3>Reconocimiento y cálculo simple</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 1</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Cuánto es <strong>(<span class="fr"><span class="fn">1</span><span class="fd">3</span></span>)²</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e1','A','ok')"><span class="opt-letter-b">A</span><span class="fr"><span class="fn">1</span><span class="fd">9</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e1','B','err')"><span class="opt-letter-b">B</span><span class="fr"><span class="fn">2</span><span class="fd">3</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e1','C','err')"><span class="opt-letter-b">C</span><span class="fr"><span class="fn">1</span><span class="fd">6</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e1','D','err')"><span class="opt-letter-b">D</span><span class="fr"><span class="fn">1</span><span class="fd">3</span></span></button>
+          <div class="q-feedback" id="fb-e1-ok">✓ Correcto. (1/3)² = (1/3)·(1/3) = 1²/3² = 1/9. Con fracciones elevadas a una potencia: se elevan numerador y denominador por separado.</div>
+          <div class="q-feedback" id="fb-e1-err">✗ Incorrecto. (1/3)² = 1²/3² = 1/9. No se multiplica el exponente por el numerador (eso daría 2/3), ni se multiplican numerador y denominador (1/6). La respuesta es 1/9 (opción A).</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 2</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Cuánto vale <strong>5⁰</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e2','A','err')"><span class="opt-letter-b">A</span>0</button>
+          <button class="btn-opt" onclick="pick(this,'e2','B','ok')"><span class="opt-letter-b">B</span>1</button>
+          <button class="btn-opt" onclick="pick(this,'e2','C','err')"><span class="opt-letter-b">C</span>5</button>
+          <button class="btn-opt" onclick="pick(this,'e2','D','err')"><span class="opt-letter-b">D</span>−5</button>
+          <div class="q-feedback" id="fb-e2-ok">✓ Correcto. Todo número distinto de cero elevado a 0 es igual a 1. Esto vale para cualquier base: 5⁰ = 1, (−3)⁰ = 1, (1/7)⁰ = 1.</div>
+          <div class="q-feedback" id="fb-e2-err">✗ Incorrecto. El resultado no es 0, 5 ni −5. Todo número no nulo elevado a la potencia 0 es igual a 1. La respuesta es 1 (opción B).</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 3</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Cuál es el resultado de <strong>(−3)²</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e3','A','err')"><span class="opt-letter-b">A</span>−9</button>
+          <button class="btn-opt" onclick="pick(this,'e3','B','ok')"><span class="opt-letter-b">B</span>9</button>
+          <button class="btn-opt" onclick="pick(this,'e3','C','err')"><span class="opt-letter-b">C</span>−6</button>
+          <button class="btn-opt" onclick="pick(this,'e3','D','err')"><span class="opt-letter-b">D</span>6</button>
+          <div class="q-feedback" id="fb-e3-ok">✓ Correcto. (−3)² = (−3)·(−3) = +9. La base es −3 (con paréntesis) y el exponente par hace el resultado positivo. Negativo · negativo = positivo.</div>
+          <div class="q-feedback" id="fb-e3-err">✗ Incorrecto. (−3)² = (−3)·(−3) = +9. El exponente es par, y negativo · negativo = positivo. La respuesta es 9 (opción B). Si fuera −3² (sin paréntesis), el resultado sería −9.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Medio</div><h3>Aplicación de propiedades</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 4</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">Calcula: <strong>2³ · 2⁴</strong></div>
+          <button class="btn-opt" onclick="pick(this,'e4','A','ok')"><span class="opt-letter-b">A</span>2⁷</button>
+          <button class="btn-opt" onclick="pick(this,'e4','B','err')"><span class="opt-letter-b">B</span>2¹²</button>
+          <button class="btn-opt" onclick="pick(this,'e4','C','err')"><span class="opt-letter-b">C</span>4⁷</button>
+          <button class="btn-opt" onclick="pick(this,'e4','D','err')"><span class="opt-letter-b">D</span>4¹²</button>
+          <div class="q-feedback" id="fb-e4-ok">✓ Correcto. Misma base (2), producto: se suman los exponentes. 3 + 4 = 7. Resultado: 2⁷ = 128.</div>
+          <div class="q-feedback" id="fb-e4-err">✗ Incorrecto. Cuando las bases son iguales y se multiplica, los exponentes se suman: 2³ · 2⁴ = 2³⁺⁴ = 2⁷ (opción A). Los exponentes no se multiplican.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 5</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">Calcula: <strong>(2³)²</strong></div>
+          <button class="btn-opt" onclick="pick(this,'e5','A','err')"><span class="opt-letter-b">A</span>2⁵</button>
+          <button class="btn-opt" onclick="pick(this,'e5','B','ok')"><span class="opt-letter-b">B</span>2⁶</button>
+          <button class="btn-opt" onclick="pick(this,'e5','C','err')"><span class="opt-letter-b">C</span>4⁵</button>
+          <button class="btn-opt" onclick="pick(this,'e5','D','err')"><span class="opt-letter-b">D</span>2⁹</button>
+          <div class="q-feedback" id="fb-e5-ok">✓ Correcto. Potencia de potencia: se multiplican los exponentes. 3 · 2 = 6. Resultado: 2⁶ = 64.</div>
+          <div class="q-feedback" id="fb-e5-err">✗ Incorrecto. (aᵐ)ⁿ = aᵐ·ⁿ. Aquí (2³)² = 2³·² = 2⁶ (opción B). No se suman (eso daría 2⁵), ni se mantiene la base 4.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 6</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">¿Cuánto vale <strong>(<span class="fr"><span class="fn">2</span><span class="fd">5</span></span>)⁻²</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e6','A','ok')"><span class="opt-letter-b">A</span><span class="fr"><span class="fn">25</span><span class="fd">4</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e6','B','err')"><span class="opt-letter-b">B</span><span class="fr"><span class="fn">4</span><span class="fd">25</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e6','C','err')"><span class="opt-letter-b">C</span>−<span class="fr"><span class="fn">4</span><span class="fd">25</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e6','D','err')"><span class="opt-letter-b">D</span><span class="fr"><span class="fn">5</span><span class="fd">2</span></span></button>
+          <div class="q-feedback" id="fb-e6-ok">✓ Correcto. Exponente negativo en fracción: se invierte la fracción y el exponente se vuelve positivo. (2/5)⁻² = (5/2)² = 25/4.</div>
+          <div class="q-feedback" id="fb-e6-err">✗ Incorrecto. Con exponente negativo en una fracción: se invierte la fracción y el exponente pasa a positivo. (2/5)⁻² = (5/2)² = 25/4 (opción A). No es negativo ni queda sin elevar.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Avanzado</div><h3>Aplicación a la realidad</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 7</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">Una bacteria se duplica cada 20 minutos. Si comienzo con 10 bacterias, ¿cuántas tendré después de 2 horas?</div>
+          <button class="btn-opt" onclick="pick(this,'e7','A','err')"><span class="opt-letter-b">A</span>40</button>
+          <button class="btn-opt" onclick="pick(this,'e7','B','err')"><span class="opt-letter-b">B</span>320</button>
+          <button class="btn-opt" onclick="pick(this,'e7','C','ok')"><span class="opt-letter-b">C</span>640</button>
+          <button class="btn-opt" onclick="pick(this,'e7','D','err')"><span class="opt-letter-b">D</span>1280</button>
+          <div class="q-feedback" id="fb-e7-ok">✓ Correcto. 2 horas = 120 minutos. Con duplicación cada 20 min → 120 ÷ 20 = 6 períodos. Cantidad: 10 · 2⁶ = 10 · 64 = 640 bacterias.</div>
+          <div class="q-feedback" id="fb-e7-err">✗ Incorrecto. 2 horas = 120 minutos. Duplicación cada 20 min → 6 períodos. Cantidad: 10 · 2⁶ = 10 · 64 = 640 (opción C). Error frecuente: usar 2 horas como exponente directamente.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 8</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">Simplifica: <strong><span class="fr"><span class="fn">3⁵ · 3⁻²</span><span class="fd">3⁴</span></span></strong></div>
+          <button class="btn-opt" onclick="pick(this,'e8','A','ok')"><span class="opt-letter-b">A</span>3⁻¹</button>
+          <button class="btn-opt" onclick="pick(this,'e8','B','err')"><span class="opt-letter-b">B</span>3</button>
+          <button class="btn-opt" onclick="pick(this,'e8','C','err')"><span class="opt-letter-b">C</span>3⁻³</button>
+          <button class="btn-opt" onclick="pick(this,'e8','D','err')"><span class="opt-letter-b">D</span>3⁷</button>
+          <div class="q-feedback" id="fb-e8-ok">✓ Correcto. Numerador: 3⁵ · 3⁻² = 3⁵⁺⁽⁻²⁾ = 3³. Luego 3³ ÷ 3⁴ = 3³⁻⁴ = 3⁻¹ = 1/3.</div>
+          <div class="q-feedback" id="fb-e8-err">✗ Incorrecto. Paso a paso: numerador 3⁵ · 3⁻² = 3³. Luego 3³ ÷ 3⁴ = 3⁻¹ (opción A). Exponente −1 significa 1/3, no 3.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 9</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">Calcula: <strong>(−<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>)³ · (−<span class="fr"><span class="fn">1</span><span class="fd">2</span></span>)²</strong></div>
+          <button class="btn-opt" onclick="pick(this,'e9','A','ok')"><span class="opt-letter-b">A</span>−<span class="fr"><span class="fn">1</span><span class="fd">32</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e9','B','err')"><span class="opt-letter-b">B</span><span class="fr"><span class="fn">1</span><span class="fd">32</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e9','C','err')"><span class="opt-letter-b">C</span>−<span class="fr"><span class="fn">1</span><span class="fd">25</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'e9','D','err')"><span class="opt-letter-b">D</span><span class="fr"><span class="fn">1</span><span class="fd">25</span></span></button>
+          <div class="q-feedback" id="fb-e9-ok">✓ Correcto. Misma base (−1/2), sumar exponentes: 3 + 2 = 5. Resultado: (−1/2)⁵. Exponente impar + base negativa = negativo. (−1)⁵/2⁵ = −1/32.</div>
+          <div class="q-feedback" id="fb-e9-err">✗ Incorrecto. Igual base, se suman exponentes: (−1/2)³ · (−1/2)² = (−1/2)⁵. Exponente 5 impar + base negativa → resultado negativo. (−1/2)⁵ = −1/32 (opción A).</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 10</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">Un auto vale $8.000.000 y cada año pierde la mitad de su valor. ¿Cuánto valdrá tras <strong>3 años</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e10','A','err')"><span class="opt-letter-b">A</span>$4.000.000</button>
+          <button class="btn-opt" onclick="pick(this,'e10','B','err')"><span class="opt-letter-b">B</span>$2.000.000</button>
+          <button class="btn-opt" onclick="pick(this,'e10','C','ok')"><span class="opt-letter-b">C</span>$1.000.000</button>
+          <button class="btn-opt" onclick="pick(this,'e10','D','err')"><span class="opt-letter-b">D</span>$500.000</button>
+          <div class="q-feedback" id="fb-e10-ok">✓ Correcto. Decrecimiento: 8.000.000 · (1/2)³ = 8.000.000 ÷ 8 = 1.000.000. (1/2)³ = 1/8 porque se divide a la mitad 3 veces.</div>
+          <div class="q-feedback" id="fb-e10-err">✗ Incorrecto. Fórmula: valor inicial · (1/2)ⁿ. → 8.000.000 · (1/2)³ = 8.000.000 / 8 = 1.000.000 (opción C). No es 4.000.000 (solo un año) ni 2.000.000 (dos años).</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="autoeval">
+      <div class="autoeval-head"><h3>✦ Autoevaluación — ¿Qué aprendí hoy?</h3></div>
+      <table class="autoeval-tbl">
+        <thead><tr><th style="text-align:left; width:64%">Indicador de aprendizaje</th><th>Lo logré ✓</th><th>En proceso ~</th><th>Lo necesito ✗</th></tr></thead>
+        <tbody>
+          <tr><td>Calculo potencias con base racional y exponente positivo</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Manejo correctamente exponente cero y negativo</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Aplico propiedades de multiplicación y división de potencias</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Distingo (−a)ⁿ de −aⁿ y manejo signos correctamente</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Aplico potencias para modelar crecimiento y decrecimiento</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Resuelvo problemas reales con potencias</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 3 -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ensayo Tipo PAES</strong>
+      Potencias · 1° Año Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="paes-wrap">
+      <div class="paes-head">
+        <div class="paes-badge">Ensayo tipo PAES — 10 preguntas</div>
+        <p>Números y Operaciones · Una alternativa correcta · Tiempo sugerido: 25 min</p>
+      </div>
+      <div class="paes-body">
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 1</div>
+          <div class="paes-stmt">¿Cuánto es <strong>4⁻²</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'p1','A','err')"><span class="opt-letter-b">A</span>−16</button>
+          <button class="btn-opt" onclick="pick(this,'p1','B','ok')"><span class="opt-letter-b">B</span><span class="fr"><span class="fn">1</span><span class="fd">16</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'p1','C','err')"><span class="opt-letter-b">C</span>16</button>
+          <button class="btn-opt" onclick="pick(this,'p1','D','err')"><span class="opt-letter-b">D</span>−<span class="fr"><span class="fn">1</span><span class="fd">16</span></span></button>
+          <div class="q-feedback" id="fb-p1-ok">✓ Correcto. 4⁻² = 1/4² = 1/16. Exponente negativo = recíproco de la potencia positiva. No hace el resultado negativo.</div>
+          <div class="q-feedback" id="fb-p1-err">✗ Incorrecto. 4⁻² = 1/4² = 1/16 (opción B). El exponente negativo no significa resultado negativo, sino recíproco: 1 dividido por la potencia positiva.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 2</div>
+          <div class="paes-stmt">El resultado de <strong>(−1)²⁰²⁵</strong> es:</div>
+          <button class="btn-opt" onclick="pick(this,'p2','A','err')"><span class="opt-letter-b">A</span>1</button>
+          <button class="btn-opt" onclick="pick(this,'p2','B','ok')"><span class="opt-letter-b">B</span>−1</button>
+          <button class="btn-opt" onclick="pick(this,'p2','C','err')"><span class="opt-letter-b">C</span>2025</button>
+          <button class="btn-opt" onclick="pick(this,'p2','D','err')"><span class="opt-letter-b">D</span>−2025</button>
+          <div class="q-feedback" id="fb-p2-ok">✓ Correcto. 2025 es impar. (−1) elevado a un exponente impar es −1; a uno par es +1. Resultado: −1.</div>
+          <div class="q-feedback" id="fb-p2-err">✗ Incorrecto. (−1) elevado a un exponente par = 1; a uno impar = −1. Como 2025 es impar, (−1)²⁰²⁵ = −1 (opción B).</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 3</div>
+          <div class="paes-stmt">Calcula: <strong>2⁵ ÷ 2³</strong></div>
+          <button class="btn-opt" onclick="pick(this,'p3','A','ok')"><span class="opt-letter-b">A</span>2²</button>
+          <button class="btn-opt" onclick="pick(this,'p3','B','err')"><span class="opt-letter-b">B</span>2⁸</button>
+          <button class="btn-opt" onclick="pick(this,'p3','C','err')"><span class="opt-letter-b">C</span>1²</button>
+          <button class="btn-opt" onclick="pick(this,'p3','D','err')"><span class="opt-letter-b">D</span>2¹⁵</button>
+          <div class="q-feedback" id="fb-p3-ok">✓ Correcto. Misma base (2), cociente: restar exponentes. 5 − 3 = 2. Resultado: 2² = 4.</div>
+          <div class="q-feedback" id="fb-p3-err">✗ Incorrecto. Cociente de igual base: se restan los exponentes. 2⁵ ÷ 2³ = 2⁵⁻³ = 2² (opción A). No se suman (eso sería el producto), ni se multiplican.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 4</div>
+          <div class="paes-stmt">Simplifica: <strong>(<span class="fr"><span class="fn">3</span><span class="fd">4</span></span>)² · (<span class="fr"><span class="fn">3</span><span class="fd">4</span></span>)³</strong></div>
+          <button class="btn-opt" onclick="pick(this,'p4','A','ok')"><span class="opt-letter-b">A</span>(<span class="fr"><span class="fn">3</span><span class="fd">4</span></span>)⁵</button>
+          <button class="btn-opt" onclick="pick(this,'p4','B','err')"><span class="opt-letter-b">B</span>(<span class="fr"><span class="fn">3</span><span class="fd">4</span></span>)⁶</button>
+          <button class="btn-opt" onclick="pick(this,'p4','C','err')"><span class="opt-letter-b">C</span>(<span class="fr"><span class="fn">9</span><span class="fd">16</span></span>)⁵</button>
+          <button class="btn-opt" onclick="pick(this,'p4','D','err')"><span class="opt-letter-b">D</span>(<span class="fr"><span class="fn">3</span><span class="fd">4</span></span>)⁻¹</button>
+          <div class="q-feedback" id="fb-p4-ok">✓ Correcto. Misma base (3/4), producto: 2 + 3 = 5. Resultado: (3/4)⁵.</div>
+          <div class="q-feedback" id="fb-p4-err">✗ Incorrecto. Igual base, producto: se suman exponentes. 2 + 3 = 5 → (3/4)⁵ (opción A). No se multiplican (eso daría 6) ni se elevan ambas fracciones.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 5</div>
+          <div class="paes-stmt">Calcula: <strong>(<span class="fr"><span class="fn">5</span><span class="fd">3</span></span>)⁻¹</strong></div>
+          <button class="btn-opt" onclick="pick(this,'p5','A','err')"><span class="opt-letter-b">A</span><span class="fr"><span class="fn">5</span><span class="fd">3</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'p5','B','ok')"><span class="opt-letter-b">B</span><span class="fr"><span class="fn">3</span><span class="fd">5</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'p5','C','err')"><span class="opt-letter-b">C</span>−<span class="fr"><span class="fn">5</span><span class="fd">3</span></span></button>
+          <button class="btn-opt" onclick="pick(this,'p5','D','err')"><span class="opt-letter-b">D</span>1</button>
+          <div class="q-feedback" id="fb-p5-ok">✓ Correcto. Exponente −1 invierte la fracción. (5/3)⁻¹ = 3/5. Es el recíproco del número original.</div>
+          <div class="q-feedback" id="fb-p5-err">✗ Incorrecto. (5/3)⁻¹ = 3/5 (opción B). El exponente −1 invierte la fracción: numerador y denominador se intercambian. No cambia el signo a negativo.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 6</div>
+          <div class="paes-stmt">¿A qué es igual <strong>−3²</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'p6','A','err')"><span class="opt-letter-b">A</span>9</button>
+          <button class="btn-opt" onclick="pick(this,'p6','B','ok')"><span class="opt-letter-b">B</span>−9</button>
+          <button class="btn-opt" onclick="pick(this,'p6','C','err')"><span class="opt-letter-b">C</span>6</button>
+          <button class="btn-opt" onclick="pick(this,'p6','D','err')"><span class="opt-letter-b">D</span>−6</button>
+          <div class="q-feedback" id="fb-p6-ok">✓ Correcto. Sin paréntesis, solo el 3 está elevado: 3² = 9. El signo − está afuera: −(3²) = −9. Diferente a (−3)² = 9.</div>
+          <div class="q-feedback" id="fb-p6-err">✗ Incorrecto. Sin paréntesis, la potencia aplica solo al 3: −3² = −(3²) = −9 (opción B). Solo (−3)² = 9. Esta diferencia de paréntesis es crucial en exámenes.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 7</div>
+          <div class="paes-stmt">Una población de bacterias se duplica cada hora. Si parto con 200, ¿cuántas hay tras 6 horas?</div>
+          <button class="btn-opt" onclick="pick(this,'p7','A','err')"><span class="opt-letter-b">A</span>1.200</button>
+          <button class="btn-opt" onclick="pick(this,'p7','B','err')"><span class="opt-letter-b">B</span>2.400</button>
+          <button class="btn-opt" onclick="pick(this,'p7','C','ok')"><span class="opt-letter-b">C</span>12.800</button>
+          <button class="btn-opt" onclick="pick(this,'p7','D','err')"><span class="opt-letter-b">D</span>6.400</button>
+          <div class="q-feedback" id="fb-p7-ok">✓ Correcto. Crecimiento: 200 · 2⁶ = 200 · 64 = 12.800 bacterias. No se multiplica 200 · 6 = 1.200 (eso sería crecimiento lineal, no exponencial).</div>
+          <div class="q-feedback" id="fb-p7-err">✗ Incorrecto. Crecimiento exponencial: 200 · 2⁶ = 200 · 64 = 12.800 (opción C). El error más común es multiplicar por 6 en vez de elevar al exponente 6.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 8</div>
+          <div class="paes-stmt">El resultado de <strong>(2³ · 2⁻¹)²</strong> es:</div>
+          <button class="btn-opt" onclick="pick(this,'p8','A','ok')"><span class="opt-letter-b">A</span>2⁴</button>
+          <button class="btn-opt" onclick="pick(this,'p8','B','err')"><span class="opt-letter-b">B</span>2⁵</button>
+          <button class="btn-opt" onclick="pick(this,'p8','C','err')"><span class="opt-letter-b">C</span>2⁶</button>
+          <button class="btn-opt" onclick="pick(this,'p8','D','err')"><span class="opt-letter-b">D</span>2⁻²</button>
+          <div class="q-feedback" id="fb-p8-ok">✓ Correcto. Primero interior: 2³ · 2⁻¹ = 2³⁺⁽⁻¹⁾ = 2². Luego potencia de potencia: (2²)² = 2²·² = 2⁴.</div>
+          <div class="q-feedback" id="fb-p8-err">✗ Incorrecto. Paso a paso: (2³ · 2⁻¹) = 2² → (2²)² = 2⁴ (opción A). No sumes todos los exponentes juntos ignorando la estructura del paréntesis.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 9</div>
+          <div class="paes-stmt">El número 0,0001 expresado como potencia de 10 es:</div>
+          <button class="btn-opt" onclick="pick(this,'p9','A','err')"><span class="opt-letter-b">A</span>10⁻³</button>
+          <button class="btn-opt" onclick="pick(this,'p9','B','ok')"><span class="opt-letter-b">B</span>10⁻⁴</button>
+          <button class="btn-opt" onclick="pick(this,'p9','C','err')"><span class="opt-letter-b">C</span>10⁴</button>
+          <button class="btn-opt" onclick="pick(this,'p9','D','err')"><span class="opt-letter-b">D</span>10⁵</button>
+          <div class="q-feedback" id="fb-p9-ok">✓ Correcto. 0,0001 = 1/10.000 = 1/10⁴ = 10⁻⁴. Cuenta los ceros después del punto decimal para determinar el exponente negativo.</div>
+          <div class="q-feedback" id="fb-p9-err">✗ Incorrecto. 0,0001 = 1/10.000. Como 10.000 = 10⁴, entonces 1/10⁴ = 10⁻⁴ (opción B). Cuenta los lugares después de la coma: 0,_0_0_0_1 → 4 posiciones → exponente −4.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 10</div>
+          <div class="paes-stmt">Una sustancia radiactiva pierde la mitad de su masa cada año. Si tengo 64 g, ¿cuánto queda después de 4 años?</div>
+          <button class="btn-opt" onclick="pick(this,'p10','A','err')"><span class="opt-letter-b">A</span>16 g</button>
+          <button class="btn-opt" onclick="pick(this,'p10','B','err')"><span class="opt-letter-b">B</span>8 g</button>
+          <button class="btn-opt" onclick="pick(this,'p10','C','ok')"><span class="opt-letter-b">C</span>4 g</button>
+          <button class="btn-opt" onclick="pick(this,'p10','D','err')"><span class="opt-letter-b">D</span>32 g</button>
+          <div class="q-feedback" id="fb-p10-ok">✓ Correcto. 64 · (1/2)⁴ = 64 / 16 = 4 g. (1/2)⁴ = 1/16. Verificación: 64→32→16→8→4 (4 pasos de mitad).</div>
+          <div class="q-feedback" id="fb-p10-err">✗ Incorrecto. Masa final: 64 · (1/2)⁴ = 64/16 = 4 g (opción C). 16 g sería tras 2 años; 32 g tras 1 año. Traza el camino: 64→32→16→8→4.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sol-wrap pdf-sol">
+      <h3>✦ Solucionario completo</h3>
+      <div class="sol-grid">
+        <div>
+          <div class="sol-col-title">Ejercicios Progresivos</div>
+          <div class="sol-item"><div class="sn">Ejercicio 1</div><span class="sc">A — 1/9</span><br><span style="font-size:8.5pt;">(1/3)² = 1²/3² = 1/9.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 2</div><span class="sc">B — 1</span><br><span style="font-size:8.5pt;">Todo número (≠0) elevado a 0 es 1.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 3</div><span class="sc">B — 9</span><br><span style="font-size:8.5pt;">(−3)²= (−3)·(−3)=9. Negativo·negativo=positivo.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 4</div><span class="sc">A — 2⁷</span><br><span style="font-size:8.5pt;">Misma base, sumar exponentes: 3+4=7.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 5</div><span class="sc">B — 2⁶</span><br><span style="font-size:8.5pt;">Potencia de potencia: 3·2=6.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 6</div><span class="sc">A — 25/4</span><br><span style="font-size:8.5pt;">(2/5)⁻² = (5/2)² = 25/4.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 7</div><span class="sc">C — 640</span><br><span style="font-size:8.5pt;">2h=6 períodos de 20min → 10·2⁶=640.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 8</div><span class="sc">A — 3⁻¹</span><br><span style="font-size:8.5pt;">3⁵·3⁻²=3³. Luego 3³÷3⁴=3⁻¹.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 9</div><span class="sc">A — −1/32</span><br><span style="font-size:8.5pt;">Igual base, sumar: exp. 5 total. (−1/2)⁵=−1/32.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 10</div><span class="sc">C — $1.000.000</span><br><span style="font-size:8.5pt;">8.000.000·(1/2)³=8.000.000/8=1.000.000.</span></div>
+        </div>
+        <div>
+          <div class="sol-col-title">Ensayo Tipo PAES</div>
+          <div class="sol-item"><div class="sn">Pregunta 1</div><span class="sc">B — 1/16</span><br><span style="font-size:8.5pt;">4⁻²=1/4²=1/16.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 2</div><span class="sc">B — −1</span><br><span style="font-size:8.5pt;">2025 impar → (−1) impar = −1.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 3</div><span class="sc">A — 2²</span><br><span style="font-size:8.5pt;">Igual base, restar: 5−3=2.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 4</div><span class="sc">A — (3/4)⁵</span><br><span style="font-size:8.5pt;">Igual base, sumar: 2+3=5.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 5</div><span class="sc">B — 3/5</span><br><span style="font-size:8.5pt;">Exponente −1 invierte la fracción.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 6</div><span class="sc">B — −9</span><br><span style="font-size:8.5pt;">Sin paréntesis, solo 3 se eleva: −(3²)=−9.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 7</div><span class="sc">C — 12.800</span><br><span style="font-size:8.5pt;">200·2⁶=200·64=12.800.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 8</div><span class="sc">A — 2⁴</span><br><span style="font-size:8.5pt;">Dentro: 2³·2⁻¹=2². Luego (2²)²=2⁴.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 9</div><span class="sc">B — 10⁻⁴</span><br><span style="font-size:8.5pt;">0,0001=1/10⁴=10⁻⁴.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 10</div><span class="sc">C — 4 g</span><br><span style="font-size:8.5pt;">64·(1/2)⁴=64/16=4 g.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing">
+      <h3>Resumen — Lo que aprendiste hoy</h3>
+      <p>Las potencias son una herramienta poderosa para representar la <strong>multiplicación
+      repetida</strong>. Aparecen en el interés bancario, el crecimiento de poblaciones y la
+      desintegración de elementos radiactivos.</p>
+      <p>Tres claves: <strong>cuidado con los signos, dominar las propiedades, y entender qué
+      modelan las potencias en la realidad</strong>.</p>
+      <div class="next-pill">Siguiente OA → Productos notables</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var GUIDE_ID = 'maestria_Potencias';
+  var TOTAL = 20;
+  var answers = {};
+
+  function save(){ try{ localStorage.setItem(GUIDE_ID, JSON.stringify(answers)); }catch(e){} }
+
+  function updateBar(){
+    var pts = 0;
+    Object.keys(answers).forEach(function(k){ if(answers[k]==='ok') pts++; });
+    var el = document.getElementById('sbPts');
+    if(el) el.textContent = pts + ' / ' + TOTAL;
+  }
+
+  function showFinal(){
+    if(Object.keys(answers).length === TOTAL){
+      var el = document.getElementById('sbFinal');
+      if(el) el.style.display = 'block';
+    }
+  }
+
+  window.pick = function(btn, qid, letter, verdict){
+    var group = document.querySelectorAll('[onclick*="\''+qid+'\'"]');
+    if(group[0] && group[0].disabled) return;
+    group.forEach(function(b){ b.disabled = true; });
+    if(verdict === 'ok'){
+      btn.classList.add('opt-selected-ok');
+      var fb = document.getElementById('fb-'+qid+'-ok');
+      if(fb) fb.classList.add('fb-ok');
+    } else {
+      btn.classList.add('opt-selected-err');
+      var fbe = document.getElementById('fb-'+qid+'-err');
+      if(fbe) fbe.classList.add('fb-err');
+      group.forEach(function(b){
+        var oc = b.getAttribute('onclick')||'';
+        if(oc.indexOf("'ok'") > -1) b.classList.add('opt-correct-reveal');
+      });
+    }
+    answers[qid] = verdict;
+    save(); updateBar(); showFinal();
+  };
+
+  window.exportPDF = function(){
+    var sol = document.querySelector('.sol-wrap.pdf-sol');
+    if(sol) sol.style.display = 'block';
+    window.print();
+    setTimeout(function(){ if(sol) sol.style.display = ''; }, 1000);
+  };
+
+  function restore(){
+    try{
+      var saved = localStorage.getItem(GUIDE_ID);
+      if(!saved) return;
+      var data = JSON.parse(saved);
+      Object.keys(data).forEach(function(qid){
+        var verdict = data[qid];
+        var group = document.querySelectorAll('[onclick*="\''+qid+'\'"]');
+        if(!group.length) return;
+        group.forEach(function(b){ b.disabled = true; });
+        group.forEach(function(b){
+          var oc = b.getAttribute('onclick')||'';
+          if(verdict === 'ok' && oc.indexOf("'ok'") > -1) b.classList.add('opt-selected-ok');
+          else if(verdict === 'err' && oc.indexOf("'ok'") > -1) b.classList.add('opt-correct-reveal');
+        });
+        if(verdict === 'err'){ var fbe = document.getElementById('fb-'+qid+'-err'); if(fbe) fbe.classList.add('fb-err'); }
+        else { var fbo = document.getElementById('fb-'+qid+'-ok'); if(fbo) fbo.classList.add('fb-ok'); }
+        answers[qid] = verdict;
+      });
+      updateBar(); showFinal();
+    }catch(e){}
+  }
+  restore();
+})();
+</script>
+
+</body>
+</html>

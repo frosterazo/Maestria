@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaestrIA · Reading: Comprensión General · 1° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <style>
+    /* ── Botones interactivos ── */
+    .btn-opt {
+      display: flex; align-items: flex-start; gap: 10px;
+      width: 100%; background: #fff;
+      border: 1.5px solid #d0d0d0; border-radius: 7px;
+      padding: 8px 12px; margin: 5px 0;
+      cursor: pointer; text-align: left;
+      font-size: 9.5pt; font-family: inherit; color: #222;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-opt:hover:not(:disabled) { background: #f0edf8; border-color: #6A2C91; }
+    .btn-opt:disabled { cursor: default; }
+    .btn-opt .opt-letter {
+      min-width: 22px; height: 22px; background: #0B0F3F; color: #fff;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 8pt; font-weight: 700; flex-shrink: 0;
+    }
+    .btn-opt.opt-selected-ok  { border-color: #1a7a3c; background: #d4edda; }
+    .btn-opt.opt-selected-ok  .opt-letter { background: #1a7a3c; }
+    .btn-opt.opt-selected-err { border-color: #c0392b; background: #fdecea; }
+    .btn-opt.opt-selected-err .opt-letter { background: #c0392b; }
+    .btn-opt.opt-correct-reveal { border-color: #1a7a3c !important; background: #eafaf1 !important; }
+    .btn-opt.opt-correct-reveal .opt-letter { background: #1a7a3c !important; }
+    .q-feedback {
+      display: none; border-radius: 7px; padding: 8px 12px;
+      margin: 6px 0 2px; font-size: 9pt; line-height: 1.5;
+    }
+    .q-feedback.fb-ok  { background: #d4edda; border-left: 4px solid #1a7a3c; color: #155724; }
+    .q-feedback.fb-err { background: #fdecea; border-left: 4px solid #c0392b; color: #721c24; }
+    .score-bar {
+      position: sticky; bottom: 0; background: #0B0F3F; color: #D4AF37;
+      text-align: center; padding: 9px 20px; font-size: 10pt; font-weight: 700;
+      z-index: 100; border-top: 2px solid #D4AF37; letter-spacing: .3px;
+    }
+    .pdf-sol { display: none; }
+    body.pdf-mode .pdf-sol { display: block; }
+    @media print {
+      .no-print, .score-bar { display: none !important; }
+      .btn-opt { pointer-events: none; background: #fff !important; page-break-inside: avoid; }
+      .btn-opt.opt-correct-reveal { background: #d4edda !important; border-color: #1a7a3c !important; }
+      .btn-opt.opt-correct-reveal .opt-letter { background: #1a7a3c !important; }
+      .q-feedback { display: none !important; }
+      .pdf-sol { display: block !important; }
+      .page { page-break-after: always; box-shadow: none !important; }
+    }
+    /* ── Estilos específicos Inglés ── */
+    .reading-box {
+      background: #f4f8ff; border: 1.5px solid #b3c8e8; border-radius: 10px;
+      padding: 14px 18px; margin: 10px 0 14px; font-size: 9.5pt;
+      line-height: 1.7; color: #1a2a4a;
+    }
+    .reading-box .text-title {
+      font-weight: 700; font-size: 10pt; color: #0B0F3F; margin-bottom: 8px;
+      border-bottom: 1.5px solid #b3c8e8; padding-bottom: 5px;
+    }
+    .reading-box .text-label {
+      display: inline-block; background: #0B0F3F; color: #D4AF37;
+      font-size: 7.5pt; font-weight: 700; border-radius: 4px;
+      padding: 2px 8px; margin-bottom: 8px; letter-spacing: .4px;
+    }
+    .strategy-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0;
+    }
+    .strategy-card {
+      background: #f8f4ff; border: 1.5px solid #d5c8f0; border-radius: 9px;
+      padding: 11px 14px;
+    }
+    .strategy-card .s-name {
+      font-weight: 700; font-size: 9.5pt; color: #6A2C91; margin-bottom: 5px;
+    }
+    .strategy-card p { font-size: 9pt; margin: 0; line-height: 1.5; }
+    .purpose-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0;
+    }
+    .purpose-card {
+      background: #fff; border: 1.5px solid #e0e0e0; border-radius: 8px;
+      padding: 9px 10px; text-align: center;
+    }
+    .purpose-card .p-icon { font-size: 18pt; display: block; margin-bottom: 4px; }
+    .purpose-card .p-name { font-weight: 700; font-size: 9pt; color: #0B0F3F; }
+    .purpose-card .p-desc { font-size: 8pt; color: #555; margin-top: 3px; line-height: 1.4; }
+    .clue-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 10px 0; }
+    .clue-table th { background: #0B0F3F; color: #fff; padding: 6px 10px; text-align: left; }
+    .clue-table td { padding: 6px 10px; border-bottom: 1px solid #e0e0e0; }
+    .clue-table tr:nth-child(even) td { background: #f5f5f5; }
+    .signal-box {
+      background: #fff8e6; border: 1.5px solid #D4AF37; border-radius: 9px;
+      padding: 11px 16px; margin: 10px 0; font-size: 9pt; line-height: 1.6;
+    }
+    .signal-box strong { color: #0B0F3F; }
+    .notice-box {
+      background: #fff9f0; border: 2px solid #D4AF37; border-radius: 10px;
+      padding: 12px 16px; margin: 8px 0; font-size: 9pt; line-height: 1.7;
+    }
+    .notice-box .notice-title {
+      font-weight: 800; font-size: 10.5pt; color: #0B0F3F; text-align: center;
+      margin-bottom: 8px; border-bottom: 1.5px solid #D4AF37; padding-bottom: 5px;
+    }
+    .paes-text-block {
+      background: #f0f4ff; border: 1.5px solid #a3b8e0; border-radius: 10px;
+      padding: 16px 20px; margin-bottom: 18px; font-size: 9.5pt; line-height: 1.75;
+      color: #1a2040;
+    }
+    .paes-text-block h4 { color: #0B0F3F; font-size: 10.5pt; margin: 0 0 10px; }
+    .paes-text-block .text-source { font-size: 8pt; color: #777; font-style: italic; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 1 — TEORÍA I
+     Estrategias de lectura, idea principal, propósito
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Inglés · 1° Medio<br>
+      Unidad: Reading — Comprensión de Textos<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="guide-banner">
+    <div class="subject-pill">Inglés · Reading</div>
+    <h2>Comprensión General de Textos</h2>
+    <div class="meta-chips">
+      <div class="chip"><strong>Nivel:</strong> 1° Medio</div>
+      <div class="chip"><strong>Eje:</strong> Lectura (Reading)</div>
+      <div class="chip"><strong>Duración:</strong> 90 min</div>
+      <div class="chip"><strong>Currículum:</strong> MINEDUC 2026</div>
+    </div>
+  </div>
+
+  <div class="oa-box">
+    <div class="oa-badge">OA 9</div>
+    <div class="oa-text">
+      <strong>Objetivo de Aprendizaje:</strong> Leer y demostrar comprensión de textos escritos de diverso tipo en inglés, identificando la idea principal e ideas de apoyo, el propósito del texto, información explícita e implícita, y vocabulario en contexto.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">1</div>Reading Strategies — Estrategias de Lectura</div>
+      <p>Antes de responder preguntas sobre un texto en inglés, aplica estas estrategias para entender mejor:</p>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="s-name">📖 Skimming</div>
+          <p>Leer rápidamente para captar la <strong>idea general</strong>. Lee el título, la primera y última oración de cada párrafo. No te detengas en cada palabra.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="s-name">🔍 Scanning</div>
+          <p>Buscar <strong>información específica</strong> (fechas, nombres, cifras). Mueve los ojos rápidamente hasta encontrar la palabra clave.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="s-name">🧩 Predicting</div>
+          <p>Usar el <strong>título, subtítulos e imágenes</strong> para anticipar de qué tratará el texto antes de leerlo.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="s-name">🔗 Prior Knowledge</div>
+          <p>Conectar el texto con lo que ya sabes. Activa tu conocimiento previo sobre el tema para comprender mejor.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">2</div>Main Idea &amp; Supporting Details — Idea Principal e Ideas de Apoyo</div>
+      <p>La <strong>main idea</strong> (idea principal) es el mensaje más importante del texto o párrafo. Generalmente aparece en la <em>topic sentence</em> (primera oración del párrafo), aunque también puede estar al final o ser implícita.</p>
+      <p>Las <strong>supporting details</strong> (ideas de apoyo) son ejemplos, datos, estadísticas o explicaciones que desarrollan o comprueban la idea principal. Para distinguirlas, pregúntate: <em>"¿Qué dice el texto sobre este tema?"</em> (idea principal) y <em>"¿Cómo lo demuestra?"</em> (ideas de apoyo).</p>
+      <div class="signal-box">
+        <strong>Palabras clave para identificar ideas de apoyo:</strong><br>
+        <em>for example · for instance · also · in addition · furthermore · because · therefore · however · on the other hand · in contrast · finally</em>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">3</div>Author's Purpose — Propósito del Texto</div>
+      <p>Todo texto fue escrito con un propósito. Identifica el <strong>PIE</strong> del autor:</p>
+      <div class="purpose-row">
+        <div class="purpose-card">
+          <span class="p-icon">📰</span>
+          <div class="p-name">To Inform</div>
+          <div class="p-desc">Dar información objetiva.<br><em>Artículos, enciclopedias</em></div>
+        </div>
+        <div class="purpose-card">
+          <span class="p-icon">📖</span>
+          <div class="p-name">To Entertain</div>
+          <div class="p-desc">Hacer disfrutar al lector.<br><em>Cuentos, novelas</em></div>
+        </div>
+        <div class="purpose-card">
+          <span class="p-icon">📣</span>
+          <div class="p-name">To Persuade</div>
+          <div class="p-desc">Convencer al lector.<br><em>Avisos, editoriales</em></div>
+        </div>
+        <div class="purpose-card">
+          <span class="p-icon">📋</span>
+          <div class="p-name">To Instruct</div>
+          <div class="p-desc">Dar instrucciones.<br><em>Manuales, recetas</em></div>
+        </div>
+      </div>
+      <p style="font-size:9pt; margin-top:8px;">Preguntas frecuentes: <em>"What is the author's main purpose?" / "Why did the author write this text?"</em></p>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva — ¿Cómo está tu comprensión?</div>
+      <ul>
+        <li>¿Puedes explicar la diferencia entre skimming y scanning con un ejemplo propio?</li>
+        <li>Si lees la primera oración de un párrafo y es la idea principal, ¿qué función cumplen las demás oraciones?</li>
+        <li>¿Cómo reconocerías si un texto fue escrito para persuadir en vez de informar?</li>
+        <li>¿En qué situaciones de la vida real usas estas estrategias de lectura, aunque no te hayas dado cuenta?</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 2 — TEORÍA II
+     Inferencia, vocabulario en contexto, estructura textual
+════════════════════════════════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio — Teoría (cont.)</strong>
+      Inglés · 1° Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">4</div>Making Inferences — Inferir Información Implícita</div>
+      <p>Una <strong>inference</strong> (inferencia) es una conclusión que sacas usando las pistas del texto + tu conocimiento previo. No está escrita directamente: la deduces.</p>
+      <p><strong>Información explícita</strong> = está escrita claramente en el texto.<br>
+      <strong>Información implícita</strong> = se puede deducir a partir de lo que dice el texto, aunque no aparezca con esas palabras.</p>
+      <div class="reading-box">
+        <div class="text-label">EJEMPLO</div>
+        <p><em>"When Sarah arrived at the restaurant, all the chairs were on the tables and the lights were off."</em></p>
+        <p>→ El texto no dice que el restaurante estaba cerrado, pero lo puedes <strong>inferir</strong> a partir de las señales: sillas sobre las mesas y luces apagadas.</p>
+      </div>
+      <p style="font-size:9pt;">Preguntas frecuentes: <em>"What can be inferred from the text?" / "What does the text imply?" / "What is most likely true?"</em></p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">5</div>Vocabulary in Context — Vocabulario en Contexto</div>
+      <p>Cuando no conoces una palabra, usa el contexto para deducir su significado. Existen cuatro tipos de pistas:</p>
+      <table class="clue-table">
+        <thead><tr>
+          <th>Tipo de pista</th><th>Ejemplo en inglés</th><th>Significado</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Definition clue</strong><br>(definición directa)</td><td><em>"Photosynthesis, <u>the process by which plants make food</u>, requires sunlight."</em></td><td>La definición aparece entre comas o guiones.</td></tr>
+          <tr><td><strong>Synonym clue</strong><br>(sinónimo)</td><td><em>"She was <u>exhausted</u>, or completely tired, after the race."</em></td><td>La frase "or completely tired" es un sinónimo.</td></tr>
+          <tr><td><strong>Antonym clue</strong><br>(antónimo)</td><td><em>"Unlike his <u>timid</u> brother, Marco was very outgoing."</em></td><td>"outgoing" es lo opuesto → timid = tímido.</td></tr>
+          <tr><td><strong>Example clue</strong><br>(ejemplos)</td><td><em>"<u>Citrus fruits</u>, such as oranges, lemons, and limes, are rich in vitamin C."</em></td><td>Los ejemplos revelan la categoría.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">6</div>Text Structure — Estructura del Texto</div>
+      <p>Reconocer cómo está organizado un texto te ayuda a anticipar la información. Las estructuras más comunes en 1° Medio son:</p>
+      <div class="signal-box">
+        <strong>Secuencia / Cronológica:</strong> first · then · next · after · finally · later<br>
+        <strong>Causa y efecto:</strong> because · therefore · as a result · so · consequently<br>
+        <strong>Comparación / Contraste:</strong> however · while · on the other hand · in contrast · similarly<br>
+        <strong>Problema y solución:</strong> the problem is · the solution is · to solve this · as a result
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">7</div>Types of Texts — Tipos de Texto</div>
+      <p>En el examen encontrarás distintos tipos de texto. Reconocer el tipo te da pistas sobre su propósito y estructura:</p>
+      <table class="clue-table">
+        <thead><tr><th>Tipo</th><th>Ejemplos</th><th>Propósito habitual</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Literary</strong></td><td>short stories, poems, novels</td><td>Entertain / Entretener</td></tr>
+          <tr><td><strong>Informative</strong></td><td>articles, encyclopedias, reports</td><td>Inform / Informar</td></tr>
+          <tr><td><strong>Persuasive</strong></td><td>advertisements, editorials, reviews</td><td>Persuade / Persuadir</td></tr>
+          <tr><td><strong>Instructional</strong></td><td>manuals, recipes, notices, signs</td><td>Instruct / Instruir</td></tr>
+          <tr><td><strong>Functional</strong></td><td>emails, forms, schedules, menus</td><td>Inform + Instruct</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.5pt; color:#555; margin-top:6px;">Nota: En el examen oficial de validación de estudios se permite usar diccionario durante la prueba de Inglés.</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 3 — EJERCICIOS PROGRESIVOS INTERACTIVOS
+     3 Básico · 4 Intermedio · 3 Avanzado
+     IDs: q01–q10
+════════════════════════════════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ejercicios Progresivos</strong>
+      Reading OA9 · 1° Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <!-- ── NIVEL BÁSICO (1–3) ── -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <div class="ex-level-badge">Nivel Básico</div>
+        <h3>Identifica la idea principal y la información explícita en textos breves</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item q-item" id="q01" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 1</div><div class="diff diff-b">Básico</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"My name is Lucas. I am 15 years old and I study at a high school in Santiago. Every morning, I wake up at 7 o'clock and have breakfast with my family. My favorite subject is English because I want to travel the world one day."</p>
+          </div>
+          <div class="ex-stmt">What is the main topic of the text?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto no se centra en la comida; apenas menciona el desayuno como parte de la rutina de Lucas."><div class="opt-letter">A</div>Lucas's favorite food</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! El texto presenta a Lucas, describe su rutina diaria y menciona su interés en el inglés para viajar."><div class="opt-letter">B</div>Lucas's daily life and interests</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Se menciona el inglés como materia favorita, pero el texto abarca más que solo los ramos."><div class="opt-letter">C</div>Lucas's school subjects only</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Viajar es un deseo futuro mencionado brevemente, no el tema principal del texto."><div class="opt-letter">D</div>Lucas's travel plans</button>
+          </div>
+          <div class="q-feedback" id="fb-q01"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q02" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 2</div><div class="diff diff-b">Básico</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el aviso y responde la pregunta.</em></p>
+          <div class="notice-box">
+            <div class="notice-title">LIBRARY NOTICE</div>
+            <p>The school library will be <strong>CLOSED</strong> on Friday, June 5th for maintenance. Students may return books on Thursday or Monday. Thank you for your cooperation.</p>
+          </div>
+          <div class="ex-stmt">According to the notice, what can students do?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El aviso indica claramente que la biblioteca estará cerrada el viernes."><div class="opt-letter">A</div>Return books on Friday</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El aviso señala que estará cerrada el 5 de junio (viernes) por mantención."><div class="opt-letter">B</div>Visit the library on June 5th</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El aviso explícitamente dice que los estudiantes pueden devolver libros el jueves o el lunes."><div class="opt-letter">C</div>Return books on Thursday or Monday</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. La biblioteca está cerrada el viernes, así que no es posible estudiar en ella ese día."><div class="opt-letter">D</div>Study in the library on Friday</button>
+          </div>
+          <div class="q-feedback" id="fb-q02"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q03" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 3</div><div class="diff diff-b">Básico</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"Dogs are wonderful animals. They are loyal, friendly, and easy to train. Many people keep dogs as pets because they provide companionship and protection. In fact, dogs are often called 'man's best friend.'"</p>
+          </div>
+          <div class="ex-stmt">The author's main purpose in writing this text is to:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto no explica cómo entrenar perros; solo menciona que son fáciles de entrenar."><div class="opt-letter">A</div>Explain how to train a dog</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El texto no describe razas o tipos de perros; habla de los perros en general."><div class="opt-letter">B</div>Describe different types of dogs</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El autor informa sobre los perros y sus cualidades (lealtad, amistad, compañía, protección)."><div class="opt-letter">C</div>Inform the reader about dogs and their qualities</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Aunque el texto es positivo sobre los perros, no hay llamado a la acción para que el lector compre uno."><div class="opt-letter">D</div>Persuade the reader to buy a dog</button>
+          </div>
+          <div class="q-feedback" id="fb-q03"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── NIVEL INTERMEDIO (4–7) ── -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <div class="ex-level-badge">Nivel Intermedio</div>
+        <h3>Identifica el propósito, ideas de apoyo y vocabulario en contexto</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item q-item" id="q04" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 4</div><div class="diff diff-m">Intermedio</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"Every year, millions of tons of plastic waste end up in the ocean. This pollution is harmful to marine animals, as they often mistake plastic bags for food. Sea turtles, dolphins, and fish are among the most affected creatures. Scientists warn that if we don't change our habits, the situation will become catastrophic. Simple actions, such as using reusable bags and recycling, can make a significant difference."</p>
+          </div>
+          <div class="ex-stmt">What is the main idea of this text?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Las tortugas se mencionan como ejemplo, pero no son el tema central del texto."><div class="opt-letter">A</div>Sea turtles are the most endangered animals in the ocean</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! El texto presenta el problema (plástico en el océano) y propone soluciones (bolsas reutilizables, reciclaje)."><div class="opt-letter">B</div>Plastic pollution threatens ocean life, but we can act to prevent it</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Los científicos se mencionan, pero el texto no trata principalmente sobre sus estudios."><div class="opt-letter">C</div>Scientists are studying the effects of ocean pollution on fish</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Aunque el texto menciona bolsas reutilizables, la idea principal es más amplia: actuar para salvar los océanos."><div class="opt-letter">D</div>We should stop using plastic bags immediately</button>
+          </div>
+          <div class="q-feedback" id="fb-q04"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q05" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 5</div><div class="diff diff-m">Intermedio</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"María José is training hard for the regional swimming competition. She wakes up at 5:30 a.m. every day to practice in the pool for two hours before school. Her coach says she has improved a lot since last year. Even though it is difficult to balance school and training, María José is determined to represent her school."</p>
+          </div>
+          <div class="ex-stmt">According to the text, why is María José's situation challenging?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El entrenador la elogia: dice que ha mejorado mucho; no le da demasiado trabajo."><div class="opt-letter">A</div>Her coach gives her too much work and pressure</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Nunca se dice que no le guste la natación; al contrario, se esfuerza mucho."><div class="opt-letter">B</div>She does not like swimming and wants to quit</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El texto dice explícitamente: 'it is difficult to balance school and training'."><div class="opt-letter">C</div>She has to manage both school and sports training</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Se despierta a las 5:30 a.m., que es temprano, no tarde; eso no es el problema."><div class="opt-letter">D</div>She wakes up too late and misses her practice</button>
+          </div>
+          <div class="q-feedback" id="fb-q05"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q06" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 6</div><div class="diff diff-m">Intermedio</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"The Amazon rainforest is often called 'the lungs of the Earth.' This vast forest covers approximately 5.5 million square kilometers across South America, mainly in Brazil. It produces about 20% of the world's oxygen and is home to more than 3 million species of plants and animals. Unfortunately, deforestation is destroying large areas of this precious ecosystem every year."</p>
+          </div>
+          <div class="ex-stmt">The phrase "the lungs of the Earth" suggests that the Amazon rainforest:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto habla de deforestación, no de contaminación de fábricas."><div class="opt-letter">A</div>Is heavily damaged by industrial pollution</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! Al igual que los pulmones producen oxígeno para el cuerpo, el Amazonas produce el 20% del oxígeno del planeta — un recurso vital."><div class="opt-letter">B</div>Produces a vital resource (oxygen) essential for life on Earth</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. La metáfora compara la función (producir oxígeno), no la ubicación geográfica."><div class="opt-letter">C</div>Is located at the center of the Earth like human lungs</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Las 3 millones de especies son una idea de apoyo; la metáfora se refiere a la producción de oxígeno."><div class="opt-letter">D</div>Contains millions of animal species that breathe air</button>
+          </div>
+          <div class="q-feedback" id="fb-q06"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q07" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 7</div><div class="diff diff-m">Intermedio</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"During the 19th century, industrialization <u>transformed</u> many countries. Cities grew rapidly as workers moved from rural areas to factories. While this brought economic progress, it also created serious problems: overcrowded housing, pollution, and long working hours for men, women, and even children."</p>
+          </div>
+          <div class="ex-stmt">What does the word <em>"transformed"</em> most likely mean in this context?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Transformar no significa destruir; el texto muestra que hubo progreso económico junto con problemas."><div class="opt-letter">A</div>Destroyed completely</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Los cambios descritos son profundos (crecimiento de ciudades, problemas sociales), no pequeñas mejoras."><div class="opt-letter">B</div>Slightly improved</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! 'Transformed' significa cambió significativamente. El contexto lo confirma: ciudades que crecieron, obreros que se desplazaron y nuevos problemas que surgieron."><div class="opt-letter">C</div>Changed significantly</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Todo lo contrario: el texto describe cambios profundos en los países industrializados."><div class="opt-letter">D</div>Remained the same</button>
+          </div>
+          <div class="q-feedback" id="fb-q07"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── NIVEL AVANZADO (8–10) ── -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <div class="ex-level-badge">Nivel Avanzado</div>
+        <h3>Inferencia, postura del autor e información implícita en textos más extensos</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item q-item" id="q08" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 8</div><div class="diff diff-a">Avanzado</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"In many countries, including Chile, technology is changing the way students learn. Tablets and laptops are replacing traditional textbooks, and teachers are using online platforms to share materials. Supporters argue that technology makes learning more engaging and prepares students for the digital world. However, critics point out that not all students have equal access to devices and internet, which may increase inequality in education."</p>
+          </div>
+          <div class="ex-stmt">What can be inferred from the text?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto dice que las tablets 'están reemplazando' los libros, pero no afirma que este proceso ya está completo en todas las escuelas."><div class="opt-letter">A</div>All schools in Chile have already replaced all books with tablets</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! El texto presenta claramente los argumentos a favor (aprendizaje más atractivo, preparación digital) y en contra (desigualdad de acceso), sin tomar partido."><div class="opt-letter">B</div>Technology in education has both advantages and disadvantages</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Los críticos señalan el problema de la desigualdad de acceso, pero no piden eliminar la tecnología de las escuelas."><div class="opt-letter">C</div>Critics want to remove all technology from classrooms</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El texto no establece que las plataformas online sean más efectivas; eso es una afirmación de los defensores, no una conclusión del texto."><div class="opt-letter">D</div>Online platforms are proven to be more effective than traditional methods</button>
+          </div>
+          <div class="q-feedback" id="fb-q08"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q09" data-correct="A">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 9</div><div class="diff diff-a">Avanzado</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"Amelia Earhart was the first woman to fly solo across the Atlantic Ocean, in 1932. Born in 1897 in Kansas, she developed a passion for aviation at an early age. Despite facing discrimination as a woman in a male-dominated field, she broke record after record. In 1937, she disappeared during an attempt to fly around the world. Her courage and determination continue to inspire people to this day."</p>
+          </div>
+          <div class="ex-stmt">What does the text imply about Amelia Earhart?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! El texto implica que a pesar de la discriminación (obstacle), Earhart batió récord tras récord, logrando el éxito. Esto se deduce, no se dice directamente."><div class="opt-letter">A</div>She achieved remarkable success despite facing significant obstacles</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El texto menciona varios logros, no solo el cruce del Atlántico (también el intento de vuelta al mundo y su legado inspirador)."><div class="opt-letter">B</div>She was only famous for crossing the Atlantic Ocean</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Todo lo contrario: el texto dice que 'batió récord tras récord' a pesar de la discriminación."><div class="opt-letter">C</div>She gave up her career after facing discrimination in aviation</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Nació en 1897 y cruzó el Atlántico en 1932; son fechas distintas."><div class="opt-letter">D</div>She was born in the same year she crossed the Atlantic Ocean</button>
+          </div>
+          <div class="q-feedback" id="fb-q09"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q10" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 10</div><div class="diff diff-a">Avanzado</div></div>
+          <p style="font-size:8.5pt; color:#555; margin:0 0 6px;"><em>Lee el texto y responde la pregunta.</em></p>
+          <div class="reading-box">
+            <div class="text-label">READ</div>
+            <p>"Social media platforms connect people across the globe, making communication faster and easier than ever before. Users can share photos, videos, and opinions with thousands of followers in seconds. However, researchers have found that heavy social media use is associated with increased levels of anxiety, depression, and feelings of loneliness among teenagers. Some experts suggest that young people should limit their screen time to protect their mental health."</p>
+          </div>
+          <div class="ex-stmt">The author's attitude toward social media can best be described as:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto reconoce los beneficios (conexión, comunicación rápida), pero también presenta efectos negativos. No es completamente positivo."><div class="opt-letter">A</div>Entirely positive, praising its ability to connect people</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El texto no pide prohibir las redes sociales; solo describe el problema y sugiere limitar el tiempo de uso."><div class="opt-letter">B</div>Entirely negative, arguing it should be banned for teenagers</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El texto presenta beneficios (párrafo 1: conexión global) y preocupaciones (párrafo 2: ansiedad, depresión), lo que refleja una postura equilibrada."><div class="opt-letter">C</div>Balanced, presenting both benefits and concerns</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Al incluir la recomendación de 'limitar el tiempo de pantalla', el autor muestra una postura, no es neutral."><div class="opt-letter">D</div>Indifferent, reporting facts without any clear opinion</button>
+          </div>
+          <div class="q-feedback" id="fb-q10"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── AUTOEVALUACIÓN ── -->
+    <div class="autoeval">
+      <div class="autoeval-head"><h3>✦ Autoevaluación — ¿Qué aprendí hoy?</h3></div>
+      <table class="autoeval-tbl">
+        <thead><tr>
+          <th style="text-align:left; width:64%">Indicador de aprendizaje</th>
+          <th>Lo logré ✓</th><th>En proceso ~</th><th>Lo necesito ✗</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Identifico la idea principal de un texto en inglés</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Distingo entre información explícita e implícita</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Reconozco el propósito del autor (informar, persuadir, entretener, instruir)</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Deduzco el significado de palabras desconocidas usando el contexto</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Realizo inferencias basadas en las pistas del texto</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 4 — ENSAYO PAES INTERACTIVO + SOLUCIONARIO
+     IDs: q11–q20
+════════════════════════════════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ensayo Tipo PAES</strong>
+      Reading OA9 · 1° Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="paes-wrap">
+      <div class="paes-head">
+        <div class="paes-badge">Ensayo tipo PAES — 10 preguntas interactivas</div>
+        <p>Lectura (Reading) · Una alternativa correcta · Tiempo sugerido: 25 min · Se permite usar diccionario</p>
+      </div>
+      <div class="paes-body">
+
+        <!-- TEXTO 1 para preguntas 1–5 -->
+        <div class="paes-text-block">
+          <h4>Text 1 — Read the text and answer questions 1 to 5</h4>
+          <p>Reading is one of the most important skills a person can develop. Research shows that students who read regularly have larger vocabularies, better writing skills, and higher academic performance in all subjects. According to a study by the National Literacy Trust, teenagers who enjoy reading are three times more likely to have excellent mental well-being compared to those who do not read for pleasure.</p>
+          <p>However, in the digital age, many young people prefer to scroll through social media or watch videos rather than read books. A survey found that only 26% of teenagers read daily for fun, compared to 43% in 2005. Teachers and parents are concerned that this decline in reading may affect students' ability to concentrate, think critically, and empathize with others.</p>
+          <p>Fortunately, reading does not have to mean only physical books. E-books, online articles, and even well-written social media posts can develop reading skills. The key, according to experts, is to engage with texts that challenge the reader and require careful thinking.</p>
+          <div class="text-source">Adapted from an educational article on reading habits. Level: 1° Medio · OA 9</div>
+        </div>
+
+        <div class="paes-item q-item" id="q11" data-correct="B">
+          <div class="paes-num">Pregunta 1</div>
+          <div class="paes-stmt">According to the first paragraph, what benefit does reading provide?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto dice 'higher academic performance in all subjects', no solo en lengua."><div class="opt-letter">A</div>It helps students get better grades only in language subjects</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! El primer párrafo lista explícitamente: vocabularios más amplios, mejores habilidades de escritura y mejor rendimiento académico en todas las asignaturas."><div class="opt-letter">B</div>It improves vocabulary, writing skills, and academic performance in all subjects</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. El texto no afirma que la lectura reemplaza la necesidad de tecnología."><div class="opt-letter">C</div>It replaces the need for social media and technology</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El tercer párrafo dice que los libros físicos no son la única opción; los e-books y artículos online también sirven."><div class="opt-letter">D</div>It is only effective when students read physical books</button>
+          </div>
+          <div class="q-feedback" id="fb-q11"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q12" data-correct="A">
+          <div class="paes-num">Pregunta 2</div>
+          <div class="paes-stmt">What does the study by the National Literacy Trust show?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! El texto dice literalmente: 'teenagers who enjoy reading are three times more likely to have excellent mental well-being'."><div class="opt-letter">A</div>Teenagers who read for pleasure are three times more likely to have good mental well-being</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El texto indica que solo el 26% lee diariamente por placer, lo que no es 'la mayoría'."><div class="opt-letter">B</div>Most teenagers in the world read for pleasure every day</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. El estudio fue realizado por el National Literacy Trust, no hay mención de comparación entre lectura escolar y por placer."><div class="opt-letter">C</div>Reading for school is more important than reading for pleasure</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El estudio muestra una correlación entre leer y bienestar mental; no afirma que el bienestar depende 'únicamente' de la lectura."><div class="opt-letter">D</div>Mental well-being depends entirely on reading habits</button>
+          </div>
+          <div class="q-feedback" id="fb-q12"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q13" data-correct="C">
+          <div class="paes-num">Pregunta 3</div>
+          <div class="paes-stmt">According to the second paragraph, what has happened to reading habits among teenagers?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto muestra lo contrario: la lectura diaria bajó de 43% a 26%."><div class="opt-letter">A</div>More teenagers are reading books than ever before</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El porcentaje de adolescentes que lee diariamente ha disminuido (de 43% a 26%)."><div class="opt-letter">B</div>The percentage of teenagers reading daily has increased significantly</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El texto dice que en 2005 era un 43% y ahora es solo un 26%, confirmando una disminución."><div class="opt-letter">C</div>The number of teenagers reading daily has decreased since 2005</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El texto dice que docentes y padres están 'preocupados' por la disminución, no que la apoyan."><div class="opt-letter">D</div>Teachers and parents support the decline in reading among youth</button>
+          </div>
+          <div class="q-feedback" id="fb-q13"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q14" data-correct="A">
+          <div class="paes-num">Pregunta 4</div>
+          <div class="paes-stmt">What does the word <em>"empathize"</em> most likely mean in the context of the second paragraph?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! 'Empathize' significa comprender y sentir las emociones de otros. El contexto menciona que la falta de lectura afecta la capacidad de pensar críticamente y conectar con otros."><div class="opt-letter">A</div>To understand and share other people's feelings and emotions</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. 'Empathize' no tiene relación con escribir historias; se refiere a la conexión emocional con otros."><div class="opt-letter">B</div>To write creative and imaginative stories</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Memorizar información es una habilidad cognitiva diferente a la empatía emocional."><div class="opt-letter">C</div>To memorize large amounts of information quickly</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Hablar varios idiomas (multilingüismo) es una habilidad diferente a la empatía."><div class="opt-letter">D</div>To speak several languages fluently</button>
+          </div>
+          <div class="q-feedback" id="fb-q14"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q15" data-correct="B">
+          <div class="paes-num">Pregunta 5</div>
+          <div class="paes-stmt">What is the author's main message in the text <em>"The Power of Reading"</em>?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El texto no pide dejar las redes sociales; de hecho, dice que incluso buenos posts en redes pueden desarrollar habilidades lectoras."><div class="opt-letter">A</div>Young people should stop using social media completely</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! El mensaje central es que leer (en cualquier formato) es esencial para el desarrollo cognitivo (vocabulario, pensamiento crítico) y emocional (empatía, bienestar mental)."><div class="opt-letter">B</div>Reading — in any format — is important for cognitive and emotional development</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. El texto no compara la efectividad de libros físicos vs. e-books; de hecho los iguala como válidos."><div class="opt-letter">C</div>Physical books are always more effective than e-books for learning</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El texto no establece una jerarquía entre rendimiento académico y bienestar; ambos son mencionados como beneficios de leer."><div class="opt-letter">D</div>Academic performance is more important than mental well-being</button>
+          </div>
+          <div class="q-feedback" id="fb-q15"></div>
+        </div>
+
+        <!-- TEXTO 2 para preguntas 6–10 -->
+        <div class="paes-text-block" style="margin-top:20px;">
+          <h4>Text 2 — Read the advertisement and answer questions 6 to 10</h4>
+          <div class="notice-box">
+            <div class="notice-title">⭐ SUMMER LANGUAGE CAMP — VILLA ALEMANA ⭐</div>
+            <p><strong>Join us for two weeks of English immersion!</strong></p>
+            <p>📅 <strong>Dates:</strong> January 15–29, 2027<br>
+            👤 <strong>Ages:</strong> 13 to 17 years old<br>
+            🎯 <strong>Activities:</strong> Morning classes · Afternoon workshops · Cultural evenings<br>
+            💰 <strong>Price:</strong> $180,000 per student (includes accommodation and meals)<br>
+            ⚠️ <strong>Limited spots available</strong> — Register before <strong>December 1st</strong><br>
+            📧 <strong>Contact:</strong> info@languagecamp.cl &nbsp;|&nbsp; +56 9 1234 5678</p>
+            <p style="font-size:8.5pt; font-style:italic; color:#666; margin-top:8px;">★ Scholarship available for students with academic merit. Contact us for details.</p>
+          </div>
+        </div>
+
+        <div class="paes-item q-item" id="q16" data-correct="C">
+          <div class="paes-num">Pregunta 6</div>
+          <div class="paes-stmt">According to the advertisement, what is included in the camp price?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El aviso no menciona transporte desde el hogar al campamento como parte del precio."><div class="opt-letter">A</div>Transportation from home to the camp</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El aviso menciona clases matutinas, talleres vespertinos y veladas culturales; el precio incluye más que solo las clases."><div class="opt-letter">B</div>Only the morning English classes</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El aviso dice explícitamente: 'Price: $180,000 per student (includes accommodation and meals)'."><div class="opt-letter">C</div>Accommodation and meals</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. La beca es un programa separado; no está incluida en el precio base ni se menciona como parte de él."><div class="opt-letter">D</div>All activities plus scholarship fees</button>
+          </div>
+          <div class="q-feedback" id="fb-q16"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q17" data-correct="C">
+          <div class="paes-num">Pregunta 7</div>
+          <div class="paes-stmt">Who can apply for a scholarship?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Registrarse antes del 1 de diciembre es el requisito para cupo, no para la beca."><div class="opt-letter">A</div>All students who register before December 1st</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Tener entre 13 y 17 años es el requisito de edad para el campamento, no el criterio para la beca."><div class="opt-letter">B</div>Students between 13 and 17 years old</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El aviso dice: 'Scholarship available for students with academic merit'."><div class="opt-letter">C</div>Students with good academic results (academic merit)</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. La beca está basada en mérito académico, no en la capacidad de pago; esa información no aparece en el aviso."><div class="opt-letter">D</div>Students who demonstrate they cannot afford the full price</button>
+          </div>
+          <div class="q-feedback" id="fb-q17"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q18" data-correct="C">
+          <div class="paes-num">Pregunta 8</div>
+          <div class="paes-stmt">A 14-year-old student wants to join the camp. What is the LAST day to register?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El 15 de enero es la fecha de inicio del campamento, no el plazo de inscripción."><div class="opt-letter">A</div>January 15th</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El 29 de enero es la fecha de término del campamento."><div class="opt-letter">B</div>January 29th</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El aviso dice: 'Register before December 1st'. El estudiante tiene 14 años, dentro del rango de 13 a 17."><div class="opt-letter">C</div>December 1st</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El 1 de enero no aparece en el aviso como fecha límite de inscripción."><div class="opt-letter">D</div>January 1st</button>
+          </div>
+          <div class="q-feedback" id="fb-q18"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q19" data-correct="B">
+          <div class="paes-num">Pregunta 9</div>
+          <div class="paes-stmt">What is the main purpose of the advertisement?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El aviso no explica la historia de los campamentos de idiomas; solo promociona uno específico."><div class="opt-letter">A</div>To inform readers about the history of language camps in Chile</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! Un aviso publicitario tiene por propósito principal persuadir al lector de que se inscriba, destacando los beneficios del campamento."><div class="opt-letter">B</div>To persuade students to participate in a summer English immersion program</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. El aviso no compara diferentes actividades de verano; solo promociona este campamento específico."><div class="opt-letter">C</div>To compare different types of summer activities for teenagers</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El aviso no explica los beneficios del inglés como segunda lengua en general; tiene un propósito comercial específico."><div class="opt-letter">D</div>To explain the academic benefits of learning English as a second language</button>
+          </div>
+          <div class="q-feedback" id="fb-q19"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q20" data-correct="B">
+          <div class="paes-num">Pregunta 10</div>
+          <div class="paes-stmt">Which of the following statements is CORRECT according to BOTH texts?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Ninguno de los dos textos limita los beneficios de la lectura al inglés; el campamento enseña inglés, pero el Texto 1 habla de la lectura en general."><div class="opt-letter">A</div>Reading is only beneficial when done in English</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! El Texto 1 dice que e-books, artículos online y posts bien escritos pueden desarrollar habilidades lectoras. El Texto 2 (aviso digital) también usa el inglés escrito para comunicar. Ambos validan el contenido digital."><div class="opt-letter">B</div>Digital content can be a valid way to develop language and reading skills</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. El Texto 1 señala que solo el 26% de los adolescentes lee diariamente por placer; no es 'todos'."><div class="opt-letter">C</div>All teenagers in Chile read for pleasure every day</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Ninguno de los textos establece que los campamentos son más efectivos que la escuela; el Texto 2 es un aviso publicitario, no una comparación académica."><div class="opt-letter">D</div>Language camps are more effective than school for developing reading skills</button>
+          </div>
+          <div class="q-feedback" id="fb-q20"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Puntaje final -->
+    <div id="score-final" style="margin-top:16px; padding:12px 16px; background:#f8f4e9; border-radius:8px; border:1.5px solid #D4AF37; font-size:10pt; display:none;">
+      <strong>Tu puntaje final:</strong> <span id="score-text"></span>
+    </div>
+
+    <!-- Cierre -->
+    <div class="closing" style="margin-top:16px;">
+      <h3>Resumen — Lo que aprendiste hoy</h3>
+      <p>En esta guía aplicaste las estrategias esenciales de comprensión lectora: identificación de la idea principal, distinción entre información explícita e implícita, inferencia a partir del contexto, reconocimiento del propósito del autor y deducción del vocabulario. Estas herramientas te permiten enfrentar cualquier tipo de texto en inglés con confianza.</p>
+      <p>En el examen oficial de Inglés, recuerda que puedes usar diccionario. Practica leer el texto completo una vez antes de leer las preguntas (skimming), y luego vuelve al texto para buscar la evidencia exacta de cada respuesta (scanning). No respondas de memoria: la respuesta correcta siempre está respaldada por el texto.</p>
+      <div class="next-pill">Siguiente tema → OA 10 · Reading: Textos No Literarios</div>
+    </div>
+
+    <!-- Botón exportar PDF -->
+    <div style="text-align:center; margin-top:20px;">
+      <button class="btn-pdf no-print" onclick="exportPDF()" style="background:#D4AF37; color:#0B0F3F; border:none; padding:10px 28px; border-radius:8px; font-size:10pt; font-weight:700; cursor:pointer;">
+        📄 Exportar PDF con respuestas
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Solucionario -->
+  <div class="pdf-sol page" style="padding:24px 30px;">
+    <h3 style="color:#0B0F3F; margin-bottom:12px;">✦ Solucionario — Inglés OA9 · Reading: Comprensión General</h3>
+    <table style="width:100%; border-collapse:collapse; font-size:8.5pt;">
+      <thead><tr style="background:#0B0F3F; color:#fff;">
+        <th style="padding:5px 8px; text-align:left;">Ejercicio</th>
+        <th style="padding:5px 8px;">Rpta.</th>
+        <th style="padding:5px 8px; text-align:left;">Clave</th>
+        <th style="padding:5px 8px; text-align:left;">Pregunta PAES</th>
+        <th style="padding:5px 8px;">Rpta.</th>
+        <th style="padding:5px 8px; text-align:left;">Clave</th>
+      </tr></thead>
+      <tbody>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">1</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Daily life and interests (idea principal)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">1</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Reading benefits all subjects</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">2</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Thursday or Monday (información explícita)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">2</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">3× más bienestar mental (National Literacy Trust)</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">3</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Propósito: informar sobre los perros</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">3</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Lectura diaria bajó de 43% a 26%</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">4</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Contaminación plástica + soluciones</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">4</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Empathize = entender emociones de otros</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">5</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Balancear estudio y entrenamiento</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">5</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Leer en cualquier formato = desarrollo cog. y emoc.</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">6</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Amazonas produce oxígeno vital (metáfora)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">6</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Precio incluye alojamiento y comidas</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">7</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Transformed = cambió significativamente</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">7</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Beca: mérito académico</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">8</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Tecnología: ventajas y desventajas (inferencia)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">8</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Plazo inscripción: 1 de diciembre</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">9</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Earhart: éxito pese a obstáculos (inferencia)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">9</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Propósito aviso: persuadir para inscribirse</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">10</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Redes sociales: postura equilibrada (autor)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">10</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Contenido digital válido para habilidades lectoras</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+<!-- Barra de puntaje sticky -->
+<div class="score-bar no-print" id="score-bar">Progreso: 0 / 20 preguntas respondidas &nbsp;|&nbsp; Puntaje: 0 correctas</div>
+
+<script>
+(function () {
+  const GUIDE_ID = 'maestria_OA9_ReadingGeneral';
+
+  let progress = {};
+  try { progress = JSON.parse(localStorage.getItem(GUIDE_ID) || '{}'); } catch(e) {}
+
+  let correctCount  = 0;
+  let answeredCount = 0;
+  const TOTAL = 20;
+
+  function updateBar() {
+    const bar = document.getElementById('score-bar');
+    if (bar) bar.textContent = 'Progreso: ' + answeredCount + ' / ' + TOTAL + ' respondidas  |  Puntaje: ' + correctCount + ' correctas';
+    if (answeredCount === TOTAL) showFinalScore();
+  }
+
+  function showFinalScore() {
+    const el  = document.getElementById('score-final');
+    const txt = document.getElementById('score-text');
+    if (el && txt) {
+      const pct = Math.round((correctCount / TOTAL) * 100);
+      const label = pct >= 70 ? '✅ ¡Buen trabajo!' : pct >= 50 ? '🔶 En proceso, sigue repasando.' : '🔴 Refuerza los contenidos.';
+      txt.textContent = correctCount + ' / ' + TOTAL + ' correctas (' + pct + '%)  ' + label;
+      el.style.display = 'block';
+    }
+  }
+
+  window.pick = function(btn) {
+    const qItem = btn.closest('.q-item');
+    const qId   = qItem.id;
+    if (progress[qId]) return;
+
+    const correct   = qItem.dataset.correct;
+    const letter    = btn.dataset.letter;
+    const msg       = btn.dataset.msg;
+    const isCorrect = letter === correct;
+
+    qItem.querySelectorAll('.btn-opt').forEach(function(b) {
+      b.disabled = true;
+      if (b.dataset.letter === correct) b.classList.add('opt-correct-reveal');
+    });
+    btn.classList.add(isCorrect ? 'opt-selected-ok' : 'opt-selected-err');
+
+    const fb = document.getElementById('fb-' + qId);
+    if (fb) {
+      fb.className     = 'q-feedback ' + (isCorrect ? 'fb-ok' : 'fb-err');
+      fb.textContent   = msg;
+      fb.style.display = 'block';
+    }
+
+    progress[qId] = { letter, correct, isCorrect, msg };
+    try { localStorage.setItem(GUIDE_ID, JSON.stringify(progress)); } catch(e) {}
+
+    if (isCorrect) correctCount++;
+    answeredCount++;
+    updateBar();
+  };
+
+  function restore() {
+    Object.entries(progress).forEach(function([qId, data]) {
+      const qItem = document.getElementById(qId);
+      if (!qItem) return;
+      qItem.querySelectorAll('.btn-opt').forEach(function(b) {
+        b.disabled = true;
+        if (b.dataset.letter === data.correct)                   b.classList.add('opt-correct-reveal');
+        if (b.dataset.letter === data.letter && !data.isCorrect) b.classList.add('opt-selected-err');
+        if (b.dataset.letter === data.letter &&  data.isCorrect) b.classList.add('opt-selected-ok');
+      });
+      const fb = document.getElementById('fb-' + qId);
+      if (fb) {
+        fb.className     = 'q-feedback ' + (data.isCorrect ? 'fb-ok' : 'fb-err');
+        fb.textContent   = data.msg || '';
+        fb.style.display = 'block';
+      }
+      if (data.isCorrect) correctCount++;
+      answeredCount++;
+    });
+    updateBar();
+  }
+
+  window.exportPDF = function() {
+    document.querySelectorAll('.q-item').forEach(function(q) {
+      const btn = q.querySelector('[data-letter="' + q.dataset.correct + '"]');
+      if (btn) btn.classList.add('opt-correct-reveal');
+    });
+    document.body.classList.add('pdf-mode');
+    window.print();
+    window.addEventListener('afterprint', function cleanup() {
+      document.body.classList.remove('pdf-mode');
+      window.removeEventListener('afterprint', cleanup);
+    }, { once: true });
+  };
+
+  document.addEventListener('DOMContentLoaded', restore);
+})();
+</script>
+
+</body>
+</html>

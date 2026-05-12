@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaestrIA · Sistemas de Ecuaciones · 1° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <style>
+    .score-bar{position:fixed;top:0;left:0;right:0;z-index:999;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 24px;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+    .sb-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;}
+    .sb-pts{font-size:20px;font-weight:800;color:#D4AF37;line-height:1;}
+    .btn-pdf-bar{background:#D4AF37;color:#0B0F3F;border:none;padding:7px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;}
+    .btn-pdf-bar:hover{background:#f0ca50;}
+    body{padding-top:52px;}
+    @media print{.score-bar{display:none!important;}body{padding-top:0;}}
+    .btn-opt{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0;padding:10px 14px;background:#F8F4E9;border:2px solid #d8d0c8;border-radius:8px;cursor:pointer;font-size:12.5pt;text-align:left;transition:border-color .15s,background .15s;font-family:inherit;}
+    .btn-opt:hover:not([disabled]){background:#f0e8d8;border-color:#D4AF37;}
+    .btn-opt[disabled]{cursor:default;}
+    .opt-letter-b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;border-radius:50%;background:#0B0F3F;color:#D4AF37;font-weight:800;font-size:12px;}
+    .opt-selected-ok{background:#d4edda!important;border-color:#1a7a3c!important;}
+    .opt-selected-err{background:#f8d7da!important;border-color:#c0392b!important;}
+    .opt-correct-reveal{background:#fff3cd!important;border-color:#D4AF37!important;}
+    .q-feedback{display:none;border-radius:7px;padding:8px 13px;margin:6px 0 4px;font-size:11pt;line-height:1.5;}
+    .fb-ok{display:block!important;background:#d4edda;color:#155724;border-left:4px solid #1a7a3c;}
+    .fb-err{display:block!important;background:#f8d7da;color:#721c24;border-left:4px solid #c0392b;}
+    .pdf-sol{display:none;}
+    @media print{.pdf-sol{display:block!important;}.no-print{display:none!important;}}
+  </style>
+</head>
+<body>
+
+<div class="score-bar no-print" id="scoreBar">
+  <div><div class="sb-label">Puntaje</div><div class="sb-pts" id="sbPts">0 / 20</div></div>
+  <div id="sbFinal" style="display:none;color:#D4AF37;font-weight:700;">¡Guía completada!</div>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- ════════════════════ PÁGINA 1 — TEORÍA ════════════════════ -->
+<div class="page">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Año Medio<br>
+      Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="guide-banner">
+    <div class="subject-pill">Matemática · Álgebra y Funciones</div>
+    <h2>Sistemas de Ecuaciones Lineales 2×2</h2>
+    <div class="meta-chips">
+      <div class="chip"><strong>Nivel:</strong> 1° Año Medio</div>
+      <div class="chip"><strong>OA:</strong> 4</div>
+      <div class="chip"><strong>Duración:</strong> 90 min</div>
+      <div class="chip"><strong>Currículum:</strong> MINEDUC 2026</div>
+    </div>
+  </div>
+
+  <div class="oa-box">
+    <div class="oa-badge">OA 4</div>
+    <div class="oa-text">
+      <strong>Objetivo de Aprendizaje:</strong> Resolver <strong>sistemas de ecuaciones lineales (2×2)</strong>
+      relacionados con problemas de la vida diaria y otras asignaturas, mediante representaciones
+      gráficas y simbólicas, identificando soluciones únicas, infinitas o sin solución.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">1</div>¿Qué es un sistema de ecuaciones?</div>
+      <p>Un <strong>sistema de ecuaciones lineales 2×2</strong> es un conjunto de <strong>dos ecuaciones</strong>
+      con <strong>dos incógnitas</strong> (generalmente x e y). Resolverlo significa encontrar los valores
+      que satisfacen <strong>ambas ecuaciones simultáneamente</strong>.</p>
+
+      <div class="card card-formula">
+        <div class="card-label">Forma general</div>
+        <div style="font-size:13.5pt;line-height:2.2;">
+          <em>a</em>x + <em>b</em>y = <em>c</em><br>
+          <em>d</em>x + <em>e</em>y = <em>f</em>
+        </div>
+      </div>
+
+      <p style="font-weight:600;margin-top:18px;">Interpretación gráfica — tres casos posibles:</p>
+
+      <!-- SVG 1: Tres tipos de soluciones -->
+      <svg viewBox="0 0 618 205" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:618px;display:block;margin:0 auto 10px;">
+        <rect width="618" height="205" rx="10" fill="#F8F4E9"/>
+        <!-- CASO 1: Solución única -->
+        <g transform="translate(8,8)">
+          <rect width="188" height="189" rx="8" fill="white" stroke="#D4AF37" stroke-width="1.8"/>
+          <text x="94" y="18" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0B0F3F">SOLUCIÓN ÚNICA</text>
+          <line x1="12" y1="105" x2="176" y2="105" stroke="#bbb" stroke-width="1"/>
+          <line x1="94" y1="28" x2="94" y2="175" stroke="#bbb" stroke-width="1"/>
+          <line x1="22" y1="168" x2="170" y2="38" stroke="#0B0F3F" stroke-width="2.5"/>
+          <line x1="22" y1="42" x2="170" y2="162" stroke="#6A2C91" stroke-width="2.5"/>
+          <circle cx="96" cy="105" r="5.5" fill="#c0392b"/>
+          <text x="94" y="182" text-anchor="middle" font-size="9.5" fill="#555">1 punto de corte</text>
+        </g>
+        <!-- CASO 2: Sin solución -->
+        <g transform="translate(214,8)">
+          <rect width="188" height="189" rx="8" fill="white" stroke="#c0392b" stroke-width="1.8"/>
+          <text x="94" y="18" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0B0F3F">SIN SOLUCIÓN</text>
+          <line x1="12" y1="105" x2="176" y2="105" stroke="#bbb" stroke-width="1"/>
+          <line x1="94" y1="28" x2="94" y2="175" stroke="#bbb" stroke-width="1"/>
+          <line x1="50" y1="30" x2="50" y2="170" stroke="#0B0F3F" stroke-width="2.5"/>
+          <line x1="110" y1="30" x2="110" y2="170" stroke="#6A2C91" stroke-width="2.5"/>
+          <text x="80" y="107" text-anchor="middle" font-size="22" fill="#c0392b" opacity="0.7">∥</text>
+          <text x="94" y="182" text-anchor="middle" font-size="9.5" fill="#555">Rectas paralelas distintas</text>
+        </g>
+        <!-- CASO 3: Infinitas soluciones -->
+        <g transform="translate(420,8)">
+          <rect width="188" height="189" rx="8" fill="white" stroke="#1a7a3c" stroke-width="1.8"/>
+          <text x="94" y="18" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0B0F3F">INFINITAS SOL.</text>
+          <line x1="12" y1="105" x2="176" y2="105" stroke="#bbb" stroke-width="1"/>
+          <line x1="94" y1="28" x2="94" y2="175" stroke="#bbb" stroke-width="1"/>
+          <line x1="22" y1="168" x2="170" y2="38" stroke="#0B0F3F" stroke-width="5" stroke-dasharray="7,4"/>
+          <line x1="24" y1="166" x2="172" y2="36" stroke="#6A2C91" stroke-width="2" opacity="0.55"/>
+          <text x="125" y="76" text-anchor="middle" font-size="20" fill="#1a7a3c" font-weight="800">∞</text>
+          <text x="94" y="182" text-anchor="middle" font-size="9.5" fill="#555">Rectas coincidentes</text>
+        </g>
+      </svg>
+
+      <table class="tbl" style="margin-top:10px;">
+        <thead><tr><th>Tipo</th><th>Geometría</th><th>Nombre técnico</th></tr></thead>
+        <tbody>
+          <tr><td>Solución única</td><td>Rectas que se cortan</td><td>Sistema compatible determinado</td></tr>
+          <tr><td>Infinitas soluciones</td><td>Rectas coincidentes</td><td>Sistema compatible indeterminado</td></tr>
+          <tr><td>Sin solución</td><td>Rectas paralelas distintas</td><td>Sistema incompatible</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">2</div>Los tres métodos algebraicos</div>
+
+      <!-- SVG 2: Tres métodos -->
+      <svg viewBox="0 0 618 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:618px;display:block;margin:0 auto 16px;">
+        <rect width="618" height="148" rx="10" fill="#F8F4E9"/>
+        <!-- Igualación -->
+        <g transform="translate(8,8)">
+          <rect width="188" height="132" rx="8" fill="#0B0F3F"/>
+          <text x="94" y="26" text-anchor="middle" font-size="12.5" font-weight="800" fill="#D4AF37">IGUALACIÓN</text>
+          <line x1="18" y1="33" x2="170" y2="33" stroke="#D4AF37" stroke-width="0.8" opacity="0.5"/>
+          <text x="94" y="50" text-anchor="middle" font-size="9.5" fill="white">Despeja la misma variable</text>
+          <text x="94" y="63" text-anchor="middle" font-size="9.5" fill="white">en ambas ecuaciones</text>
+          <text x="94" y="76" text-anchor="middle" font-size="9.5" fill="white">e iguala las expresiones.</text>
+          <rect x="18" y="88" width="152" height="30" rx="5" fill="#D4AF37" opacity="0.18"/>
+          <text x="94" y="100" text-anchor="middle" font-size="9" fill="#D4AF37">✔ Cuando ambas tienen</text>
+          <text x="94" y="112" text-anchor="middle" font-size="9" fill="#D4AF37">variable fácil de despejar</text>
+        </g>
+        <!-- Sustitución -->
+        <g transform="translate(214,8)">
+          <rect width="188" height="132" rx="8" fill="#6A2C91"/>
+          <text x="94" y="26" text-anchor="middle" font-size="12.5" font-weight="800" fill="#D4AF37">SUSTITUCIÓN</text>
+          <line x1="18" y1="33" x2="170" y2="33" stroke="#D4AF37" stroke-width="0.8" opacity="0.5"/>
+          <text x="94" y="50" text-anchor="middle" font-size="9.5" fill="white">Despeja una variable en</text>
+          <text x="94" y="63" text-anchor="middle" font-size="9.5" fill="white">una ecuación y sustitúyela</text>
+          <text x="94" y="76" text-anchor="middle" font-size="9.5" fill="white">en la otra.</text>
+          <rect x="18" y="88" width="152" height="30" rx="5" fill="#D4AF37" opacity="0.18"/>
+          <text x="94" y="100" text-anchor="middle" font-size="9" fill="#D4AF37">✔ Cuando hay coeficiente 1</text>
+          <text x="94" y="112" text-anchor="middle" font-size="9" fill="#D4AF37">o variable ya despejada</text>
+        </g>
+        <!-- Reducción -->
+        <g transform="translate(420,8)">
+          <rect width="188" height="132" rx="8" fill="#1a7a3c"/>
+          <text x="94" y="26" text-anchor="middle" font-size="12.5" font-weight="800" fill="#D4AF37">REDUCCIÓN</text>
+          <line x1="18" y1="33" x2="170" y2="33" stroke="#D4AF37" stroke-width="0.8" opacity="0.5"/>
+          <text x="94" y="50" text-anchor="middle" font-size="9.5" fill="white">Multiplica ecuaciones para</text>
+          <text x="94" y="63" text-anchor="middle" font-size="9.5" fill="white">que al sumar/restar se</text>
+          <text x="94" y="76" text-anchor="middle" font-size="9.5" fill="white">elimine una variable.</text>
+          <rect x="18" y="88" width="152" height="30" rx="5" fill="#D4AF37" opacity="0.18"/>
+          <text x="94" y="100" text-anchor="middle" font-size="9" fill="#D4AF37">✔ Cuando hay coeficientes</text>
+          <text x="94" y="112" text-anchor="middle" font-size="9" fill="#D4AF37">opuestos o múltiplos</text>
+        </g>
+      </svg>
+
+      <div class="two-col">
+        <div class="col-card">
+          <div class="card card-ex">
+            <div class="card-label">Sustitución — paso a paso</div>
+            <strong>y = x + 1 &nbsp;|&nbsp; 2x + y = 7</strong>
+            <div class="step-list">
+              <div class="step"><div class="step-dot">1</div><div class="step-body"><span class="lbl">y ya está despejada</span>Sustituyo en la 2ª: 2x + (x+1) = 7</div></div>
+              <div class="step"><div class="step-dot">2</div><div class="step-body"><span class="lbl">Resolver para x</span>3x + 1 = 7 → 3x = 6 → <strong>x = 2</strong></div></div>
+              <div class="step"><div class="step-dot">3</div><div class="step-body"><span class="lbl">Calcular y</span>y = 2 + 1 = <strong>3</strong></div></div>
+              <div class="step"><div class="step-dot">✓</div><div class="step-body"><strong>(x, y) = (2, 3)</strong></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-card">
+          <div class="card card-ex">
+            <div class="card-label">Reducción — paso a paso</div>
+            <strong>3x + 2y = 12 &nbsp;|&nbsp; 5x − 2y = 4</strong>
+            <div class="step-list">
+              <div class="step"><div class="step-dot">1</div><div class="step-body"><span class="lbl">+2y y −2y se eliminan</span>(3x+2y)+(5x−2y) = 12+4</div></div>
+              <div class="step"><div class="step-dot">2</div><div class="step-body"><span class="lbl">Resolver para x</span>8x = 16 → <strong>x = 2</strong></div></div>
+              <div class="step"><div class="step-dot">3</div><div class="step-body"><span class="lbl">Calcular y</span>3·2 + 2y = 12 → <strong>y = 3</strong></div></div>
+              <div class="step"><div class="step-dot">✓</div><div class="step-body"><strong>(x, y) = (2, 3)</strong></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">3</div>Aplicaciones a problemas reales</div>
+      <div class="card card-tip">
+        <div class="card-label"><span class="card-icon">📝</span>Estrategia para problemas</div>
+        <strong>1.</strong> Identifica las dos incógnitas y ponles nombre (x e y, o letras descriptivas).<br>
+        <strong>2.</strong> Traduce cada condición del enunciado en una ecuación.<br>
+        <strong>3.</strong> Elige el método más conveniente y resuelve.<br>
+        <strong>4.</strong> Verifica que la solución tenga sentido en el contexto real.
+      </div>
+
+      <div class="card card-ex">
+        <div class="card-label">Problema — Edades</div>
+        Daniela tiene el triple de la edad de Tomás. Entre los dos suman 32 años. ¿Qué edad tiene Daniela?
+        <div class="step-list">
+          <div class="step"><div class="step-dot">1</div><div class="step-body"><span class="lbl">Plantear</span>d = 3t &nbsp;|&nbsp; d + t = 32</div></div>
+          <div class="step"><div class="step-dot">2</div><div class="step-body"><span class="lbl">Sustituir d = 3t en la 2ª</span>3t + t = 32 → 4t = 32 → <strong>t = 8</strong></div></div>
+          <div class="step"><div class="step-dot">3</div><div class="step-body"><span class="lbl">Calcular d</span>d = 3·8 = <strong>24</strong></div></div>
+          <div class="step"><div class="step-dot">✓</div><div class="step-body">Daniela tiene <strong>24 años</strong>, Tomás 8. Verificación: 24+8=32 ✓</div></div>
+        </div>
+      </div>
+
+      <div class="card card-err">
+        <div class="card-label"><span class="card-icon">⚠</span>Error frecuente</div>
+        <strong>No verificar la solución.</strong> Sustituye siempre el par (x, y) en <em>ambas</em> ecuaciones
+        para confirmar. Un error de cálculo en medio del proceso puede invalidar todo el resultado sin que te des cuenta.
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva</div>
+      <ul>
+        <li>¿Por qué un sistema 2×2 solo puede tener 3 tipos de solución?</li>
+        <li>¿En qué casos preferirías reducción sobre sustitución?</li>
+        <li>¿Cómo verifico mi solución sin volver a resolver el sistema desde cero?</li>
+        <li>¿Qué representa geométricamente un sistema "sin solución"?</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════ PÁGINA 2 — EJERCICIOS ════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ejercicios Progresivos</strong>
+      Sistemas de Ecuaciones · 1° Año Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Básico</div><h3>Reconocimiento y verificación</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 1</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">Resuelve el sistema: &nbsp;<strong>x + y = 8 &nbsp;|&nbsp; x − y = 2</strong></div>
+          <button class="btn-opt" onclick="pick(this,'e1','A','ok')"><span class="opt-letter-b">A</span>(5, 3)</button>
+          <button class="btn-opt" onclick="pick(this,'e1','B','err')"><span class="opt-letter-b">B</span>(3, 5)</button>
+          <button class="btn-opt" onclick="pick(this,'e1','C','err')"><span class="opt-letter-b">C</span>(4, 4)</button>
+          <button class="btn-opt" onclick="pick(this,'e1','D','err')"><span class="opt-letter-b">D</span>(6, 2)</button>
+          <div class="q-feedback" id="fb-e1-ok">✓ Correcto. Sumando las ecuaciones: 2x = 10 → x = 5. Restando: 2y = 6 → y = 3. Verificación: 5+3=8 ✓ y 5−3=2 ✓.</div>
+          <div class="q-feedback" id="fb-e1-err">✗ Incorrecto. Suma ambas ecuaciones: (x+y)+(x−y)=8+2 → 2x=10 → x=5. Luego y=8−5=3. La opción A (5, 3) es la correcta.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 2</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Cuántas soluciones tiene un sistema cuyas rectas son <strong>paralelas y distintas</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e2','A','err')"><span class="opt-letter-b">A</span>Una solución</button>
+          <button class="btn-opt" onclick="pick(this,'e2','B','err')"><span class="opt-letter-b">B</span>Infinitas soluciones</button>
+          <button class="btn-opt" onclick="pick(this,'e2','C','ok')"><span class="opt-letter-b">C</span>Ninguna solución</button>
+          <button class="btn-opt" onclick="pick(this,'e2','D','err')"><span class="opt-letter-b">D</span>Dos soluciones</button>
+          <div class="q-feedback" id="fb-e2-ok">✓ Correcto. Las rectas paralelas distintas nunca se cortan, por lo que el sistema es incompatible y no tiene solución.</div>
+          <div class="q-feedback" id="fb-e2-err">✗ Incorrecto. Rectas paralelas (misma pendiente, distinto intercepto) no se intersectan en ningún punto. La respuesta es "ninguna solución".</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 3</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">¿Es el par <strong>(2, 3)</strong> solución del sistema &nbsp;<strong>x + y = 5 &nbsp;|&nbsp; 2x − y = 1</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e3','A','ok')"><span class="opt-letter-b">A</span>Sí, satisface ambas ecuaciones.</button>
+          <button class="btn-opt" onclick="pick(this,'e3','B','err')"><span class="opt-letter-b">B</span>No, falla en la primera ecuación.</button>
+          <button class="btn-opt" onclick="pick(this,'e3','C','err')"><span class="opt-letter-b">C</span>No, falla en la segunda ecuación.</button>
+          <button class="btn-opt" onclick="pick(this,'e3','D','err')"><span class="opt-letter-b">D</span>Solo satisface una de las dos.</button>
+          <div class="q-feedback" id="fb-e3-ok">✓ Correcto. 1ª: 2+3=5 ✓. 2ª: 2·2−3=4−3=1 ✓. El par (2, 3) satisface ambas ecuaciones simultáneamente.</div>
+          <div class="q-feedback" id="fb-e3-err">✗ Incorrecto. Verifica: 1ª ecuación: 2+3=5 ✓. 2ª ecuación: 2(2)−3=4−3=1 ✓. El par (2, 3) sí es solución de ambas.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Medio</div><h3>Métodos algebraicos</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 4</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">Resuelve por sustitución: &nbsp;<strong>y = x + 1 &nbsp;|&nbsp; 2x + y = 7</strong></div>
+          <button class="btn-opt" onclick="pick(this,'e4','A','ok')"><span class="opt-letter-b">A</span>(2, 3)</button>
+          <button class="btn-opt" onclick="pick(this,'e4','B','err')"><span class="opt-letter-b">B</span>(3, 4)</button>
+          <button class="btn-opt" onclick="pick(this,'e4','C','err')"><span class="opt-letter-b">C</span>(1, 2)</button>
+          <button class="btn-opt" onclick="pick(this,'e4','D','err')"><span class="opt-letter-b">D</span>(4, 5)</button>
+          <div class="q-feedback" id="fb-e4-ok">✓ Correcto. Sustituyo y=x+1 en la 2ª: 2x+(x+1)=7 → 3x=6 → x=2. Luego y=3. Verificación: 2+1=3 ✓ y 2·2+3=7 ✓.</div>
+          <div class="q-feedback" id="fb-e4-err">✗ Incorrecto. y ya está despejada: sustituye y=x+1 en la 2ª ecuación: 2x+(x+1)=7 → 3x+1=7 → x=2, y=3. La opción A es la correcta.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 5</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">Resuelve por reducción: &nbsp;<strong>3x + y = 10 &nbsp;|&nbsp; x − y = 2</strong></div>
+          <button class="btn-opt" onclick="pick(this,'e5','A','ok')"><span class="opt-letter-b">A</span>(3, 1)</button>
+          <button class="btn-opt" onclick="pick(this,'e5','B','err')"><span class="opt-letter-b">B</span>(2, 4)</button>
+          <button class="btn-opt" onclick="pick(this,'e5','C','err')"><span class="opt-letter-b">C</span>(4, −2)</button>
+          <button class="btn-opt" onclick="pick(this,'e5','D','err')"><span class="opt-letter-b">D</span>(1, 7)</button>
+          <div class="q-feedback" id="fb-e5-ok">✓ Correcto. +y y −y se eliminan al sumar: 4x=12 → x=3. Sustituyendo en la 2ª: 3−y=2 → y=1. Verificación: 3·3+1=10 ✓.</div>
+          <div class="q-feedback" id="fb-e5-err">✗ Incorrecto. Suma las dos ecuaciones: (3x+y)+(x−y)=10+2 → 4x=12 → x=3. Luego y=3−2=1. La opción A, (3, 1), es la correcta.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 6</div><div class="diff diff-m">Medio</div></div>
+          <div class="ex-stmt">¿Qué tipo de sistema es: &nbsp;<strong>2x + 4y = 8 &nbsp;|&nbsp; x + 2y = 4</strong>?</div>
+          <button class="btn-opt" onclick="pick(this,'e6','A','err')"><span class="opt-letter-b">A</span>Solución única</button>
+          <button class="btn-opt" onclick="pick(this,'e6','B','ok')"><span class="opt-letter-b">B</span>Infinitas soluciones (rectas coincidentes)</button>
+          <button class="btn-opt" onclick="pick(this,'e6','C','err')"><span class="opt-letter-b">C</span>Sin solución (rectas paralelas)</button>
+          <button class="btn-opt" onclick="pick(this,'e6','D','err')"><span class="opt-letter-b">D</span>No es un sistema lineal</button>
+          <div class="q-feedback" id="fb-e6-ok">✓ Correcto. La 1ª ecuación es exactamente el doble de la 2ª (2x+4y=2·(x+2y)=2·4=8). Son la misma recta, por lo que hay infinitas soluciones.</div>
+          <div class="q-feedback" id="fb-e6-err">✗ Incorrecto. Divide la 1ª ecuación por 2: obtienes x+2y=4, idéntica a la 2ª. Las dos ecuaciones son la misma recta → infinitas soluciones (B).</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="ex-section">
+      <div class="ex-section-head"><div class="ex-level-badge">Nivel Avanzado</div><h3>Problemas aplicados</h3></div>
+      <div class="ex-section-body">
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 7</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">La suma de dos números es 50 y su diferencia es 12. ¿Cuáles son los dos números?</div>
+          <button class="btn-opt" onclick="pick(this,'e7','A','err')"><span class="opt-letter-b">A</span>30 y 20</button>
+          <button class="btn-opt" onclick="pick(this,'e7','B','err')"><span class="opt-letter-b">B</span>25 y 25</button>
+          <button class="btn-opt" onclick="pick(this,'e7','C','ok')"><span class="opt-letter-b">C</span>31 y 19</button>
+          <button class="btn-opt" onclick="pick(this,'e7','D','err')"><span class="opt-letter-b">D</span>32 y 18</button>
+          <div class="q-feedback" id="fb-e7-ok">✓ Correcto. Sistema: x+y=50 y x−y=12. Sumando: 2x=62 → x=31. Restando: 2y=38 → y=19. Verificación: 31+19=50 ✓ y 31−19=12 ✓.</div>
+          <div class="q-feedback" id="fb-e7-err">✗ Incorrecto. Plantea: x+y=50 y x−y=12. Súmalas: 2x=62 → x=31, y=19. La diferencia 31−19=12 ✓. La opción correcta es C.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 8</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">2 hamburguesas y 3 jugos cuestan $4.400. Una hamburguesa y un jugo cuestan $1.800. ¿Cuánto vale una hamburguesa?</div>
+          <button class="btn-opt" onclick="pick(this,'e8','A','err')"><span class="opt-letter-b">A</span>$800</button>
+          <button class="btn-opt" onclick="pick(this,'e8','B','err')"><span class="opt-letter-b">B</span>$900</button>
+          <button class="btn-opt" onclick="pick(this,'e8','C','ok')"><span class="opt-letter-b">C</span>$1.000</button>
+          <button class="btn-opt" onclick="pick(this,'e8','D','err')"><span class="opt-letter-b">D</span>$1.200</button>
+          <div class="q-feedback" id="fb-e8-ok">✓ Correcto. Sistema: 2h+3j=4400 y h+j=1800 → j=1800−h. Sustituyendo: 2h+3(1800−h)=4400 → −h=−1000 → h=$1.000. Jugo=$800. Verificación: 2(1000)+3(800)=4400 ✓.</div>
+          <div class="q-feedback" id="fb-e8-err">✗ Incorrecto. Define h=hamburguesa, j=jugo. De h+j=1800 → j=1800−h. Sustituye en 2h+3j=4400: 2h+5400−3h=4400 → h=$1.000. La opción correcta es C.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 9</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">El sistema &nbsp;<strong>3x + 2y = 7 &nbsp;|&nbsp; 6x + 4y = 14</strong> &nbsp;tiene:</div>
+          <button class="btn-opt" onclick="pick(this,'e9','A','err')"><span class="opt-letter-b">A</span>Solución única</button>
+          <button class="btn-opt" onclick="pick(this,'e9','B','ok')"><span class="opt-letter-b">B</span>Infinitas soluciones</button>
+          <button class="btn-opt" onclick="pick(this,'e9','C','err')"><span class="opt-letter-b">C</span>Sin solución</button>
+          <button class="btn-opt" onclick="pick(this,'e9','D','err')"><span class="opt-letter-b">D</span>Solo la solución (0, 0)</button>
+          <div class="q-feedback" id="fb-e9-ok">✓ Correcto. La 2ª ecuación es exactamente el doble de la 1ª: 2·(3x+2y)=2·7=14. Son la misma recta → infinitas soluciones. El sistema es compatible indeterminado.</div>
+          <div class="q-feedback" id="fb-e9-err">✗ Incorrecto. Divide la 2ª ecuación por 2: 3x+2y=7, igual a la 1ª. Las ecuaciones representan la misma recta → infinitas soluciones (B). No es sin solución porque no hay contradicción.</div>
+        </div>
+
+        <div class="ex-item">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 10</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-stmt">La edad actual de Marta es el triple de la de Pedro. Dentro de 8 años, Marta tendrá el doble de la edad de Pedro. ¿Qué edad tiene Marta hoy?</div>
+          <button class="btn-opt" onclick="pick(this,'e10','A','err')"><span class="opt-letter-b">A</span>16 años</button>
+          <button class="btn-opt" onclick="pick(this,'e10','B','ok')"><span class="opt-letter-b">B</span>24 años</button>
+          <button class="btn-opt" onclick="pick(this,'e10','C','err')"><span class="opt-letter-b">C</span>30 años</button>
+          <button class="btn-opt" onclick="pick(this,'e10','D','err')"><span class="opt-letter-b">D</span>36 años</button>
+          <div class="q-feedback" id="fb-e10-ok">✓ Correcto. Sistema: m=3p (hoy) y m+8=2(p+8) (en 8 años). Sustituyendo: 3p+8=2p+16 → p=8, m=24. Verificación: en 8 años, Marta=32 y Pedro=16, 32=2·16 ✓.</div>
+          <div class="q-feedback" id="fb-e10-err">✗ Incorrecto. Hoy: m=3p. En 8 años: m+8=2(p+8)=2p+16. Sustituyendo m=3p: 3p+8=2p+16 → p=8, m=3·8=24. La opción correcta es B.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="autoeval">
+      <div class="autoeval-head"><h3>✦ Autoevaluación — ¿Qué aprendí hoy?</h3></div>
+      <table class="autoeval-tbl">
+        <thead><tr><th style="text-align:left;width:62%">Indicador de aprendizaje</th><th>Lo logré ✓</th><th>En proceso ~</th><th>Lo necesito ✗</th></tr></thead>
+        <tbody>
+          <tr><td>Identifico los tres tipos de solución de un sistema 2×2</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Resuelvo sistemas por sustitución</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Resuelvo sistemas por reducción</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Verifico la solución sustituyendo en ambas ecuaciones</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Modelo problemas de la vida real como sistemas de ecuaciones</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════ PÁGINA 3 — PAES + SOLUCIONARIO ════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ensayo Tipo PAES</strong>
+      Sistemas de Ecuaciones · 1° Año Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="paes-wrap">
+      <div class="paes-head">
+        <div class="paes-badge">Ensayo tipo PAES — 10 preguntas</div>
+        <p>Álgebra · Una alternativa correcta · Tiempo sugerido: 25 min</p>
+      </div>
+      <div class="paes-body">
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 1</div>
+          <div class="paes-stmt">Resuelve el sistema: &nbsp;<strong>x + 2y = 7 &nbsp;|&nbsp; x − y = 1</strong></div>
+          <button class="btn-opt" onclick="pick(this,'p1','A','ok')"><span class="opt-letter-b">A</span>(3, 2)</button>
+          <button class="btn-opt" onclick="pick(this,'p1','B','err')"><span class="opt-letter-b">B</span>(2, 3)</button>
+          <button class="btn-opt" onclick="pick(this,'p1','C','err')"><span class="opt-letter-b">C</span>(1, 3)</button>
+          <button class="btn-opt" onclick="pick(this,'p1','D','err')"><span class="opt-letter-b">D</span>(4, 3)</button>
+          <div class="q-feedback" id="fb-p1-ok">✓ Correcto. Restando ecuaciones: (x+2y)−(x−y)=7−1 → 3y=6 → y=2. Luego x=1+y=3. Verificación: 3+4=7 ✓ y 3−2=1 ✓.</div>
+          <div class="q-feedback" id="fb-p1-err">✗ Incorrecto. Resta la 2ª de la 1ª: 3y=6 → y=2. De la 2ª: x=1+2=3. La solución es (3, 2), opción A.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 2</div>
+          <div class="paes-stmt">Si &nbsp;<strong>5x + 3y = 21</strong> &nbsp;y &nbsp;<strong>x = 3</strong>, &nbsp;¿cuánto vale y?</div>
+          <button class="btn-opt" onclick="pick(this,'p2','A','err')"><span class="opt-letter-b">A</span>1</button>
+          <button class="btn-opt" onclick="pick(this,'p2','B','ok')"><span class="opt-letter-b">B</span>2</button>
+          <button class="btn-opt" onclick="pick(this,'p2','C','err')"><span class="opt-letter-b">C</span>3</button>
+          <button class="btn-opt" onclick="pick(this,'p2','D','err')"><span class="opt-letter-b">D</span>4</button>
+          <div class="q-feedback" id="fb-p2-ok">✓ Correcto. Sustituyo x=3: 5·3+3y=21 → 15+3y=21 → 3y=6 → y=2.</div>
+          <div class="q-feedback" id="fb-p2-err">✗ Incorrecto. Sustituye x=3 directamente: 5(3)+3y=21 → 15+3y=21 → 3y=6 → y=2. La opción correcta es B.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 3</div>
+          <div class="paes-stmt">El sistema &nbsp;<strong>2x − y = 4 &nbsp;|&nbsp; 4x − 2y = 10</strong> &nbsp;tiene:</div>
+          <button class="btn-opt" onclick="pick(this,'p3','A','err')"><span class="opt-letter-b">A</span>Una solución única</button>
+          <button class="btn-opt" onclick="pick(this,'p3','B','err')"><span class="opt-letter-b">B</span>Infinitas soluciones</button>
+          <button class="btn-opt" onclick="pick(this,'p3','C','ok')"><span class="opt-letter-b">C</span>Sin solución</button>
+          <button class="btn-opt" onclick="pick(this,'p3','D','err')"><span class="opt-letter-b">D</span>Solo la solución (0, 0)</button>
+          <div class="q-feedback" id="fb-p3-ok">✓ Correcto. Multiplica la 1ª por 2: 4x−2y=8. Pero la 2ª dice 4x−2y=10. Misma parte izquierda, distintos resultados → contradicción → sin solución (rectas paralelas).</div>
+          <div class="q-feedback" id="fb-p3-err">✗ Incorrecto. Multiplica la 1ª por 2: obtienes 4x−2y=8, pero la 2ª dice 4x−2y=10. Es una contradicción (8≠10), por lo que no hay solución. No confundas con infinitas soluciones.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 4</div>
+          <div class="paes-stmt">Resuelve: &nbsp;<strong>3x + y = 11 &nbsp;|&nbsp; x − y = 1</strong></div>
+          <button class="btn-opt" onclick="pick(this,'p4','A','ok')"><span class="opt-letter-b">A</span>(3, 2)</button>
+          <button class="btn-opt" onclick="pick(this,'p4','B','err')"><span class="opt-letter-b">B</span>(2, 5)</button>
+          <button class="btn-opt" onclick="pick(this,'p4','C','err')"><span class="opt-letter-b">C</span>(4, −1)</button>
+          <button class="btn-opt" onclick="pick(this,'p4','D','err')"><span class="opt-letter-b">D</span>(3, 4)</button>
+          <div class="q-feedback" id="fb-p4-ok">✓ Correcto. Sumando: 4x=12 → x=3. Luego 3−y=1 → y=2. Verificación: 9+2=11 ✓ y 3−2=1 ✓.</div>
+          <div class="q-feedback" id="fb-p4-err">✗ Incorrecto. Suma las dos ecuaciones: (3x+y)+(x−y)=11+1 → 4x=12 → x=3, y=2. La opción correcta es A.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 5</div>
+          <div class="paes-stmt">La suma de dos números es 100 y su diferencia es 24. El número mayor es:</div>
+          <button class="btn-opt" onclick="pick(this,'p5','A','err')"><span class="opt-letter-b">A</span>50</button>
+          <button class="btn-opt" onclick="pick(this,'p5','B','ok')"><span class="opt-letter-b">B</span>62</button>
+          <button class="btn-opt" onclick="pick(this,'p5','C','err')"><span class="opt-letter-b">C</span>76</button>
+          <button class="btn-opt" onclick="pick(this,'p5','D','err')"><span class="opt-letter-b">D</span>88</button>
+          <div class="q-feedback" id="fb-p5-ok">✓ Correcto. Sistema: x+y=100 y x−y=24. Sumando: 2x=124 → x=62. Luego y=38. El mayor es 62.</div>
+          <div class="q-feedback" id="fb-p5-err">✗ Incorrecto. Plantea: x+y=100 y x−y=24. Súmalas: 2x=124 → x=62 (el mayor). La opción correcta es B.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 6</div>
+          <div class="paes-stmt">En una boletería, 2 entradas de adulto y 3 de niño cuestan $14.000. Una entrada de adulto y 2 de niño cuestan $8.000. ¿Cuánto vale una entrada de niño?</div>
+          <button class="btn-opt" onclick="pick(this,'p6','A','ok')"><span class="opt-letter-b">A</span>$2.000</button>
+          <button class="btn-opt" onclick="pick(this,'p6','B','err')"><span class="opt-letter-b">B</span>$3.000</button>
+          <button class="btn-opt" onclick="pick(this,'p6','C','err')"><span class="opt-letter-b">C</span>$2.500</button>
+          <button class="btn-opt" onclick="pick(this,'p6','D','err')"><span class="opt-letter-b">D</span>$1.500</button>
+          <div class="q-feedback" id="fb-p6-ok">✓ Correcto. Sistema: 2a+3n=14000 y a+2n=8000. De la 2ª × 2: 2a+4n=16000. Restando la 1ª: n=2000. Adulto: a=8000−4000=$4.000. Verificación: 2(4000)+3(2000)=14000 ✓.</div>
+          <div class="q-feedback" id="fb-p6-err">✗ Incorrecto. Multiplica la 2ª ecuación por 2: 2a+4n=16000. Resta la 1ª: n=2000. El precio de niño es $2.000, opción A.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 7</div>
+          <div class="paes-stmt">Resuelve: &nbsp;<strong>x + y = 5 &nbsp;|&nbsp; 2x + 2y = 12</strong></div>
+          <button class="btn-opt" onclick="pick(this,'p7','A','err')"><span class="opt-letter-b">A</span>(3, 2)</button>
+          <button class="btn-opt" onclick="pick(this,'p7','B','ok')"><span class="opt-letter-b">B</span>Sin solución</button>
+          <button class="btn-opt" onclick="pick(this,'p7','C','err')"><span class="opt-letter-b">C</span>Infinitas soluciones</button>
+          <button class="btn-opt" onclick="pick(this,'p7','D','err')"><span class="opt-letter-b">D</span>(2, 3)</button>
+          <div class="q-feedback" id="fb-p7-ok">✓ Correcto. Multiplica la 1ª por 2: 2x+2y=10. Pero la 2ª dice 2x+2y=12. Contradicción (10≠12) → sin solución. Son rectas paralelas.</div>
+          <div class="q-feedback" id="fb-p7-err">✗ Incorrecto. Multiplica la 1ª ecuación por 2: obtienes 2x+2y=10, pero la 2ª exige 2x+2y=12. Eso es imposible → sin solución (B). Cuidado: no es "infinitas" porque hay contradicción.</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 8</div>
+          <div class="paes-stmt">Pedro tiene el doble de edad que Ana. Entre los dos suman 36 años. ¿Qué edad tiene Pedro?</div>
+          <button class="btn-opt" onclick="pick(this,'p8','A','err')"><span class="opt-letter-b">A</span>12 años</button>
+          <button class="btn-opt" onclick="pick(this,'p8','B','err')"><span class="opt-letter-b">B</span>18 años</button>
+          <button class="btn-opt" onclick="pick(this,'p8','C','ok')"><span class="opt-letter-b">C</span>24 años</button>
+          <button class="btn-opt" onclick="pick(this,'p8','D','err')"><span class="opt-letter-b">D</span>30 años</button>
+          <div class="q-feedback" id="fb-p8-ok">✓ Correcto. Sistema: p=2a y p+a=36. Sustituyo: 2a+a=36 → 3a=36 → a=12, p=24. Verificación: 24+12=36 ✓ y 24=2·12 ✓.</div>
+          <div class="q-feedback" id="fb-p8-err">✗ Incorrecto. Plantea p=2a y p+a=36. Sustituyendo: 3a=36 → a=12, Pedro=2·12=24. La opción correcta es C (no A, que sería la edad de Ana).</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 9</div>
+          <div class="paes-stmt">Gráficamente, dos rectas que se intersectan en un único punto representan:</div>
+          <button class="btn-opt" onclick="pick(this,'p9','A','err')"><span class="opt-letter-b">A</span>Sistema incompatible (sin solución)</button>
+          <button class="btn-opt" onclick="pick(this,'p9','B','err')"><span class="opt-letter-b">B</span>Sistema compatible indeterminado (infinitas soluciones)</button>
+          <button class="btn-opt" onclick="pick(this,'p9','C','ok')"><span class="opt-letter-b">C</span>Sistema compatible determinado (solución única)</button>
+          <button class="btn-opt" onclick="pick(this,'p9','D','err')"><span class="opt-letter-b">D</span>Sistema no lineal</button>
+          <div class="q-feedback" id="fb-p9-ok">✓ Correcto. Un punto de intersección = exactamente un par (x, y) que satisface ambas ecuaciones = sistema compatible determinado con solución única.</div>
+          <div class="q-feedback" id="fb-p9-err">✗ Incorrecto. Un único punto de corte entre dos rectas significa exactamente una solución, lo que corresponde al sistema compatible determinado (opción C).</div>
+        </div>
+
+        <div class="paes-item">
+          <div class="paes-num">Pregunta 10</div>
+          <div class="paes-stmt">En una granja hay vacas y gallinas. En total hay 30 cabezas y 80 patas. ¿Cuántas vacas hay?</div>
+          <button class="btn-opt" onclick="pick(this,'p10','A','ok')"><span class="opt-letter-b">A</span>10</button>
+          <button class="btn-opt" onclick="pick(this,'p10','B','err')"><span class="opt-letter-b">B</span>15</button>
+          <button class="btn-opt" onclick="pick(this,'p10','C','err')"><span class="opt-letter-b">C</span>20</button>
+          <button class="btn-opt" onclick="pick(this,'p10','D','err')"><span class="opt-letter-b">D</span>25</button>
+          <div class="q-feedback" id="fb-p10-ok">✓ Correcto. Sistema: v+g=30 y 4v+2g=80. Multiplico la 1ª por 2: 2v+2g=60. Restando: 2v=20 → v=10. Verificación: 10 vacas + 20 gallinas = 30 ✓ y 40+40=80 patas ✓.</div>
+          <div class="q-feedback" id="fb-p10-err">✗ Incorrecto. Sistema: v+g=30 (cabezas) y 4v+2g=80 (patas, vacas tienen 4 y gallinas 2). Multiplica la 1ª por 2: 2v+2g=60. Resta de la 2ª: 2v=20 → v=10. La opción correcta es A.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SOLUCIONARIO (visible solo en PDF) -->
+    <div class="sol-wrap pdf-sol">
+      <h3>✦ Solucionario completo</h3>
+      <div class="sol-grid">
+        <div>
+          <div class="sol-col-title">Ejercicios Progresivos</div>
+          <div class="sol-item"><div class="sn">Ejercicio 1</div><span class="sc">A — (5, 3)</span><br><span style="font-size:8.5pt;">2x=10→x=5; y=3.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 2</div><span class="sc">C — Ninguna</span><br><span style="font-size:8.5pt;">Paralelas no se cortan.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 3</div><span class="sc">A — Sí</span><br><span style="font-size:8.5pt;">2+3=5 ✓; 4−3=1 ✓.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 4</div><span class="sc">A — (2, 3)</span><br><span style="font-size:8.5pt;">3x+1=7→x=2; y=3.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 5</div><span class="sc">A — (3, 1)</span><br><span style="font-size:8.5pt;">4x=12→x=3; y=1.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 6</div><span class="sc">B — Infinitas</span><br><span style="font-size:8.5pt;">1ª = 2 · 2ª → misma recta.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 7</div><span class="sc">C — 31 y 19</span><br><span style="font-size:8.5pt;">2x=62→x=31; y=19.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 8</div><span class="sc">C — $1.000</span><br><span style="font-size:8.5pt;">h=$1.000; j=$800.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 9</div><span class="sc">B — Infinitas</span><br><span style="font-size:8.5pt;">2ª = 2 · 1ª → misma recta.</span></div>
+          <div class="sol-item"><div class="sn">Ejercicio 10</div><span class="sc">B — 24 años</span><br><span style="font-size:8.5pt;">p=8, m=24.</span></div>
+        </div>
+        <div>
+          <div class="sol-col-title">Ensayo Tipo PAES</div>
+          <div class="sol-item"><div class="sn">Pregunta 1</div><span class="sc">A — (3, 2)</span><br><span style="font-size:8.5pt;">3y=6→y=2; x=3.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 2</div><span class="sc">B — 2</span><br><span style="font-size:8.5pt;">15+3y=21→y=2.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 3</div><span class="sc">C — Sin solución</span><br><span style="font-size:8.5pt;">4x−2y=8≠10. Paralelas.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 4</div><span class="sc">A — (3, 2)</span><br><span style="font-size:8.5pt;">4x=12→x=3; y=2.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 5</div><span class="sc">B — 62</span><br><span style="font-size:8.5pt;">2x=124→x=62.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 6</div><span class="sc">A — $2.000</span><br><span style="font-size:8.5pt;">n=2000; a=4000.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 7</div><span class="sc">B — Sin solución</span><br><span style="font-size:8.5pt;">2x+2y=10≠12. Paralelas.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 8</div><span class="sc">C — 24</span><br><span style="font-size:8.5pt;">3a=36→a=12; p=24.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 9</div><span class="sc">C — Solución única</span><br><span style="font-size:8.5pt;">1 punto = 1 solución.</span></div>
+          <div class="sol-item"><div class="sn">Pregunta 10</div><span class="sc">A — 10</span><br><span style="font-size:8.5pt;">2v=20→v=10.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing">
+      <h3>Resumen — Lo que aprendiste hoy</h3>
+      <p>Los <strong>sistemas de ecuaciones lineales</strong> permiten resolver problemas con <strong>dos
+      incógnitas relacionadas</strong>. Tres métodos algebraicos (igualación, sustitución, reducción)
+      y la interpretación gráfica como intersección de rectas son las herramientas clave.</p>
+      <p>Dominar cuándo usar cada método y siempre verificar la solución te distinguirá en la PAES.</p>
+      <div class="next-pill">Siguiente OA → Homotecia y Semejanza</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Año Medio · 2026
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var GUIDE_ID = 'maestria_SistemasEcuaciones';
+  var TOTAL = 20;
+  var answers = {};
+
+  function save(){ try{ localStorage.setItem(GUIDE_ID, JSON.stringify(answers)); }catch(e){} }
+
+  function updateBar(){
+    var pts = 0;
+    Object.keys(answers).forEach(function(k){ if(answers[k]==='ok') pts++; });
+    var el = document.getElementById('sbPts');
+    if(el) el.textContent = pts + ' / ' + TOTAL;
+  }
+
+  function showFinal(){
+    if(Object.keys(answers).length === TOTAL){
+      var el = document.getElementById('sbFinal');
+      if(el) el.style.display = 'block';
+    }
+  }
+
+  window.pick = function(btn, qid, letter, verdict){
+    var group = document.querySelectorAll('[onclick*="\''+qid+'\'"]');
+    if(group[0] && group[0].disabled) return;
+    group.forEach(function(b){ b.disabled = true; });
+    if(verdict === 'ok'){
+      btn.classList.add('opt-selected-ok');
+      var fb = document.getElementById('fb-'+qid+'-ok');
+      if(fb) fb.classList.add('fb-ok');
+    } else {
+      btn.classList.add('opt-selected-err');
+      var fbe = document.getElementById('fb-'+qid+'-err');
+      if(fbe) fbe.classList.add('fb-err');
+      group.forEach(function(b){
+        var oc = b.getAttribute('onclick')||'';
+        if(oc.indexOf("'ok'") > -1) b.classList.add('opt-correct-reveal');
+      });
+    }
+    answers[qid] = verdict;
+    save(); updateBar(); showFinal();
+  };
+
+  window.exportPDF = function(){
+    var sol = document.querySelector('.sol-wrap.pdf-sol');
+    if(sol) sol.style.display = 'block';
+    window.print();
+    setTimeout(function(){ if(sol) sol.style.display = ''; }, 1000);
+  };
+
+  function restore(){
+    try{
+      var saved = localStorage.getItem(GUIDE_ID);
+      if(!saved) return;
+      var data = JSON.parse(saved);
+      Object.keys(data).forEach(function(qid){
+        var verdict = data[qid];
+        var group = document.querySelectorAll('[onclick*="\''+qid+'\'"]');
+        if(!group.length) return;
+        group.forEach(function(b){ b.disabled = true; });
+        group.forEach(function(b){
+          var oc = b.getAttribute('onclick')||'';
+          if(verdict === 'ok' && oc.indexOf("'ok'") > -1) b.classList.add('opt-selected-ok');
+          else if(verdict === 'err' && oc.indexOf("'ok'") > -1) b.classList.add('opt-correct-reveal');
+        });
+        if(verdict === 'err'){ var fbe = document.getElementById('fb-'+qid+'-err'); if(fbe) fbe.classList.add('fb-err'); }
+        else { var fbo = document.getElementById('fb-'+qid+'-ok'); if(fbo) fbo.classList.add('fb-ok'); }
+        answers[qid] = verdict;
+      });
+      updateBar(); showFinal();
+    }catch(e){}
+  }
+  restore();
+})();
+</script>
+</body>
+</html>
