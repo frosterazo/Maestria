@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estequiometría — Ciencias Naturales 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Barra de puntaje ── */
+    .score-bar{position:fixed;top:0;left:0;right:0;z-index:999;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 24px;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+    .sb-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;}
+    .sb-pts{font-size:20px;font-weight:800;color:#D4AF37;line-height:1;}
+    .btn-pdf-bar{background:#D4AF37;color:#0B0F3F;border:none;padding:7px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;}
+    body{padding-top:52px;}
+    @media print{.score-bar{display:none!important;}body{padding-top:0;}.pdf-sol{display:block!important;}.no-print{display:none!important;}}
+    /* ── Alternativas ── */
+    .btn-opt{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0;padding:10px 14px;background:#F8F4E9;border:2px solid #d8d0c8;border-radius:8px;cursor:pointer;font-size:11pt;text-align:left;transition:border-color .15s,background .15s;}
+    .btn-opt:hover{background:#f0e8d8;border-color:#D4AF37;}
+    .opt-letter-b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;border-radius:50%;background:#0B0F3F;color:#D4AF37;font-weight:800;font-size:12px;}
+    .opt-selected-ok{background:#d4edda!important;border-color:#1a7a3c!important;}
+    .opt-selected-err{background:#f8d7da!important;border-color:#c0392b!important;}
+    .opt-correct-reveal{background:#fff3cd!important;border-color:#D4AF37!important;}
+    /* ── Retroalimentación ── */
+    .q-feedback{display:none;border-radius:7px;padding:8px 13px;margin:6px 0 4px;font-size:11pt;line-height:1.5;}
+    .fb-ok{display:block!important;background:#d4edda;color:#155724;border-left:4px solid #1a7a3c;}
+    .fb-err{display:block!important;background:#f8d7da;color:#721c24;border-left:4px solid #c0392b;}
+    /* ── Solucionario (oculto en pantalla) ── */
+    .pdf-sol{display:none;}
+    /* ── Meta-chips con margen lateral ── */
+    .meta-chips{padding:8px 30px;}
+    /* ── Matemática con Cambria Math ── */
+    .math-display{font-family:'Cambria Math',Cambria,Georgia,serif;font-size:1.2rem;color:#0B0F3F;text-align:center;margin:.9rem auto;line-height:2.2;}
+    .mfrac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.25;margin:0 .2rem;}
+    .mfrac .mn{border-bottom:1.8px solid currentColor;padding:0 .4rem;text-align:center;font-size:1em;}
+    .mfrac .md{padding:0 .4rem;text-align:center;font-size:1em;}
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.45rem 0;font-family:'Cambria Math',Cambria,Georgia,serif;font-size:1.05rem;line-height:2.1;}
+    .math-result{font-family:'Cambria Math',Cambria,Georgia,serif;font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.2rem .8rem;display:inline-block;margin:.25rem 0;font-size:1.1rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;}
+    .math-unit{font-family:'Cambria Math',Cambria,Georgia,serif;font-style:italic;}
+    .rxn-box { background:#f0f4ff; border-radius:12px; padding:1rem; margin:1rem 0; text-align:center; }
+    .rxn-eq { font-size:1.15rem; font-family:'Inter',sans-serif; color:#0B0F3F; font-weight:700; letter-spacing:.04em; }
+    .rxn-eq .coef { color:#6A2C91; }
+    .rxn-eq .arrow { color:#D4AF37; margin:0 .5rem; }
+    .conv-table { width:100%; border-collapse:collapse; margin:1rem 0; }
+    .conv-table th { background:#0B0F3F; color:#D4AF37; padding:.6rem .85rem; text-align:center; font-size:.85rem; }
+    .conv-table td { padding:.6rem .85rem; text-align:center; border:1px solid #e0e4f0; font-size:.88rem; }
+    .conv-table tr:nth-child(even) td { background:#f8f9ff; }
+    .step-row { display:flex; align-items:center; gap:.6rem; margin:.6rem 0; flex-wrap:wrap; }
+    .step-num { background:#6A2C91; color:#fff; border-radius:50%; width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; flex-shrink:0; }
+    .step-text { font-size:.9rem; color:#333; flex:1; }
+    .conv-path { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; justify-content:center; margin:1rem 0; }
+    .conv-node { background:#0B0F3F; color:#fff; border-radius:8px; padding:.45rem .9rem; font-size:.85rem; font-weight:700; }
+    .conv-arrow { color:#D4AF37; font-size:1.1rem; font-weight:700; }
+    .conv-label { font-size:.72rem; color:#6A2C91; text-align:center; font-weight:600; }
+    .conv-group { display:flex; flex-direction:column; align-items:center; }
+  </style>
+</head>
+<body>
+
+<!-- SCORE BAR -->
+<div class="score-bar" id="scorebar">
+  <span class="sb-label">Progreso</span>
+  <span class="sb-pts" id="sbpts">0 / 20</span>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- ============================================================
+     PÁGINA 1 — TEORÍA
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Química — Estequiometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Química</div>
+    <h2>Estequiometría — Mol y Cálculo Químico</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">⚗️ Estequiometría</span>
+    <span class="chip">🔢 Mol</span>
+  </div>
+
+  <div class="oa-box">
+    <span class="oa-badge">OA 20</span>
+    <span class="oa-text">Comprender el concepto de mol como unidad de cantidad de sustancia y aplicarlo en cálculos estequiométricos básicos para relacionar masa, moles y cantidades de sustancias en una reacción química.</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── El mol ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El mol: la unidad de la química</div>
+
+      <div class="card card-def">
+        <strong>Mol (mol):</strong> unidad del Sistema Internacional para medir cantidad de sustancia. Un mol contiene exactamente <strong>6,022 × 10²³ entidades</strong> (átomos, moléculas, iones). Este número se llama <strong>Número de Avogadro (Nₐ)</strong>.
+      </div>
+
+      <p>El mol es al químico lo que la "docena" es al panadero: una forma práctica de contar partículas que de otro modo serían imposibles de manejar individualmente.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Sustancia</th><th>1 mol contiene</th><th>Masa molar</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hidrógeno (H)</td><td>6,022 × 10²³ átomos H</td><td>1 g/mol</td></tr>
+          <tr><td>Carbono (C)</td><td>6,022 × 10²³ átomos C</td><td>12 g/mol</td></tr>
+          <tr><td>Oxígeno (O₂)</td><td>6,022 × 10²³ moléculas O₂</td><td>32 g/mol</td></tr>
+          <tr><td>Agua (H₂O)</td><td>6,022 × 10²³ moléculas H₂O</td><td>18 g/mol</td></tr>
+          <tr><td>NaCl (sal)</td><td>6,022 × 10²³ unidades fórmula</td><td>58,5 g/mol</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Masa molar (M):</strong> masa de un mol de una sustancia, expresada en g/mol. Numéricamente igual a la masa atómica/molecular en la tabla periódica. Ejemplo: M(H₂O) = 2·1 + 16 = 18 g/mol.
+      </div>
+    </div>
+
+    <!-- ─── Relación masa-moles ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Relación entre masa y moles</div>
+
+      <div class="card card-def">
+        <strong>Fórmula fundamental:</strong>
+        <div style="text-align:center;font-size:1.25rem;margin:.6rem 0;font-family:'Inter';font-weight:700;">
+          n = m / M
+        </div>
+        n = moles (mol) &nbsp;·&nbsp; m = masa (g) &nbsp;·&nbsp; M = masa molar (g/mol)
+      </div>
+
+      <p>Con esta fórmula podemos convertir entre gramos y moles en ambas direcciones:</p>
+
+      <div class="conv-path">
+        <div class="conv-group">
+          <div class="conv-node">Masa (g)</div>
+        </div>
+        <div class="conv-group">
+          <div class="conv-arrow">÷ M →</div>
+          <div class="conv-label">dividir por masa molar</div>
+        </div>
+        <div class="conv-group">
+          <div class="conv-node">Moles (mol)</div>
+        </div>
+        <div class="conv-group">
+          <div class="conv-arrow">× Nₐ →</div>
+          <div class="conv-label">multiplicar por Avogadro</div>
+        </div>
+        <div class="conv-group">
+          <div class="conv-node">N° partículas</div>
+        </div>
+      </div>
+      <div class="conv-path" style="justify-content:flex-start;padding-left:2rem;">
+        <div class="conv-group" style="margin-left:3rem;">
+          <div class="conv-arrow" style="transform:scaleX(-1);display:inline-block;">÷ M →</div>
+          <div class="conv-label">← × M</div>
+        </div>
+      </div>
+
+      <div class="rxn-box">
+        <p style="font-weight:700;color:#0B0F3F;margin-bottom:.5rem;">Ejemplo resuelto</p>
+        <p style="font-size:.9rem;text-align:left;max-width:480px;margin:0 auto;">
+          ¿Cuántos moles hay en 36 g de agua (H₂O)?<br><br>
+          M(H₂O) = 2·(1) + 16 = <strong>18 g/mol</strong><br>
+          n = m / M = 36 g ÷ 18 g/mol = <strong>2 mol</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ─── Estequiometría ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Estequiometría: relaciones molares en una reacción</div>
+
+      <div class="card card-def">
+        <strong>Estequiometría:</strong> rama de la química que estudia las proporciones cuantitativas (en moles o masa) en que participan los reactivos y se forman los productos en una reacción química balanceada.
+      </div>
+
+      <p>Los coeficientes de una ecuación balanceada indican las <strong>proporciones molares</strong>. Por ejemplo:</p>
+
+      <div class="rxn-box">
+        <div class="rxn-eq">
+          <span class="coef">2</span> H₂ &nbsp;+&nbsp; O₂ <span class="arrow">→</span> <span class="coef">2</span> H₂O
+        </div>
+        <p style="font-size:.85rem;color:#555;margin-top:.5rem;">
+          2 mol H₂ reaccionan con 1 mol O₂ para producir 2 mol H₂O.<br>
+          Razones molares: H₂ : O₂ : H₂O = 2 : 1 : 2
+        </p>
+      </div>
+
+      <p><strong>Pasos para resolver un problema estequiométrico:</strong></p>
+      <div class="step-row"><span class="step-num">1</span><span class="step-text">Escribir y balancear la ecuación química.</span></div>
+      <div class="step-row"><span class="step-num">2</span><span class="step-text">Convertir la cantidad dada a moles (usando n = m / M).</span></div>
+      <div class="step-row"><span class="step-num">3</span><span class="step-text">Usar la razón molar de la ecuación para calcular los moles de la sustancia buscada.</span></div>
+      <div class="step-row"><span class="step-num">4</span><span class="step-text">Convertir los moles obtenidos a la unidad requerida (gramos, partículas, etc.).</span></div>
+
+      <div class="rxn-box">
+        <p style="font-weight:700;color:#0B0F3F;margin-bottom:.5rem;">Ejemplo resuelto</p>
+        <p style="font-size:.88rem;text-align:left;max-width:520px;margin:0 auto;">
+          ¿Cuántos gramos de H₂O se producen al quemar 4 g de H₂?<br>
+          Reacción: 2 H₂ + O₂ → 2 H₂O<br><br>
+          <strong>Paso 1:</strong> Ecuación ya balanceada.<br>
+          <strong>Paso 2:</strong> n(H₂) = 4 g ÷ 2 g/mol = 2 mol H₂<br>
+          <strong>Paso 3:</strong> Razón molar H₂:H₂O = 2:2 = 1:1 → 2 mol H₂ produce 2 mol H₂O<br>
+          <strong>Paso 4:</strong> m(H₂O) = 2 mol · 18 g/mol = <strong>36 g de H₂O</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ─── Reactivo limitante ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Reactivo limitante y reactivo en exceso</div>
+
+      <div class="card card-def">
+        <strong>Reactivo limitante:</strong> el reactivo que se consume completamente primero y determina la cantidad máxima de producto obtenible.<br>
+        <strong>Reactivo en exceso:</strong> el que queda sobrando una vez terminada la reacción.
+      </div>
+
+      <div class="rxn-box">
+        <p style="font-size:.88rem;text-align:left;max-width:520px;margin:0 auto;">
+          <strong>Analogía:</strong> Para hacer sándwiches necesitas 2 rebanadas de pan por cada 1 loncha de jamón. Si tienes 10 rebanadas y 4 lonchas:<br>
+          — Con 10 rebanadas puedes hacer 5 sándwiches.<br>
+          — Con 4 lonchas puedes hacer 4 sándwiches.<br>
+          <strong>Limitante: el jamón</strong> (solo alcanza para 4 sándwiches). Pan en exceso: 2 rebanadas sobran.
+        </p>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Para identificar el reactivo limitante:</strong> convierte cada reactivo a moles y divide por su coeficiente estequiométrico. El que da el valor menor es el limitante.
+      </div>
+    </div>
+
+    <!-- ─── Rendimiento ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>Rendimiento de una reacción</div>
+
+      <div class="card card-def">
+        <strong>Rendimiento porcentual:</strong>
+        <div style="text-align:center;font-size:1.1rem;margin:.5rem 0;font-family:'Inter';font-weight:700;">
+          % rendimiento = (masa real obtenida / masa teórica calculada) · 100
+        </div>
+        En la práctica, el rendimiento casi nunca es 100% por pérdidas en el proceso, reacciones secundarias o condiciones imperfectas.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Sin mirar la guía, intenta explicar con tus propias palabras estos cinco conceptos: mol, masa molar, estequiometría, reactivo limitante y rendimiento. ¿Cuáles puedes explicar con fluidez? ¿Cuáles se te escapan? Ese contraste es tu mapa de estudio: dedica más tiempo a lo que aún no puedes explicar sin leer.
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Estequiometría · Página 1 de 6</div>
+  </div>
+</div><!-- /page1 -->
+
+<!-- ============================================================
+     PÁGINA 2 — CÁLCULOS ESTEQUIOMÉTRICOS
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Química — Estequiometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Química</div>
+    <h2>Cálculos Estequiométricos</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📐 Desarrollo matemático</span>
+    <span class="chip">Mol · Masa · Masa molar</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Las tres formas de la fórmula fundamental</div>
+
+      <p>Según la variable que se desea calcular, la relación entre <em>n</em>, <em>m</em> y <em>M</em> se despeja de tres formas. La fracción se escribe en vertical para visualizar qué va en el numerador y qué en el denominador:</p>
+
+      <div class="math-box" style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:2rem;padding:1.75rem;">
+        <div style="text-align:center;">
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;">Calcular moles</p>
+          <div class="math-display"><em>n</em> &nbsp;=&nbsp; <span class="fr fr-lg"><span class="fn"><em>m</em></span><span class="fd"><em>M</em></span></span></div>
+        </div>
+        <div style="text-align:center;">
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;">Calcular masa</p>
+          <div class="math-display"><em>m</em> &nbsp;=&nbsp; <em>n</em> &nbsp;·&nbsp; <em>M</em></div>
+        </div>
+        <div style="text-align:center;">
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;">Calcular masa molar</p>
+          <div class="math-display"><em>M</em> &nbsp;=&nbsp; <span class="fr fr-lg"><span class="fn"><em>m</em></span><span class="fd"><em>n</em></span></span></div>
+        </div>
+      </div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Variable</th><th>Símbolo</th><th>Unidad</th><th>Descripción</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cantidad de sustancia</td><td><em>n</em></td><td><span class="math-unit">mol</span></td><td>Número de moles</td></tr>
+          <tr><td>Masa</td><td><em>m</em></td><td><span class="math-unit">g</span></td><td>Gramos medidos en la balanza</td></tr>
+          <tr><td>Masa molar</td><td><em>M</em></td><td><span class="math-unit">g/mol</span></td><td>Igual al peso atómico de la tabla periódica</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplos resueltos</div>
+
+      <div class="subsec">Ejemplo 1 — Calcular moles a partir de la masa</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Cuántos moles hay en 54 <span class="math-unit">g</span> de agua (H₂O)?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><em>M</em>(H₂O) &nbsp;=&nbsp; 2·1 + 16 &nbsp;=&nbsp; 18 <span class="math-unit">g/mol</span></span>
+        <span class="math-step">
+          <em>n</em> &nbsp;=&nbsp; <span class="fr"><span class="fn"><em>m</em></span><span class="fd"><em>M</em></span></span>
+          &nbsp;=&nbsp; <span class="fr"><span class="fn">54 <span class="math-unit">g</span></span><span class="fd">18 <span class="math-unit">g/mol</span></span></span>
+        </span>
+        <span class="math-step"><span class="math-result">n = 3 mol</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Calcular la masa a partir de moles</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Qué masa tienen 0,5 <span class="math-unit">mol</span> de NaCl?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><em>M</em>(NaCl) &nbsp;=&nbsp; 23 + 35,5 &nbsp;=&nbsp; 58,5 <span class="math-unit">g/mol</span></span>
+        <span class="math-step">
+          <em>m</em> &nbsp;=&nbsp; <em>n</em> &nbsp;·&nbsp; <em>M</em> &nbsp;=&nbsp; 0,5 <span class="math-unit">mol</span> &nbsp;·&nbsp; 58,5 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span>
+        </span>
+        <span class="math-step"><span class="math-result">m = 29,25 g</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 3 — Cálculo estequiométrico completo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Reacción: 2 H₂ + O₂ → 2 H₂O. ¿Cuántos gramos de agua se producen al hacer reaccionar 4 <span class="math-unit">g</span> de H₂?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>1. Moles de H₂:</strong></span>
+        <span class="math-step">
+          <em>n</em>(H₂) &nbsp;=&nbsp; <span class="fr"><span class="fn">4 <span class="math-unit">g</span></span><span class="fd">2 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 2 <span class="math-unit">mol</span>
+        </span>
+        <span class="math-step"><strong>2. Razón molar H₂ : H₂O = 2 : 2 = 1 : 1 → <em>n</em>(H₂O) = 2 mol</strong></span>
+        <span class="math-step"><strong>3. Masa de H₂O:</strong></span>
+        <span class="math-step">
+          <em>m</em>(H₂O) &nbsp;=&nbsp; 2 <span class="math-unit">mol</span> &nbsp;·&nbsp; 18 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span>
+        </span>
+        <span class="math-step"><span class="math-result">m(H₂O) = 36 g</span></span>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Estequiometría · Página 2 de 6</div>
+  </div>
+</div><!-- /page2 -->
+
+<!-- ============================================================
+     PÁGINA 3 — REACTIVO LIMITANTE Y EN EXCESO
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Química — Estequiometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Química</div>
+    <h2>Reactivo Limitante y Reactivo en Exceso</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🔬 Análisis de reactivos</span>
+    <span class="chip">Cociente molar · Sobrante</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Método del cociente molar</div>
+
+      <p>Para una reacción <em>a</em> A + <em>b</em> B → productos, se calcula para cada reactivo el <strong>cociente entre sus moles y su coeficiente estequiométrico</strong>. El reactivo con el <strong>menor cociente</strong> es el <strong>Reactivo Limitante (RL)</strong>; el de mayor cociente es el <strong>Reactivo en Exceso (RE)</strong>.</p>
+
+      <div class="math-box" style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:2rem;padding:1.5rem;text-align:center;">
+        <div>
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-family:'Plus Jakarta Sans',sans-serif;">Para el reactivo A (coeficiente <em>a</em>)</p>
+          <div class="math-display"><span class="fr fr-lg"><span class="fn"><em>n</em><sub>A</sub></span><span class="fd"><em>a</em></span></span></div>
+        </div>
+        <div style="display:flex;align-items:center;font-size:1.1rem;font-weight:700;color:#0B0F3F;">comparar</div>
+        <div>
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-family:'Plus Jakarta Sans',sans-serif;">Para el reactivo B (coeficiente <em>b</em>)</p>
+          <div class="math-display"><span class="fr fr-lg"><span class="fn"><em>n</em><sub>B</sub></span><span class="fd"><em>b</em></span></span></div>
+        </div>
+      </div>
+
+      <ol class="steps-num">
+        <li>Calcular los moles de cada reactivo: <em>n</em> = <em>m</em> / <em>M</em>.</li>
+        <li>Dividir cada <em>n</em> por el coeficiente estequiométrico de ese reactivo.</li>
+        <li>El <strong>menor cociente</strong> identifica al Reactivo Limitante (RL).</li>
+        <li>Usar los moles del RL y la razón molar para calcular la masa del producto.</li>
+        <li>Calcular el sobrante del RE: moles de RE − moles consumidos (según razón molar).</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplos resueltos</div>
+
+      <div class="subsec">Ejemplo 1 — Síntesis del agua: ambos reactivos se agotan exactamente</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Reacción: 2 H₂ + O₂ → 2 H₂O. Se tienen 4 <span class="math-unit">g</span> de H₂ y 32 <span class="math-unit">g</span> de O₂. ¿Cuál es el reactivo limitante? ¿Cuántos gramos de H₂O se producen?
+      </div>
+      <div class="math-block">
+        <span class="math-step">
+          <em>n</em>(H₂) &nbsp;=&nbsp; <span class="fr"><span class="fn">4 <span class="math-unit">g</span></span><span class="fd">2 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 2 <span class="math-unit">mol</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <em>n</em>(O₂) &nbsp;=&nbsp; <span class="fr"><span class="fn">32 <span class="math-unit">g</span></span><span class="fd">32 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 1 <span class="math-unit">mol</span>
+        </span>
+        <span class="math-step">
+          Cocientes: &nbsp;
+          H₂ → <span class="fr"><span class="fn">2 mol</span><span class="fd">2</span></span> = 1,0
+          &nbsp;&nbsp;&nbsp;
+          O₂ → <span class="fr"><span class="fn">1 mol</span><span class="fd">1</span></span> = 1,0
+        </span>
+        <span class="math-step">Cocientes iguales → ambos reactivos se agotan exactamente. No hay sobrante.</span>
+        <span class="math-step">
+          <em>m</em>(H₂O) &nbsp;=&nbsp; 2 <span class="math-unit">mol</span> &nbsp;·&nbsp; 18 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span>
+        </span>
+        <span class="math-step"><span class="math-result">m(H₂O) = 36 g</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Combustión del carbono: con sobrante de O₂</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Reacción: C + O₂ → CO₂. Se tienen 6 <span class="math-unit">g</span> de C y 48 <span class="math-unit">g</span> de O₂. ¿Cuál es el reactivo limitante? ¿Cuántos gramos de CO₂ se producen y cuánto O₂ queda sin reaccionar?
+      </div>
+      <div class="math-block">
+        <span class="math-step">
+          <em>n</em>(C) &nbsp;=&nbsp; <span class="fr"><span class="fn">6 <span class="math-unit">g</span></span><span class="fd">12 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 0,5 <span class="math-unit">mol</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <em>n</em>(O₂) &nbsp;=&nbsp; <span class="fr"><span class="fn">48 <span class="math-unit">g</span></span><span class="fd">32 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 1,5 <span class="math-unit">mol</span>
+        </span>
+        <span class="math-step">
+          Cocientes (coef. = 1 para ambos): &nbsp; C → 0,5 &nbsp;&nbsp; O₂ → 1,5 &nbsp;→&nbsp; <strong>C es el Reactivo Limitante (RL)</strong>
+        </span>
+        <span class="math-step"><strong>Masa de CO₂</strong> (razón C : CO₂ = 1 : 1):</span>
+        <span class="math-step">
+          <em>m</em>(CO₂) &nbsp;=&nbsp; 0,5 <span class="math-unit">mol</span> &nbsp;·&nbsp; 44 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span>
+        </span>
+        <span class="math-step"><span class="math-result">m(CO₂) = 22 g</span></span>
+        <span class="math-step"><strong>O₂ sobrante (Reactivo en Exceso):</strong></span>
+        <span class="math-step">
+          O₂ consumido = 0,5 <span class="math-unit">mol</span> &nbsp;·&nbsp; 32 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span> = 16 <span class="math-unit">g</span>
+        </span>
+        <span class="math-step">O₂ sobrante &nbsp;=&nbsp; 48 <span class="math-unit">g</span> − 16 <span class="math-unit">g</span></span>
+        <span class="math-step"><span class="math-result">O₂ sobrante = 32 g</span></span>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Estequiometría · Página 3 de 6</div>
+  </div>
+</div><!-- /page3 -->
+
+<!-- ============================================================
+     PÁGINA 4 — RENDIMIENTO DE LA REACCIÓN
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Química — Estequiometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Química</div>
+    <h2>Rendimiento de la Reacción</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📊 Rendimiento porcentual</span>
+    <span class="chip">Masa teórica · Masa real</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Fórmula y despejes del rendimiento</div>
+
+      <p>El <strong>rendimiento porcentual (%R)</strong> mide qué fracción de la masa teórica se obtuvo en el experimento. En la práctica nunca es del 100% debido a pérdidas en la manipulación, reacciones secundarias y condiciones no ideales.</p>
+
+      <div class="math-box" style="padding:1.75rem 1.5rem;text-align:center;">
+        <div class="math-display" style="font-size:1.4rem;">
+          %<em>R</em> &nbsp;=&nbsp; <span class="fr fr-lg"><span class="fn"><em>m</em><sub>real</sub></span><span class="fd"><em>m</em><sub>teórica</sub></span></span> &nbsp;·&nbsp; 100
+        </div>
+        <p style="font-size:.85rem;color:#555;margin-top:.5rem;"><em>m</em><sub>real</sub> y <em>m</em><sub>teórica</sub> expresadas en las mismas unidades (<span class="math-unit">g</span>)</p>
+      </div>
+
+      <p>Despejando las demás variables:</p>
+
+      <div class="math-box" style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:1.5rem;padding:1.25rem;text-align:center;">
+        <div>
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-family:'Plus Jakarta Sans',sans-serif;">Calcular masa real</p>
+          <div class="math-display" style="font-size:1.05rem;">
+            <em>m</em><sub>real</sub> &nbsp;=&nbsp; <span class="fr fr-lg"><span class="fn">%<em>R</em> &nbsp;·&nbsp; <em>m</em><sub>teórica</sub></span><span class="fd">100</span></span>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:.8rem;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-family:'Plus Jakarta Sans',sans-serif;">Calcular masa teórica</p>
+          <div class="math-display" style="font-size:1.05rem;">
+            <em>m</em><sub>teórica</sub> &nbsp;=&nbsp; <span class="fr fr-lg"><span class="fn"><em>m</em><sub>real</sub> &nbsp;·&nbsp; 100</span><span class="fd">%<em>R</em></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplos resueltos</div>
+
+      <div class="subsec">Ejemplo 1 — Calcular el porcentaje de rendimiento</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Reacción: N₂ + 3 H₂ → 2 NH₃. A partir de 28 <span class="math-unit">g</span> de N₂ la estequiometría predice 34 <span class="math-unit">g</span> de NH₃, pero en el laboratorio se obtienen 27,2 <span class="math-unit">g</span>. ¿Cuál es el rendimiento porcentual?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Verificar masa teórica de NH₃:</strong></span>
+        <span class="math-step">
+          <em>n</em>(N₂) &nbsp;=&nbsp; <span class="fr"><span class="fn">28 <span class="math-unit">g</span></span><span class="fd">28 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 1 <span class="math-unit">mol</span>
+          &nbsp;→&nbsp; razón N₂ : NH₃ = 1 : 2 &nbsp;→&nbsp; <em>n</em>(NH₃) = 2 <span class="math-unit">mol</span>
+        </span>
+        <span class="math-step">
+          <em>m</em><sub>teórica</sub>(NH₃) &nbsp;=&nbsp; 2 <span class="math-unit">mol</span> &nbsp;·&nbsp; 17 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span> &nbsp;=&nbsp; 34 <span class="math-unit">g</span> ✓
+        </span>
+        <span class="math-step"><strong>Calcular el rendimiento:</strong></span>
+        <span class="math-step">
+          %<em>R</em> &nbsp;=&nbsp; <span class="fr"><span class="fn">27,2 <span class="math-unit">g</span></span><span class="fd">34 <span class="math-unit">g</span></span></span> &nbsp;·&nbsp; 100
+        </span>
+        <span class="math-step"><span class="math-result">%R = 80 %</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Calcular la masa real a partir del rendimiento</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Reacción: CaCO₃ → CaO + CO₂. Se parten 200 <span class="math-unit">g</span> de CaCO₃ y el proceso tiene un rendimiento del 75%. ¿Cuántos gramos de CaO se obtienen?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Masa teórica de CaO:</strong></span>
+        <span class="math-step">
+          <em>n</em>(CaCO₃) &nbsp;=&nbsp; <span class="fr"><span class="fn">200 <span class="math-unit">g</span></span><span class="fd">100 <span class="math-unit">g/mol</span></span></span> &nbsp;=&nbsp; 2 <span class="math-unit">mol</span>
+          &nbsp;→&nbsp; razón 1 : 1 &nbsp;→&nbsp; <em>n</em>(CaO) = 2 <span class="math-unit">mol</span>
+        </span>
+        <span class="math-step">
+          <em>m</em><sub>teórica</sub>(CaO) &nbsp;=&nbsp; 2 <span class="math-unit">mol</span> &nbsp;·&nbsp; 56 <span class="fr"><span class="fn"><span class="math-unit">g</span></span><span class="fd"><span class="math-unit">mol</span></span></span> &nbsp;=&nbsp; 112 <span class="math-unit">g</span>
+        </span>
+        <span class="math-step"><strong>Aplicar el rendimiento del 75%:</strong></span>
+        <span class="math-step">
+          <em>m</em><sub>real</sub> &nbsp;=&nbsp; <span class="fr"><span class="fn">75 &nbsp;·&nbsp; 112 <span class="math-unit">g</span></span><span class="fd">100</span></span>
+        </span>
+        <span class="math-step"><span class="math-result">m<sub>real</sub>(CaO) = 84 g</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Responde honestamente: ¿pudiste resolver los dos ejemplos anteriores sin releer las fórmulas? Si tuviste que volver al texto, identifica el paso exacto donde te detuviste. Para rendir mejor en pruebas, es más eficiente practicar repetidamente ese paso difícil que releer lo que ya entiendes. ¿Qué ejercicio te pondría a prueba específicamente en ese punto?
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Estequiometría · Página 4 de 6</div>
+  </div>
+</div><!-- /page4 -->
+
+<!-- ============================================================
+     PÁGINA 5 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Química — Estequiometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Química</div>
+    <h2>Estequiometría — Ejercicios</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+    <span class="chip">Página 5 de 6</span>
+  </div>
+
+  <!-- BÁSICO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-b">Básico</span>
+      <span>Ejercicios 1 – 3</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E1 -->
+      <div class="ex-item" id="ei1">
+        <div class="ex-header-row">
+          <span class="ex-num-label">1</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">¿Cuántas partículas contiene 1 mol de cualquier sustancia?</div>
+        <div class="btn-opt" onclick="pick('e1','A')" id="e1A"><span class="opt-letter-b">A</span> 1 000</div>
+        <div class="btn-opt" onclick="pick('e1','B')" id="e1B"><span class="opt-letter-b">B</span> 6,022 × 10²³</div>
+        <div class="btn-opt" onclick="pick('e1','C')" id="e1C"><span class="opt-letter-b">C</span> 6,022 × 10¹²</div>
+        <div class="btn-opt" onclick="pick('e1','D')" id="e1D"><span class="opt-letter-b">D</span> 1 × 10⁶</div>
+        <div class="q-feedback" id="fb_e1"></div>
+      </div>
+
+      <!-- E2 -->
+      <div class="ex-item" id="ei2">
+        <div class="ex-header-row">
+          <span class="ex-num-label">2</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">La masa molar del agua (H₂O) es: (M_H = 1 g/mol, M_O = 16 g/mol)</div>
+        <div class="btn-opt" onclick="pick('e2','A')" id="e2A"><span class="opt-letter-b">A</span> 16 g/mol</div>
+        <div class="btn-opt" onclick="pick('e2','B')" id="e2B"><span class="opt-letter-b">B</span> 17 g/mol</div>
+        <div class="btn-opt" onclick="pick('e2','C')" id="e2C"><span class="opt-letter-b">C</span> 18 g/mol</div>
+        <div class="btn-opt" onclick="pick('e2','D')" id="e2D"><span class="opt-letter-b">D</span> 20 g/mol</div>
+        <div class="q-feedback" id="fb_e2"></div>
+      </div>
+
+      <!-- E3 -->
+      <div class="ex-item" id="ei3">
+        <div class="ex-header-row">
+          <span class="ex-num-label">3</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">¿Cuántos moles hay en 44 g de CO₂? (M_C = 12, M_O = 16 → M(CO₂) = 44 g/mol)</div>
+        <div class="btn-opt" onclick="pick('e3','A')" id="e3A"><span class="opt-letter-b">A</span> 0,5 mol</div>
+        <div class="btn-opt" onclick="pick('e3','B')" id="e3B"><span class="opt-letter-b">B</span> 1 mol</div>
+        <div class="btn-opt" onclick="pick('e3','C')" id="e3C"><span class="opt-letter-b">C</span> 2 mol</div>
+        <div class="btn-opt" onclick="pick('e3','D')" id="e3D"><span class="opt-letter-b">D</span> 44 mol</div>
+        <div class="q-feedback" id="fb_e3"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INTERMEDIO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-m">Intermedio</span>
+      <span>Ejercicios 4 – 7</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E4 -->
+      <div class="ex-item" id="ei4">
+        <div class="ex-header-row">
+          <span class="ex-num-label">4</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">¿Cuántos gramos de O₂ se necesitan para reaccionar completamente con 2 mol de H₂, según: 2 H₂ + O₂ → 2 H₂O? (M(O₂) = 32 g/mol)</div>
+        <div class="btn-opt" onclick="pick('e4','A')" id="e4A"><span class="opt-letter-b">A</span> 16 g</div>
+        <div class="btn-opt" onclick="pick('e4','B')" id="e4B"><span class="opt-letter-b">B</span> 32 g</div>
+        <div class="btn-opt" onclick="pick('e4','C')" id="e4C"><span class="opt-letter-b">C</span> 64 g</div>
+        <div class="btn-opt" onclick="pick('e4','D')" id="e4D"><span class="opt-letter-b">D</span> 4 g</div>
+        <div class="q-feedback" id="fb_e4"></div>
+      </div>
+
+      <!-- E5 -->
+      <div class="ex-item" id="ei5">
+        <div class="ex-header-row">
+          <span class="ex-num-label">5</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">En la reacción: N₂ + 3 H₂ → 2 NH₃. Si se tienen 3 mol de N₂, ¿cuántos moles de NH₃ se producen?</div>
+        <div class="btn-opt" onclick="pick('e5','A')" id="e5A"><span class="opt-letter-b">A</span> 3 mol</div>
+        <div class="btn-opt" onclick="pick('e5','B')" id="e5B"><span class="opt-letter-b">B</span> 6 mol</div>
+        <div class="btn-opt" onclick="pick('e5','C')" id="e5C"><span class="opt-letter-b">C</span> 9 mol</div>
+        <div class="btn-opt" onclick="pick('e5','D')" id="e5D"><span class="opt-letter-b">D</span> 1,5 mol</div>
+        <div class="q-feedback" id="fb_e5"></div>
+      </div>
+
+      <!-- E6 -->
+      <div class="ex-item" id="ei6">
+        <div class="ex-header-row">
+          <span class="ex-num-label">6</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">Se queman 16 g de CH₄ (M = 16 g/mol) según: CH₄ + 2 O₂ → CO₂ + 2 H₂O. ¿Cuántos gramos de CO₂ (M = 44 g/mol) se producen?</div>
+        <div class="btn-opt" onclick="pick('e6','A')" id="e6A"><span class="opt-letter-b">A</span> 16 g</div>
+        <div class="btn-opt" onclick="pick('e6','B')" id="e6B"><span class="opt-letter-b">B</span> 44 g</div>
+        <div class="btn-opt" onclick="pick('e6','C')" id="e6C"><span class="opt-letter-b">C</span> 22 g</div>
+        <div class="btn-opt" onclick="pick('e6','D')" id="e6D"><span class="opt-letter-b">D</span> 88 g</div>
+        <div class="q-feedback" id="fb_e6"></div>
+      </div>
+
+      <!-- E7 -->
+      <div class="ex-item" id="ei7">
+        <div class="ex-header-row">
+          <span class="ex-num-label">7</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">En la reacción: 2 H₂ + O₂ → 2 H₂O, si se mezclan 2 mol de H₂ y 2 mol de O₂, ¿cuál es el reactivo limitante?</div>
+        <div class="btn-opt" onclick="pick('e7','A')" id="e7A"><span class="opt-letter-b">A</span> O₂, porque se necesita 1 mol y hay 2.</div>
+        <div class="btn-opt" onclick="pick('e7','B')" id="e7B"><span class="opt-letter-b">B</span> H₂, porque 2 mol H₂ solo consume 1 mol O₂; el O₂ queda en exceso.</div>
+        <div class="btn-opt" onclick="pick('e7','C')" id="e7C"><span class="opt-letter-b">C</span> Ambos son limitantes por igual.</div>
+        <div class="btn-opt" onclick="pick('e7','D')" id="e7D"><span class="opt-letter-b">D</span> Ninguno es limitante; ambos se consumen completamente.</div>
+        <div class="q-feedback" id="fb_e7"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AVANZADO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-a">Avanzado</span>
+      <span>Ejercicios 8 – 10</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E8 -->
+      <div class="ex-item" id="ei8">
+        <div class="ex-header-row">
+          <span class="ex-num-label">8</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">Se producen 27 g de agua (M = 18 g/mol) en lugar de los 36 g teóricos. ¿Cuál es el rendimiento de la reacción?</div>
+        <div class="btn-opt" onclick="pick('e8','A')" id="e8A"><span class="opt-letter-b">A</span> 50%</div>
+        <div class="btn-opt" onclick="pick('e8','B')" id="e8B"><span class="opt-letter-b">B</span> 75%</div>
+        <div class="btn-opt" onclick="pick('e8','C')" id="e8C"><span class="opt-letter-b">C</span> 90%</div>
+        <div class="btn-opt" onclick="pick('e8','D')" id="e8D"><span class="opt-letter-b">D</span> 133%</div>
+        <div class="q-feedback" id="fb_e8"></div>
+      </div>
+
+      <!-- E9 -->
+      <div class="ex-item" id="ei9">
+        <div class="ex-header-row">
+          <span class="ex-num-label">9</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">En la síntesis de amoniaco: N₂ + 3 H₂ → 2 NH₃, se mezclan 28 g de N₂ (M = 28 g/mol) y 3 g de H₂ (M = 2 g/mol). ¿Cuál es el reactivo limitante?</div>
+        <div class="btn-opt" onclick="pick('e9','A')" id="e9A"><span class="opt-letter-b">A</span> N₂, porque tiene menor masa.</div>
+        <div class="btn-opt" onclick="pick('e9','B')" id="e9B"><span class="opt-letter-b">B</span> H₂, porque n(H₂)/3 = 0,5 &lt; n(N₂)/1 = 1.</div>
+        <div class="btn-opt" onclick="pick('e9','C')" id="e9C"><span class="opt-letter-b">C</span> N₂, porque n(N₂)/1 = 1 &lt; n(H₂)/3 = 0,5.</div>
+        <div class="btn-opt" onclick="pick('e9','D')" id="e9D"><span class="opt-letter-b">D</span> Ambos se consumen por igual.</div>
+        <div class="q-feedback" id="fb_e9"></div>
+      </div>
+
+      <!-- E10 -->
+      <div class="ex-item" id="ei10">
+        <div class="ex-header-row">
+          <span class="ex-num-label">10</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">¿Cuántas moléculas de NH₃ se producen si reaccionan completamente 1,5 mol de N₂ según: N₂ + 3 H₂ → 2 NH₃? (Nₐ = 6,022 × 10²³)</div>
+        <div class="btn-opt" onclick="pick('e10','A')" id="e10A"><span class="opt-letter-b">A</span> 1,5 × 10²³ moléculas</div>
+        <div class="btn-opt" onclick="pick('e10','B')" id="e10B"><span class="opt-letter-b">B</span> 6,022 × 10²³ moléculas</div>
+        <div class="btn-opt" onclick="pick('e10','C')" id="e10C"><span class="opt-letter-b">C</span> 1,806 × 10²⁴ moléculas</div>
+        <div class="btn-opt" onclick="pick('e10','D')" id="e10D"><span class="opt-letter-b">D</span> 3,011 × 10²³ moléculas</div>
+        <div class="q-feedback" id="fb_e10"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="autoeval">
+    <strong>¿Cómo te fue?</strong> ¿Recuerdas los 4 pasos estequiométricos? Ecuación balanceada → convertir a moles → usar razón molar → convertir al resultado. Si fallaste alguno, vuelve al paso que corresponde.
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Estequiometría · Página 5 de 6</div>
+  </div>
+</div><!-- /page5 -->
+
+<!-- ============================================================
+     PÁGINA 6 — PAES + SOLUCIONARIO + CIERRE
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Química — Estequiometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Química</div>
+    <h2>Estequiometría — Preguntas PAES</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🎯 Estilo PAES</span>
+    <span class="chip">10 preguntas</span>
+    <span class="chip">Página 6 de 6</span>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <span class="paes-badge">PAES</span>
+      <p>Preguntas estilo PAES — Estequiometría</p>
+    </div>
+    <div class="paes-body">
+
+      <!-- P1 -->
+      <div class="paes-item" id="pi1">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Qué representa el Número de Avogadro (6,022 × 10²³)?</div>
+        <div class="btn-opt" onclick="pick('p1','A')" id="p1A"><span class="opt-letter-b">A</span> La masa en gramos de un átomo de carbono.</div>
+        <div class="btn-opt" onclick="pick('p1','B')" id="p1B"><span class="opt-letter-b">B</span> El número de partículas contenidas en 1 mol de cualquier sustancia.</div>
+        <div class="btn-opt" onclick="pick('p1','C')" id="p1C"><span class="opt-letter-b">C</span> La velocidad de la luz en el vacío.</div>
+        <div class="btn-opt" onclick="pick('p1','D')" id="p1D"><span class="opt-letter-b">D</span> La carga eléctrica de un electrón.</div>
+        <div class="q-feedback" id="fb_p1"></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="paes-item" id="pi2">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">La masa molar del NaCl es 58,5 g/mol. ¿Cuántos moles hay en 117 g de NaCl?</div>
+        <div class="btn-opt" onclick="pick('p2','A')" id="p2A"><span class="opt-letter-b">A</span> 0,5 mol</div>
+        <div class="btn-opt" onclick="pick('p2','B')" id="p2B"><span class="opt-letter-b">B</span> 1 mol</div>
+        <div class="btn-opt" onclick="pick('p2','C')" id="p2C"><span class="opt-letter-b">C</span> 2 mol</div>
+        <div class="btn-opt" onclick="pick('p2','D')" id="p2D"><span class="opt-letter-b">D</span> 58,5 mol</div>
+        <div class="q-feedback" id="fb_p2"></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="paes-item" id="pi3">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">En la reacción: 4 Fe + 3 O₂ → 2 Fe₂O₃. Si se consumen 3 mol de O₂, ¿cuántos mol de Fe₂O₃ se producen?</div>
+        <div class="btn-opt" onclick="pick('p3','A')" id="p3A"><span class="opt-letter-b">A</span> 1 mol</div>
+        <div class="btn-opt" onclick="pick('p3','B')" id="p3B"><span class="opt-letter-b">C</span> 2 mol</div>
+        <div class="btn-opt" onclick="pick('p3','C')" id="p3C"><span class="opt-letter-b">C</span> 3 mol</div>
+        <div class="btn-opt" onclick="pick('p3','D')" id="p3D"><span class="opt-letter-b">D</span> 4 mol</div>
+        <div class="q-feedback" id="fb_p3"></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="paes-item" id="pi4">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuántos gramos de H₂ (M = 2 g/mol) se necesitan para producir 54 g de H₂O (M = 18 g/mol) según: 2 H₂ + O₂ → 2 H₂O?</div>
+        <div class="btn-opt" onclick="pick('p4','A')" id="p4A"><span class="opt-letter-b">A</span> 2 g</div>
+        <div class="btn-opt" onclick="pick('p4','B')" id="p4B"><span class="opt-letter-b">B</span> 6 g</div>
+        <div class="btn-opt" onclick="pick('p4','C')" id="p4C"><span class="opt-letter-b">C</span> 4 g</div>
+        <div class="btn-opt" onclick="pick('p4','D')" id="p4D"><span class="opt-letter-b">D</span> 9 g</div>
+        <div class="q-feedback" id="fb_p4"></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="paes-item" id="pi5">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál de las siguientes afirmaciones define correctamente al reactivo limitante?</div>
+        <div class="btn-opt" onclick="pick('p5','A')" id="p5A"><span class="opt-letter-b">A</span> El reactivo que tiene mayor masa molar.</div>
+        <div class="btn-opt" onclick="pick('p5','B')" id="p5B"><span class="opt-letter-b">B</span> El reactivo que se consume completamente y limita la cantidad de producto obtenible.</div>
+        <div class="btn-opt" onclick="pick('p5','C')" id="p5C"><span class="opt-letter-b">C</span> El reactivo que está en mayor cantidad en gramos.</div>
+        <div class="btn-opt" onclick="pick('p5','D')" id="p5D"><span class="opt-letter-b">D</span> El reactivo que requiere mayor temperatura para reaccionar.</div>
+        <div class="q-feedback" id="fb_p5"></div>
+      </div>
+
+      <!-- P6 -->
+      <div class="paes-item" id="pi6">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Un experimento produce 33 g de CO₂ cuando la estequiometría predice 44 g. El rendimiento es:</div>
+        <div class="btn-opt" onclick="pick('p6','A')" id="p6A"><span class="opt-letter-b">A</span> 33%</div>
+        <div class="btn-opt" onclick="pick('p6','B')" id="p6B"><span class="opt-letter-b">B</span> 44%</div>
+        <div class="btn-opt" onclick="pick('p6','C')" id="p6C"><span class="opt-letter-b">C</span> 75%</div>
+        <div class="btn-opt" onclick="pick('p6','D')" id="p6D"><span class="opt-letter-b">D</span> 133%</div>
+        <div class="q-feedback" id="fb_p6"></div>
+      </div>
+
+      <!-- P7 -->
+      <div class="paes-item" id="pi7">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">La masa molar del glucosa (C₆H₁₂O₆) es: (M_C=12, M_H=1, M_O=16)</div>
+        <div class="btn-opt" onclick="pick('p7','A')" id="p7A"><span class="opt-letter-b">A</span> 29 g/mol</div>
+        <div class="btn-opt" onclick="pick('p7','B')" id="p7B"><span class="opt-letter-b">B</span> 180 g/mol</div>
+        <div class="btn-opt" onclick="pick('p7','C')" id="p7C"><span class="opt-letter-b">C</span> 168 g/mol</div>
+        <div class="btn-opt" onclick="pick('p7','D')" id="p7D"><span class="opt-letter-b">D</span> 96 g/mol</div>
+        <div class="q-feedback" id="fb_p7"></div>
+      </div>
+
+      <!-- P8 -->
+      <div class="paes-item" id="pi8">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">En la respiración celular: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O. ¿Cuántos moles de O₂ se consumen por cada mol de glucosa?</div>
+        <div class="btn-opt" onclick="pick('p8','A')" id="p8A"><span class="opt-letter-b">A</span> 1 mol</div>
+        <div class="btn-opt" onclick="pick('p8','B')" id="p8B"><span class="opt-letter-b">B</span> 3 mol</div>
+        <div class="btn-opt" onclick="pick('p8','C')" id="p8C"><span class="opt-letter-b">C</span> 6 mol</div>
+        <div class="btn-opt" onclick="pick('p8','D')" id="p8D"><span class="opt-letter-b">D</span> 12 mol</div>
+        <div class="q-feedback" id="fb_p8"></div>
+      </div>
+
+      <!-- P9 -->
+      <div class="paes-item" id="pi9">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Por qué el rendimiento de una reacción industrial raramente llega al 100%?</div>
+        <div class="btn-opt" onclick="pick('p9','A')" id="p9A"><span class="opt-letter-b">A</span> Porque la Ley de Lavoisier prohíbe que la masa de productos iguale a la de reactivos.</div>
+        <div class="btn-opt" onclick="pick('p9','B')" id="p9B"><span class="opt-letter-b">B</span> Porque siempre hay pérdidas en el proceso, reacciones secundarias o condiciones imperfectas.</div>
+        <div class="btn-opt" onclick="pick('p9','C')" id="p9C"><span class="opt-letter-b">C</span> Porque parte de los reactivos se transforma en energía y desaparece.</div>
+        <div class="btn-opt" onclick="pick('p9','D')" id="p9D"><span class="opt-letter-b">D</span> Porque el reactivo limitante nunca se consume completamente.</div>
+        <div class="q-feedback" id="fb_p9"></div>
+      </div>
+
+      <!-- P10 -->
+      <div class="paes-item" id="pi10">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál de las siguientes afirmaciones sobre la estequiometría es <strong>incorrecta</strong>?</div>
+        <div class="btn-opt" onclick="pick('p10','A')" id="p10A"><span class="opt-letter-b">A</span> Los coeficientes de una ecuación balanceada indican proporciones molares.</div>
+        <div class="btn-opt" onclick="pick('p10','B')" id="p10B"><span class="opt-letter-b">B</span> La masa molar de un elemento equivale numéricamente a su masa atómica en g/mol.</div>
+        <div class="btn-opt" onclick="pick('p10','C')" id="p10C"><span class="opt-letter-b">C</span> El reactivo en exceso se consume completamente en la reacción.</div>
+        <div class="btn-opt" onclick="pick('p10','D')" id="p10D"><span class="opt-letter-b">D</span> Para identificar el reactivo limitante se comparan los moles de cada reactivo divididos por su coeficiente.</div>
+        <div class="q-feedback" id="fb_p10"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOLUCIONARIO -->
+  <div class="sol-wrap pdf-sol" id="solucionario">
+    <div class="paes-head" style="margin-bottom:1rem;">
+      <span class="paes-badge" style="background:#1a7a3c;">SOL</span>
+      Solucionario completo
+    </div>
+
+    <div style="margin-bottom:1rem;"><strong>Ejercicios (E1–E10):</strong></div>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-col-title">Básico</div>
+        <div class="sol-item"><span class="sn">E1</span><span class="sc">B</span> Número de Avogadro = 6,022 × 10²³ entidades/mol. Es la definición del mol.</div>
+        <div class="sol-item"><span class="sn">E2</span><span class="sc">C</span> M(H₂O) = 2·(1) + 1·(16) = 2 + 16 = 18 g/mol.</div>
+        <div class="sol-item"><span class="sn">E3</span><span class="sc">B</span> n = m/M = 44 g ÷ 44 g/mol = 1 mol.</div>
+      </div>
+      <div>
+        <div class="sol-col-title">Intermedio</div>
+        <div class="sol-item"><span class="sn">E4</span><span class="sc">B</span> Razón 2H₂:1O₂ → 2 mol H₂ necesita 1 mol O₂. m(O₂) = 1 mol × 32 g/mol = 32 g.</div>
+        <div class="sol-item"><span class="sn">E5</span><span class="sc">B</span> Razón N₂:NH₃ = 1:2 → 3 mol N₂ × (2/1) = 6 mol NH₃.</div>
+        <div class="sol-item"><span class="sn">E6</span><span class="sc">B</span> n(CH₄) = 16/16 = 1 mol. Razón 1:1 → 1 mol CO₂. m = 1×44 = 44 g.</div>
+        <div class="sol-item"><span class="sn">E7</span><span class="sc">B</span> 2H₂:1O₂. Con 2 mol H₂ se necesita 1 mol O₂ → O₂ en exceso (sobra 1 mol). H₂ es el limitante.</div>
+      </div>
+      <div>
+        <div class="sol-col-title">Avanzado</div>
+        <div class="sol-item"><span class="sn">E8</span><span class="sc">B</span> % = (27/36)×100 = 75%.</div>
+        <div class="sol-item"><span class="sn">E9</span><span class="sc">B</span> n(N₂)=1 mol; n(H₂)=1,5 mol. Dividir por coef: N₂→1/1=1; H₂→1,5/3=0,5. Menor = H₂ → H₂ es el limitante.</div>
+        <div class="sol-item"><span class="sn">E10</span><span class="sc">C</span> 1,5 mol N₂ × (2 mol NH₃/1 mol N₂) = 3 mol NH₃. N° moléculas = 3 × 6,022×10²³ = 1,806×10²⁴.</div>
+      </div>
+    </div>
+
+    <div style="margin:1.5rem 0 .5rem;"><strong>PAES (P1–P10):</strong></div>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-item"><span class="sn">P1</span><span class="sc">B</span> Avogadro (Nₐ) = número de entidades en 1 mol. No tiene relación con la velocidad de la luz ni la carga del electrón.</div>
+        <div class="sol-item"><span class="sn">P2</span><span class="sc">C</span> n = 117 g ÷ 58,5 g/mol = 2 mol. Cálculo directo de la fórmula n = m/M.</div>
+        <div class="sol-item"><span class="sn">P3</span><span class="sc">B</span> Razón O₂:Fe₂O₃ = 3:2. Con 3 mol O₂ → 2 mol Fe₂O₃. Proporciones de la ecuación balanceada.</div>
+        <div class="sol-item"><span class="sn">P4</span><span class="sc">B</span> n(H₂O) = 54/18 = 3 mol. Razón H₂:H₂O = 2:2 = 1:1 → 3 mol H₂. m = 3×2 = 6 g.</div>
+      </div>
+      <div>
+        <div class="sol-item"><span class="sn">P5</span><span class="sc">B</span> Reactivo limitante: se consume completamente y determina el máximo de producto. No depende de la masa molar ni de la temperatura.</div>
+        <div class="sol-item"><span class="sn">P6</span><span class="sc">C</span> % = (33/44)×100 = 75%.</div>
+        <div class="sol-item"><span class="sn">P7</span><span class="sc">B</span> M = 6·12 + 12·1 + 6·16 = 72 + 12 + 96 = 180 g/mol.</div>
+      </div>
+      <div>
+        <div class="sol-item"><span class="sn">P8</span><span class="sc">C</span> Coeficiente del O₂ en la ecuación = 6 → se consumen 6 mol de O₂ por cada mol de glucosa.</div>
+        <div class="sol-item"><span class="sn">P9</span><span class="sc">B</span> Pérdidas en el proceso, reacciones secundarias, impurezas, equilibrio químico → rendimiento real &lt; 100%.</div>
+        <div class="sol-item"><span class="sn">P10</span><span class="sc">C</span> Incorrecta: el reactivo en EXCESO no se consume completamente; queda sobrando. El limitante sí se consume completamente. A, B y D son correctas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="closing">
+    <div class="next-pill">¡Guía completada!</div>
+    <p>Dominar los 4 pasos estequiométricos (ecuación → moles → razón molar → resultado) te permitirá resolver cualquier cálculo cuantitativo en PAES Química. Practica con diferentes ecuaciones y siempre verifica el balance primero.</p>
+    <p style="margin-top:.75rem;">
+      <a href="https://www.MaestriaAI.cl" target="_blank" style="color:#D4AF37;font-weight:700;">www.MaestriaAI.cl</a> ·
+      <a href="https://instagram.com/Maestria.app" target="_blank" style="color:#D4AF37;font-weight:700;">@Maestria.app</a>
+    </p>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Estequiometría · Página 6 de 6</div>
+  </div>
+</div><!-- /page6 -->
+
+<script>
+(function(){
+  const GUIDE_ID = 'maestria_Estequiometria';
+  const TOTAL = 20;
+  const ANSWERS = {
+    e1:'B',e2:'C',e3:'B',e4:'B',e5:'B',e6:'B',e7:'B',e8:'B',e9:'B',e10:'C',
+    p1:'B',p2:'C',p3:'B',p4:'B',p5:'B',p6:'C',p7:'B',p8:'C',p9:'B',p10:'C'
+  };
+  const FEEDBACK = {
+    e1:{B:'Correcto. Número de Avogadro = 6,022 × 10²³ partículas por mol. Es la definición universal del mol.',A:'Incorrecto. 1 000 es una cantidad demasiado pequeña; las partículas químicas son inconmensurablemente más numerosas.',C:'Incorrecto. El exponente correcto es 23, no 12.',D:'Incorrecto. 10⁶ es un millón, muy lejos del Número de Avogadro (≈ 6 × 10²³).'},
+    e2:{C:'Correcto. M(H₂O) = 2·(1) + 1·(16) = 2 + 16 = 18 g/mol.',A:'Incorrecto. 16 g/mol es la masa molar del oxígeno atómico (O), no del agua.',B:'Incorrecto. 17 g/mol sería si el agua fuera HO en vez de H₂O.',D:'Incorrecto. 20 g/mol no corresponde a ninguna combinación correcta de H y O.'},
+    e3:{B:'Correcto. n = m/M = 44 g ÷ 44 g/mol = 1 mol.',A:'Incorrecto. 0,5 mol equivaldría a 22 g de CO₂.',C:'Incorrecto. 2 mol equivaldrían a 88 g de CO₂.',D:'Incorrecto. n no puede ser igual a la masa; son magnitudes distintas.'},
+    e4:{B:'Correcto. Razón molar: 2 mol H₂ reacciona con 1 mol O₂. m(O₂) = 1 mol × 32 g/mol = 32 g.',A:'Incorrecto. 16 g sería 0,5 mol de O₂, insuficiente para 2 mol H₂.',C:'Incorrecto. 64 g sería 2 mol de O₂, más del necesario.',D:'Incorrecto. 4 g sería la masa del H₂, no del O₂.'},
+    e5:{B:'Correcto. Razón molar N₂:NH₃ = 1:2 → 3 mol N₂ × 2 = 6 mol NH₃.',A:'Incorrecto. 3 mol sería si la razón fuera 1:1.',C:'Incorrecto. 9 mol sería si la razón fuera 1:3.',D:'Incorrecto. 1,5 mol sería si la razón fuera 2:1 (al revés).'},
+    e6:{B:'Correcto. n(CH₄) = 16/16 = 1 mol. Razón 1:1 → 1 mol CO₂. m = 1 × 44 = 44 g.',A:'Incorrecto. 16 g es la masa del metano inicial, no del CO₂ producido.',C:'Incorrecto. 22 g sería la mitad del mol de CO₂, sin base en la estequiometría.',D:'Incorrecto. 88 g sería 2 mol de CO₂, pero la razón metano:CO₂ es 1:1.'},
+    e7:{B:'Correcto. 2 mol H₂ necesita 1 mol O₂ (razón 2:1). Se tienen 2 mol O₂ → sobra 1 mol O₂. H₂ se consume todo → H₂ es el limitante.',A:'Incorrecto. El O₂ está en exceso (se necesita 1 mol, hay 2); no puede ser el limitante.',C:'Incorrecto. En 2:1, los reactivos no se agotan simultáneamente con 2 mol de cada uno.',D:'Incorrecto. El O₂ no se consume completamente; sobra 1 mol.'},
+    e8:{B:'Correcto. % rendimiento = (27/36) × 100 = 75%.',A:'Incorrecto. 50% sería si se obtuvieran 18 g (la mitad de 36 g).',C:'Incorrecto. 90% sería si se obtuvieran 32,4 g.',D:'Incorrecto. Más de 100% es imposible; el rendimiento nunca supera el 100%.'},
+    e9:{B:'Correcto. n(N₂)/coef = 1/1 = 1; n(H₂)/coef = 1,5/3 = 0,5. El menor es H₂ → H₂ es el limitante.',A:'Incorrecto. La masa menor no determina el limitante; hay que dividir por los coeficientes.',C:'Incorrecto. n(N₂)/1 = 1 > n(H₂)/3 = 0,5; el N₂ NO es el limitante.',D:'Incorrecto. Con distinta cantidad molar, uno siempre es limitante.'},
+    e10:{C:'Correcto. 1,5 mol N₂ × (2 mol NH₃/1 mol N₂) = 3 mol NH₃. Moléculas = 3 × 6,022×10²³ = 1,806×10²⁴.',A:'Incorrecto. 1,5×10²³ sería si solo se multiplicara 0,25 mol por Avogadro.',B:'Incorrecto. 6,022×10²³ sería exactamente 1 mol de NH₃.',D:'Incorrecto. 3,011×10²³ sería 0,5 mol de NH₃.'},
+    p1:{B:'Correcto. Nₐ = 6,022 × 10²³ entidades/mol. Define cuántas partículas hay en 1 mol de cualquier sustancia.',A:'Incorrecto. La masa de un átomo de carbono ¹²C es 12 uma, no tiene relación con Avogadro.',C:'Incorrecto. La velocidad de la luz es c ≈ 3×10⁸ m/s.',D:'Incorrecto. La carga del electrón es e = 1,6×10⁻¹⁹ C.'},
+    p2:{C:'Correcto. n = 117 ÷ 58,5 = 2 mol.',A:'Incorrecto. 0,5 mol corresponde a 29,25 g de NaCl.',B:'Incorrecto. 1 mol corresponde a 58,5 g de NaCl.',D:'Incorrecto. n no es igual a la masa; son magnitudes distintas.'},
+    p3:{B:'Correcto. Razón O₂:Fe₂O₃ = 3:2. Con 3 mol O₂ → 2 mol Fe₂O₃.',A:'Incorrecto. 1 mol Fe₂O₃ sería si la razón fuera 3:1.',C:'Incorrecto. 3 mol sería si la razón fuera 1:1.',D:'Incorrecto. 4 mol sería si la razón fuera 3:4.'},
+    p4:{B:'Correcto. n(H₂O) = 54/18 = 3 mol. Razón H₂:H₂O = 2:2 = 1:1 → 3 mol H₂. m = 3×2 = 6 g.',A:'Incorrecto. 2 g sería 1 mol de H₂, insuficiente para producir 54 g de H₂O.',C:'Incorrecto. 4 g sería 2 mol de H₂, produciría solo 36 g de H₂O.',D:'Incorrecto. 9 g sería 4,5 mol de H₂, demasiado.'},
+    p5:{B:'Correcto. Reactivo limitante: se consume completamente y determina el máximo de producto obtenible.',A:'Incorrecto. La masa molar no define al limitante; depende de los moles relativos a los coeficientes.',C:'Incorrecto. El que está en mayor cantidad en gramos no es necesariamente el limitante.',D:'Incorrecto. La temperatura de reacción no define quién es el limitante.'},
+    p6:{C:'Correcto. % = (33/44) × 100 = 75%.',A:'Incorrecto. 33% confunde la masa obtenida con el porcentaje.',B:'Incorrecto. 44% confunde la masa teórica con el porcentaje.',D:'Incorrecto. Rendimiento > 100% es imposible físicamente.'},
+    p7:{B:'Correcto. M = 6·12 + 12·1 + 6·16 = 72 + 12 + 96 = 180 g/mol.',A:'Incorrecto. 29 g/mol no corresponde a ninguna combinación correcta de C, H y O.',C:'Incorrecto. 168 g/mol sería si se olvidaran los 12 hidrógenos.',D:'Incorrecto. 96 g/mol sería solo el aporte de los carbonos.'},
+    p8:{C:'Correcto. El coeficiente del O₂ en la ecuación es 6 → se necesitan 6 mol de O₂ por mol de glucosa.',A:'Incorrecto. 1 mol de O₂ no balancearía la ecuación (hay 12 átomos O en glucosa sola).',B:'Incorrecto. 3 mol de O₂ = 6 átomos O, insuficiente.',D:'Incorrecto. 12 mol de O₂ sería el doble de lo necesario.'},
+    p9:{B:'Correcto. En la práctica: reacciones secundarias, impurezas de reactivos, pérdidas durante la separación/filtración, equilibrio reversible → rendimiento real < 100%.',A:'Incorrecto. La Ley de Lavoisier no impide rendimiento del 100%; habla de conservación de masa, no de rendimiento.',C:'Incorrecto. Los reactivos no se convierten en energía que "desaparece"; la masa se conserva.',D:'Incorrecto. Por definición, el reactivo limitante SÍ se consume completamente.'},
+    p10:{C:'Correcto (INCORRECTA). El reactivo en EXCESO es el que queda sobrando (NO se consume completamente). El limitante sí. A, B y D son todas correctas.',A:'Incorrecto: sí es correcta (los coeficientes dan proporciones molares).',B:'Incorrecto: sí es correcta (masa molar = masa atómica en g/mol).',D:'Incorrecto: sí es correcta (criterio estándar para identificar el limitante).'}
+  };
+
+  let score = parseInt(localStorage.getItem(GUIDE_ID+'_score')||'0');
+  let answered = JSON.parse(localStorage.getItem(GUIDE_ID+'_ans')||'{}');
+
+  function save(){
+    localStorage.setItem(GUIDE_ID+'_score', score);
+    localStorage.setItem(GUIDE_ID+'_ans', JSON.stringify(answered));
+  }
+  function updateBar(){
+    document.getElementById('sbpts').textContent = score+' / '+TOTAL;
+  }
+  function pick(q, opt){
+    if(answered[q]) return;
+    answered[q] = opt;
+    const correct = ANSWERS[q];
+    const isOk = opt === correct;
+    if(isOk) score++;
+    save(); updateBar();
+    ['A','B','C','D'].forEach(l=>{
+      const el = document.getElementById(q+l);
+      if(!el) return;
+      el.classList.remove('opt-selected-ok','opt-selected-err','opt-correct-reveal');
+      if(l===opt) el.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+      if(!isOk && l===correct) el.classList.add('opt-correct-reveal');
+    });
+    const fb = document.getElementById('fb_'+q);
+    if(fb){
+      const msg = FEEDBACK[q] && FEEDBACK[q][opt] ? FEEDBACK[q][opt] : (isOk?'Correcto.':'Incorrecto.');
+      fb.textContent = msg;
+      fb.className = 'q-feedback '+(isOk?'fb-ok':'fb-err');
+    }
+  }
+  function restore(){
+    Object.keys(answered).forEach(q=>{
+      const opt = answered[q];
+      const correct = ANSWERS[q];
+      const isOk = opt === correct;
+      ['A','B','C','D'].forEach(l=>{
+        const el = document.getElementById(q+l);
+        if(!el) return;
+        if(l===opt) el.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+        if(!isOk && l===correct) el.classList.add('opt-correct-reveal');
+      });
+      const fb = document.getElementById('fb_'+q);
+      if(fb){
+        const msg = FEEDBACK[q] && FEEDBACK[q][opt] ? FEEDBACK[q][opt] : (isOk?'Correcto.':'Incorrecto.');
+        fb.textContent = msg;
+        fb.className = 'q-feedback '+(isOk?'fb-ok':'fb-err');
+      }
+    });
+    updateBar();
+  }
+  function exportPDF(){
+    document.getElementById('solucionario').style.display='block';
+    window.print();
+  }
+  window.pick = pick;
+  window.exportPDF = exportPDF;
+  restore();
+})();
+</script>
+</body>
+</html>

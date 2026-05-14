@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Sonido — Ciencias Naturales 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Barra de puntaje ── */
+    .score-bar{position:fixed;top:0;left:0;right:0;z-index:999;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 24px;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+    .sb-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;}
+    .sb-pts{font-size:20px;font-weight:800;color:#D4AF37;line-height:1;}
+    .btn-pdf-bar{background:#D4AF37;color:#0B0F3F;border:none;padding:7px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;}
+    body{padding-top:52px;}
+    @media print{.score-bar{display:none!important;}body{padding-top:0;}.pdf-sol{display:block!important;}.no-print{display:none!important;}}
+    /* ── Alternativas ── */
+    .btn-opt{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0;padding:10px 14px;background:#F8F4E9;border:2px solid #d8d0c8;border-radius:8px;cursor:pointer;font-size:11pt;text-align:left;transition:border-color .15s,background .15s;}
+    .btn-opt:hover{background:#f0e8d8;border-color:#D4AF37;}
+    .opt-letter-b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;border-radius:50%;background:#0B0F3F;color:#D4AF37;font-weight:800;font-size:12px;}
+    .opt-selected-ok{background:#d4edda!important;border-color:#1a7a3c!important;}
+    .opt-selected-err{background:#f8d7da!important;border-color:#c0392b!important;}
+    .opt-correct-reveal{background:#fff3cd!important;border-color:#D4AF37!important;}
+    /* ── Retroalimentación ── */
+    .q-feedback{display:none;border-radius:7px;padding:8px 13px;margin:6px 0 4px;font-size:11pt;line-height:1.5;}
+    .fb-ok{display:block!important;background:#d4edda;color:#155724;border-left:4px solid #1a7a3c;}
+    .fb-err{display:block!important;background:#f8d7da;color:#721c24;border-left:4px solid #c0392b;}
+    /* ── Solucionario (oculto en pantalla) ── */
+    .pdf-sol{display:none;}
+    .wave-box { background:#f0f4ff; border-radius:12px; padding:1rem; margin:1rem 0; text-align:center; }
+    .prop-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin:1rem 0; }
+    .prop-card { background:#fff; border:2px solid #e8eaf0; border-radius:12px; padding:1rem; text-align:center; }
+    .prop-card .prop-icon { font-size:2rem; margin-bottom:.5rem; }
+    .prop-card .prop-name { font-weight:700; color:#0B0F3F; font-size:1rem; }
+    .prop-card .prop-def { font-size:.875rem; color:#444; margin-top:.25rem; }
+    .prop-card .prop-unit { display:inline-block; background:#D4AF37; color:#0B0F3F; border-radius:20px; padding:.1rem .6rem; font-size:.75rem; font-weight:700; margin-top:.5rem; }
+    .scale-row { display:flex; align-items:center; gap:.5rem; margin:.4rem 0; font-size:.9rem; }
+    .scale-bar { height:18px; border-radius:4px; background:linear-gradient(90deg,#1a7a3c,#D4AF37,#c0392b); }
+    .db-pill { display:inline-block; background:#0B0F3F; color:#fff; border-radius:20px; padding:.1rem .55rem; font-size:.75rem; font-weight:600; min-width:54px; text-align:center; }
+  </style>
+</head>
+<body>
+
+<!-- SCORE BAR -->
+<div class="score-bar" id="scorebar">
+  <span class="sb-label">Progreso</span>
+  <span class="sb-pts" id="sbpts">0 / 20</span>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- ============================================================
+     PÁGINA 1 — TEORÍA
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Física — Ondas y Sonido<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Física</div>
+    <h2>El Sonido — Ondas Mecánicas</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">🎵 Ondas</span>
+    <span class="chip">🔊 Sonido</span>
+    <span class="chip">Página 1 de 3</span>
+  </div>
+
+  <div class="oa-box">
+    <span class="oa-badge">OA 3 – OA 4</span>
+    <span class="oa-text">Describir el sonido como onda mecánica longitudinal y relacionar sus propiedades (frecuencia, amplitud, velocidad) con fenómenos cotidianos y tecnológicos.</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── Naturaleza del sonido ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es el sonido?</div>
+
+      <div class="card card-def">
+        <strong>Sonido:</strong> perturbación mecánica que se propaga como onda longitudinal a través de un medio material (sólido, líquido o gas). Las partículas del medio <em>no se desplazan</em>; solo transfieren energía.
+      </div>
+
+      <p>El sonido <strong>no se propaga en el vacío</strong> porque necesita partículas que transmitan las compresiones y rarefacciones. Por eso en el espacio exterior no hay sonido.</p>
+
+      <!-- SVG onda longitudinal -->
+      <div class="wave-box">
+        <svg viewBox="0 0 520 140" width="100%" style="max-width:520px;" aria-label="Onda longitudinal: compresiones y rarefacciones">
+          <!-- Partículas -->
+          <defs>
+            <radialGradient id="pg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#7EB3FF"/>
+              <stop offset="100%" stop-color="#0B0F3F"/>
+            </radialGradient>
+          </defs>
+          <!-- fondo -->
+          <rect width="520" height="140" rx="10" fill="#0B0F3F" opacity=".06"/>
+          <!-- eje -->
+          <line x1="20" y1="70" x2="500" y2="70" stroke="#0B0F3F" stroke-width="1.5" stroke-dasharray="4 3" opacity=".3"/>
+          <!-- fuente -->
+          <rect x="10" y="52" width="24" height="36" rx="4" fill="#6A2C91"/>
+          <text x="22" y="75" text-anchor="middle" fill="#fff" font-size="11" font-family="Inter">♪</text>
+          <!-- Partículas — compresión (agrupadas) y rarefacción (separadas) -->
+          <!-- zona compresión 1 -->
+          <circle cx="65" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="78" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="91" cy="70" r="5" fill="url(#pg)"/>
+          <!-- zona rarefacción 1 -->
+          <circle cx="115" cy="70" r="5" fill="url(#pg)" opacity=".5"/>
+          <circle cx="138" cy="70" r="5" fill="url(#pg)" opacity=".5"/>
+          <!-- zona compresión 2 -->
+          <circle cx="162" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="175" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="188" cy="70" r="5" fill="url(#pg)"/>
+          <!-- zona rarefacción 2 -->
+          <circle cx="212" cy="70" r="5" fill="url(#pg)" opacity=".5"/>
+          <circle cx="235" cy="70" r="5" fill="url(#pg)" opacity=".5"/>
+          <!-- zona compresión 3 -->
+          <circle cx="259" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="272" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="285" cy="70" r="5" fill="url(#pg)"/>
+          <!-- zona rarefacción 3 -->
+          <circle cx="309" cy="70" r="5" fill="url(#pg)" opacity=".5"/>
+          <circle cx="332" cy="70" r="5" fill="url(#pg)" opacity=".5"/>
+          <!-- zona compresión 4 -->
+          <circle cx="356" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="369" cy="70" r="5" fill="url(#pg)"/>
+          <circle cx="382" cy="70" r="5" fill="url(#pg)"/>
+          <!-- labels compresión / rarefacción -->
+          <text x="78" y="100" text-anchor="middle" fill="#0B0F3F" font-size="10" font-family="Inter" font-weight="700">Compresión</text>
+          <text x="175" y="100" text-anchor="middle" fill="#6A2C91" font-size="10" font-family="Inter" font-weight="700">Rarefacción</text>
+          <!-- flecha dirección -->
+          <line x1="420" y1="70" x2="490" y2="70" stroke="#D4AF37" stroke-width="2.5"/>
+          <polygon points="490,65 502,70 490,75" fill="#D4AF37"/>
+          <text x="455" y="62" text-anchor="middle" fill="#D4AF37" font-size="10" font-family="Inter" font-weight="700">Propagación</text>
+        </svg>
+        <p style="font-size:.8rem;color:#555;margin-top:.5rem;">La onda longitudinal: las partículas vibran en la misma dirección que se propaga la onda.</p>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Onda transversal vs. longitudinal:</strong> En las ondas transversales (luz, cuerda) las partículas vibran <em>perpendicular</em> al avance. En las longitudinales (sonido) vibran <em>paralelas</em> al avance.
+      </div>
+    </div>
+
+    <!-- ─── Propiedades del sonido ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Propiedades del sonido</div>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <div class="prop-icon">〰</div>
+          <div class="prop-name">Frecuencia (f)</div>
+          <div class="prop-def">Número de ciclos (compresión + rarefacción) por segundo. Determina el <strong>tono</strong> del sonido: alta f = sonido agudo.</div>
+          <span class="prop-unit">Hz (hertz)</span>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon">📶</div>
+          <div class="prop-name">Amplitud (A)</div>
+          <div class="prop-def">Máximo desplazamiento de la partícula respecto al equilibrio. Determina el <strong>volumen</strong>: mayor A = sonido más fuerte.</div>
+          <span class="prop-unit">m (metros)</span>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon">↔</div>
+          <div class="prop-name">Longitud de onda (λ)</div>
+          <div class="prop-def">Distancia entre dos compresiones consecutivas. Se relaciona con la frecuencia: mayor f → menor λ.</div>
+          <span class="prop-unit">m (metros)</span>
+        </div>
+        <div class="prop-card">
+          <div class="prop-icon">💨</div>
+          <div class="prop-name">Velocidad (v)</div>
+          <div class="prop-def">Rapidez con que la perturbación se propaga. Depende del <strong>medio</strong>, no de la frecuencia.</div>
+          <span class="prop-unit">m/s</span>
+        </div>
+      </div>
+
+      <div class="card card-def">
+        <strong>Relación fundamental:</strong>
+        <div style="text-align:center;font-size:1.2rem;margin:.5rem 0;letter-spacing:.05em;">
+          <strong>v = f · λ</strong>
+        </div>
+        velocidad (m/s) = frecuencia (Hz) · longitud de onda (m)
+      </div>
+    </div>
+
+    <!-- ─── Velocidad según el medio ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Velocidad del sonido en distintos medios</div>
+
+      <p>El sonido se propaga más rápido en medios más <strong>densos y rígidos</strong> porque las partículas están más cerca y las fuerzas intermoleculares transmiten la perturbación con mayor rapidez.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Medio</th><th>Estado</th><th>v aproximada (m/s)</th><th>Comparación</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Aire (20 °C)</td><td>Gas</td><td>343</td><td>Referencia</td></tr>
+          <tr><td>Agua (20 °C)</td><td>Líquido</td><td>1 480</td><td>≈ 4× más rápido</td></tr>
+          <tr><td>Hierro</td><td>Sólido</td><td>5 100</td><td>≈ 15× más rápido</td></tr>
+          <tr><td>Madera (pino)</td><td>Sólido</td><td>3 300</td><td>≈ 10× más rápido</td></tr>
+          <tr><td>Vacío</td><td>—</td><td>0</td><td>No se propaga</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Aplicación:</strong> Los delfines y ballenas usan el agua como excelente conductor acústico. El ultrasonido médico funciona porque los tejidos transmiten las ondas de modo similar al agua.
+      </div>
+    </div>
+
+    <!-- ─── Infrasonido y ultrasonido ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Infrasonido, audible y ultrasonido</div>
+
+      <p>El oído humano detecta frecuencias entre aproximadamente <strong>20 Hz y 20 000 Hz</strong> (20 kHz). Fuera de ese rango hay sonidos que no percibimos pero que existen y tienen aplicaciones.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Rango</th><th>Frecuencia</th><th>Ejemplos</th><th>Aplicaciones</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Infrasonido</strong></td>
+            <td>&lt; 20 Hz</td>
+            <td>Terremotos, erupciones, ballenas jorobadas</td>
+            <td>Detección de fenómenos geológicos, comunicación de cetáceos</td>
+          </tr>
+          <tr>
+            <td><strong>Sonido audible</strong></td>
+            <td>20 Hz – 20 kHz</td>
+            <td>Voz humana (80–1100 Hz), música, conversación</td>
+            <td>Comunicación, música, lenguaje</td>
+          </tr>
+          <tr>
+            <td><strong>Ultrasonido</strong></td>
+            <td>&gt; 20 kHz</td>
+            <td>Murciélagos (40–100 kHz), perros (hasta 65 kHz)</td>
+            <td>Ecografías, sonar submarino, limpieza por ultrasonido</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ─── Efecto Doppler ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>Efecto Doppler</div>
+
+      <div class="card card-def">
+        <strong>Efecto Doppler:</strong> cambio aparente en la frecuencia percibida de una onda cuando la fuente o el observador se mueven entre sí.
+      </div>
+
+      <div class="two-col">
+        <div class="col-card">
+          <strong>Fuente se acerca</strong><br>
+          Las ondas se comprimen → el observador percibe mayor frecuencia → sonido más <strong>agudo</strong>.<br>
+          <em>Ejemplo: sirena de ambulancia que se aproxima.</em>
+        </div>
+        <div class="col-card">
+          <strong>Fuente se aleja</strong><br>
+          Las ondas se estiran → el observador percibe menor frecuencia → sonido más <strong>grave</strong>.<br>
+          <em>Ejemplo: la misma ambulancia después de pasar.</em>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Aplicación médica:</strong> El doppler cardiovascular usa este efecto para medir la velocidad de la sangre en arterias y venas sin cirugía.
+      </div>
+    </div>
+
+    <!-- ─── Contaminación acústica ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">6</span>Intensidad sonora y contaminación acústica</div>
+
+      <p>La intensidad se mide en <strong>decibeles (dB)</strong>. Cada aumento de 10 dB multiplica la intensidad percibida por 10. La exposición prolongada a más de <strong>85 dB</strong> causa daño auditivo irreversible.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Sonido</th><th>Nivel (dB)</th><th>Efecto</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Umbral de audición</td><td>0</td><td>Barely audible</td></tr>
+          <tr><td>Susurro</td><td>30</td><td>Sin efecto</td></tr>
+          <tr><td>Conversación normal</td><td>60</td><td>Sin efecto</td></tr>
+          <tr><td>Tráfico urbano</td><td>80</td><td>Estrés leve con exposición prolongada</td></tr>
+          <tr><td>Concierto de rock</td><td>110</td><td>Daño auditivo en 30 min</td></tr>
+          <tr><td>Motor de avión (cerca)</td><td>140</td><td>Daño inmediato</td></tr>
+        </tbody>
+      </table>
+
+      <div class="meta-box">
+        <strong>Metacognición:</strong> ¿Usas audífonos frecuentemente? ¿A qué volumen? Investiga cuántos dB alcanza el volumen máximo de tu celular y reflexiona si estás en zona de riesgo.
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · El Sonido · Página 1 de 3</div>
+  </div>
+</div><!-- /page1 -->
+
+<!-- ============================================================
+     PÁGINA 2 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Física — Ondas y Sonido<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Física</div>
+    <h2>El Sonido — Ejercicios</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+    <span class="chip">Página 2 de 3</span>
+  </div>
+
+  <!-- BÁSICO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-b">Básico</span>
+      <span>Ejercicios 1 – 3</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E1 -->
+      <div class="ex-item" id="ei1">
+        <div class="ex-header-row">
+          <span class="ex-num-label">1</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">El sonido es una onda <strong>mecánica longitudinal</strong>. Esto significa que:</div>
+        <div class="btn-opt" onclick="pick('e1','A')" id="e1A"><span class="opt-letter-b">A</span> Las partículas se mueven perpendicular al avance de la onda.</div>
+        <div class="btn-opt" onclick="pick('e1','B')" id="e1B"><span class="opt-letter-b">B</span> Las partículas vibran en la misma dirección en que se propaga la onda.</div>
+        <div class="btn-opt" onclick="pick('e1','C')" id="e1C"><span class="opt-letter-b">C</span> El sonido puede propagarse en el vacío a muy alta velocidad.</div>
+        <div class="btn-opt" onclick="pick('e1','D')" id="e1D"><span class="opt-letter-b">D</span> No requiere un medio material para transmitirse.</div>
+        <div class="q-feedback" id="fb_e1"></div>
+      </div>
+
+      <!-- E2 -->
+      <div class="ex-item" id="ei2">
+        <div class="ex-header-row">
+          <span class="ex-num-label">2</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">¿Qué propiedad del sonido determina si lo percibimos como <strong>agudo o grave</strong>?</div>
+        <div class="btn-opt" onclick="pick('e2','A')" id="e2A"><span class="opt-letter-b">A</span> La amplitud.</div>
+        <div class="btn-opt" onclick="pick('e2','B')" id="e2B"><span class="opt-letter-b">B</span> La velocidad de propagación.</div>
+        <div class="btn-opt" onclick="pick('e2','C')" id="e2C"><span class="opt-letter-b">C</span> La frecuencia.</div>
+        <div class="btn-opt" onclick="pick('e2','D')" id="e2D"><span class="opt-letter-b">D</span> La longitud de onda en el vacío.</div>
+        <div class="q-feedback" id="fb_e2"></div>
+      </div>
+
+      <!-- E3 -->
+      <div class="ex-item" id="ei3">
+        <div class="ex-header-row">
+          <span class="ex-num-label">3</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">En el espacio exterior (vacío), dos astronautas intentan hablar directamente sin equipo de comunicaciones. ¿Qué ocurre?</div>
+        <div class="btn-opt" onclick="pick('e3','A')" id="e3A"><span class="opt-letter-b">A</span> El sonido se propaga igual que en la Tierra, pero más lento.</div>
+        <div class="btn-opt" onclick="pick('e3','B')" id="e3B"><span class="opt-letter-b">B</span> El sonido no se propaga porque no hay medio material.</div>
+        <div class="btn-opt" onclick="pick('e3','C')" id="e3C"><span class="opt-letter-b">C</span> El sonido se propaga a mayor velocidad por la baja presión.</div>
+        <div class="btn-opt" onclick="pick('e3','D')" id="e3D"><span class="opt-letter-b">D</span> Se propaga pero con frecuencia muy baja (infrasonido).</div>
+        <div class="q-feedback" id="fb_e3"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INTERMEDIO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-m">Intermedio</span>
+      <span>Ejercicios 4 – 7</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E4 -->
+      <div class="ex-item" id="ei4">
+        <div class="ex-header-row">
+          <span class="ex-num-label">4</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">Un sonido tiene frecuencia de <strong>680 Hz</strong> y se propaga en aire a <strong>340 m/s</strong>. ¿Cuál es su longitud de onda?</div>
+        <div class="btn-opt" onclick="pick('e4','A')" id="e4A"><span class="opt-letter-b">A</span> 0,25 m</div>
+        <div class="btn-opt" onclick="pick('e4','B')" id="e4B"><span class="opt-letter-b">B</span> 0,5 m</div>
+        <div class="btn-opt" onclick="pick('e4','C')" id="e4C"><span class="opt-letter-b">C</span> 2 m</div>
+        <div class="btn-opt" onclick="pick('e4','D')" id="e4D"><span class="opt-letter-b">D</span> 1 m</div>
+        <div class="q-feedback" id="fb_e4"></div>
+      </div>
+
+      <!-- E5 -->
+      <div class="ex-item" id="ei5">
+        <div class="ex-header-row">
+          <span class="ex-num-label">5</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">El sonido se propaga más rápido en el <strong>hierro</strong> que en el <strong>aire</strong>. La causa principal es:</div>
+        <div class="btn-opt" onclick="pick('e5','A')" id="e5A"><span class="opt-letter-b">A</span> El hierro tiene mayor temperatura.</div>
+        <div class="btn-opt" onclick="pick('e5','B')" id="e5B"><span class="opt-letter-b">B</span> Las partículas del hierro están más próximas y las fuerzas intermoleculares transmiten la perturbación más rápido.</div>
+        <div class="btn-opt" onclick="pick('e5','C')" id="e5C"><span class="opt-letter-b">C</span> El hierro es un buen conductor eléctrico.</div>
+        <div class="btn-opt" onclick="pick('e5','D')" id="e5D"><span class="opt-letter-b">D</span> La frecuencia aumenta al pasar de aire a hierro.</div>
+        <div class="q-feedback" id="fb_e5"></div>
+      </div>
+
+      <!-- E6 -->
+      <div class="ex-item" id="ei6">
+        <div class="ex-header-row">
+          <span class="ex-num-label">6</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">Los murciélagos emiten sonidos de <strong>40 kHz a 100 kHz</strong>. Estos sonidos se clasifican como:</div>
+        <div class="btn-opt" onclick="pick('e6','A')" id="e6A"><span class="opt-letter-b">A</span> Infrasonido, porque están por debajo del rango visible.</div>
+        <div class="btn-opt" onclick="pick('e6','B')" id="e6B"><span class="opt-letter-b">B</span> Sonido audible por el ser humano.</div>
+        <div class="btn-opt" onclick="pick('e6','C')" id="e6C"><span class="opt-letter-b">C</span> Ultrasonido, porque superan los 20 000 Hz.</div>
+        <div class="btn-opt" onclick="pick('e6','D')" id="e6D"><span class="opt-letter-b">D</span> Infrasonido, porque los humanos no los oímos.</div>
+        <div class="q-feedback" id="fb_e6"></div>
+      </div>
+
+      <!-- E7 -->
+      <div class="ex-item" id="ei7">
+        <div class="ex-header-row">
+          <span class="ex-num-label">7</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">Una ambulancia con sirena activa se aleja de un observador. El observador percibe el sonido de la sirena:</div>
+        <div class="btn-opt" onclick="pick('e7','A')" id="e7A"><span class="opt-letter-b">A</span> Con mayor frecuencia (más agudo) por efecto Doppler.</div>
+        <div class="btn-opt" onclick="pick('e7','B')" id="e7B"><span class="opt-letter-b">B</span> Con menor frecuencia (más grave) por efecto Doppler.</div>
+        <div class="btn-opt" onclick="pick('e7','C')" id="e7C"><span class="opt-letter-b">C</span> Con la misma frecuencia, el Doppler solo aplica si se acerca.</div>
+        <div class="btn-opt" onclick="pick('e7','D')" id="e7D"><span class="opt-letter-b">D</span> Sin sonido, porque la ambulancia va más rápido que el sonido.</div>
+        <div class="q-feedback" id="fb_e7"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AVANZADO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-a">Avanzado</span>
+      <span>Ejercicios 8 – 10</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E8 -->
+      <div class="ex-item" id="ei8">
+        <div class="ex-header-row">
+          <span class="ex-num-label">8</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">Una onda sonora pasa del aire al agua. Sabiendo que en agua la velocidad es ≈ 4× mayor, y que la <strong>frecuencia no cambia</strong> al cambiar de medio, la longitud de onda en agua será:</div>
+        <div class="btn-opt" onclick="pick('e8','A')" id="e8A"><span class="opt-letter-b">A</span> La misma que en aire.</div>
+        <div class="btn-opt" onclick="pick('e8','B')" id="e8B"><span class="opt-letter-b">B</span> 4 veces mayor que en aire.</div>
+        <div class="btn-opt" onclick="pick('e8','C')" id="e8C"><span class="opt-letter-b">C</span> 4 veces menor que en aire.</div>
+        <div class="btn-opt" onclick="pick('e8','D')" id="e8D"><span class="opt-letter-b">D</span> Indeterminada, porque el sonido no pasa del aire al agua.</div>
+        <div class="q-feedback" id="fb_e8"></div>
+      </div>
+
+      <!-- E9 -->
+      <div class="ex-item" id="ei9">
+        <div class="ex-header-row">
+          <span class="ex-num-label">9</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">Un trabajador se expone diariamente a <strong>95 dB</strong> por 8 horas. Según la normativa, el límite para 8 horas es <strong>85 dB</strong>. ¿Cuál de las siguientes acciones es más efectiva para reducir el riesgo auditivo?</div>
+        <div class="btn-opt" onclick="pick('e9','A')" id="e9A"><span class="opt-letter-b">A</span> Reducir la jornada a 4 horas.</div>
+        <div class="btn-opt" onclick="pick('e9','B')" id="e9B"><span class="opt-letter-b">B</span> Usar protectores auditivos certificados que reduzcan la exposición por debajo de 85 dB.</div>
+        <div class="btn-opt" onclick="pick('e9','C')" id="e9C"><span class="opt-letter-b">C</span> Alejarse 2 metros de la fuente de ruido.</div>
+        <div class="btn-opt" onclick="pick('e9','D')" id="e9D"><span class="opt-letter-b">D</span> Trabajar con música de alta frecuencia para contrarrestar el ruido.</div>
+        <div class="q-feedback" id="fb_e9"></div>
+      </div>
+
+      <!-- E10 -->
+      <div class="ex-item" id="ei10">
+        <div class="ex-header-row">
+          <span class="ex-num-label">10</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">La ecografía médica utiliza ultrasonido de <strong>2–18 MHz</strong>. Si a 5 MHz la velocidad en tejido blando es 1540 m/s, la longitud de onda aproximada es:</div>
+        <div class="btn-opt" onclick="pick('e10','A')" id="e10A"><span class="opt-letter-b">A</span> 3,08 × 10⁻⁴ m (0,308 mm)</div>
+        <div class="btn-opt" onclick="pick('e10','B')" id="e10B"><span class="opt-letter-b">B</span> 3,08 × 10⁻³ m (3,08 mm)</div>
+        <div class="btn-opt" onclick="pick('e10','C')" id="e10C"><span class="opt-letter-b">C</span> 0,308 m</div>
+        <div class="btn-opt" onclick="pick('e10','D')" id="e10D"><span class="opt-letter-b">D</span> 7 700 m</div>
+        <div class="q-feedback" id="fb_e10"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="autoeval">
+    <strong>¿Cómo te fue?</strong> Reflexiona: ¿los errores fueron de concepto o de cálculo? En los de cálculo, ¿identificaste bien la fórmula v = f · λ?
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · El Sonido · Página 2 de 3</div>
+  </div>
+</div><!-- /page2 -->
+
+<!-- ============================================================
+     PÁGINA 3 — PAES + SOLUCIONARIO + CIERRE
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Física — Ondas y Sonido<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Física</div>
+    <h2>El Sonido — Preguntas PAES</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🎯 Estilo PAES</span>
+    <span class="chip">10 preguntas</span>
+    <span class="chip">Página 3 de 3</span>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <span class="paes-badge">PAES</span>
+      Preguntas estilo PAES — El Sonido
+    </div>
+    <div class="paes-body">
+
+      <!-- P1 -->
+      <div class="paes-item" id="pi1">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál de las siguientes afirmaciones describe correctamente la naturaleza del sonido?</div>
+        <div class="btn-opt" onclick="pick('p1','A')" id="p1A"><span class="opt-letter-b">A</span> Es una onda electromagnética que no requiere medio material.</div>
+        <div class="btn-opt" onclick="pick('p1','B')" id="p1B"><span class="opt-letter-b">B</span> Es una onda mecánica longitudinal que requiere un medio para propagarse.</div>
+        <div class="btn-opt" onclick="pick('p1','C')" id="p1C"><span class="opt-letter-b">C</span> Es una onda transversal que se propaga por compresiones y rarefacciones.</div>
+        <div class="btn-opt" onclick="pick('p1','D')" id="p1D"><span class="opt-letter-b">D</span> Es una onda mecánica transversal que puede propagarse en el vacío.</div>
+        <div class="q-feedback" id="fb_p1"></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="paes-item" id="pi2">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Un diapasón vibra a <strong>440 Hz</strong> en el aire (v = 340 m/s). ¿Cuál es la longitud de onda del sonido producido?</div>
+        <div class="btn-opt" onclick="pick('p2','A')" id="p2A"><span class="opt-letter-b">A</span> 1,29 m</div>
+        <div class="btn-opt" onclick="pick('p2','B')" id="p2B"><span class="opt-letter-b">B</span> 0,77 m</div>
+        <div class="btn-opt" onclick="pick('p2','C')" id="p2C"><span class="opt-letter-b">C</span> 4,4 m</div>
+        <div class="btn-opt" onclick="pick('p2','D')" id="p2D"><span class="opt-letter-b">D</span> 780 m</div>
+        <div class="q-feedback" id="fb_p2"></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="paes-item" id="pi3">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Se produce una explosión submarina. Un observador en la costa detecta el sonido a través del agua <strong>antes</strong> que a través del aire. Esto ocurre porque:</div>
+        <div class="btn-opt" onclick="pick('p3','A')" id="p3A"><span class="opt-letter-b">A</span> El agua amplifica la frecuencia de las ondas sonoras.</div>
+        <div class="btn-opt" onclick="pick('p3','B')" id="p3B"><span class="opt-letter-b">B</span> La velocidad del sonido en el agua es mayor que en el aire.</div>
+        <div class="btn-opt" onclick="pick('p3','C')" id="p3C"><span class="opt-letter-b">C</span> El agua reduce la amplitud de las ondas y llegan con más energía.</div>
+        <div class="btn-opt" onclick="pick('p3','D')" id="p3D"><span class="opt-letter-b">D</span> Las ondas en el agua son transversales y viajan más rápido.</div>
+        <div class="q-feedback" id="fb_p3"></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="paes-item" id="pi4">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Un tren se acerca a alta velocidad con su bocina sonando. Un observador en la plataforma percibe el sonido de la bocina con una frecuencia:</div>
+        <div class="btn-opt" onclick="pick('p4','A')" id="p4A"><span class="opt-letter-b">A</span> Igual a la frecuencia emitida, independiente del movimiento.</div>
+        <div class="btn-opt" onclick="pick('p4','B')" id="p4B"><span class="opt-letter-b">B</span> Menor que la emitida, porque el tren está en movimiento.</div>
+        <div class="btn-opt" onclick="pick('p4','C')" id="p4C"><span class="opt-letter-b">C</span> Mayor que la emitida, porque el tren se aproxima (efecto Doppler).</div>
+        <div class="btn-opt" onclick="pick('p4','D')" id="p4D"><span class="opt-letter-b">D</span> Cero, porque el tren supera la velocidad del sonido.</div>
+        <div class="q-feedback" id="fb_p4"></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="paes-item" id="pi5">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál de las siguientes situaciones corresponde al uso de <strong>ultrasonido</strong>?</div>
+        <div class="btn-opt" onclick="pick('p5','A')" id="p5A"><span class="opt-letter-b">A</span> Detección de erupciones volcánicas lejanas con sensores geológicos.</div>
+        <div class="btn-opt" onclick="pick('p5','B')" id="p5B"><span class="opt-letter-b">B</span> Una persona cantando una nota grave de 80 Hz.</div>
+        <div class="btn-opt" onclick="pick('p5','C')" id="p5C"><span class="opt-letter-b">C</span> Ecografía médica para visualizar órganos internos.</div>
+        <div class="btn-opt" onclick="pick('p5','D')" id="p5D"><span class="opt-letter-b">D</span> Conversación entre personas a distancia normal.</div>
+        <div class="q-feedback" id="fb_p5"></div>
+      </div>
+
+      <!-- P6 -->
+      <div class="paes-item" id="pi6">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">La frecuencia de un sonido es de <strong>1 000 Hz</strong>. Si la velocidad en el medio es de <strong>1 500 m/s</strong>, la longitud de onda es:</div>
+        <div class="btn-opt" onclick="pick('p6','A')" id="p6A"><span class="opt-letter-b">A</span> 0,667 m</div>
+        <div class="btn-opt" onclick="pick('p6','B')" id="p6B"><span class="opt-letter-b">B</span> 1,5 m</div>
+        <div class="btn-opt" onclick="pick('p6','C')" id="p6C"><span class="opt-letter-b">C</span> 15 m</div>
+        <div class="btn-opt" onclick="pick('p6','D')" id="p6D"><span class="opt-letter-b">D</span> 1 500 000 m</div>
+        <div class="q-feedback" id="fb_p6"></div>
+      </div>
+
+      <!-- P7 -->
+      <div class="paes-item" id="pi7">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Un operario trabaja 8 horas en una fábrica con <strong>90 dB</strong> de ruido. Sin protección auditiva, el efecto más probable a largo plazo es:</div>
+        <div class="btn-opt" onclick="pick('p7','A')" id="p7A"><span class="opt-letter-b">A</span> Mayor sensibilidad auditiva por adaptación.</div>
+        <div class="btn-opt" onclick="pick('p7','B')" id="p7B"><span class="opt-letter-b">B</span> Pérdida auditiva progresiva e irreversible.</div>
+        <div class="btn-opt" onclick="pick('p7','C')" id="p7C"><span class="opt-letter-b">C</span> Ningún efecto, porque 90 dB es ruido de conversación normal.</div>
+        <div class="btn-opt" onclick="pick('p7','D')" id="p7D"><span class="opt-letter-b">D</span> Reducción del rango de frecuencias audibles solo en ultrasonidos.</div>
+        <div class="q-feedback" id="fb_p7"></div>
+      </div>
+
+      <!-- P8 -->
+      <div class="paes-item" id="pi8">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">¿Cuál de las siguientes afirmaciones sobre las ondas sonoras es <strong>incorrecta</strong>?</div>
+        <div class="btn-opt" onclick="pick('p8','A')" id="p8A"><span class="opt-letter-b">A</span> La frecuencia no cambia cuando el sonido pasa de un medio a otro.</div>
+        <div class="btn-opt" onclick="pick('p8','B')" id="p8B"><span class="opt-letter-b">B</span> La velocidad del sonido depende del medio de propagación.</div>
+        <div class="btn-opt" onclick="pick('p8','C')" id="p8C"><span class="opt-letter-b">C</span> La amplitud determina el tono del sonido.</div>
+        <div class="btn-opt" onclick="pick('p8','D')" id="p8D"><span class="opt-letter-b">D</span> La longitud de onda y la frecuencia están inversamente relacionadas a velocidad constante.</div>
+        <div class="q-feedback" id="fb_p8"></div>
+      </div>
+
+      <!-- P9 -->
+      <div class="paes-item" id="pi9">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Los terremotos generan ondas de muy baja frecuencia que los humanos no podemos escuchar. Estas ondas se llaman:</div>
+        <div class="btn-opt" onclick="pick('p9','A')" id="p9A"><span class="opt-letter-b">A</span> Ultrasonido.</div>
+        <div class="btn-opt" onclick="pick('p9','B')" id="p9B"><span class="opt-letter-b">B</span> Microondas.</div>
+        <div class="btn-opt" onclick="pick('p9','C')" id="p9C"><span class="opt-letter-b">C</span> Infrasonido.</div>
+        <div class="btn-opt" onclick="pick('p9','D')" id="p9D"><span class="opt-letter-b">D</span> Ondas de radio.</div>
+        <div class="q-feedback" id="fb_p9"></div>
+      </div>
+
+      <!-- P10 -->
+      <div class="paes-item" id="pi10">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Una onda sonora viaja por el aire con v = 340 m/s y λ = 0,68 m. ¿Cuál es su frecuencia?</div>
+        <div class="btn-opt" onclick="pick('p10','A')" id="p10A"><span class="opt-letter-b">A</span> 231 Hz</div>
+        <div class="btn-opt" onclick="pick('p10','B')" id="p10B"><span class="opt-letter-b">B</span> 0,002 Hz</div>
+        <div class="btn-opt" onclick="pick('p10','C')" id="p10C"><span class="opt-letter-b">C</span> 500 Hz</div>
+        <div class="btn-opt" onclick="pick('p10','D')" id="p10D"><span class="opt-letter-b">D</span> 50 Hz</div>
+        <div class="q-feedback" id="fb_p10"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOLUCIONARIO -->
+  <div class="sol-wrap pdf-sol" id="solucionario">
+    <div class="paes-head" style="margin-bottom:1rem;">
+      <span class="paes-badge" style="background:#1a7a3c;">SOL</span>
+      Solucionario completo
+    </div>
+
+    <div style="margin-bottom:1rem;"><strong>Ejercicios (E1–E10):</strong></div>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-col-title">Básico</div>
+        <div class="sol-item"><span class="sn">E1</span><span class="sc">B</span> Las partículas vibran en la misma dirección del avance (onda longitudinal). A es transversal; C y D son incorrectos porque el sonido necesita medio.</div>
+        <div class="sol-item"><span class="sn">E2</span><span class="sc">C</span> La frecuencia determina el tono (agudo/grave). La amplitud determina el volumen (fuerte/suave).</div>
+        <div class="sol-item"><span class="sn">E3</span><span class="sc">B</span> En el vacío no hay partículas; sin medio material la onda mecánica no puede propagarse.</div>
+      </div>
+      <div>
+        <div class="sol-col-title">Intermedio</div>
+        <div class="sol-item"><span class="sn">E4</span><span class="sc">B</span> λ = v/f = 340/680 = 0,5 m. Directa aplicación de v = f · λ.</div>
+        <div class="sol-item"><span class="sn">E5</span><span class="sc">B</span> En sólidos las partículas están muy juntas y los enlaces son más rígidos → mayor rapidez de transmisión.</div>
+        <div class="sol-item"><span class="sn">E6</span><span class="sc">C</span> Ultrasonido: frecuencia &gt; 20 000 Hz. 40 kHz = 40 000 Hz. No se llama infrasonido por no ser oído.</div>
+        <div class="sol-item"><span class="sn">E7</span><span class="sc">B</span> Efecto Doppler: fuente que se aleja → ondas más espaciadas → menor frecuencia percibida → sonido más grave.</div>
+      </div>
+      <div>
+        <div class="sol-col-title">Avanzado</div>
+        <div class="sol-item"><span class="sn">E8</span><span class="sc">B</span> Si f es constante y v aumenta 4×, entonces λ = v/f también aumenta 4×.</div>
+        <div class="sol-item"><span class="sn">E9</span><span class="sc">B</span> Protectores auditivos certificados son la solución más efectiva y directa. Reducir la jornada no elimina el riesgo.</div>
+        <div class="sol-item"><span class="sn">E10</span><span class="sc">A</span> λ = v/f = 1540/(5×10⁶) = 3,08×10⁻⁴ m = 0,308 mm. Esta resolución permite detectar estructuras milimétricos.</div>
+      </div>
+    </div>
+
+    <div style="margin:1.5rem 0 .5rem;"><strong>PAES (P1–P10):</strong></div>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-item"><span class="sn">P1</span><span class="sc">B</span> Onda mecánica longitudinal + requiere medio. C es incorrecto (longitudinal, no transversal). D también incorrecto.</div>
+        <div class="sol-item"><span class="sn">P2</span><span class="sc">B</span> λ = 340/440 ≈ 0,77 m. Es la nota La (440 Hz), referencia musical internacional.</div>
+        <div class="sol-item"><span class="sn">P3</span><span class="sc">B</span> v agua (1480 m/s) &gt;&gt; v aire (343 m/s). No cambia la frecuencia ni la naturaleza de la onda.</div>
+        <div class="sol-item"><span class="sn">P4</span><span class="sc">C</span> Doppler: fuente que se acerca → mayor frecuencia percibida → tono más agudo.</div>
+      </div>
+      <div>
+        <div class="sol-item"><span class="sn">P5</span><span class="sc">C</span> Ecografía usa 2–18 MHz, muy por encima de 20 kHz. A usa infrasonido; B y D usan sonido audible.</div>
+        <div class="sol-item"><span class="sn">P6</span><span class="sc">B</span> λ = v/f = 1500/1000 = 1,5 m. (Medio podría ser tejido o agua fría).</div>
+        <div class="sol-item"><span class="sn">P7</span><span class="sc">B</span> 90 dB supera el límite de 85 dB para 8 h/día → pérdida auditiva progresiva e irreversible (hipoacusia laboral).</div>
+      </div>
+      <div>
+        <div class="sol-item"><span class="sn">P8</span><span class="sc">C</span> La amplitud determina el <em>volumen</em>, no el tono. El tono lo determina la frecuencia. A, B y D son verdaderas.</div>
+        <div class="sol-item"><span class="sn">P9</span><span class="sc">C</span> Infrasonido: f &lt; 20 Hz. Terremotos, volcanes y cetáceos lo producen. No son ondas electromagnéticas.</div>
+        <div class="sol-item"><span class="sn">P10</span><span class="sc">C</span> f = v/λ = 340/0,68 = 500 Hz. Dentro del rango audible.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="closing">
+    <div class="next-pill">¡Guía completada!</div>
+    <p>El sonido como onda longitudinal, sus propiedades y la relación <strong>v = f · λ</strong> son fundamentos que aparecen en preguntas PAES de Ciencias. Practica cálculos y relaciona cada propiedad con fenómenos cotidianos.</p>
+    <p style="margin-top:.75rem;">
+      <a href="https://www.MaestriaAI.cl" target="_blank" style="color:#D4AF37;font-weight:700;">www.MaestriaAI.cl</a> ·
+      <a href="https://instagram.com/Maestria.app" target="_blank" style="color:#D4AF37;font-weight:700;">@Maestria.app</a>
+    </p>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · El Sonido · Página 3 de 3</div>
+  </div>
+</div><!-- /page3 -->
+
+<script>
+(function(){
+  const GUIDE_ID = 'maestria_Sonido';
+  const TOTAL = 20;
+  const ANSWERS = {
+    e1:'B',e2:'C',e3:'B',e4:'B',e5:'B',e6:'C',e7:'B',e8:'B',e9:'B',e10:'A',
+    p1:'B',p2:'B',p3:'B',p4:'C',p5:'C',p6:'B',p7:'B',p8:'C',p9:'C',p10:'C'
+  };
+  const FEEDBACK = {
+    e1:{B:'Correcto. Onda longitudinal: las partículas vibran paralelas al avance de la onda.',A:'Incorrecto. Eso describe una onda transversal (como la luz o la cuerda).',C:'Incorrecto. En el vacío el sonido no se propaga.',D:'Incorrecto. El sonido es una onda mecánica; siempre requiere un medio material.'},
+    e2:{C:'Correcto. La frecuencia determina el tono: alta frecuencia = agudo, baja = grave.',A:'Incorrecto. La amplitud determina el volumen (intensidad percibida).',B:'Incorrecto. La velocidad depende del medio, no determina el tono percibido.',D:'Incorrecto. En el vacío no hay propagación; además, el tono lo fija la frecuencia.'},
+    e3:{B:'Correcto. Sin partículas que transmitan las perturbaciones, el sonido no puede viajar.',A:'Incorrecto. En el vacío no hay medio; la velocidad sería cero, no solo menor.',C:'Incorrecto. La baja presión equivale a poco medio: el sonido no se propaga.',D:'Incorrecto. Sin medio no hay propagación, independiente de la frecuencia.'},
+    e4:{B:'Correcto. λ = v/f = 340/680 = 0,5 m.',A:'Incorrecto. 0,25 m correspondería a f = 1360 Hz.',C:'Incorrecto. 2 m correspondería a f = 170 Hz.',D:'Incorrecto. 1 m correspondería a f = 340 Hz.'},
+    e5:{B:'Correcto. Mayor rigidez y densidad molecular → fuerzas intermoleculares más fuertes → transmisión más rápida.',A:'Incorrecto. La temperatura afecta la velocidad, pero no es la causa principal aquí.',C:'Incorrecto. La conductividad eléctrica no tiene relación con la propagación acústica.',D:'Incorrecto. La frecuencia no cambia al cambiar de medio.'},
+    e6:{C:'Correcto. Ultrasonido: f > 20 000 Hz. 40 kHz = 40 000 Hz, bien por encima del límite audible.',A:'Incorrecto. El infrasonido es f < 20 Hz. No está relacionado con ser "visible".',B:'Incorrecto. El oído humano no detecta frecuencias tan altas.',D:'Incorrecto. El nombre no depende de si los humanos lo oímos, sino del rango de frecuencia.'},
+    e7:{B:'Correcto. Fuente alejándose → ondas más espaciadas → menor f percibida → tono más grave.',A:'Incorrecto. Mayor f (tono agudo) es cuando la fuente se acerca.',C:'Incorrecto. El Doppler aplica tanto al acercarse como al alejarse.',D:'Incorrecto. Las ambulancias van mucho más lento que el sonido (343 m/s ≈ 1 235 km/h).'},
+    e8:{B:'Correcto. Si f es constante y v aumenta 4×, λ = v/f también aumenta 4×. La frecuencia no cambia al cambiar de medio.',A:'Incorrecto. La longitud de onda sí cambia, porque la velocidad cambia con el medio.',C:'Incorrecto. Si v aumenta, λ aumenta (misma f), no disminuye.',D:'Incorrecto. El sonido sí puede pasar del aire al agua (refracción acústica).'},
+    e9:{B:'Correcto. Los protectores auditivos certificados (EPP) reducen la exposición real por debajo del límite. Son la medida más directa y efectiva.',A:'Incorrecto. Reducir la jornada ayuda pero no elimina el exceso de 10 dB sobre el límite.',C:'Incorrecto. Alejarse 2 m puede reducir algo el nivel, pero generalmente no en 10 dB.',D:'Incorrecto. Superponer ruidos no cancela la contaminación acústica; es contraproducente.'},
+    e10:{A:'Correcto. λ = 1540/(5×10⁶) = 3,08×10⁻⁴ m = 0,308 mm. Alta frecuencia permite detectar estructuras muy pequeñas.',B:'Incorrecto. 3,08 mm correspondería a f ≈ 500 kHz, no a 5 MHz.',C:'Incorrecto. 0,308 m sería para f ≈ 5 kHz, rango audible.',D:'Incorrecto. 7700 m es un orden de magnitud imposible para esta frecuencia.'},
+    p1:{B:'Correcto. Mecánica (necesita medio) + longitudinal (partículas vibran paralelas al avance).',A:'Incorrecto. Las ondas electromagnéticas (luz) no requieren medio; el sonido sí.',C:'Incorrecto. El sonido es longitudinal, no transversal.',D:'Incorrecto. El sonido es longitudinal y no se propaga en el vacío.'},
+    p2:{B:'Correcto. λ = 340/440 ≈ 0,773 m ≈ 0,77 m.',A:'Incorrecto. 1,29 m correspondería a f ≈ 264 Hz.',C:'Incorrecto. 4,4 m sería para f ≈ 77 Hz.',D:'Incorrecto. 780 m sería para f ≈ 0,44 Hz, infrasónico.'},
+    p3:{B:'Correcto. v agua ≈ 1480 m/s >> v aire ≈ 343 m/s. A mayor velocidad, el sonido llega antes.',A:'Incorrecto. El agua no amplifica la frecuencia; la frecuencia no cambia al cambiar de medio.',C:'Incorrecto. La amplitud no explica la rapidez de propagación.',D:'Incorrecto. Las ondas sonoras son siempre longitudinales en fluidos.'},
+    p4:{C:'Correcto. Efecto Doppler: fuente acercándose → ondas comprimidas → mayor frecuencia percibida.',A:'Incorrecto. El Doppler sí modifica la frecuencia percibida cuando hay movimiento relativo.',B:'Incorrecto. Menor frecuencia ocurre cuando la fuente se aleja.',D:'Incorrecto. Los trenes convencionales viajan muy por debajo de la velocidad del sonido.'},
+    p5:{C:'Correcto. Ecografía: 2–18 MHz >> 20 kHz = ultrasonido.',A:'Incorrecto. Los terremotos generan infrasonido (f < 20 Hz).',B:'Incorrecto. 80 Hz es sonido audible.',D:'Incorrecto. La voz humana en conversación es sonido audible (aproximadamente 80–1100 Hz).'},
+    p6:{B:'Correcto. λ = v/f = 1500/1000 = 1,5 m.',A:'Incorrecto. 0,667 m sería λ = v/f con v = 667 m/s.',C:'Incorrecto. 15 m sería para v = 15 000 m/s.',D:'Incorrecto. 1 500 000 m es un error de magnitud.'},
+    p7:{B:'Correcto. Exposición continua a > 85 dB provoca daño coclear acumulativo e irreversible (hipoacusia neurosensorial).',A:'Incorrecto. No hay adaptación positiva; el daño es acumulativo.',C:'Incorrecto. 90 dB supera ampliamente el nivel de conversación (≈ 60 dB).',D:'Incorrecto. La pérdida comienza en frecuencias medias-altas audibles, no solo en ultrasonidos.'},
+    p8:{C:'Correcto (la afirmación es INCORRECTA). La amplitud determina el volumen, no el tono. El tono lo determina la frecuencia.',A:'Incorrecto: esta afirmación sí es correcta (la frecuencia no cambia de medio a medio).',B:'Incorrecto: esta afirmación sí es correcta (la velocidad depende del medio).',D:'Incorrecto: esta afirmación sí es correcta (λ = v/f; a v constante, λ ∝ 1/f).'},
+    p9:{C:'Correcto. Infrasonido: f < 20 Hz. Terremotos y volcanes generan estas frecuencias muy bajas.',A:'Incorrecto. Ultrasonido: f > 20 000 Hz.',B:'Incorrecto. Las microondas son ondas electromagnéticas, no mecánicas.',D:'Incorrecto. Las ondas de radio son electromagnéticas, sin relación con el sonido.'},
+    p10:{C:'Correcto. f = v/λ = 340/0,68 = 500 Hz. Dentro del rango audible humano.',A:'Incorrecto. 231 Hz sería si λ ≈ 1,47 m.',B:'Incorrecto. 0,002 Hz es un error de cálculo de varios órdenes de magnitud.',D:'Incorrecto. 50 Hz sería si λ = 6,8 m.'}
+  };
+
+  let score = parseInt(localStorage.getItem(GUIDE_ID+'_score')||'0');
+  let answered = JSON.parse(localStorage.getItem(GUIDE_ID+'_ans')||'{}');
+
+  function save(){
+    localStorage.setItem(GUIDE_ID+'_score', score);
+    localStorage.setItem(GUIDE_ID+'_ans', JSON.stringify(answered));
+  }
+  function updateBar(){
+    document.getElementById('sbpts').textContent = score+' / '+TOTAL;
+  }
+  function pick(q, opt){
+    if(answered[q]) return;
+    answered[q] = opt;
+    const correct = ANSWERS[q];
+    const isOk = opt === correct;
+    if(isOk) score++;
+    save(); updateBar();
+    ['A','B','C','D'].forEach(l=>{
+      const el = document.getElementById(q+l);
+      if(!el) return;
+      el.classList.remove('opt-selected-ok','opt-selected-err','opt-correct-reveal');
+      if(l===opt) el.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+      if(!isOk && l===correct) el.classList.add('opt-correct-reveal');
+    });
+    const fb = document.getElementById('fb_'+q);
+    if(fb){
+      const msg = FEEDBACK[q] && FEEDBACK[q][opt] ? FEEDBACK[q][opt] : (isOk?'Correcto.':'Incorrecto.');
+      fb.textContent = msg;
+      fb.className = 'q-feedback '+(isOk?'fb-ok':'fb-err');
+    }
+  }
+  function restore(){
+    Object.keys(answered).forEach(q=>{
+      const opt = answered[q];
+      const correct = ANSWERS[q];
+      const isOk = opt === correct;
+      ['A','B','C','D'].forEach(l=>{
+        const el = document.getElementById(q+l);
+        if(!el) return;
+        if(l===opt) el.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+        if(!isOk && l===correct) el.classList.add('opt-correct-reveal');
+      });
+      const fb = document.getElementById('fb_'+q);
+      if(fb){
+        const msg = FEEDBACK[q] && FEEDBACK[q][opt] ? FEEDBACK[q][opt] : (isOk?'Correcto.':'Incorrecto.');
+        fb.textContent = msg;
+        fb.className = 'q-feedback '+(isOk?'fb-ok':'fb-err');
+      }
+    });
+    updateBar();
+  }
+  function exportPDF(){
+    document.getElementById('solucionario').style.display='block';
+    window.print();
+  }
+  window.pick = pick;
+  window.exportPDF = exportPDF;
+  restore();
+})();
+</script>
+</body>
+</html>
