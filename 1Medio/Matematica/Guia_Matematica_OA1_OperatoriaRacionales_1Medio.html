@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operatoria de números racionales — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    /* Diagrama de conjuntos numéricos */
+    .sets-diagram{background:#fff;border:2px solid #D4AF37;border-radius:12px;padding:1.2rem;margin:1rem 0;text-align:center;}
+    .sets-outer{display:inline-block;border:3px solid #6A2C91;border-radius:50%;padding:1.5rem 2rem;background:rgba(106,44,145,.05);position:relative;}
+    .sets-middle{display:inline-block;border:2.5px solid #D4AF37;border-radius:50%;padding:1.2rem 1.8rem;background:rgba(212,175,55,.08);}
+    .sets-inner{display:inline-block;border:2px solid #0B0F3F;border-radius:50%;padding:1rem 1.5rem;background:rgba(11,15,63,.06);font-weight:700;color:#0B0F3F;}
+    .sets-label{display:block;font-weight:700;margin-bottom:.3rem;}
+    .sets-label.outer{color:#6A2C91;}
+    .sets-label.middle{color:#D4AF37;}
+    .sets-legend{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:.8rem;font-size:.85rem;}
+
+    /* Herramientas */
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:280px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .frac-input-row{display:flex;align-items:center;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+    .frac-input{display:flex;flex-direction:column;align-items:center;gap:.2rem;}
+    .frac-input input{width:55px;padding:.4rem;text-align:center;border:2px solid #6A2C91;border-radius:6px;font-size:1.1rem;font-weight:700;color:#0B0F3F;font-family:'Inter',sans-serif;}
+    .frac-bar{width:55px;height:2.5px;background:#6A2C91;border-radius:2px;}
+    .op-selector{display:flex;gap:.3rem;justify-content:center;}
+    .op-selector button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;width:42px;height:42px;font-size:1.3rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+    .op-selector button.active{background:#6A2C91;color:#fff;}
+    .op-selector button:hover{background:#552072;color:#fff;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+
+    .tool-mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.7rem;}
+    .tool-mode-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;transition:all .2s;}
+    .tool-mode-toggle button.active{background:#6A2C91;color:#fff;}
+    .tool-mode-toggle button:hover{background:#552072;color:#fff;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué son los números racionales?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Operatoria de números racionales</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Conjunto Q</span>
+    <span class="chip">Fracciones y decimales</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Calcular operaciones con números racionales en forma simbólica, aplicando operatoria correcta de suma, resta, multiplicación y división.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El conjunto de los números racionales (Q)</div>
+
+      <div class="card card-def">
+        <strong>Número racional:</strong> es todo número que se puede expresar como una fracción \(\dfrac{a}{b}\), donde \(a\) y \(b\) son números enteros y \(b \neq 0\). El conjunto de todos los racionales se denota \(\mathbb{Q}\).
+      </div>
+
+      <p>Esta sencilla definición incluye muchísimos números que conoces:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Enteros</strong> (como 5, −3, 0): \(5 = \dfrac{5}{1}\), \(-3 = \dfrac{-3}{1}\). Todo entero es racional.</li>
+        <li><strong>Fracciones propias</strong>: \(\dfrac{1}{2}\), \(\dfrac{3}{4}\), \(\dfrac{7}{10}\).</li>
+        <li><strong>Fracciones impropias</strong>: \(\dfrac{5}{2}\), \(\dfrac{11}{3}\) (mayores que 1).</li>
+        <li><strong>Decimales finitos</strong>: \(0{,}5 = \dfrac{1}{2}\), \(2{,}25 = \dfrac{9}{4}\).</li>
+        <li><strong>Decimales periódicos</strong>: \(0{,}333\ldots = \dfrac{1}{3}\), \(0{,}1212\ldots = \dfrac{4}{33}\).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La jerarquía de los conjuntos numéricos</div>
+
+      <p>Los conjuntos numéricos están "anidados" como cebollas: cada uno está dentro del siguiente.</p>
+
+      <div class="sets-diagram">
+        <div class="sets-outer">
+          <span class="sets-label outer">\(\mathbb{Q}\) — Racionales</span>
+          <div class="sets-middle">
+            <span class="sets-label middle">\(\mathbb{Z}\) — Enteros</span>
+            <div class="sets-inner">
+              \(\mathbb{N}\) — Naturales
+            </div>
+          </div>
+        </div>
+        <div class="sets-legend">
+          <span><strong style="color:#0B0F3F;">\(\mathbb{N}\)</strong>: {1, 2, 3, 4, ...}</span>
+          <span><strong style="color:#D4AF37;">\(\mathbb{Z}\)</strong>: {..., −2, −1, 0, 1, 2, ...}</span>
+          <span><strong style="color:#6A2C91;">\(\mathbb{Q}\)</strong>: todas las fracciones</span>
+        </div>
+      </div>
+
+      <p>Esto significa que <strong>todo natural es entero, y todo entero es racional</strong>. Pero al revés NO: hay racionales (como \(\dfrac{1}{2}\)) que no son enteros, y hay enteros (como \(-5\)) que no son naturales.</p>
+
+      <div class="card card-tip">
+        <strong>Ejemplos de clasificación:</strong>
+        <ul style="margin-top:.4rem;">
+          <li>\(7\) es natural, entero y racional.</li>
+          <li>\(-2\) es entero y racional (pero no natural).</li>
+          <li>\(\dfrac{3}{5}\) es racional (pero no natural ni entero).</li>
+          <li>\(\sqrt{2}\) NO es racional (es irracional: pertenece a \(\mathbb{R}\) pero no a \(\mathbb{Q}\)).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Las dos representaciones de un racional</div>
+
+      <p>Todo número racional tiene dos formas equivalentes de escribirse:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Forma fracción</span>
+          <span class="prop-eq">\(\dfrac{3}{4}\), \(\dfrac{-7}{2}\), \(\dfrac{1}{8}\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Forma decimal</span>
+          <span class="prop-eq">\(0{,}75\); \(-3{,}5\); \(0{,}125\)</span>
+        </div>
+      </div>
+
+      <p>Cuál usar depende del contexto: las fracciones son exactas y se prestan mejor para operaciones algebraicas; los decimales son más fáciles de comparar y visualizar a primera vista.</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        ¿Es \(0{,}5\) lo mismo que \(\dfrac{1}{2}\)? Sí, son <em>representaciones distintas</em> del mismo número. La habilidad de pasar fluidamente de una representación a la otra es la base de la operatoria con racionales.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Suma y resta de fracciones
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Suma y resta de fracciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Mismo denominador</span>
+    <span class="chip">Mínimo común múltiplo</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Caso 1: fracciones con el mismo denominador</div>
+
+      <p>Cuando dos fracciones tienen el mismo denominador, basta sumar (o restar) los numeradores y conservar el denominador.</p>
+
+      <div class="math-box">
+        \(\dfrac{a}{c} + \dfrac{b}{c} = \dfrac{a + b}{c}\) &nbsp;&nbsp;&nbsp;&nbsp; \(\dfrac{a}{c} - \dfrac{b}{c} = \dfrac{a - b}{c}\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{2}{7} + \dfrac{3}{7}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Mismo denominador (7): sumamos numeradores.</span>
+        <span class="math-step">\(\dfrac{2}{7} + \dfrac{3}{7} = \dfrac{2 + 3}{7} = \dfrac{5}{7}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{5}{7}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caso 2: fracciones con distinto denominador</div>
+
+      <p>Cuando las fracciones tienen <strong>denominadores distintos</strong>, primero hay que <em>igualarlos</em>. La estrategia es encontrar el <strong>mínimo común múltiplo (mcm)</strong> de los denominadores y convertir ambas fracciones a fracciones equivalentes con ese denominador.</p>
+
+      <ol class="steps-num">
+        <li>Encuentra el mcm de los denominadores.</li>
+        <li>Para cada fracción: divide el mcm por su denominador y multiplica el numerador por ese resultado.</li>
+        <li>Suma (o resta) los numeradores y conserva el denominador común.</li>
+        <li>Simplifica la fracción resultante si es posible.</li>
+      </ol>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{1}{2} + \dfrac{1}{3}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1:</strong> mcm(2, 3) = 6.</span>
+        <span class="math-step"><strong>Paso 2:</strong> Convertir cada fracción:</span>
+        <span class="math-step">\(\dfrac{1}{2} = \dfrac{1 \cdot 3}{2 \cdot 3} = \dfrac{3}{6}\)</span>
+        <span class="math-step">\(\dfrac{1}{3} = \dfrac{1 \cdot 2}{3 \cdot 2} = \dfrac{2}{6}\)</span>
+        <span class="math-step"><strong>Paso 3:</strong> Sumar numeradores: \(\dfrac{3}{6} + \dfrac{2}{6} = \dfrac{5}{6}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{5}{6}\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>¿Cómo encontrar el mcm rápido?</strong>
+        <ul style="margin-top:.4rem;">
+          <li>Si un denominador es múltiplo del otro, el mcm es el más grande. Ej: mcm(3, 6) = 6.</li>
+          <li>Si los denominadores no comparten factores comunes (son coprimos), el mcm es su producto. Ej: mcm(2, 3) = 6, mcm(4, 5) = 20.</li>
+          <li>En general: descomponer en factores primos y tomar el máximo exponente de cada uno.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Suma y resta con fracciones negativas</div>
+
+      <p>Las reglas son las mismas, pero hay que cuidar los signos. Si una fracción es negativa, el signo se traslada al numerador.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{3}{5} + \left(-\dfrac{1}{5}\right)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Mismo denominador. Suma con signos: \(\dfrac{3 + (-1)}{5} = \dfrac{3 - 1}{5} = \dfrac{2}{5}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{2}{5}\)</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Recuerda: sumar un negativo es igual a restar. \(\dfrac{3}{5} + \left(-\dfrac{1}{5}\right) = \dfrac{3}{5} - \dfrac{1}{5}\). Esta equivalencia te ahorra muchas confusiones.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Multiplicación y división de fracciones
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Multiplicación y división de fracciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Multiplicación</span>
+    <span class="chip">División: inverso multiplicativo</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Multiplicación de fracciones</div>
+
+      <p>Multiplicar fracciones es la operación más simple: <strong>numerador por numerador, denominador por denominador</strong>. NO hace falta igualar denominadores.</p>
+
+      <div class="math-box">
+        \(\dfrac{a}{b} \cdot \dfrac{c}{d} = \dfrac{a \cdot c}{b \cdot d}\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{2}{3} \cdot \dfrac{5}{7}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{2}{3} \cdot \dfrac{5}{7} = \dfrac{2 \cdot 5}{3 \cdot 7} = \dfrac{10}{21}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{10}{21}\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Tip de simplificación:</strong> antes de multiplicar, puedes "tachar" (simplificar) numeradores y denominadores que tengan factores comunes. Esto evita números grandes. Por ejemplo, \(\dfrac{4}{9} \cdot \dfrac{3}{8} = \dfrac{4 \cdot 3}{9 \cdot 8} = \dfrac{12}{72} = \dfrac{1}{6}\). Pero podías haber simplificado antes: 4 y 8 comparten 4; 3 y 9 comparten 3. Queda \(\dfrac{1}{3} \cdot \dfrac{1}{2} = \dfrac{1}{6}\) directamente.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>División de fracciones</div>
+
+      <p>Dividir fracciones es multiplicar por el <strong>inverso multiplicativo</strong> (es decir, "voltear" la segunda fracción).</p>
+
+      <div class="math-box">
+        \(\dfrac{a}{b} \div \dfrac{c}{d} = \dfrac{a}{b} \cdot \dfrac{d}{c} = \dfrac{a \cdot d}{b \cdot c}\)
+      </div>
+
+      <p>Memorízalo así: "el dividir se transforma en multiplicar dando vuelta la segunda fracción".</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{3}{4} \div \dfrac{1}{2}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Volteamos la segunda fracción: \(\dfrac{1}{2}\) se convierte en \(\dfrac{2}{1}\).</span>
+        <span class="math-step">\(\dfrac{3}{4} \div \dfrac{1}{2} = \dfrac{3}{4} \cdot \dfrac{2}{1} = \dfrac{3 \cdot 2}{4 \cdot 1} = \dfrac{6}{4} = \dfrac{3}{2}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{3}{2}\) (o 1,5 en decimal)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Regla de los signos:</strong> aplica igual que en enteros. (+)·(+) = +; (−)·(−) = +; (+)·(−) = −. Si las dos fracciones son negativas, el resultado es positivo. Si solo una es negativa, el resultado es negativo.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Fracciones equivalentes y simplificación</div>
+
+      <p>Dos fracciones son <strong>equivalentes</strong> si representan el mismo valor. Por ejemplo, \(\dfrac{1}{2} = \dfrac{2}{4} = \dfrac{3}{6} = \dfrac{50}{100}\).</p>
+
+      <p>Para <strong>simplificar</strong> una fracción, dividimos numerador y denominador por su <strong>máximo común divisor (MCD)</strong>.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Simplificar \(\dfrac{12}{18}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">MCD(12, 18) = 6.</span>
+        <span class="math-step">\(\dfrac{12}{18} = \dfrac{12 \div 6}{18 \div 6} = \dfrac{2}{3}\).</span>
+        <span class="math-step"><span class="math-result">\(\dfrac{12}{18} = \dfrac{2}{3}\)</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Una fracción está en su <em>forma más simple</em> (o irreducible) cuando numerador y denominador no comparten ningún factor común (excepto 1). Por convención, en PAES y en matemática formal siempre se entrega la fracción simplificada.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — HERRAMIENTA 1: Calculadora de fracciones
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Calculadora interactiva de fracciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Suma, resta, multiplicación, división</span>
+    <span class="chip">Paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <p>Ingresa dos fracciones, elige la operación y la calculadora mostrará el <strong>resultado completo paso a paso</strong>: el procedimiento usado, el cálculo intermedio, la fracción final y su forma simplificada.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-controls">
+        <div class="input-control">
+          <label>Primera fracción</label>
+          <div class="frac-input-row">
+            <div class="frac-input">
+              <input id="frac1-n" type="number" step="1" value="1" />
+              <div class="frac-bar"></div>
+              <input id="frac1-d" type="number" step="1" value="2" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input-control">
+          <label>Operación</label>
+          <div class="op-selector" id="op-selector">
+            <button data-op="add" class="active">+</button>
+            <button data-op="sub">−</button>
+            <button data-op="mul">×</button>
+            <button data-op="div">÷</button>
+          </div>
+        </div>
+
+        <div class="input-control">
+          <label>Segunda fracción</label>
+          <div class="frac-input-row">
+            <div class="frac-input">
+              <input id="frac2-n" type="number" step="1" value="1" />
+              <div class="frac-bar"></div>
+              <input id="frac2-d" type="number" step="1" value="3" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-display" id="calc-display">
+        Ingresa las fracciones y elige una operación para ver el resultado.
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:1rem;">Ejemplos clásicos</div>
+    <div class="preset-buttons">
+      <button data-frac="1,2,1,3,add">1/2 + 1/3</button>
+      <button data-frac="3,4,1,2,sub">3/4 − 1/2</button>
+      <button data-frac="2,3,5,7,mul">2/3 · 5/7</button>
+      <button data-frac="3,4,1,2,div">3/4 ÷ 1/2</button>
+      <button data-frac="5,6,1,4,add">5/6 + 1/4</button>
+      <button data-frac="-2,5,7,5,add">−2/5 + 7/5</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Números decimales
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Números decimales y su conversión</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Finitos · Periódicos</span>
+    <span class="chip">Conversión bidireccional</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Tipos de decimales</div>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Decimal finito</span>
+          <span class="prop-eq">Tiene una cantidad limitada de cifras decimales. Ej: 0,5; 2,25; 3,125.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Decimal periódico puro</span>
+          <span class="prop-eq">El período empieza justo después de la coma. Ej: 0,333... = \(0{,}\overline{3}\); 0,272727... = \(0{,}\overline{27}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Decimal periódico mixto</span>
+          <span class="prop-eq">Hay cifras no periódicas seguidas del período. Ej: 0,1666... = \(0{,}1\overline{6}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Decimal infinito no periódico</span>
+          <span class="prop-eq">No se repite ningún patrón. NO es racional, es <em>irracional</em>. Ej: \(\sqrt{2} \approx 1{,}4142\ldots\), \(\pi \approx 3{,}1415\ldots\)</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Regla clave:</strong> los decimales finitos y los periódicos son <em>racionales</em>. Los infinitos no periódicos son <em>irracionales</em>. Por lo tanto, todo número racional tiene una representación decimal finita o periódica, y nunca infinita no periódica.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>De fracción a decimal</div>
+
+      <p>Es la operación más directa: divide el numerador por el denominador. Si la división termina, el decimal es finito. Si las cifras se repiten, es periódico.</p>
+
+      <div class="subsec">Ejemplos</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>Fracción</th><th>División</th><th>Decimal</th><th>Tipo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\dfrac{3}{4}\)</td><td>3 ÷ 4</td><td>0,75</td><td>Finito</td></tr>
+          <tr><td>\(\dfrac{1}{8}\)</td><td>1 ÷ 8</td><td>0,125</td><td>Finito</td></tr>
+          <tr><td>\(\dfrac{1}{3}\)</td><td>1 ÷ 3</td><td>\(0{,}\overline{3}\) = 0,333...</td><td>Periódico puro</td></tr>
+          <tr><td>\(\dfrac{2}{11}\)</td><td>2 ÷ 11</td><td>\(0{,}\overline{18}\) = 0,1818...</td><td>Periódico puro</td></tr>
+          <tr><td>\(\dfrac{1}{6}\)</td><td>1 ÷ 6</td><td>\(0{,}1\overline{6}\) = 0,1666...</td><td>Periódico mixto</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>De decimal finito a fracción</div>
+
+      <p>Procedimiento: contar las cifras decimales y poner el número como numerador, sobre una potencia de 10 con tantos ceros como cifras decimales tenga. Luego simplificar.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Convertir 0,75 a fracción.
+      </div>
+      <div class="math-block">
+        <span class="math-step">0,75 tiene 2 cifras decimales. Denominador: \(10^{2} = 100\).</span>
+        <span class="math-step">\(0{,}75 = \dfrac{75}{100}\).</span>
+        <span class="math-step">Simplificar: \(\dfrac{75}{100} = \dfrac{75 \div 25}{100 \div 25} = \dfrac{3}{4}\).</span>
+        <span class="math-step"><span class="math-result">\(0{,}75 = \dfrac{3}{4}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>De decimal periódico a fracción</div>
+
+      <p>Para un decimal periódico puro \(0{,}\overline{abc}\) (con período de \(n\) cifras), la fracción es:</p>
+
+      <div class="math-box">
+        \(0{,}\overline{abc} = \dfrac{abc}{\underbrace{999\ldots}_{n \text{ nueves}}}\)
+      </div>
+
+      <div class="subsec">Ejemplos</div>
+      <div class="math-block">
+        <span class="math-step">\(0{,}\overline{3} = \dfrac{3}{9} = \dfrac{1}{3}\)</span>
+        <span class="math-step">\(0{,}\overline{18} = \dfrac{18}{99} = \dfrac{2}{11}\)</span>
+        <span class="math-step">\(0{,}\overline{142857} = \dfrac{142857}{999999} = \dfrac{1}{7}\)</span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Ahora dominas la conversión bidireccional: fracción ↔ decimal. Esto te permite operar con cualquier número racional eligiendo la forma más conveniente para cada paso. En la próxima página tienes una herramienta interactiva para practicar.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — HERRAMIENTA 2: Conversor fracción ↔ decimal
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Conversor interactivo fracción ↔ decimal</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Bidireccional</span>
+    <span class="chip">Identifica tipo de decimal</span>
+  </div>
+
+  <div class="content">
+
+    <p>Convierte entre fracción y decimal en cualquier dirección. La herramienta también te dice si el decimal resultante es <strong>finito</strong>, <strong>periódico puro</strong> o <strong>periódico mixto</strong>, y simplifica la fracción automáticamente.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-controls">
+        <div class="tool-mode-toggle">
+          <button data-conv="frac-dec" class="active">Fracción → Decimal</button>
+          <button data-conv="dec-frac">Decimal → Fracción</button>
+        </div>
+
+        <div class="input-control" id="conv-inputs">
+          <!-- Generado dinámicamente -->
+        </div>
+      </div>
+
+      <div class="tool-display" id="conv-display">
+        Ingresa un valor para ver la conversión.
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:1rem;">Ejemplos para probar</div>
+    <div class="preset-buttons">
+      <button data-conv-ex="frac,3,4">3/4 (finito)</button>
+      <button data-conv-ex="frac,1,3">1/3 (periódico)</button>
+      <button data-conv-ex="frac,1,8">1/8 (finito)</button>
+      <button data-conv-ex="frac,2,11">2/11 (periódico)</button>
+      <button data-conv-ex="dec,0.75">0,75 → fracción</button>
+      <button data-conv-ex="dec,0.125">0,125 → fracción</button>
+      <button data-conv-ex="dec,0.6">0,6 → fracción</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Operatoria racionales — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál de estos números NO es racional?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es una fracción de enteros, por tanto racional.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(-5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Todo entero es racional: \(-5 = \dfrac{-5}{1}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(0{,}75\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es un decimal finito, así que es racional (= \(\dfrac{3}{4}\)).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\pi\)<div class="opt-feedback"><strong>Correcto.</strong> \(\pi \approx 3{,}1415926...\) es un decimal infinito no periódico, por tanto irracional (no pertenece a \(\mathbb{Q}\)).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El resultado de \(\dfrac{2}{3} + \dfrac{1}{3}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{3}{6} = \dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaron también los denominadores; con mismo denominador solo se suman numeradores.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{3}{3} = 1\)<div class="opt-feedback"><strong>Correcto.</strong> Mismo denominador (3): sumamos numeradores. \(\dfrac{2+1}{3} = \dfrac{3}{3} = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida sumar la segunda fracción.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma solo los numeradores sin denominador.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(\dfrac{1}{2} \cdot \dfrac{3}{4}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{4}{6} = \dfrac{2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa sería la suma con mcm 4, pero la pregunta es multiplicación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{3}{6} = \dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{3}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> Multiplicación: numerador por numerador y denominador por denominador. \(\dfrac{1 \cdot 3}{2 \cdot 4} = \dfrac{3}{8}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{6}{8} = \dfrac{3}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con suma de fracciones.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(\dfrac{1}{2} + \dfrac{1}{3}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{2}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma numeradores y denominadores, error muy frecuente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ningún procedimiento válido.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{5}{6}\)<div class="opt-feedback"><strong>Correcto.</strong> mcm(2,3) = 6. \(\dfrac{1}{2} = \dfrac{3}{6}\), \(\dfrac{1}{3} = \dfrac{2}{6}\). Suma: \(\dfrac{3+2}{6} = \dfrac{5}{6}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{2}{6} = \dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo conserva una de las fracciones.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(\dfrac{3}{4} \div \dfrac{1}{2}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{3}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica directamente sin "voltear" la segunda fracción.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{4}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la primera fracción en vez de la segunda.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{6}{4} = \dfrac{3}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Dividir = multiplicar por el inverso: \(\dfrac{3}{4} \cdot \dfrac{2}{1} = \dfrac{6}{4} = \dfrac{3}{2}\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(-\dfrac{2}{5} + \dfrac{7}{5}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{5}{5} = 1\)<div class="opt-feedback"><strong>Correcto.</strong> Mismo denominador. \(\dfrac{-2 + 7}{5} = \dfrac{5}{5} = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(-\dfrac{5}{5} = -1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{9}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma absolutos sin considerar el signo negativo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(-\dfrac{9}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es la representación decimal de \(\dfrac{3}{4}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 0,25<div class="opt-feedback"><strong>Incorrecto.</strong> 0,25 = \(\dfrac{1}{4}\), no \(\dfrac{3}{4}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 0,34<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ningún cálculo válido.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 0,75<div class="opt-feedback"><strong>Correcto.</strong> 3 ÷ 4 = 0,75 (decimal finito).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 0,43<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el resultado.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(\left(\dfrac{2}{3} - \dfrac{1}{6}\right) \cdot 2\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(1\)<div class="opt-feedback"><strong>Correcto.</strong> mcm(3,6) = 6. \(\dfrac{2}{3} = \dfrac{4}{6}\). \(\dfrac{4}{6} - \dfrac{1}{6} = \dfrac{3}{6} = \dfrac{1}{2}\). Luego \(\dfrac{1}{2} \cdot 2 = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo intermedio incorrecto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{5}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida multiplicar por 2 al final.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo conserva la primera fracción.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Qué fracción es equivalente a 0,6?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{6}{10} = \dfrac{3}{5}\)<div class="opt-feedback"><strong>Correcto.</strong> 0,6 tiene 1 decimal: \(\dfrac{6}{10}\). Simplificando por 2: \(\dfrac{3}{5}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(0{,}1\overline{6}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{6}{100} = \dfrac{3}{50}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Usa denominador 100 (sería 0,06).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{6}{1}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es 6, no 0,6.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Resuelve \(\dfrac{1}{2} + \dfrac{1}{3} - \dfrac{1}{4}\):</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{7}{12}\)<div class="opt-feedback"><strong>Correcto.</strong> mcm(2,3,4) = 12. \(\dfrac{6}{12} + \dfrac{4}{12} - \dfrac{3}{12} = \dfrac{6+4-3}{12} = \dfrac{7}{12}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{5}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en numeradores; revisa 6+4−3 = 7.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{11}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma todo sin restar el último término.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Operatoria racionales — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Operaciones con racionales</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es el resultado de \(\dfrac{5}{8} + \dfrac{1}{8}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{5}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumarías denominadores también, error frecuente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{6}{16} = \dfrac{3}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mismo error: solo se suman numeradores.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{6}{8} = \dfrac{3}{4}\)<div class="opt-feedback"><strong>Correcto.</strong> Mismo denominador: \(\dfrac{5+1}{8} = \dfrac{6}{8} = \dfrac{3}{4}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{5}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida sumar la segunda fracción.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(\dfrac{2}{3} \div \dfrac{4}{9}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{8}{27}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica directamente en lugar de voltear la segunda fracción.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{18}{12} = \dfrac{3}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{2}{3} \cdot \dfrac{9}{4} = \dfrac{18}{12}\). Simplificando: \(\dfrac{3}{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{8}{12} = \dfrac{2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{6}{12} = \dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Qué número es racional pero NO entero?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es entero (y por tanto racional).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> El cero es entero.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Es racional (se escribe como fracción de enteros), pero NO es entero porque no es un número "entero" como 1, 2, 3...</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\sqrt{4} = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sqrt{4} = 2\), que sí es entero.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(\dfrac{1}{4} \cdot \dfrac{4}{5}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{5}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{1 \cdot 4}{4 \cdot 5} = \dfrac{4}{20} = \dfrac{1}{5}\). El 4 se cancela.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{4}{9}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumarías denominadores, error en multiplicación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{5}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el resultado.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{20}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida simplificar el 4 con el 4.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">\(\dfrac{2}{3} - \dfrac{1}{4}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo de numeradores.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{5}{12}\)<div class="opt-feedback"><strong>Correcto.</strong> mcm(3,4) = 12. \(\dfrac{2}{3} = \dfrac{8}{12}\), \(\dfrac{1}{4} = \dfrac{3}{12}\). Resta: \(\dfrac{8-3}{12} = \dfrac{5}{12}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{7}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Resta numeradores y denominadores, error frecuente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{11}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma en vez de restar.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuánto es \(0{,}5 + 0{,}25\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0,50<div class="opt-feedback"><strong>Incorrecto.</strong> No sumaría el segundo número.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 0,55<div class="opt-feedback"><strong>Incorrecto.</strong> Suma erróneamente solo dígitos sin alinear comas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0,75<div class="opt-feedback"><strong>Correcto.</strong> Alineando comas: 0,50 + 0,25 = 0,75. Equivale a \(\dfrac{1}{2} + \dfrac{1}{4} = \dfrac{3}{4}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 0,755<div class="opt-feedback"><strong>Incorrecto.</strong> Suma incorrecta de cifras.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">La representación decimal de \(\dfrac{7}{2}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3,5<div class="opt-feedback"><strong>Correcto.</strong> 7 ÷ 2 = 3,5 (decimal finito). También: \(\dfrac{7}{2} = 3 + \dfrac{1}{2} = 3{,}5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2,7<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la fracción (sería 2/7).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0,35<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 7,2<div class="opt-feedback"><strong>Incorrecto.</strong> Suma 7+0,2, sin sentido.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">\(\dfrac{3}{5} + \left(-\dfrac{1}{5}\right)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{4}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma absolutos sin considerar el signo negativo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{2}{5}\)<div class="opt-feedback"><strong>Correcto.</strong> Mismo denominador. \(\dfrac{3 + (-1)}{5} = \dfrac{2}{5}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(-\dfrac{4}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{3}{25}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica denominadores, error en suma.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Qué fracción es equivalente a 0,125?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> 1/4 = 0,25, no 0,125.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{1}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> 1/5 = 0,2, no 0,125.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> 0,125 = \(\dfrac{125}{1000}\). Simplificando por 125: \(\dfrac{1}{8}\). Verifica: 1÷8 = 0,125 ✓.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{12{,}5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Una fracción no puede tener un decimal en el denominador.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">\(\left(-\dfrac{1}{2}\right) \cdot \left(-\dfrac{1}{3}\right)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-\dfrac{1}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida la regla de los signos: (−)·(−) = (+).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{1}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma denominadores, error.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{6}\)<div class="opt-feedback"><strong>Correcto.</strong> (−)·(−) = (+). \(\dfrac{1 \cdot 1}{2 \cdot 3} = \dfrac{1}{6}\) (positivo porque ambos son negativos).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(-\dfrac{2}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma numeradores, error en multiplicación.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>La operatoria con racionales es la base de todo lo que verás en matemática hasta la PAES. Si dominas suma, resta, multiplicación y división de fracciones, y sabes pasar entre fracción y decimal con fluidez, has resuelto el 90% de los obstáculos básicos en álgebra y geometría.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Tipos de números (N, Z, Q)</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Operatoria racionales · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  // ========== Utilidades de fracciones ==========
+  function gcd(a, b){
+    a = Math.abs(a); b = Math.abs(b);
+    while(b){ var t = b; b = a % b; a = t; }
+    return a;
+  }
+  function lcm(a, b){ return Math.abs(a * b) / gcd(a, b); }
+
+  function simplifyFrac(n, d){
+    if(d === 0) return null;
+    if(d < 0){ n = -n; d = -d; }
+    var g = gcd(Math.abs(n), Math.abs(d));
+    return { n: n/g, d: d/g };
+  }
+
+  function fracToStr(n, d){
+    if(d === 1) return n.toString();
+    return n + '/' + d;
+  }
+
+  function fracLatex(n, d){
+    if(d === 1) return n.toString();
+    if(n < 0) return '-\\dfrac{' + Math.abs(n) + '}{' + d + '}';
+    return '\\dfrac{' + n + '}{' + d + '}';
+  }
+
+  /* ========== TOOL 1: Calculadora de fracciones ========== */
+  function setupFracCalc(){
+    var f1n = document.getElementById('frac1-n');
+    var f1d = document.getElementById('frac1-d');
+    var f2n = document.getElementById('frac2-n');
+    var f2d = document.getElementById('frac2-d');
+    var display = document.getElementById('calc-display');
+    var opBtns = document.querySelectorAll('#op-selector button');
+    if(!f1n) return;
+    var currentOp = 'add';
+
+    function calc(){
+      var n1 = parseInt(f1n.value);
+      var d1 = parseInt(f1d.value);
+      var n2 = parseInt(f2n.value);
+      var d2 = parseInt(f2d.value);
+
+      if(isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2)){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ Completa todos los campos.</strong>';
+        return;
+      }
+      if(d1 === 0 || d2 === 0){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ El denominador no puede ser 0.</strong>';
+        return;
+      }
+
+      var op = currentOp;
+      var opSymbol = {add:'+', sub:'−', mul:'·', div:'÷'}[op];
+      var steps = [];
+      var nR, dR;
+
+      if(op === 'add' || op === 'sub'){
+        if(d1 === d2){
+          steps.push('Mismo denominador (' + d1 + '): sumamos/restamos numeradores.');
+          nR = (op === 'add') ? (n1 + n2) : (n1 - n2);
+          dR = d1;
+          steps.push('\\(' + fracLatex(n1, d1) + ' ' + opSymbol + ' ' + fracLatex(n2, d2) + ' = \\dfrac{' + n1 + ' ' + opSymbol + ' ' + (n2 < 0 ? '(' + n2 + ')' : n2) + '}{' + d1 + '} = ' + fracLatex(nR, dR) + '\\)');
+        } else {
+          var mcm = lcm(d1, d2);
+          var mult1 = mcm / d1, mult2 = mcm / d2;
+          var nN1 = n1 * mult1, nN2 = n2 * mult2;
+          steps.push('mcm(' + d1 + ', ' + d2 + ') = ' + mcm);
+          steps.push('Convertir: \\(' + fracLatex(n1, d1) + ' = ' + fracLatex(nN1, mcm) + '\\) y \\(' + fracLatex(n2, d2) + ' = ' + fracLatex(nN2, mcm) + '\\)');
+          nR = (op === 'add') ? (nN1 + nN2) : (nN1 - nN2);
+          dR = mcm;
+          steps.push('\\(' + fracLatex(nN1, mcm) + ' ' + opSymbol + ' ' + fracLatex(nN2, mcm) + ' = ' + fracLatex(nR, dR) + '\\)');
+        }
+      } else if(op === 'mul'){
+        steps.push('Multiplicación: numerador por numerador, denominador por denominador.');
+        nR = n1 * n2;
+        dR = d1 * d2;
+        steps.push('\\(' + fracLatex(n1, d1) + ' \\cdot ' + fracLatex(n2, d2) + ' = \\dfrac{' + n1 + ' \\cdot ' + n2 + '}{' + d1 + ' \\cdot ' + d2 + '} = ' + fracLatex(nR, dR) + '\\)');
+      } else if(op === 'div'){
+        steps.push('División: multiplicamos por el inverso de la segunda fracción.');
+        steps.push('Inverso de \\(' + fracLatex(n2, d2) + '\\) es \\(' + fracLatex(d2, n2) + '\\)');
+        nR = n1 * d2;
+        dR = d1 * n2;
+        if(n2 === 0){
+          display.innerHTML = '<strong style="color:#6A2C91;">⚠ No se puede dividir por 0.</strong>';
+          return;
+        }
+        if(dR < 0){ nR = -nR; dR = -dR; }
+        steps.push('\\(' + fracLatex(n1, d1) + ' \\cdot ' + fracLatex(d2, n2) + ' = ' + fracLatex(nR, dR) + '\\)');
+      }
+
+      var simp = simplifyFrac(nR, dR);
+      var simpStr = '';
+      if(simp && (simp.n !== nR || simp.d !== dR)){
+        simpStr = '<div style="margin-top:.5rem;color:#6A2C91;font-weight:600;">Simplificada: \\(' + fracLatex(simp.n, simp.d) + '\\) (dividiendo por ' + gcd(Math.abs(nR), Math.abs(dR)) + ')</div>';
+      }
+
+      var stepsHtml = steps.map(function(s){ return '<div style="margin:.4rem 0;">▸ ' + s + '</div>'; }).join('');
+
+      var decValue = (simp.n / simp.d).toFixed(4);
+
+      display.innerHTML =
+        '<div style="background:#F8F4E9;padding:.7rem;border-radius:8px;margin-bottom:.6rem;font-size:.95rem;">' +
+          '<strong style="color:#6A2C91;">Procedimiento:</strong>' +
+          stepsHtml +
+        '</div>' +
+        '<div style="background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.8rem;text-align:center;">' +
+          '<div style="font-size:.85rem;color:#6A2C91;font-weight:700;margin-bottom:.3rem;">RESULTADO FINAL</div>' +
+          '<div style="font-size:1.5rem;color:#0B0F3F;font-weight:800;">\\(' + (simp ? fracLatex(simp.n, simp.d) : '?') + '\\)</div>' +
+          simpStr +
+          '<div style="font-size:.85rem;color:#555;margin-top:.4rem;">≈ ' + decValue + ' (decimal)</div>' +
+        '</div>';
+
+      if(window.renderMathInElement) window.renderMathInElement(display);
+    }
+
+    [f1n, f1d, f2n, f2d].forEach(function(el){ el.addEventListener('input', calc); });
+
+    opBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        opBtns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentOp = btn.dataset.op;
+        calc();
+      });
+    });
+
+    var presets = document.querySelectorAll('[data-frac]');
+    presets.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var vals = btn.dataset.frac.split(',');
+        f1n.value = vals[0]; f1d.value = vals[1];
+        f2n.value = vals[2]; f2d.value = vals[3];
+        currentOp = vals[4];
+        opBtns.forEach(function(b){
+          b.classList.remove('active');
+          if(b.dataset.op === currentOp) b.classList.add('active');
+        });
+        calc();
+      });
+    });
+
+    calc();
+  }
+
+  /* ========== TOOL 2: Conversor fracción ↔ decimal ========== */
+  function setupConverter(){
+    var modeBtns = document.querySelectorAll('[data-conv]');
+    var inputsDiv = document.getElementById('conv-inputs');
+    var display = document.getElementById('conv-display');
+    if(!modeBtns.length) return;
+    var currentMode = 'frac-dec';
+
+    function renderInputs(){
+      if(currentMode === 'frac-dec'){
+        inputsDiv.innerHTML =
+          '<label>Ingresa la fracción</label>' +
+          '<div class="frac-input-row">' +
+            '<div class="frac-input">' +
+              '<input id="conv-n" type="number" step="1" value="1" />' +
+              '<div class="frac-bar"></div>' +
+              '<input id="conv-d" type="number" step="1" value="4" />' +
+            '</div>' +
+          '</div>';
+        document.getElementById('conv-n').addEventListener('input', convertFracToDec);
+        document.getElementById('conv-d').addEventListener('input', convertFracToDec);
+        convertFracToDec();
+      } else {
+        inputsDiv.innerHTML =
+          '<label>Ingresa el decimal (finito)</label>' +
+          '<input id="conv-dec" type="number" step="0.001" value="0.75" style="width:100%;padding:.5rem;border:1px solid #D9D9D9;border-radius:6px;font-size:1rem;" />' +
+          '<small style="display:block;margin-top:.3rem;color:#555;font-size:.72rem;">Solo decimales finitos (no periódicos). Usa punto o coma.</small>';
+        document.getElementById('conv-dec').addEventListener('input', convertDecToFrac);
+        convertDecToFrac();
+      }
+    }
+
+    function convertFracToDec(){
+      var n = parseInt(document.getElementById('conv-n').value);
+      var d = parseInt(document.getElementById('conv-d').value);
+      if(isNaN(n) || isNaN(d) || d === 0){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ Ingresa valores válidos.</strong>';
+        return;
+      }
+      var simp = simplifyFrac(n, d);
+      var dec = n / d;
+      // Determine type
+      var ds = simp.d;
+      // Remove factors of 2 and 5
+      while(ds % 2 === 0) ds /= 2;
+      while(ds % 5 === 0) ds /= 5;
+      var type = (ds === 1) ? 'finito' : 'periódico';
+      var typeBadge = (ds === 1)
+        ? '<span style="background:#D4AF37;color:#0B0F3F;padding:.15rem .6rem;border-radius:10px;font-size:.78rem;font-weight:700;">DECIMAL FINITO</span>'
+        : '<span style="background:#6A2C91;color:#fff;padding:.15rem .6rem;border-radius:10px;font-size:.78rem;font-weight:700;">DECIMAL PERIÓDICO</span>';
+
+      var decStr;
+      if(type === 'finito'){
+        decStr = (n / d).toString();
+      } else {
+        // long division para encontrar el período
+        decStr = longDivision(simp.n, simp.d);
+      }
+
+      display.innerHTML =
+        '<div style="background:#F8F4E9;padding:.7rem;border-radius:8px;margin-bottom:.6rem;">' +
+          '<strong style="color:#6A2C91;">Fracción ingresada:</strong> \\(' + fracLatex(n, d) + '\\)' +
+          (simp.n !== n || simp.d !== d ? '<br><strong style="color:#6A2C91;">Simplificada:</strong> \\(' + fracLatex(simp.n, simp.d) + '\\)' : '') +
+          '<br><strong style="color:#6A2C91;">Cálculo:</strong> ' + simp.n + ' ÷ ' + simp.d +
+        '</div>' +
+        '<div style="background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.8rem;text-align:center;">' +
+          '<div style="font-size:.85rem;color:#6A2C91;font-weight:700;margin-bottom:.3rem;">REPRESENTACIÓN DECIMAL</div>' +
+          '<div style="font-size:1.6rem;color:#0B0F3F;font-weight:800;">' + decStr + '</div>' +
+          '<div style="margin-top:.5rem;">' + typeBadge + '</div>' +
+        '</div>';
+
+      if(window.renderMathInElement) window.renderMathInElement(display);
+    }
+
+    function longDivision(n, d){
+      var sign = (n < 0) !== (d < 0) ? '-' : '';
+      n = Math.abs(n); d = Math.abs(d);
+      var integer = Math.floor(n / d);
+      var rem = n - integer * d;
+      if(rem === 0) return sign + integer;
+      var digits = '';
+      var remainders = {};
+      var idx = 0;
+      while(rem !== 0 && idx < 30){
+        if(remainders[rem] !== undefined){
+          // período encontrado
+          var start = remainders[rem];
+          var nonPer = digits.substring(0, start);
+          var per = digits.substring(start);
+          return sign + integer + ',' + nonPer + '<span style="text-decoration:overline;">' + per + '</span>';
+        }
+        remainders[rem] = idx;
+        rem *= 10;
+        var q = Math.floor(rem / d);
+        digits += q;
+        rem = rem - q * d;
+        idx++;
+      }
+      if(rem === 0) return sign + integer + ',' + digits;
+      return sign + integer + ',' + digits + '...';
+    }
+
+    function convertDecToFrac(){
+      var v = parseFloat(document.getElementById('conv-dec').value);
+      if(isNaN(v)){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ Ingresa un decimal válido.</strong>';
+        return;
+      }
+      var s = v.toString();
+      var sign = v < 0 ? -1 : 1;
+      s = Math.abs(v).toString();
+      var dotIdx = s.indexOf('.');
+      var num, den;
+      if(dotIdx === -1){
+        num = parseInt(s); den = 1;
+      } else {
+        var decPart = s.substring(dotIdx + 1);
+        var nDec = decPart.length;
+        den = Math.pow(10, nDec);
+        num = Math.round(v * den * sign);
+        if(sign < 0) num = -Math.abs(num);
+      }
+      var simp = simplifyFrac(num, den);
+
+      display.innerHTML =
+        '<div style="background:#F8F4E9;padding:.7rem;border-radius:8px;margin-bottom:.6rem;">' +
+          '<strong style="color:#6A2C91;">Decimal ingresado:</strong> ' + v +
+          (dotIdx !== -1 ? '<br><strong style="color:#6A2C91;">Cifras decimales:</strong> ' + s.substring(dotIdx + 1).length : '') +
+          '<br><strong style="color:#6A2C91;">Sin simplificar:</strong> \\(' + fracLatex(num, den) + '\\)' +
+        '</div>' +
+        '<div style="background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.8rem;text-align:center;">' +
+          '<div style="font-size:.85rem;color:#6A2C91;font-weight:700;margin-bottom:.3rem;">FRACCIÓN SIMPLIFICADA</div>' +
+          '<div style="font-size:1.6rem;color:#0B0F3F;font-weight:800;">\\(' + fracLatex(simp.n, simp.d) + '\\)</div>' +
+          (simp.n !== num || simp.d !== den ? '<div style="font-size:.85rem;color:#555;margin-top:.4rem;">(dividido por ' + gcd(Math.abs(num), den) + ')</div>' : '') +
+        '</div>';
+
+      if(window.renderMathInElement) window.renderMathInElement(display);
+    }
+
+    modeBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        modeBtns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentMode = btn.dataset.conv;
+        renderInputs();
+      });
+    });
+
+    var exBtns = document.querySelectorAll('[data-conv-ex]');
+    exBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var parts = btn.dataset.convEx.split(',');
+        if(parts[0] === 'frac'){
+          currentMode = 'frac-dec';
+          modeBtns.forEach(function(b){
+            b.classList.remove('active');
+            if(b.dataset.conv === 'frac-dec') b.classList.add('active');
+          });
+          renderInputs();
+          document.getElementById('conv-n').value = parts[1];
+          document.getElementById('conv-d').value = parts[2];
+          convertFracToDec();
+        } else {
+          currentMode = 'dec-frac';
+          modeBtns.forEach(function(b){
+            b.classList.remove('active');
+            if(b.dataset.conv === 'dec-frac') b.classList.add('active');
+          });
+          renderInputs();
+          document.getElementById('conv-dec').value = parts[1];
+          convertDecToFrac();
+        }
+      });
+    });
+
+    renderInputs();
+  }
+
+  function init(){
+    setupFracCalc();
+    setupConverter();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

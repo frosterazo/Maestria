@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problemas con logaritmos — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Problemas con logaritmos: aplicaciones reales</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Modelos exponenciales</span>
+    <span class="chip">Despejar tiempo</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Resolver problemas rutinarios y no rutinarios que involucran logaritmos, en contextos científicos, financieros y cotidianos.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Modelos exponenciales: la familia de problemas</div>
+
+      <p>Casi todos los problemas reales donde aparece un logaritmo provienen de un modelo de crecimiento (o decrecimiento) <strong>exponencial</strong>. La forma general es:</p>
+
+      <div class="math-box">
+        \(P(t) = P_{0} \cdot a^{t}\)
+      </div>
+
+      <p>Donde:</p>
+      <ul style="margin:.5rem 0;">
+        <li>\(P(t)\) es el valor de la cantidad en el tiempo \(t\).</li>
+        <li>\(P_{0}\) es el valor inicial (cuando \(t=0\)).</li>
+        <li>\(a\) es el factor de cambio por unidad de tiempo (si \(a > 1\), crece; si \(0 < a < 1\), decrece).</li>
+      </ul>
+
+      <div class="card card-tip">
+        <strong>Dos tipos de pregunta:</strong>
+        <ul style="margin-top:.4rem;">
+          <li><em>"Dado el tiempo, encuentra el valor"</em>: usas potencia. Ejemplo: ¿cuánto vale algo después de 5 años?</li>
+          <li><em>"Dado el valor, encuentra el tiempo"</em>: usas logaritmo. Ejemplo: ¿cuánto tarda en triplicarse?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Problema modelo: una colonia de bacterias</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una colonia de bacterias se duplica cada hora. Empiezas con 100 bacterias. (a) ¿Cuántas habrá tras 4 horas? (b) ¿En cuánto tiempo llegarás a 6400 bacterias?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Modelo: \(P(t) = 100 \cdot 2^{t}\) (\(P_{0}=100\), factor \(a=2\)).</span>
+        <span class="math-step"><strong>Parte (a) — potencia:</strong> \(P(4) = 100 \cdot 2^{4} = 100 \cdot 16 = 1600\) bacterias.</span>
+        <span class="math-step"><strong>Parte (b) — logaritmo:</strong> \(100 \cdot 2^{t} = 6400 \Rightarrow 2^{t} = 64\). Despejo: \(t = \log_{2}(64) = 6\) horas (\(2^{6} = 64\)).</span>
+        <span class="math-step"><span class="math-result">(a) 1600 bacterias; (b) 6 horas.</span></span>
+      </div>
+
+      <p>Observa el patrón: <em>las preguntas de potencia se contestan multiplicando, las de logaritmo se contestan despejando el exponente</em>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Decaimiento: vida media de sustancias</div>
+
+      <p>Las sustancias radiactivas se desintegran exponencialmente. La <strong>vida media</strong> \(T\) es el tiempo en que la cantidad cae a la mitad.</p>
+
+      <div class="math-box">
+        \(P(t) = P_{0} \cdot \left(\dfrac{1}{2}\right)^{t/T}\)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una muestra de 80 g de una sustancia tiene vida media de 5 años. ¿Cuánto quedará tras 15 años?
+      </div>
+      <div class="math-block">
+        <span class="math-step">15 años = 3 vidas medias (15/5 = 3). Cada vida media reduce a la mitad.</span>
+        <span class="math-step">\(P(15) = 80 \cdot (1/2)^{3} = 80 \cdot 1/8 = 10\) g.</span>
+        <span class="math-step"><span class="math-result">Quedan 10 g tras 15 años.</span></span>
+      </div>
+
+      <p>El logaritmo aparece cuando preguntas el camino inverso: "¿en cuánto tiempo quedan solo X gramos?".</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Ante cualquier problema, identifica primero qué dato falta: ¿el valor final, el tiempo, o el factor? Eso te dice cuál de las tres operaciones (potencia, raíz, logaritmo) necesitas.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas con logs · Página 1 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicaciones científicas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">pH · Richter · Decibeles</span>
+    <span class="chip">Escalas logarítmicas</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué escalas logarítmicas?</div>
+
+      <p>Cuando una magnitud puede variar en muchos órdenes de magnitud (de millonésimas a millones), una escala lineal no funciona bien: los valores pequeños se ven igual a 0, y los grandes salen del gráfico. La <strong>escala logarítmica</strong> comprime el rango y permite comparar fenómenos de tamaños muy distintos.</p>
+
+      <div class="card card-tip">
+        <strong>Idea clave:</strong> en una escala logarítmica, cada unidad representa un <em>factor</em> (multiplicación), no una <em>suma</em>. Pasar de magnitud 3 a magnitud 4 en Richter no es "1 más"; es "10 veces más".
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>pH: la acidez en escala logarítmica</div>
+
+      <div class="math-box">
+        \(\text{pH} = -\log[\text{H}^{+}]\)
+      </div>
+
+      <p>Donde \([\text{H}^{+}]\) es la concentración de iones hidrógeno en mol/L. El signo negativo hace que el pH sea positivo para soluciones diluidas (donde \([\text{H}^{+}] < 1\)).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El jugo de limón tiene \([\text{H}^{+}] = 10^{-2}\) mol/L. ¿Cuál es su pH?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\text{pH} = -\log(10^{-2}) = -(-2) = 2\).</span>
+        <span class="math-step"><span class="math-result">pH = 2 (muy ácido)</span></span>
+      </div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>pH</th><th>Tipo</th><th>Ejemplo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0–6</td><td>Ácido</td><td>Limón (pH ≈ 2), café (pH ≈ 5)</td></tr>
+          <tr><td>7</td><td>Neutro</td><td>Agua pura</td></tr>
+          <tr><td>8–14</td><td>Básico</td><td>Lavandina (pH ≈ 12)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Lectura logarítmica:</strong> un pH 3 es <em>10 veces más ácido</em> que un pH 4, no "1 más ácido". Cada unidad de pH representa un factor de 10.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Escala Richter: magnitud de terremotos</div>
+
+      <p>La energía liberada por un terremoto crece exponencialmente con la magnitud. Usando la fórmula simplificada \(E = 10^{M}\) (en unidades arbitrarias):</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El terremoto de Valdivia (1960) tuvo magnitud 9,5. El terremoto de Tocopilla (2007) tuvo magnitud 7,7. ¿Cuántas veces más energía liberó Valdivia?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{E_{V}}{E_{T}} = \dfrac{10^{9{,}5}}{10^{7{,}7}} = 10^{9{,}5 - 7{,}7} = 10^{1{,}8}\)</span>
+        <span class="math-step">\(10^{1{,}8} \approx 63\) veces.</span>
+        <span class="math-step"><span class="math-result">Valdivia liberó aproximadamente 63 veces más energía que Tocopilla.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Atajo PAES:</strong> una diferencia de 1 punto en Richter = 10× más energía. Diferencia de 2 puntos = 100× más. Diferencia de 3 puntos = 1000× más. Esta tabla mental ahorra cálculos.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Decibeles: intensidad sonora</div>
+
+      <div class="math-box">
+        \(D = 10 \cdot \log\!\left(\dfrac{I}{I_{0}}\right)\)
+      </div>
+
+      <p>Donde \(I\) es la intensidad sonora medida y \(I_{0}\) es la intensidad de referencia (umbral de audición humana).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un concierto tiene una intensidad sonora 10 000 veces mayor que el umbral de audición. ¿Cuál es su nivel en decibeles?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(I/I_{0} = 10\,000 = 10^{4}\).</span>
+        <span class="math-step">\(D = 10 \cdot \log(10^{4}) = 10 \cdot 4 = 40\) dB.</span>
+        <span class="math-step"><span class="math-result">40 dB (parecido a una conversación tranquila; un concierto real está en 100+ dB).</span></span>
+      </div>
+
+      <p>El multiplicador 10 al frente de la fórmula es lo que convierte unidades de "bel" (nombre original de la escala) a "decibel" (más práctico).</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas con logs · Página 2 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicaciones financieras y de crecimiento</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Interés compuesto</span>
+    <span class="chip">Tiempo de duplicación</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Interés compuesto y duplicación de capital</div>
+
+      <p>Cuando un capital genera intereses que se reinvierten, el crecimiento es exponencial. Si \(C_{0}\) es el capital inicial y \(r\) la tasa anual (en decimal: 5% = 0,05), después de \(n\) años el capital es:</p>
+
+      <div class="math-box">
+        \(C(n) = C_{0} \cdot (1+r)^{n}\)
+      </div>
+
+      <p>Para saber <strong>cuántos años toma duplicar el capital</strong>, despejamos: \(C(n) = 2 C_{0} \Rightarrow (1+r)^{n} = 2 \Rightarrow n = \log_{(1+r)}(2)\).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Invertiste $1000 al 5% anual. ¿En cuántos años se duplicará el capital? (usa \(\log 2 \approx 0{,}30\), \(\log 1{,}05 \approx 0{,}021\)).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(C(n) = 1000 \cdot 1{,}05^{n} = 2000\) ⇒ \(1{,}05^{n} = 2\).</span>
+        <span class="math-step">Aplicando log a ambos lados: \(n \cdot \log(1{,}05) = \log(2)\).</span>
+        <span class="math-step">\(n = \dfrac{\log(2)}{\log(1{,}05)} \approx \dfrac{0{,}30}{0{,}021} \approx 14{,}3\) años.</span>
+        <span class="math-step"><span class="math-result">Aproximadamente 14 años para duplicarse.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Regla del 72 (intuitiva, no exacta):</strong> tiempo aproximado de duplicación ≈ 72 / r%. Para 5%: 72/5 ≈ 14,4 años. Coincide con el cálculo logarítmico exacto.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Crecimiento de poblaciones</div>
+
+      <p>Las poblaciones humanas, animales o bacterianas crecen siguiendo modelos exponenciales: \(P(t) = P_{0} \cdot a^{t}\). Los logaritmos permiten responder preguntas como "¿cuándo se cuadriplicará?" o "¿cuánto tiempo para llegar a 1 millón?".</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una población de 5000 personas crece un 2% anual. ¿En cuántos años llegará a 10 000 (se duplicará)? (\(\log 2 \approx 0{,}30\), \(\log 1{,}02 \approx 0{,}0086\)).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(5000 \cdot 1{,}02^{n} = 10000\) ⇒ \(1{,}02^{n} = 2\).</span>
+        <span class="math-step">\(n = \log(2)/\log(1{,}02) \approx 0{,}30/0{,}0086 \approx 35\) años.</span>
+        <span class="math-step"><span class="math-result">Aproximadamente 35 años.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Estrategia general para resolver problemas con logaritmos</div>
+
+      <ol class="steps-num">
+        <li><strong>Identifica el modelo:</strong> ¿exponencial creciente (\(a>1\)) o decreciente (\(0<a<1\))?</li>
+        <li><strong>Escribe la ecuación:</strong> \(P(t) = P_{0} \cdot a^{t}\) o variante adecuada (vida media, escalas, etc.).</li>
+        <li><strong>Identifica qué incógnita buscas:</strong> ¿valor (usar potencia) o tiempo (usar logaritmo)?</li>
+        <li><strong>Si buscas tiempo:</strong> aplica logaritmo a ambos lados, despeja \(t\).</li>
+        <li><strong>Usa las propiedades del logaritmo</strong> (producto = suma, potencia = factor) para simplificar.</li>
+        <li><strong>Verifica con sentido común:</strong> el resultado debe ser razonable en el contexto del problema (tiempos positivos, valores realistas).</li>
+      </ol>
+
+      <div class="card card-tip">
+        <strong>Constantes útiles para PAES:</strong>
+        <ul style="margin-top:.4rem;">
+          <li>\(\log 2 \approx 0{,}30\)</li>
+          <li>\(\log 3 \approx 0{,}48\)</li>
+          <li>\(\log 5 \approx 0{,}70\)</li>
+          <li>\(\log 7 \approx 0{,}85\)</li>
+        </ul>
+        Con estas cuatro puedes calcular muchísimos logaritmos por descomposición (por ejemplo, \(\log 6 = \log 2 + \log 3 \approx 0{,}78\)).
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Al cerrar esta guía: ¿podrías plantear y resolver el problema "¿cuánto demora una bacteria que se triplica cada hora en llegar a 1000 desde 10?"? Si puedes plantear el log y aproximar, has integrado todo el OA 2.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas con logs · Página 3 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas con logs — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Una bacteria se duplica cada hora. Si empiezas con 10 bacterias, ¿cuántas habrá tras 3 horas?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 30<div class="opt-feedback"><strong>Incorrecto.</strong> Suma en lugar de multiplicación exponencial.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 80<div class="opt-feedback"><strong>Correcto.</strong> \(P(3) = 10 \cdot 2^{3} = 10 \cdot 8 = 80\) bacterias.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 60<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al cálculo exponencial.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1000<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(10^{3}\) sin sentido aquí.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El pH de una solución es 4. ¿Cuál es la concentración \([\text{H}^{+}]\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(10^{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo negativo de la fórmula \(\text{pH} = -\log[\text{H}^{+}]\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(10^{-4}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\text{pH} = -\log[\text{H}^{+}] = 4 \Rightarrow [\text{H}^{+}] = 10^{-4}\) mol/L.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4 \cdot 10^{-1}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla notación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(-4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Una concentración no puede ser negativa.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(\log(x) = 2\), entonces \(x\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería si \(\log(x) = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 20<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica \(10 \cdot 2\) sin sentido.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100<div class="opt-feedback"><strong>Correcto.</strong> \(\log(x) = 2 \iff 10^{2} = x = 100\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería si \(\log(x) = 3\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Una población se triplica cada año. Empezando con 100 individuos, ¿cuántos años para llegar a 8100?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 3 años<div class="opt-feedback"><strong>Incorrecto.</strong> En 3 años: \(100 \cdot 3^{3} = 2700\), aún falta.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 4 años<div class="opt-feedback"><strong>Correcto.</strong> \(100 \cdot 3^{n} = 8100 \Rightarrow 3^{n} = 81 \Rightarrow n = \log_{3}(81) = 4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 5 años<div class="opt-feedback"><strong>Incorrecto.</strong> En 5 años se pasaría a \(100 \cdot 3^{5} = 24\,300\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 8 años<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con división lineal.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">La intensidad de un sonido en decibeles es \(D = 10 \cdot \log(I/I_{0})\). Si \(I = 100 \cdot I_{0}\), ¿cuál es \(D\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 10 dB<div class="opt-feedback"><strong>Incorrecto.</strong> Es solo el factor 10 sin el logaritmo de 100.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 20 dB<div class="opt-feedback"><strong>Correcto.</strong> \(D = 10 \cdot \log(100) = 10 \cdot 2 = 20\) dB.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100 dB<div class="opt-feedback"><strong>Incorrecto.</strong> Es el cociente \(I/I_{0}\), no \(D\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1000 dB<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica todo sin aplicar logaritmo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">La vida media de una sustancia es 5 años. Si empiezas con 80 g, ¿cuánto quedará tras 15 años?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 40 g<div class="opt-feedback"><strong>Incorrecto.</strong> Eso quedaría tras solo 1 vida media (5 años).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 20 g<div class="opt-feedback"><strong>Incorrecto.</strong> Eso quedaría tras 2 vidas medias (10 años).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 10 g<div class="opt-feedback"><strong>Correcto.</strong> 15 años = 3 vidas medias. \(80 \cdot (1/2)^{3} = 80/8 = 10\) g.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5 g<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería tras 4 vidas medias (20 años).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un capital duplica su valor cada 6 años. ¿En cuántos años se multiplicará por 8?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 12 años<div class="opt-feedback"><strong>Incorrecto.</strong> En 12 años se cuadruplica (\(2^{2}=4\)), no por 8.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 18 años<div class="opt-feedback"><strong>Correcto.</strong> \(8 = 2^{3}\), necesitas 3 duplicaciones, cada una de 6 años: \(3 \cdot 6 = 18\) años.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 24 años<div class="opt-feedback"><strong>Incorrecto.</strong> En 24 años se multiplicaría por 16 (\(2^{4}\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 48 años<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con multiplicación lineal.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un terremoto A tiene magnitud 6 y otro B tiene magnitud 8 (Richter). ¿Cuántas veces más energía libera B que A? (Usa \(E = 10^{M}\))</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 2 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde diferencia lineal de magnitudes con razón de energías.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 veces<div class="opt-feedback"><strong>Incorrecto.</strong> 10 veces correspondería a diferencia de 1 unidad, no de 2.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100 veces<div class="opt-feedback"><strong>Correcto.</strong> \(E_{B}/E_{A} = 10^{8}/10^{6} = 10^{2} = 100\). Cada unidad Richter multiplica por 10.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1000 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería diferencia de 3 unidades.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un capital crece al 7% anual. Usando \(\log 2 \approx 0{,}30\) y \(\log 1{,}07 \approx 0{,}029\), ¿en cuántos años aproximadamente se duplica?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> ~7 años<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la tasa con los años.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> ~10 años<div class="opt-feedback"><strong>Correcto.</strong> \(n = \log(2)/\log(1{,}07) \approx 0{,}30/0{,}029 \approx 10{,}3\) años.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> ~14 años<div class="opt-feedback"><strong>Incorrecto.</strong> Eso correspondería a 5% anual.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> ~21 años<div class="opt-feedback"><strong>Incorrecto.</strong> Tres veces más de lo correcto; no corresponde.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(\log 2 \approx 0{,}30\) y \(\log 5 \approx 0{,}70\), ¿cuál es el valor aproximado de \(\log 50\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 0,30<div class="opt-feedback"><strong>Incorrecto.</strong> Es solo \(\log 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 0,70<div class="opt-feedback"><strong>Incorrecto.</strong> Es solo \(\log 5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 1,30<div class="opt-feedback"><strong>Incorrecto.</strong> Suma \(\log 2 + \log 10\); pero \(50 \neq 2 \cdot 10\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1,70<div class="opt-feedback"><strong>Correcto.</strong> \(50 = 5 \cdot 10\), entonces \(\log 50 = \log 5 + \log 10 = 0{,}70 + 1 = 1{,}70\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas con logs · Página 4 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas con logs — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Aplicaciones de logaritmos</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es el pH de una solución con \([\text{H}^{+}] = 10^{-3}\) mol/L?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> \(\text{pH} = -\log(10^{-3}) = -(-3) = 3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo negativo de la fórmula; el pH es positivo aquí.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(10^{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el signo del exponente sin aplicar logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1/3\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a la operación.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Una sustancia radiactiva tiene vida media de 10 años. Después de 30 años, ¿qué fracción de la cantidad inicial queda?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(1/2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso quedaría tras solo 1 vida media (10 años).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(1/3\)<div class="opt-feedback"><strong>Incorrecto.</strong> El decaimiento no es por sumas (años/vida media), es por potencias de 1/2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(1/4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso quedaría tras 2 vidas medias (20 años).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1/8\)<div class="opt-feedback"><strong>Correcto.</strong> 30 años = 3 vidas medias. Queda \((1/2)^{3} = 1/8\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">La magnitud de un terremoto en Richter es 7 y otro es 5. ¿Cuántas veces más energía libera el primero? (Usa \(E = 10^{M}\))</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 2 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde diferencia lineal con razón exponencial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 10 veces<div class="opt-feedback"><strong>Incorrecto.</strong> 10 veces es diferencia de 1 unidad, no de 2.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 100 veces<div class="opt-feedback"><strong>Correcto.</strong> \(E_{1}/E_{2} = 10^{7}/10^{5} = 10^{2} = 100\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 200 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con multiplicación lineal.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Una bacteria se duplica cada 20 minutos. Si empiezas con 1 bacteria, ¿cuántas habrá en 2 horas?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 64<div class="opt-feedback"><strong>Correcto.</strong> 2 horas = 120 min = 6 ciclos de 20 min. \(1 \cdot 2^{6} = 64\) bacterias.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 32<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 5 ciclos (100 min).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 128<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 7 ciclos (140 min).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 3 ciclos (60 min).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Si \(\log 3 \approx 0{,}48\), ¿cuál es el valor aproximado de \(\log 27\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0,48<div class="opt-feedback"><strong>Incorrecto.</strong> Es solo \(\log 3\); falta aplicar la potencia.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1,44<div class="opt-feedback"><strong>Correcto.</strong> \(\log 27 = \log 3^{3} = 3 \cdot \log 3 \approx 3 \cdot 0{,}48 = 1{,}44\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 2,88<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\log 27^{2}\), no \(\log 27\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 8,1<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica por 27 sin sentido.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">El tiempo de duplicación en interés compuesto es \(t = \log(2) / \log(1+r)\). Si \(r = 0{,}05\), \(\log 2 \approx 0{,}30\), \(\log 1{,}05 \approx 0{,}021\), ¿cuál es \(t\) aproximado?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ~5 años<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la tasa con el tiempo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ~10 años<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo inexacto; revisa la división.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ~14 años<div class="opt-feedback"><strong>Correcto.</strong> \(t = 0{,}30/0{,}021 \approx 14{,}3\) años. Consistente con la regla del 72 (72/5 ≈ 14,4).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> ~20 años<div class="opt-feedback"><strong>Incorrecto.</strong> Inexacto; revisa el cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuál es el valor de \(\log(0{,}1) + \log(10) + \log(100)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde signos.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(2\)<div class="opt-feedback"><strong>Correcto.</strong> \(\log(0{,}1) = -1\), \(\log(10) = 1\), \(\log(100) = 2\). Suma: \(-1 + 1 + 2 = 2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo negativo de \(\log(0{,}1)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(110\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma los argumentos en lugar de los logaritmos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">La energía liberada por un terremoto se cuadruplica. Si la magnitud es \(M = \log(E/E_{0})\), ¿en cuánto aumenta la magnitud?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> En \(\log 4 \approx 0{,}60\)<div class="opt-feedback"><strong>Correcto.</strong> \(\Delta M = \log(4E/E_{0}) - \log(E/E_{0}) = \log 4 \approx 0{,}60\). Multiplicar la energía por un factor suma el logaritmo de ese factor a la magnitud.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> En \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> 4 sería el factor lineal; la magnitud crece logarítmicamente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> En \(\log 2 \approx 0{,}30\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería si la energía se duplicara, no si se cuadruplicara.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> En \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso correspondería a un factor 100, no 4.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Si \(\log_{2}(x) + \log_{2}(y) = 5\) y \(\log_{2}(x) - \log_{2}(y) = 1\), ¿cuál es el valor de \(\log_{2}(x)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en sistema de ecuaciones.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> Sumando ambas ecuaciones: \(2\log_{2}(x) = 6 \Rightarrow \log_{2}(x) = 3\). Sistema clásico de suma y resta.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(\log_{2}(y)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(5\)<div class="opt-feedback"><strong>Incorrecto.</strong> 5 es la suma, no el valor individual.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">El nivel sonoro de un concierto es 100 dB. ¿Cuántas veces más intenso es respecto al umbral de audición (0 dB)? (\(D = 10 \cdot \log(I/I_{0})\))</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(10^{10}\)<div class="opt-feedback"><strong>Correcto.</strong> \(100 = 10 \log(I/I_{0}) \Rightarrow \log(I/I_{0}) = 10 \Rightarrow I/I_{0} = 10^{10}\). La escala logarítmica oculta una diferencia enorme.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(10^{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida dividir por 10 antes de aplicar potencia.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(10^{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso correspondería a 50 dB, no 100 dB.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1000\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso correspondería a 30 dB.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Los logaritmos son el "traductor" entre el mundo exponencial (donde las cantidades crecen explosivamente) y el mundo lineal (donde podemos pensar y comparar con números pequeños). Sin logaritmos no podríamos medir terremotos, calcular tiempos de inversión, ni entender el pH del agua que bebemos.</p>
+    <p>Has completado las 5 guías del OA 2. Practica con más en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente OA: Polinomios y expresiones algebraicas</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas con logs · Página 5 de 5</div>
+  </div>
+</div>
+
+</body>
+</html>

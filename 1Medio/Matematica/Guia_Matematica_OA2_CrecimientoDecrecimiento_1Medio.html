@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crecimiento y decrecimiento exponencial — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    /* Cards de propiedades (sin fondo anidado) */
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.15rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    /* Tabla evolución */
+    .evo-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.92rem;}
+    .evo-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:center;font-weight:700;}
+    .evo-table td{padding:.5rem;border:1px solid #ddd;text-align:center;}
+    .evo-table tr:nth-child(even){background:#f8f4e9;}
+
+    /* Tool */
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;font-weight:700;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;}
+    .input-row > div label{font-size:.82rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    .mode-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;}
+    .mode-toggle button.active{background:#6A2C91;color:#fff;}
+    .mode-toggle button:hover{background:#552072;color:#fff;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+
+    canvas.expo-canvas{width:100%;height:280px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button,.mode-toggle{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué es el cambio exponencial?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Crecimiento y decrecimiento exponencial</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Modelos con potencias</span>
+    <span class="chip">Ciencias naturales</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Usar potencias para <strong>modelar</strong> procesos de crecimiento y decrecimiento de cantidades en el tiempo, identificando el factor de cambio y aplicando la fórmula \(y = a \cdot r^{t}\) en contextos reales.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Crecimiento lineal vs. crecimiento exponencial</div>
+
+      <p>Compara estas dos situaciones:</p>
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Lineal:</strong> Cada mes ahorras \$10.000 más que el anterior. Tu ahorro crece <em>de a poco, en una cantidad fija</em>.</li>
+        <li><strong>Exponencial:</strong> Cada mes tu ahorro <em>se multiplica por un mismo factor</em> (por ejemplo, crece un 10 %). Crece <em>cada vez más rápido</em>.</li>
+      </ul>
+
+      <p>El crecimiento exponencial parece inocente al principio, pero <strong>explota</strong> en poco tiempo. La clave está en que cada paso multiplica al anterior, en vez de sumar.</p>
+
+      <table class="evo-table">
+        <thead><tr><th>Mes</th><th>Lineal (+\$10.000)</th><th>Exponencial (×1,5)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>\$10.000</td><td>\$10.000</td></tr>
+          <tr><td>1</td><td>\$20.000</td><td>\$15.000</td></tr>
+          <tr><td>2</td><td>\$30.000</td><td>\$22.500</td></tr>
+          <tr><td>3</td><td>\$40.000</td><td>\$33.750</td></tr>
+          <tr><td>6</td><td>\$70.000</td><td>\$113.906</td></tr>
+          <tr><td>10</td><td>\$110.000</td><td>\$576.650</td></tr>
+        </tbody>
+      </table>
+
+      <p>En el mes 10 el modelo exponencial ya quintuplica al lineal. Y la brecha sigue creciendo.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La fórmula del cambio exponencial</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Fórmula general</div>
+        <div class="prop-formula">\(y = a \cdot r^{t}\)</div>
+        <div class="prop-words">donde \(a\) es el <strong>valor inicial</strong>, \(r\) es el <strong>factor de cambio</strong> (cuánto se multiplica cada periodo), y \(t\) es el <strong>número de periodos</strong> transcurridos.</div>
+      </div>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Si \(r > 1\) → la cantidad <strong>crece</strong>.</li>
+        <li>Si \(0 < r < 1\) → la cantidad <strong>decrece</strong>.</li>
+        <li>Si \(r = 1\) → la cantidad <strong>no cambia</strong>.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Crecimiento exponencial
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Crecimiento exponencial</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">r > 1</span>
+    <span class="chip">Bacterias · interés · población</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El factor de crecimiento</div>
+
+      <p>Cuando una cantidad <strong>aumenta un porcentaje fijo</strong> en cada periodo, el factor de cambio es:</p>
+      <div class="math-box">\(r = 1 + \dfrac{P}{100}\), &nbsp; donde \(P\) es el % de aumento por periodo.</div>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Aumenta 10 % cada año → \(r = 1 + 0,10 = 1,10\).</li>
+        <li>Aumenta 25 % cada mes → \(r = 1,25\).</li>
+        <li>Se duplica cada hora → \(r = 2\) (aumento del 100 %).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Aplicación: bacterias en un cultivo</div>
+
+      <p>Un cultivo comienza con <strong>100 bacterias</strong>. Cada hora, la población <strong>se duplica</strong> (\(r = 2\)). ¿Cuántas bacterias habrá en 6 horas?</p>
+
+      <div class="math-block">
+        <span class="math-step">Datos: \(a = 100\), \(r = 2\), \(t = 6\).</span>
+        <span class="math-step">Fórmula: \(y = 100 \cdot 2^{6}\).</span>
+        <span class="math-step">\(2^6 = 64\). Entonces \(y = 100 \cdot 64 = 6.400\) bacterias.</span>
+        <span class="math-step"><span class="math-result">En 6 horas habrá 6.400 bacterias.</span></span>
+      </div>
+
+      <table class="evo-table">
+        <thead><tr><th>Hora (t)</th><th>Cálculo</th><th>Bacterias</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>\(100 \cdot 2^0\)</td><td>100</td></tr>
+          <tr><td>1</td><td>\(100 \cdot 2^1\)</td><td>200</td></tr>
+          <tr><td>2</td><td>\(100 \cdot 2^2\)</td><td>400</td></tr>
+          <tr><td>3</td><td>\(100 \cdot 2^3\)</td><td>800</td></tr>
+          <tr><td>6</td><td>\(100 \cdot 2^6\)</td><td>6.400</td></tr>
+          <tr><td>10</td><td>\(100 \cdot 2^{10}\)</td><td>102.400</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Aplicación: interés compuesto</div>
+
+      <p>Si depositas \$200.000 en una cuenta que da <strong>5 % de interés anual compuesto</strong>, ¿cuánto tendrás después de 4 años?</p>
+
+      <div class="math-block">
+        <span class="math-step">\(r = 1 + 0,05 = 1,05\); \(a = 200.000\); \(t = 4\).</span>
+        <span class="math-step">\(y = 200.000 \cdot (1,05)^{4}\).</span>
+        <span class="math-step">\((1,05)^4 \approx 1,2155\).</span>
+        <span class="math-step">\(y \approx 200.000 \cdot 1,2155 = 243.101\).</span>
+        <span class="math-step"><span class="math-result">Tendrás aprox. \$243.101 al cabo de 4 años.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">¿Por qué "compuesto"?</span>
+        Porque cada año el interés se calcula sobre el <strong>nuevo</strong> total (capital + intereses acumulados), no sobre el capital inicial. Por eso crece exponencialmente.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Decrecimiento exponencial
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Decrecimiento exponencial</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">0 < r < 1</span>
+    <span class="chip">Depreciación · enfriamiento</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El factor de decrecimiento</div>
+
+      <p>Cuando una cantidad <strong>disminuye un porcentaje fijo</strong> en cada periodo, el factor de cambio es:</p>
+      <div class="math-box">\(r = 1 - \dfrac{P}{100}\), &nbsp; donde \(P\) es el % de disminución por periodo.</div>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Disminuye 10 % cada año → \(r = 1 - 0,10 = 0,90\).</li>
+        <li>Disminuye 30 % cada mes → \(r = 0,70\).</li>
+        <li>Se reduce a la mitad cada hora → \(r = 0,5\) (disminución del 50 %).</li>
+      </ul>
+
+      <p>Notar que \(0 < r < 1\). Cuanto más cerca de 0, más rápido decrece.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Aplicación: depreciación de un auto</div>
+
+      <p>Un auto nuevo cuesta \$12.000.000. Cada año pierde el <strong>15 % de su valor</strong>. ¿Cuánto valdrá después de 3 años?</p>
+
+      <div class="math-block">
+        <span class="math-step">\(r = 1 - 0,15 = 0,85\); \(a = 12.000.000\); \(t = 3\).</span>
+        <span class="math-step">\(y = 12.000.000 \cdot (0,85)^{3}\).</span>
+        <span class="math-step">\((0,85)^3 \approx 0,6141\).</span>
+        <span class="math-step">\(y \approx 12.000.000 \cdot 0,6141 \approx 7.370.250\).</span>
+        <span class="math-step"><span class="math-result">El auto valdrá aproximadamente \$7.370.250.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Aplicación: vida media radiactiva</div>
+
+      <p>El <strong>carbono-14</strong> es un isótopo radiactivo que se usa para datar fósiles. Cada <strong>5.730 años</strong> (su <em>vida media</em>) la cantidad de C-14 en una muestra se reduce a la <strong>mitad</strong>.</p>
+
+      <p>Si una muestra hoy tiene \(10\) gramos de C-14, ¿cuánto quedará después de \(3\) vidas medias (\(\approx 17.190\) años)?</p>
+
+      <div class="math-block">
+        <span class="math-step">\(a = 10\); \(r = \dfrac{1}{2}\); \(t = 3\) (en unidades de vida media).</span>
+        <span class="math-step">\(y = 10 \cdot \left(\dfrac{1}{2}\right)^{3} = 10 \cdot \dfrac{1}{8} = 1,25\) g.</span>
+        <span class="math-step"><span class="math-result">Quedará 1,25 g de C-14.</span></span>
+      </div>
+
+      <table class="evo-table">
+        <thead><tr><th>Vidas medias</th><th>Tiempo (años)</th><th>C-14 restante</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>10 g</td></tr>
+          <tr><td>1</td><td>5.730</td><td>5 g</td></tr>
+          <tr><td>2</td><td>11.460</td><td>2,5 g</td></tr>
+          <tr><td>3</td><td>17.190</td><td>1,25 g</td></tr>
+          <tr><td>5</td><td>28.650</td><td>0,3125 g</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <span class="card-label">Dato curioso</span>
+        Por eso la datación por carbono solo sirve hasta unos <strong>50.000 años</strong>: después queda tan poco C-14 que no se puede medir con precisión. Para datar dinosaurios (millones de años) se usa uranio-238, con vida media de 4.500 millones de años.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Simulador
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Simulador exponencial</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Gráfico evolutivo</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Simulador y(t) = a · r^t</div>
+
+      <p>Ingresa los tres parámetros (\(a\), \(r\) y cantidad de periodos), y la herramienta grafica la evolución, calcula los valores en cada periodo y muestra si crece o decrece.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Parámetros:</label>
+            <div class="input-row">
+              <div><label>a (inicial)</label><input type="number" id="paramA" value="100" /></div>
+              <div><label>r (factor)</label><input type="number" id="paramR" value="1.5" step="0.01" /></div>
+              <div><label>Periodos</label><input type="number" id="paramT" value="8" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadSim(100,2,8)">Bacterias ×2</button>
+            <button onclick="loadSim(200000,1.05,10)">Inversión 5%</button>
+            <button onclick="loadSim(12000000,0.85,8)">Auto −15%</button>
+            <button onclick="loadSim(10,0.5,5)">C-14 (½ vida)</button>
+            <button onclick="loadSim(50,1.2,10)">Población +20%</button>
+            <button onclick="loadSim(1000,0.9,12)">Memoria −10%</button>
+          </div>
+          <button class="calc-button" onclick="runSim()">Graficar y calcular →</button>
+        </div>
+
+        <div class="tool-display" id="simDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los parámetros y presiona <strong>Graficar y calcular</strong>.</p>
+        </div>
+      </div>
+
+      <canvas id="simCanvas" class="expo-canvas" width="900" height="280" style="margin-top:1rem;"></canvas>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Estrategia para resolver problemas
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cómo resolver un problema exponencial</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Método</span>
+    <span class="chip">Pasos guiados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Los 4 pasos</div>
+
+      <ol class="steps-num">
+        <li><strong>Identifica el valor inicial</strong> (\(a\)): la cantidad de la cual se parte.</li>
+        <li><strong>Identifica el factor de cambio</strong> (\(r\)): si <em>aumenta</em> \(P\%\) → \(r=1+P/100\); si <em>disminuye</em> \(P\%\) → \(r=1-P/100\); si se <em>multiplica/divide</em> directamente, \(r\) es ese número.</li>
+        <li><strong>Identifica el tiempo</strong> (\(t\)): cuántos periodos pasaron. Cuidado con las <strong>unidades</strong> (horas, años, meses).</li>
+        <li><strong>Aplica la fórmula</strong> \(y = a \cdot r^{t}\).</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo guiado: virus en una ciudad</div>
+
+      <p>Una ciudad tiene <strong>500 personas contagiadas</strong> con un virus. Cada día el número de contagiados aumenta un <strong>20 %</strong>. ¿Cuántos contagiados habrá en una semana?</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1.</strong> \(a = 500\) (contagiados iniciales).</span>
+        <span class="math-step"><strong>Paso 2.</strong> \(r = 1 + 0,20 = 1,20\).</span>
+        <span class="math-step"><strong>Paso 3.</strong> \(t = 7\) días.</span>
+        <span class="math-step"><strong>Paso 4.</strong> \(y = 500 \cdot (1,20)^{7}\).</span>
+        <span class="math-step">\((1,20)^7 \approx 3,5832\).</span>
+        <span class="math-step">\(y \approx 500 \cdot 3,5832 \approx 1.792\).</span>
+        <span class="math-step"><span class="math-result">En una semana habrá aproximadamente 1.792 contagiados.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Reflexión</span>
+        Un <strong>20 % diario</strong> parece poco, pero en una semana casi se cuadruplica la cantidad. Por eso los virus se propagan tan rápido si no se controla la tasa de contagio.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Cuidado con las unidades</div>
+
+      <p>Si el problema dice "cada mes" y te pregunta por años, debes convertir \(t\) a meses (o cambiar el periodo del factor \(r\)).</p>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>3 % mensual durante 2 años → \(t = 24\) meses, \(r = 1,03\).</li>
+        <li>Crece al doble cada 6 horas → si pasan 24 h, \(t = 4\) (porque hubo 4 periodos de 6 horas).</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Calculadora de interés compuesto
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Interés compuesto y depreciación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Economía</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Calculadora financiera</div>
+
+      <p>Elige el tipo (aumento o descuento), ingresa el monto inicial, el porcentaje por periodo y la cantidad de periodos. La herramienta muestra el valor final, el cambio total y la tabla año a año.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="mode-toggle">
+            <button id="btnModeUp" class="active" onclick="setMode('up')">Aumento (+)</button>
+            <button id="btnModeDown" onclick="setMode('down')">Descuento (−)</button>
+          </div>
+          <div class="input-control">
+            <label>Parámetros:</label>
+            <div class="input-row">
+              <div><label>Inicial</label><input type="number" id="finInit" value="100000" /></div>
+              <div><label>% periodo</label><input type="number" id="finPct" value="5" step="0.1" /></div>
+              <div><label>Periodos</label><input type="number" id="finN" value="5" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadFin('up',100000,5,5)">Inversión 5%, 5 años</button>
+            <button onclick="loadFin('up',500000,8,10)">CDT 8%, 10 años</button>
+            <button onclick="loadFin('down',12000000,15,5)">Auto −15%, 5 años</button>
+            <button onclick="loadFin('down',800000,20,3)">Celular −20%, 3 años</button>
+          </div>
+          <button class="calc-button" onclick="runFin()">Calcular →</button>
+        </div>
+
+        <div class="tool-display" id="finDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los datos y presiona <strong>Calcular</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Dato útil</span>
+        Un ahorro al 8 % anual <strong>se duplica en unos 9 años</strong>. Es la famosa "regla del 72": divide 72 entre el % de interés y obtienes los años para duplicar.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Crecimiento y decrecimiento — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(y = a \cdot r^{t}\), ¿qué tipo de cambio representa cuando \(r = 1,30\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Crecimiento del 30 % por periodo.<div class="opt-feedback"><strong>Correcto.</strong> \(r = 1 + 0,30\) → aumento del 30 %.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Decrecimiento del 30 %.<div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(r = 0,70\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Crecimiento del 130 %.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(r = 2,30\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No cambia.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(r = 1\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Una bacteria se duplica cada hora. Si hay 50 al inicio, ¿cuántas habrá en 3 horas?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 150<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 3, no por \(2^3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 250<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 400<div class="opt-feedback"><strong>Correcto.</strong> \(50 \cdot 2^3 = 50 \cdot 8 = 400\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 800<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(50 \cdot 2^4\) (4 horas).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Qué factor \(r\) corresponde a "disminuir el 25 % cada año"?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(r = 1,25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es un aumento del 25 %.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(r = 0,75\)<div class="opt-feedback"><strong>Correcto.</strong> \(r = 1 - 0,25 = 0,75\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(r = 0,25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es perder el 75 %.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(r = -0,25\)<div class="opt-feedback"><strong>Incorrecto.</strong> El factor debe ser positivo entre 0 y 1.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Una población de hormigas crece un 50 % cada mes. Si hay 200 hoy, ¿cuántas habrá en 3 meses?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 300<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería al cabo de 1 mes (200·1,5).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 500<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste 50 %·3·200.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 675<div class="opt-feedback"><strong>Correcto.</strong> \(200 \cdot (1,5)^3 = 200 \cdot 3,375 = 675\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 800<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un celular nuevo vale \$600.000 y se devalúa 20 % por año. ¿Cuánto vale en 2 años?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \$240.000<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste 40 % directo, no aplicaste el factor año a año.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \$384.000<div class="opt-feedback"><strong>Correcto.</strong> \(600.000 \cdot (0,80)^2 = 600.000 \cdot 0,64 = 384.000\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \$480.000<div class="opt-feedback"><strong>Incorrecto.</strong> Solo aplicaste 1 año.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \$720.000<div class="opt-feedback"><strong>Incorrecto.</strong> Aumentaste en vez de descontar.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Una sustancia radiactiva se reduce a la mitad cada 10 años. Si hoy hay 80 g, ¿cuántos gramos quedarán en 40 años?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 1 vida media.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 3 vidas medias (30 años).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 5<div class="opt-feedback"><strong>Correcto.</strong> 40 años = 4 vidas medias. \(80 \cdot (1/2)^4 = 80/16 = 5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 2,5<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 5 vidas medias (50 años).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Inviertes \$100.000 al 10 % anual compuesto. ¿Cuál es la fórmula del valor al cabo de \(t\) años?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(y = 100.000 \cdot 0,10^t\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste el porcentaje con el factor.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(y = 100.000 \cdot (1,10)^t\)<div class="opt-feedback"><strong>Correcto.</strong> \(r = 1+0,10 = 1,10\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(y = 100.000 + 0,10 \cdot t\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería interés simple, no compuesto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(y = 100.000 \cdot 10^t\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaría por 10 cada año (1000 %).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(\$500.000\) al 6 % anual compuesto durante 3 años, ¿cuánto entrega aprox.?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \$590.000<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste interés simple (3·6 % = 18 % → 590.000).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \$595.508<div class="opt-feedback"><strong>Correcto.</strong> \(500.000 \cdot (1,06)^3 \approx 500.000 \cdot 1,191016 \approx 595.508\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \$530.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es solo 1 año.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \$1.000.000<div class="opt-feedback"><strong>Incorrecto.</strong> El monto no se duplica en 3 años al 6 %.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es el efecto de aplicar primero un 10 % de descuento y luego otro 10 %, vs. un 20 % directo?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Es igual: ambos quedan en 80 % del precio.<div class="opt-feedback"><strong>Incorrecto.</strong> No son equivalentes.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> El doble 10 % queda en 81 % (\(0,9 \cdot 0,9 = 0,81\)); el 20 % directo en 80 %.<div class="opt-feedback"><strong>Correcto.</strong> Dos descuentos del 10 % equivalen a un único 19 % (no 20 %).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> El doble 10 % rebaja más que un 20 %.<div class="opt-feedback"><strong>Incorrecto.</strong> Rebaja un poquito menos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Imposible compararlos.<div class="opt-feedback"><strong>Incorrecto.</strong> Sí se pueden comparar con factores.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una taza de café caliente pierde 10 % de su temperatura cada minuto (en escala absoluta). Si parte a 80 °C, ¿cuál es su temperatura aprox. tras 5 minutos?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 30 °C<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste 50 % directo, no aplicaste factor potencial.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 40 °C<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo aproximado erróneo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 47,2 °C<div class="opt-feedback"><strong>Correcto.</strong> \(80 \cdot (0,9)^5 \approx 80 \cdot 0,5905 \approx 47,2\) °C.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 56 °C<div class="opt-feedback"><strong>Incorrecto.</strong> Aplicaste el factor solo 3 veces.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Crecimiento y decrecimiento — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Modelos exponenciales</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">En la fórmula \(y = a \cdot r^t\), si \(r = 1\) entonces:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(y\) crece sin parar.<div class="opt-feedback"><strong>Incorrecto.</strong> Solo si \(r > 1\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(y\) decrece.<div class="opt-feedback"><strong>Incorrecto.</strong> Solo si \(0 < r < 1\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(y\) se mantiene constante.<div class="opt-feedback"><strong>Correcto.</strong> \(1^t = 1\) para todo \(t\), así que \(y = a\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(y\) se hace cero.<div class="opt-feedback"><strong>Incorrecto.</strong> Solo si \(a = 0\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Una colonia de algas se triplica cada día. Si parte con 4 algas, ¿cuántas habrá en 4 días?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 3 (solo 1 día).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 81<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el valor inicial.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 324<div class="opt-feedback"><strong>Correcto.</strong> \(4 \cdot 3^4 = 4 \cdot 81 = 324\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 256<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(4 \cdot 4^3\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál es el factor \(r\) para "aumenta 8 % cada año"?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0,08<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el porcentaje en decimal, no el factor.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1,08<div class="opt-feedback"><strong>Correcto.</strong> \(r = 1 + 0,08\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0,92<div class="opt-feedback"><strong>Incorrecto.</strong> Ese sería un descuento del 8 %.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es multiplicar por 8 cada año (700 %).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Si una sustancia se reduce a la mitad cada 6 horas, ¿qué fracción de la cantidad inicial queda tras 24 horas?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 6 horas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 18 horas (3 vidas medias).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{16}\)<div class="opt-feedback"><strong>Correcto.</strong> 24/6 = 4 vidas medias; \(\left(\dfrac{1}{2}\right)^4 = \dfrac{1}{16}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 12 horas (2 vidas medias).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Una inversión de \$100.000 al 4 % anual compuesto durante 2 años entrega:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \$104.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es tras 1 año.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \$108.000<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste interés simple.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \$108.160<div class="opt-feedback"><strong>Correcto.</strong> \(100.000 \cdot (1,04)^2 = 100.000 \cdot 1,0816 = 108.160\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \$116.640<div class="opt-feedback"><strong>Incorrecto.</strong> Aplicaste 4 % a un capital mucho mayor.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuál de las siguientes situaciones modela un crecimiento exponencial?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Una piscina se llena 100 L cada hora.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es crecimiento lineal (constante).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> El número de seguidores aumenta 15 % cada semana.<div class="opt-feedback"><strong>Correcto.</strong> Porcentaje fijo del total → factor \(r > 1\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Cada minuto baja la temperatura 2 °C.<div class="opt-feedback"><strong>Incorrecto.</strong> Lineal y decreciente, no exponencial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Se suman 50 g cada hora.<div class="opt-feedback"><strong>Incorrecto.</strong> Lineal.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Un auto pierde 12 % de su valor cada año. ¿Cuál es \(r\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0,88<div class="opt-feedback"><strong>Correcto.</strong> \(r = 1 - 0,12 = 0,88\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1,12<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es aumento del 12 %.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0,12<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la pérdida del 88 %.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> -0,12<div class="opt-feedback"><strong>Incorrecto.</strong> El factor debe ser positivo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si una colonia de virus se duplica cada hora y empezó con 1 virus, ¿en cuánto tiempo habrá 1.024 virus?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8 horas<div class="opt-feedback"><strong>Incorrecto.</strong> Eso da \(2^8 = 256\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 9 horas<div class="opt-feedback"><strong>Incorrecto.</strong> Eso da \(2^9 = 512\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 10 horas<div class="opt-feedback"><strong>Correcto.</strong> \(2^{10} = 1.024\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 12 horas<div class="opt-feedback"><strong>Incorrecto.</strong> Eso da \(2^{12} = 4.096\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">El número de células de un tumor se duplica cada 3 días. ¿En cuánto se multiplicará el tumor en 12 días?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ×4<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste 12÷3 = 4 directamente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ×8<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería en 9 días (3 duplicaciones).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ×16<div class="opt-feedback"><strong>Correcto.</strong> 12÷3 = 4 duplicaciones → \(2^4 = 16\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> ×24<div class="opt-feedback"><strong>Incorrecto.</strong> Mezclaste suma y producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál es la diferencia entre interés simple e interés compuesto?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Son lo mismo.<div class="opt-feedback"><strong>Incorrecto.</strong> Son fórmulas distintas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> El simple suma siempre lo mismo; el compuesto multiplica el total acumulado.<div class="opt-feedback"><strong>Correcto.</strong> Simple es lineal, compuesto es exponencial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> El compuesto es siempre menor que el simple.<div class="opt-feedback"><strong>Incorrecto.</strong> Es al revés: el compuesto crece más rápido.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> El compuesto no usa potencias.<div class="opt-feedback"><strong>Incorrecto.</strong> Justamente las usa.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya sabes que muchas cosas reales (bacterias, virus, inversiones, valor de un auto, sustancias radiactivas) cambian <strong>exponencialmente</strong>. Solo necesitas identificar tres números: \(a\) (inicial), \(r\) (factor) y \(t\) (tiempo).</p>
+    <p>En la última guía del OA 2 verás aún más aplicaciones reales en la vida diaria y otras asignaturas, para que estos modelos te queden completamente naturales.</p>
+    <span class="next-pill">Próximo: Problemas de la vida diaria</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Crecimiento y decrecimiento · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Simulador y(t) = a·r^t ---------- */
+function loadSim(a,r,t){
+  document.getElementById('paramA').value = a;
+  document.getElementById('paramR').value = r;
+  document.getElementById('paramT').value = t;
+  runSim();
+}
+
+function runSim(){
+  const a = parseFloat(document.getElementById('paramA').value);
+  const r = parseFloat(document.getElementById('paramR').value);
+  const t = parseInt(document.getElementById('paramT').value);
+  const out = document.getElementById('simDisplay');
+  const cv = document.getElementById('simCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  if(isNaN(a)||isNaN(r)||isNaN(t)||r<=0||t<1){
+    out.innerHTML='<p style="color:#a44;">⚠ Ingresa valores válidos (r > 0, periodos ≥ 1).</p>';
+    return;
+  }
+
+  // Calcular valores
+  const vals = [];
+  for(let i=0;i<=t;i++) vals.push(a * Math.pow(r,i));
+
+  // Tipo de comportamiento
+  let tipo, color;
+  if(r>1){ tipo='Crecimiento'; color='#6A2C91'; }
+  else if(r<1){ tipo='Decrecimiento'; color='#D4AF37'; }
+  else { tipo='Constante'; color='#0B0F3F'; }
+
+  // Render numérico en el display
+  const fmt = n => n.toLocaleString('es-CL',{maximumFractionDigits:2});
+  let tableHtml = `<table class="evo-table"><thead><tr><th>t</th><th>Valor</th></tr></thead><tbody>`;
+  for(let i=0;i<=t;i++){
+    tableHtml += `<tr><td>${i}</td><td>${fmt(vals[i])}</td></tr>`;
+  }
+  tableHtml += '</tbody></table>';
+
+  out.innerHTML = `
+    <div style="text-align:center;font-weight:700;color:${color};margin-bottom:.4rem;">${tipo} (r = ${r})</div>
+    <div style="text-align:center;font-size:.92rem;color:#0B0F3F;margin-bottom:.4rem;">Fórmula: \\(y = ${fmt(a)} \\cdot ${r}^{t}\\)</div>
+    <div style="font-size:.86rem;">${tableHtml}</div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+
+  // Dibujar canvas
+  const padL=60, padR=20, padT=20, padB=40;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const maxV = Math.max(...vals);
+  const minV = Math.min(0, ...vals);
+
+  // Ejes
+  ctx.strokeStyle = '#999'; ctx.lineWidth=1.5;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT); ctx.lineTo(padL, padT+plotH); ctx.lineTo(padL+plotW, padT+plotH);
+  ctx.stroke();
+
+  // Y ticks
+  ctx.fillStyle='#444'; ctx.font='11px Inter, sans-serif'; ctx.textAlign='right';
+  for(let i=0;i<=5;i++){
+    const v = minV + (maxV-minV)*i/5;
+    const y = padT+plotH - (i/5)*plotH;
+    ctx.strokeStyle='#eee';
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+plotW,y); ctx.stroke();
+    ctx.fillStyle='#444';
+    ctx.fillText(fmt(v), padL-5, y+4);
+  }
+
+  // X ticks
+  ctx.textAlign='center';
+  for(let i=0;i<=t;i++){
+    const x = padL + (i/t)*plotW;
+    ctx.fillStyle='#444';
+    ctx.fillText(i, x, padT+plotH+18);
+  }
+
+  // Línea de la curva
+  ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  for(let i=0;i<=t;i++){
+    const x = padL + (i/t)*plotW;
+    const y = padT+plotH - ((vals[i]-minV)/(maxV-minV))*plotH;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  // Puntos
+  for(let i=0;i<=t;i++){
+    const x = padL + (i/t)*plotW;
+    const y = padT+plotH - ((vals[i]-minV)/(maxV-minV))*plotH;
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.stroke();
+  }
+}
+
+/* ---------- Calculadora interés/depreciación ---------- */
+let finMode = 'up';
+function setMode(m){
+  finMode = m;
+  document.getElementById('btnModeUp').classList.toggle('active', m==='up');
+  document.getElementById('btnModeDown').classList.toggle('active', m==='down');
+  runFin();
+}
+function loadFin(mode, init, pct, n){
+  setMode(mode);
+  document.getElementById('finInit').value = init;
+  document.getElementById('finPct').value = pct;
+  document.getElementById('finN').value = n;
+  runFin();
+}
+function runFin(){
+  const init = parseFloat(document.getElementById('finInit').value);
+  const pct = parseFloat(document.getElementById('finPct').value);
+  const n = parseInt(document.getElementById('finN').value);
+  const out = document.getElementById('finDisplay');
+  if(isNaN(init)||isNaN(pct)||isNaN(n)||n<1){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa valores válidos.</p>'; return; }
+  const r = finMode==='up'? (1+pct/100) : (1-pct/100);
+  const final = init * Math.pow(r,n);
+  const fmt = x => x.toLocaleString('es-CL',{maximumFractionDigits:0});
+
+  let table = `<table class="evo-table"><thead><tr><th>Periodo</th><th>Valor</th></tr></thead><tbody>`;
+  for(let i=0;i<=n;i++){
+    const v = init * Math.pow(r,i);
+    table += `<tr><td>${i}</td><td>\$${fmt(v)}</td></tr>`;
+  }
+  table += '</tbody></table>';
+
+  const diff = final - init;
+  const diffStr = diff>=0? `+\$${fmt(diff)}` : `-\$${fmt(-diff)}`;
+  out.innerHTML = `
+    <div style="text-align:center;color:#6A2C91;font-weight:700;margin-bottom:.4rem;">${finMode==='up'?'Aumento':'Descuento'} del ${pct}% por periodo</div>
+    <div style="text-align:center;font-size:.95rem;margin-bottom:.4rem;">Fórmula: \\(y = ${fmt(init)} \\cdot (${r.toFixed(3)})^{t}\\)</div>
+    <div style="text-align:center;margin-bottom:.6rem;"><span class="math-result">Valor final: \$${fmt(final)} (${diffStr})</span></div>
+    <div style="font-size:.86rem;">${table}</div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  runSim();
+  runFin();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problemas con trigonometría — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* Fases del modelamiento */
+    .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.8rem 0;}
+    @media (max-width:600px){.phases{grid-template-columns:repeat(2,1fr);}}
+    .phase-card{background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.6rem;text-align:center;}
+    .phase-card .phase-num{display:inline-block;background:#6A2C91;color:#fff;width:24px;height:24px;border-radius:50%;line-height:24px;font-weight:700;font-size:.85rem;margin-bottom:.3rem;}
+    .phase-card h5{margin:.2rem 0;color:#0B0F3F;font-size:.88rem;}
+    .phase-card p{margin:.2rem 0;font-size:.75rem;color:#555;line-height:1.4;}
+
+    /* Herramientas */
+    .tool-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    .tool-canvas-wrap canvas{width:100%;height:auto;display:block;}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .slider-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .slider-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .slider-control input[type=range]{width:100%;accent-color:#6A2C91;}
+    .slider-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .tool-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .tool-info .badge{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:.15rem .7rem;border-radius:12px;font-size:.82rem;font-weight:700;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+
+    /* Resolutor de problemas */
+    .prob-wrap{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;margin:1rem 0;}
+    .prob-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;gap:.5rem;flex-wrap:wrap;}
+    .prob-nav button{background:#6A2C91;color:#fff;border:0;border-radius:18px;padding:.5rem 1.1rem;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:600;}
+    .prob-nav button:hover{background:#552072;}
+    .prob-counter{font-size:.9rem;color:#6A2C91;font-weight:700;}
+    .prob-body{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:1rem;margin:.6rem 0;}
+    .prob-title{color:#6A2C91;font-weight:700;font-size:1rem;margin-bottom:.5rem;}
+    .prob-text{font-size:.92rem;color:#0B0F3F;line-height:1.6;margin-bottom:.6rem;}
+    .prob-canvas-wrap{display:flex;justify-content:center;margin:.6rem 0;}
+    .prob-canvas-wrap canvas{border:1.5px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;}
+    .prob-input-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.7rem 0;}
+    .prob-input-row label{font-weight:600;color:#6A2C91;font-size:.92rem;}
+    .prob-input-row input{flex:1;min-width:80px;padding:.55rem;border:1px solid #D9D9D9;border-radius:6px;font-size:1rem;font-family:'Inter',sans-serif;color:#0B0F3F;font-weight:600;}
+    .prob-input-row .unit{color:#555;font-size:.9rem;font-weight:600;}
+    .prob-input-row button{background:#D4AF37;color:#0B0F3F;border:0;border-radius:18px;padding:.55rem 1.2rem;cursor:pointer;font-size:.9rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .prob-input-row button:hover{background:#b39028;}
+    .prob-solution{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.8rem 1rem;border-radius:0 8px 8px 0;margin-top:.6rem;font-size:.9rem;line-height:1.7;color:#0B0F3F;display:none;}
+    .prob-solution.show{display:block;}
+    .prob-solution .step{display:block;margin:.3rem 0;}
+    .prob-solution .answer{background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.4rem .8rem;display:inline-block;margin-top:.5rem;font-weight:700;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.prob-nav,.prob-input-row button{display:none !important;}
+      .prob-solution{display:block !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Introducción: trigonometría en la vida real
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Problemas reales con razones trigonométricas</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Vida cotidiana</span>
+    <span class="chip">Aplicaciones</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 8</span>
+    <span class="oa-text">Resolver problemas de la vida cotidiana, de geometría y de ciencias naturales, aplicando las razones trigonométricas (seno, coseno, tangente).</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Para qué sirve la trigonometría?</div>
+
+      <p>La trigonometría es una de las matemáticas más antiguas y útiles. Permite medir lo que <em>no podemos medir directamente</em>: alturas de edificios sin subirlos, distancias a estrellas sin viajar a ellas, anchos de ríos sin cruzarlos, ángulos de rampas sin mediadores especiales.</p>
+
+      <p>El principio es siempre el mismo: <strong>identifica un triángulo rectángulo en la situación</strong>, mide lo que puedes (un ángulo y/o un lado), y aplica las razones trigonométricas para calcular lo que no puedes medir.</p>
+
+      <div class="card card-tip">
+        <strong>Áreas donde aparece la trigonometría:</strong>
+        <ul style="margin-top:.4rem;">
+          <li><strong>Construcción:</strong> alturas de edificios, longitudes de rampas, ángulos de techos.</li>
+          <li><strong>Navegación y aviación:</strong> trayectorias, ángulos de aproximación, distancias entre vehículos.</li>
+          <li><strong>Topografía y geografía:</strong> alturas de cerros, profundidades, mapeo del terreno.</li>
+          <li><strong>Astronomía:</strong> distancias a planetas y estrellas (paralaje).</li>
+          <li><strong>Física:</strong> descomposición de fuerzas, planos inclinados, óptica.</li>
+          <li><strong>Diseño:</strong> ángulos de cámaras, perspectivas, accesibilidad.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ángulos de elevación y depresión</div>
+
+      <p>Dos conceptos aparecen constantemente en problemas reales:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Ángulo de elevación</span>
+          <span class="prop-eq">Es el ángulo que se forma entre la <em>horizontal</em> y la línea de visión <strong>hacia arriba</strong>, cuando miras un objeto alto.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Ángulo de depresión</span>
+          <span class="prop-eq">Es el ángulo entre la horizontal y la línea de visión <strong>hacia abajo</strong>, cuando miras un objeto bajo.</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Importante:</strong> ambos ángulos se miden SIEMPRE desde la horizontal, NO desde la vertical. Y son ángulos <em>iguales</em> en pares de observación: si tú ves un avión con ángulo de elevación 30°, el piloto te ve con ángulo de depresión 30°.
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g1a" width="500" height="280"></canvas>
+        <div class="embed-caption">Persona observa un edificio (ángulo de elevación) y un barco desde un mirador (ángulo de depresión).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Las 4 fases del modelamiento</div>
+
+      <div class="phases">
+        <div class="phase-card">
+          <span class="phase-num">1</span>
+          <h5>Dibuja</h5>
+          <p>Haz un esquema simple identificando el triángulo rectángulo del problema.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">2</span>
+          <h5>Identifica</h5>
+          <p>Marca qué lados son catetos, cuál es la hipotenusa y los ángulos conocidos.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">3</span>
+          <h5>Aplica</h5>
+          <p>Elige la razón (sin, cos, tan) que conecte lo que sabes con lo que buscas.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">4</span>
+          <h5>Interpreta</h5>
+          <p>Devuelve la respuesta con sus unidades y verifica que tenga sentido físico.</p>
+        </div>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En cada problema, la pregunta clave es: "¿qué lado tengo y qué lado quiero?". Eso determina cuál razón trigonométrica usar (SOH-CAH-TOA). Si tienes el ángulo + cateto adyacente y quieres el opuesto, usas tangente. Y así.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Aplicación 1: Alturas inaccesibles
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicación 1: Medir alturas inaccesibles</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Edificios · árboles · montañas</span>
+    <span class="chip">Ángulo de elevación</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>La idea central</div>
+
+      <p>¿Cómo medir la altura de un edificio sin subir a él? La respuesta es simple:</p>
+
+      <ol class="steps-num">
+        <li>Aléjate del edificio una distancia conocida \(d\) (que sí puedes medir, caminando).</li>
+        <li>Mide el ángulo de elevación \(\alpha\) desde tu posición hasta la cima del edificio (con un teodolito o un transportador casero).</li>
+        <li>Aplica la fórmula: <strong>altura = \(d \cdot \tan\alpha\)</strong>.</li>
+      </ol>
+
+      <div class="math-box">
+        Altura \(h = d \cdot \tan\alpha\) &nbsp;(con \(d\) = distancia horizontal, \(\alpha\) = ángulo de elevación)
+      </div>
+
+      <p>¿Por qué tangente? Porque en el triángulo rectángulo formado, la altura es el cateto OPUESTO al ángulo \(\alpha\), y la distancia es el cateto ADYACENTE. Y \(\tan\alpha = \text{opuesto}/\text{adyacente}\), por lo que \(\text{opuesto} = \text{adyacente} \cdot \tan\alpha\).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo guiado</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Desde una distancia de 50 m, una persona ve la cima de un árbol con ángulo de elevación de 30°. ¿Cuál es la altura del árbol?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1 — Dibujar el triángulo:</strong> rectángulo con cateto adyacente = 50 m, ángulo en la base = 30°, cateto opuesto = altura buscada.</span>
+        <span class="math-step"><strong>Paso 2 — Elegir la razón:</strong> tenemos el cateto adyacente y queremos el opuesto. Usamos tangente: \(\tan 30° = h/50\).</span>
+        <span class="math-step"><strong>Paso 3 — Despejar:</strong> \(h = 50 \cdot \tan 30° = 50 \cdot \dfrac{\sqrt{3}}{3} = \dfrac{50\sqrt{3}}{3} \approx 28{,}87\) m.</span>
+        <span class="math-step"><span class="math-result">El árbol mide aproximadamente 28,87 m de altura.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="280"></canvas>
+        <div class="embed-caption">Esquema: distancia horizontal 50 m, ángulo de elevación 30°, altura calculada ≈ 28,87 m.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Considerando la altura del observador</div>
+
+      <p>En problemas más completos, hay que considerar la altura desde la que se observa. Por ejemplo, si una persona de 1,7 m de altura observa un edificio, la altura calculada por trigonometría es desde sus ojos hacia arriba, no desde el suelo.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una persona de 1,7 m de altura observa la cima de un edificio con ángulo de elevación 45°, parada a 20 m del edificio. ¿Cuánto mide el edificio?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Altura desde los ojos: \(h' = 20 \cdot \tan 45° = 20 \cdot 1 = 20\) m.</span>
+        <span class="math-step">Altura total del edificio: \(h' + 1{,}7 = 20 + 1{,}7 = 21{,}7\) m.</span>
+        <span class="math-step"><span class="math-result">El edificio mide 21,7 m.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Detalle importante:</strong> en PAES, frecuentemente se ignora la altura del observador (se asume que el observador es un "punto"). Pero en problemas más realistas o de ciencias, se debe sumar.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Aplicación 2: Distancias y navegación
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicación 2: Distancias y navegación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Barcos · aviones</span>
+    <span class="chip">Ángulo de depresión</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Distancia desde una altura conocida</div>
+
+      <p>Si conoces la altura desde la que observas (un faro, un mirador, un avión) y el ángulo de depresión a un objeto distante, puedes calcular su distancia horizontal.</p>
+
+      <div class="math-box">
+        Distancia \(d = \dfrac{h}{\tan\alpha}\) &nbsp;(con \(h\) = altura del observador, \(\alpha\) = ángulo de depresión)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un avión vuela a 1000 m de altura. El piloto ve la pista de aterrizaje con un ángulo de depresión de 30°. ¿A qué distancia horizontal está de la pista?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Identificar:</strong> altura = 1000 m, ángulo = 30°.</span>
+        <span class="math-step"><strong>Aplicar tangente:</strong> \(\tan 30° = h/d \Rightarrow d = h/\tan 30°\).</span>
+        <span class="math-step">\(d = 1000/\tan 30° = 1000/(√3/3) = 1000 \cdot 3/\sqrt{3} = 1000\sqrt{3} \approx 1732\) m.</span>
+        <span class="math-step"><span class="math-result">El avión está a aproximadamente 1732 m horizontalmente de la pista.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Distancia recorrida en línea inclinada</div>
+
+      <p>Otro problema típico: conocer la distancia <em>real</em> recorrida cuando se viaja por una pendiente o trayectoria inclinada. Aquí la <strong>hipotenusa</strong> del triángulo es la distancia recorrida.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un teleférico sube por una ladera con inclinación constante de 25°. Recorre 500 m de cable (distancia inclinada). ¿Cuánto sube en altura?
+      </div>
+      <div class="math-block">
+        <span class="math-step">La distancia inclinada (500 m) es la hipotenusa. La altura es el cateto opuesto al ángulo de 25°.</span>
+        <span class="math-step">Usamos seno: \(\sin 25° = h/500 \Rightarrow h = 500 \cdot \sin 25° \approx 500 \cdot 0{,}4226 \approx 211{,}3\) m.</span>
+        <span class="math-step"><span class="math-result">El teleférico sube aproximadamente 211,3 m de altura.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Aplicación clásica: la rampa de accesibilidad</div>
+
+      <p>Las rampas para sillas de ruedas tienen restricciones legales de inclinación máxima (alrededor de 8% o 4,57° en Chile). Calcular la longitud mínima de una rampa dado el desnivel es un problema directo de trigonometría.</p>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Para construir una rampa que supere un desnivel de 1,5 m con una inclinación máxima de 8,5°, ¿qué longitud mínima debe tener la rampa?
+      </div>
+      <div class="math-block">
+        <span class="math-step">La rampa es la hipotenusa, la altura del desnivel es el cateto opuesto al ángulo.</span>
+        <span class="math-step">\(\sin 8{,}5° = 1{,}5/L \Rightarrow L = 1{,}5/\sin 8{,}5° \approx 1{,}5/0{,}1478 \approx 10{,}15\) m.</span>
+        <span class="math-step"><span class="math-result">La rampa debe medir al menos 10,15 m de largo.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En problemas de "distancia inclinada", siempre pregúntate: ¿es esa la hipotenusa o el cateto? El recorrido del teleférico, la longitud de la rampa, la cuerda de una grúa: todos son hipotenusas. La altura vertical o la distancia horizontal son catetos.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — HERRAMIENTA 1: Calculadora visual de altura
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Calculadora visual de altura y distancia</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Ángulo de elevación</span>
+    <span class="chip">Alturas inaccesibles</span>
+  </div>
+
+  <div class="content">
+
+    <p>Esta herramienta simula la medición de la altura de un edificio (u objeto vertical) usando el ángulo de elevación. Ajusta la <strong>distancia al objeto</strong> y el <strong>ángulo de elevación</strong>, y observa cómo se calcula la altura automáticamente con la fórmula \(h = d \cdot \tan\alpha\).</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="height-canvas" width="600" height="380"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="slider-control">
+          <label>Distancia al objeto \(d\) = <span id="hgt-d-val">50</span> m</label>
+          <input id="hgt-d" type="range" min="10" max="100" step="5" value="50" />
+          <small>Distancia horizontal entre el observador y la base del objeto.</small>
+        </div>
+        <div class="slider-control">
+          <label>Ángulo de elevación \(\alpha\) = <span id="hgt-a-val">30</span>°</label>
+          <input id="hgt-a" type="range" min="5" max="80" step="1" value="30" />
+          <small>Medido desde la horizontal hacia la cima del objeto.</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="hgt-info" class="tool-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Escenarios típicos</div>
+    <div class="preset-buttons">
+      <button data-hgt="20,45">Edificio cercano, ángulo 45°</button>
+      <button data-hgt="50,30">Árbol mediano</button>
+      <button data-hgt="100,15">Edificio lejano</button>
+      <button data-hgt="30,60">Torre cerca</button>
+      <button data-hgt="80,20">Montaña</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Aplicación 3: Geometría y ciencias
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicación 3: Geometría y ciencias naturales</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Polígonos · física</span>
+    <span class="chip">Casos avanzados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Cálculos en polígonos regulares</div>
+
+      <p>Muchas figuras geométricas se pueden descomponer en triángulos rectángulos, lo que nos permite usar trigonometría para calcular sus propiedades.</p>
+
+      <div class="subsec">Ejemplo: altura de un triángulo equilátero</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular la altura de un triángulo equilátero de lado 6 cm.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Trazamos la altura desde un vértice al punto medio del lado opuesto. Eso crea dos triángulos rectángulos con ángulos 30°-60°-90°.</span>
+        <span class="math-step">En cada uno: hipotenusa = 6, cateto adyacente al ángulo de 60° en la base = 3 (mitad del lado).</span>
+        <span class="math-step">La altura es el cateto opuesto al ángulo de 60°: \(h = 6 \cdot \sin 60° = 6 \cdot \dfrac{\sqrt{3}}{2} = 3\sqrt{3} \approx 5{,}2\) cm.</span>
+        <span class="math-step"><span class="math-result">La altura mide \(3\sqrt{3} \approx 5{,}2\) cm.</span></span>
+      </div>
+
+      <div class="subsec">Diagonales de polígonos</div>
+      <p>La diagonal de un cuadrado de lado \(\ell\) es \(\ell\sqrt{2}\) (caso especial del triángulo 45°-45°-90°). De un rectángulo: \(d = \sqrt{\ell_{1}^{2} + \ell_{2}^{2}}\) (Pitágoras). Para hallar el ángulo de la diagonal con un lado: \(\tan\theta = \ell_{2}/\ell_{1}\).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Aplicación física: planos inclinados</div>
+
+      <p>En física, un objeto sobre un plano inclinado a ángulo \(\alpha\) tiene dos componentes de fuerza:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Componente paralela al plano</strong> (la que "empuja" hacia abajo): \(F_{\parallel} = m g \sin\alpha\).</li>
+        <li><strong>Componente perpendicular al plano</strong> (la que presiona contra el plano): \(F_{\perp} = m g \cos\alpha\).</li>
+      </ul>
+
+      <div class="card card-tip">
+        <strong>¿Por qué seno y coseno?</strong> Porque al descomponer un vector vertical (la gravedad) en componentes paralela y perpendicular al plano inclinado, geométricamente aparecen las razones \(\sin\alpha\) y \(\cos\alpha\). La trigonometría es la herramienta natural para descomponer fuerzas.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Aplicación astronómica: altura del sol</div>
+
+      <p>Una forma clásica de medir la altura de objetos usando sombras: si un poste vertical de altura conocida proyecta una sombra a cierta hora del día, podemos calcular el ángulo de elevación del sol.</p>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un poste de 4 m proyecta una sombra de 6 m. ¿Cuál es el ángulo de elevación del sol?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Triángulo rectángulo: cateto opuesto al sol = altura del poste = 4 m. Cateto adyacente = sombra = 6 m.</span>
+        <span class="math-step">\(\tan\alpha = 4/6 = 0{,}667 \Rightarrow \alpha = \arctan(0{,}667) \approx 33{,}69°\).</span>
+        <span class="math-step"><span class="math-result">El sol está a unos 33,7° sobre el horizonte.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Eratóstenes (siglo III a.C.) usó precisamente este principio para calcular el radio de la Tierra: midió el ángulo de la sombra en Alejandría a la misma hora en que en Siena el sol caía verticalmente. Solo trigonometría básica y una buena medición de distancia entre ciudades. El resultado fue increíblemente preciso para la época.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — HERRAMIENTA 2: Resolutor de problemas reales
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Resolutor interactivo de problemas reales</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">5 escenarios reales</span>
+    <span class="chip">Solución paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <p>Practica con 5 escenarios reales donde la trigonometría es la herramienta clave. Para cada uno, ajusta los datos conocidos y presiona <strong>"Resolver"</strong> para ver la respuesta y el procedimiento completo.</p>
+
+    <div class="prob-wrap">
+      <div class="prob-nav">
+        <button id="prob-prev">◀ Anterior</button>
+        <span class="prob-counter" id="prob-counter">Problema 1 de 5</span>
+        <button id="prob-next">Siguiente ▶</button>
+      </div>
+
+      <div class="prob-body" id="prob-body">Cargando…</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas trigonométricos — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Una persona ve un árbol a 20 m de distancia con ángulo de elevación 30°. ¿Cuál es la altura del árbol (aproximadamente)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 11,5 m<div class="opt-feedback"><strong>Correcto.</strong> \(h = d \cdot \tan\alpha = 20 \cdot \tan 30° = 20 \cdot (\sqrt{3}/3) \approx 11{,}55\) m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 20 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la distancia horizontal, no la altura.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 35 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor; la altura es menor que la distancia cuando el ángulo es menor a 45°.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Un poste de 6 m de altura proyecta una sombra de 6 m. ¿Cuál es el ángulo de elevación del sol?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 30°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 30° = \sqrt{3}/3 \approx 0{,}58\), no 1.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 45°<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\alpha = 6/6 = 1\), por tanto \(\alpha = 45°\). Sombra igual a altura ⇒ sol a 45°.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 60°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 60° = \sqrt{3} \approx 1{,}73\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 90°<div class="opt-feedback"><strong>Incorrecto.</strong> El sol sería cenital y no habría sombra.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Una escalera de 10 m de largo se apoya en una pared formando un ángulo de 60° con el piso. ¿A qué altura toca la pared?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(10 \cdot \cos 60°\), la distancia al pie de la pared.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 8,66 m<div class="opt-feedback"><strong>Correcto.</strong> \(h = 10 \cdot \sin 60° = 10 \cdot (\sqrt{3}/2) = 5\sqrt{3} \approx 8{,}66\) m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 10 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la longitud de la escalera (hipotenusa), no la altura.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 17,3 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mayor que la escalera, imposible.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Desde un edificio de 30 m de altura, el ángulo de depresión a un auto es de 45°. ¿A qué distancia está el auto del edificio?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 15 m<div class="opt-feedback"><strong>Incorrecto.</strong> Sería la mitad de la altura, sin justificación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 20 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 30 m<div class="opt-feedback"><strong>Correcto.</strong> \(\tan 45° = 30/d = 1 \Rightarrow d = 30\) m. Cuando el ángulo es 45°, distancia = altura.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 45 m<div class="opt-feedback"><strong>Incorrecto.</strong> Sería para un ángulo distinto.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Una rampa para sillas de ruedas tiene 4 m de largo y se eleva 1 m de altura. ¿Cuál es el ángulo de inclinación (aproximado)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> ≈ 14,5°<div class="opt-feedback"><strong>Correcto.</strong> \(\sin\alpha = 1/4 = 0{,}25 \Rightarrow \alpha = \arcsin(0{,}25) \approx 14{,}48°\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 30°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sin 30° = 0{,}5\), implicaría altura de 2 m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 45°<div class="opt-feedback"><strong>Incorrecto.</strong> Demasiado inclinado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 60°<div class="opt-feedback"><strong>Incorrecto.</strong> Aún más inclinado.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un cable sostiene un pilón de 25 m formando un ángulo de 30° con el pilón en su parte superior. ¿Cuánto mide el cable (aprox)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 25 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la altura del pilón, no del cable.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> ≈ 28,87 m<div class="opt-feedback"><strong>Correcto.</strong> El cable es la hipotenusa, pilón es el cateto adyacente al ángulo de 30°. \(\cos 30° = 25/c \Rightarrow c = 25/\cos 30° = 50/\sqrt{3} \approx 28{,}87\) m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 50 m<div class="opt-feedback"><strong>Incorrecto.</strong> Doble del pilón sin justificación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12,5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Menor que el pilón, imposible.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un avión vuela a 1000 m de altura. El piloto ve un punto en tierra con ángulo de depresión 30°. ¿A qué distancia horizontal está?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 500 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mitad de la altura, sin justificación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1000 m<div class="opt-feedback"><strong>Incorrecto.</strong> Sería para un ángulo de 45°.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> ≈ 1732 m<div class="opt-feedback"><strong>Correcto.</strong> \(\tan 30° = 1000/d \Rightarrow d = 1000/\tan 30° = 1000\sqrt{3} \approx 1732\) m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 2000 m<div class="opt-feedback"><strong>Incorrecto.</strong> Demasiado lejos.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una persona camina 100 m en línea recta por una pendiente con inclinación de 15°. ¿Cuánto ha subido en altura?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 15 m<div class="opt-feedback"><strong>Incorrecto.</strong> No es directamente el valor del ángulo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> ≈ 25,9 m<div class="opt-feedback"><strong>Correcto.</strong> La distancia inclinada (100) es hipotenusa, la altura es opuesto al ángulo de 15°. \(h = 100 \cdot \sin 15° \approx 100 \cdot 0{,}259 \approx 25{,}88\) m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 50 m<div class="opt-feedback"><strong>Incorrecto.</strong> Implicaría un ángulo de 30°.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 85 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(100 \cdot \cos 15°\), la distancia horizontal, no la altura.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un edificio proyecta una sombra de 50 m. Si el ángulo de elevación del sol es 60°, ¿cuál es la altura del edificio?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 25 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 50 m<div class="opt-feedback"><strong>Incorrecto.</strong> Sería para un ángulo de 45°.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> ≈ 86,6 m<div class="opt-feedback"><strong>Correcto.</strong> \(h = 50 \cdot \tan 60° = 50\sqrt{3} \approx 86{,}6\) m. La altura es mayor que la sombra cuando el sol está sobre los 45°.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 100 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En un triángulo rectángulo con cateto adyacente 12 cm y cateto opuesto 5 cm al ángulo \(\beta\), ¿cuánto vale el ángulo \(\beta\) (aproximado)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> ≈ 22,62°<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\beta = 5/12 \approx 0{,}4167 \Rightarrow \beta = \arctan(0{,}4167) \approx 22{,}62°\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 30°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 30° \approx 0{,}577\), distinto a 5/12.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 45°<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si ambos catetos fueran iguales.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> ≈ 67,38°<div class="opt-feedback"><strong>Incorrecto.</strong> Es el otro ángulo agudo (90° − 22,62°).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas trigonométricos — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Aplicaciones de la trigonometría</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">Una rampa de 6 m de longitud está inclinada a 30° del piso. ¿Qué altura alcanza?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3 m<div class="opt-feedback"><strong>Correcto.</strong> La rampa es la hipotenusa, la altura es el cateto opuesto a 30°. \(h = 6 \cdot \sin 30° = 6 \cdot 0{,}5 = 3\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Sería para un ángulo distinto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 6 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la longitud de la rampa, no la altura.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Desde un punto se ve la cima de un edificio con ángulo de elevación 45°, a una distancia horizontal de 50 m. ¿Cuál es la altura del edificio?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 25 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mitad sin justificación.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 50 m<div class="opt-feedback"><strong>Correcto.</strong> \(h = 50 \cdot \tan 45° = 50 \cdot 1 = 50\) m. Con ángulo 45°, altura = distancia.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 75 m<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al cálculo correcto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 100 m<div class="opt-feedback"><strong>Incorrecto.</strong> Doble sin justificación.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Un cable de tensión sale del extremo superior de un poste de 8 m hacia el piso, anclado a 6 m de la base. ¿Cuánto mide el cable?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la altura del poste, no el cable.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 10 m<div class="opt-feedback"><strong>Correcto.</strong> Pitágoras: \(c = \sqrt{8^{2}+6^{2}} = \sqrt{100} = 10\) m. Trío clásico 6-8-10.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 14 m<div class="opt-feedback"><strong>Incorrecto.</strong> Suma de catetos, no la hipotenusa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 48 m<div class="opt-feedback"><strong>Incorrecto.</strong> Producto de catetos, sin significado físico.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Un barco está a 200 m de la costa. Desde un faro de 30 m, ¿cuál es el ángulo de depresión hacia el barco (aprox)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ≈ 8,5°<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\alpha = 30/200 = 0{,}15 \Rightarrow \alpha = \arctan(0{,}15) \approx 8{,}53°\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ≈ 30°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 30° \approx 0{,}58\), no 0,15.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ≈ 45°<div class="opt-feedback"><strong>Incorrecto.</strong> Implicaría altura = distancia.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> ≈ 60°<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor del que corresponde.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">En un triángulo rectángulo con cateto opuesto 4 cm y cateto adyacente \(4\sqrt{3}\) cm, ¿cuál es el ángulo agudo opuesto al cateto de 4 cm?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 30°<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\alpha = 4/(4\sqrt{3}) = 1/\sqrt{3} = \sqrt{3}/3\), valor de \(\tan 30°\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 45°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 45° = 1\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 60°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 60° = \sqrt{3}\), no \(\sqrt{3}/3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 90°<div class="opt-feedback"><strong>Incorrecto.</strong> Sería el ángulo recto, no agudo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Una persona de 1,7 m de altura proyecta una sombra de 3 m. ¿Cuál es el ángulo de elevación del sol (aprox)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ≈ 30°<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\alpha = 1{,}7/3 \approx 0{,}567 \Rightarrow \alpha \approx 29{,}5°\), redondeado a 30°.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ≈ 45°<div class="opt-feedback"><strong>Incorrecto.</strong> Implicaría altura = sombra (1,7 = 3, falso).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ≈ 60°<div class="opt-feedback"><strong>Incorrecto.</strong> Implicaría altura > sombra.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> ≈ 75°<div class="opt-feedback"><strong>Incorrecto.</strong> Muy alto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuánto mide la diagonal de un cuadrado de lado 8 cm?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Es el lado, no la diagonal.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(8\sqrt{2}\) ≈ 11,3 cm<div class="opt-feedback"><strong>Correcto.</strong> En un cuadrado, \(d = \ell\sqrt{2} = 8\sqrt{2} \approx 11{,}31\) cm. Triángulo 45°-45°-90°.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 16 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Doble del lado.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 64 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Es el área, no la diagonal.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Un avión despega con un ángulo de 12° respecto a la pista. Cuando ha avanzado 500 m en línea recta desde el despegue, ¿a qué altura está (aprox)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ≈ 100 m<div class="opt-feedback"><strong>Correcto.</strong> La distancia recorrida es la hipotenusa, la altura es el cateto opuesto a 12°. \(h = 500 \cdot \sin 12° \approx 500 \cdot 0{,}208 \approx 104\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ≈ 250 m<div class="opt-feedback"><strong>Incorrecto.</strong> Implicaría un ángulo mayor.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ≈ 500 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la distancia recorrida (hipotenusa), no la altura.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> ≈ 1000 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mayor que la distancia recorrida, imposible.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Para construir una rampa que alcance 1,5 m de altura con un ángulo máximo de 8,5°, ¿cuál es la longitud mínima de la rampa (aprox)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ≈ 1,5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la altura del desnivel, no la rampa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ≈ 5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Insuficiente para el ángulo máximo permitido.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ≈ 10 m<div class="opt-feedback"><strong>Correcto.</strong> \(\sin 8{,}5° = 1{,}5/L \Rightarrow L = 1{,}5/\sin 8{,}5° \approx 1{,}5/0{,}1478 \approx 10{,}15\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> ≈ 15 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mayor de lo necesario.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Un triángulo equilátero tiene lado 6 cm. ¿Cuánto mide su altura?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Es la mitad del lado, pero la altura es mayor que esa.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(3\sqrt{3} \approx 5{,}2\) cm<div class="opt-feedback"><strong>Correcto.</strong> En triángulo equilátero, \(h = \ell \cdot \sin 60° = 6 \cdot (\sqrt{3}/2) = 3\sqrt{3} \approx 5{,}2\) cm.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 6 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Sería el lado, no la altura.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 12 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Doble del lado, sin sentido.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Has completado el OA 8 con éxito. La trigonometría aplicada es una de las herramientas más poderosas que ofrece la matemática para entender el mundo: medir lo inaccesible, calcular trayectorias, diseñar estructuras seguras. Cada problema real con triángulos es una mini-aventura matemática que conecta lo abstracto con lo concreto.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">¡OA 8 completo!</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas trigonometría · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  /* ====== Helper: dibujar triángulo rectángulo con etiquetas ====== */
+  function drawSceneTriangle(canvas, opts){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var margin = 60;
+    var angleDeg = opts.angle;
+    var thetaRad = angleDeg * Math.PI / 180;
+
+    // Tamaño visual (independiente de las unidades reales)
+    var maxW = W - 2*margin;
+    var maxH = H - 2*margin - 30;
+    var visualB, visualA;
+    if(opts.dimMode === 'tall'){
+      visualA = maxH;
+      visualB = visualA / Math.tan(thetaRad);
+      if(visualB > maxW){
+        visualB = maxW;
+        visualA = visualB * Math.tan(thetaRad);
+      }
+    } else {
+      visualB = maxW * 0.85;
+      visualA = visualB * Math.tan(thetaRad);
+      if(visualA > maxH){
+        visualA = maxH;
+        visualB = visualA / Math.tan(thetaRad);
+      }
+    }
+
+    // Vértices (observador a la izquierda, objeto a la derecha)
+    var Ax = margin + 30;
+    var Ay = H - margin;
+    var Bx = Ax + visualB;
+    var By = Ay;
+    var Cx = Bx;
+    var Cy = Ay - visualA;
+
+    // Fondo
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, W, H);
+
+    // Suelo (línea horizontal con sombreado debajo)
+    ctx.fillStyle = 'rgba(212,175,55,.08)';
+    ctx.fillRect(0, Ay, W, H - Ay);
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, Ay); ctx.lineTo(W, Ay);
+    ctx.stroke();
+
+    // Edificio (cateto vertical) — rectángulo
+    ctx.fillStyle = 'rgba(106,44,145,.15)';
+    var bldgWidth = 22;
+    ctx.fillRect(Bx, Cy, bldgWidth, visualA);
+    ctx.strokeStyle = '#6A2C91';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(Bx, Cy, bldgWidth, visualA);
+
+    // Línea de visión (hipotenusa)
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(Ax, Ay); ctx.lineTo(Bx, Cy);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Cateto adyacente (línea horizontal, ya está dibujada con el suelo, pero la marcamos)
+    ctx.strokeStyle = '#6A2C91';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(Ax, Ay); ctx.lineTo(Bx, Ay);
+    ctx.stroke();
+
+    // Marcador de ángulo recto en B
+    ctx.strokeStyle = '#0B0F3F';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(Bx - 10, Ay - 10, 10, 10);
+
+    // Marcador del ángulo de elevación en A
+    ctx.strokeStyle = '#6A2C91';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(Ax, Ay, 28, -thetaRad, 0);
+    ctx.stroke();
+
+    // Observador (círculo pequeño en A)
+    ctx.fillStyle = '#6A2C91';
+    ctx.beginPath();
+    ctx.arc(Ax, Ay - 5, 5, 0, 2*Math.PI);
+    ctx.fill();
+
+    // Etiquetas
+    ctx.fillStyle = '#0B0F3F';
+    ctx.font = 'bold 12px Inter, sans-serif';
+    if(opts.distLabel){
+      ctx.fillText(opts.distLabel, (Ax + Bx)/2 - 30, Ay + 22);
+    }
+    if(opts.heightLabel){
+      ctx.fillText(opts.heightLabel, Bx + bldgWidth + 4, (Cy + Ay)/2 + 5);
+    }
+    if(opts.hypLabel){
+      ctx.fillText(opts.hypLabel, (Ax + Bx)/2 - 10, (Ay + Cy)/2 - 8);
+    }
+    // Etiqueta ángulo
+    ctx.font = 'bold 13px Inter, sans-serif';
+    ctx.fillStyle = '#6A2C91';
+    ctx.fillText(angleDeg.toFixed(1) + '°', Ax + 32, Ay - 8);
+
+    // Etiquetas de vértices
+    ctx.font = '10px Inter, sans-serif';
+    ctx.fillStyle = '#555';
+    ctx.fillText('Observador', Ax - 20, Ay - 12);
+    ctx.fillText('Objeto', Bx + 4, Cy - 6);
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    // Página 1: ilustración de elevación y depresión (escena combinada)
+    var c1a = document.getElementById('g1a');
+    if(c1a){
+      var ctx = c1a.getContext('2d');
+      var W = c1a.width, H = c1a.height;
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, W, H);
+
+      // Suelo
+      ctx.strokeStyle = '#888';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(0, H - 50); ctx.lineTo(W, H - 50); ctx.stroke();
+
+      // Edificio a la derecha
+      ctx.fillStyle = 'rgba(106,44,145,.18)';
+      ctx.fillRect(W - 80, 50, 50, H - 100);
+      ctx.strokeStyle = '#6A2C91';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(W - 80, 50, 50, H - 100);
+
+      // Observador (persona) a la izquierda
+      ctx.fillStyle = '#6A2C91';
+      ctx.beginPath(); ctx.arc(60, H - 55, 6, 0, 2*Math.PI); ctx.fill();
+
+      // Línea horizontal desde observador
+      ctx.strokeStyle = 'rgba(136,136,136,.5)';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(60, H - 55); ctx.lineTo(W - 80, H - 55); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Línea de visión al edificio
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(60, H - 55); ctx.lineTo(W - 80, 60); ctx.stroke();
+
+      // Arco ángulo de elevación
+      var dx = W - 80 - 60, dy = (H - 55) - 60;
+      var angRad = Math.atan2(dy, dx);
+      ctx.strokeStyle = '#6A2C91';
+      ctx.beginPath(); ctx.arc(60, H - 55, 30, -angRad, 0); ctx.stroke();
+
+      // Etiqueta elevación
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillText('Ángulo de', 92, H - 70);
+      ctx.fillText('elevación', 92, H - 58);
+
+      // Mirador (barco a la derecha)
+      ctx.fillStyle = '#D4AF37';
+      ctx.beginPath();
+      ctx.moveTo(W - 60, 80); ctx.lineTo(W - 90, 100); ctx.lineTo(W - 30, 100); ctx.closePath();
+      ctx.fill();
+
+      // Barco en el horizonte (abajo a la derecha del observador en mirador)
+      ctx.fillStyle = '#0B0F3F';
+      ctx.fillRect(W/2 + 50, H - 60, 40, 8);
+
+      // Línea horizontal desde el mirador
+      ctx.strokeStyle = 'rgba(136,136,136,.5)';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(W - 55, 95); ctx.lineTo(W/2 + 70, 95); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Línea de visión al barco
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(W - 55, 95); ctx.lineTo(W/2 + 70, H - 56); ctx.stroke();
+
+      // Arco ángulo de depresión
+      var dx2 = (W/2 + 70) - (W - 55), dy2 = (H - 56) - 95;
+      var angRad2 = Math.atan2(dy2, dx2);
+      ctx.strokeStyle = '#6A2C91';
+      ctx.beginPath(); ctx.arc(W - 55, 95, 25, 0, angRad2); ctx.stroke();
+
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillText('Ángulo de', W - 55 - 75, 115);
+      ctx.fillText('depresión', W - 55 - 75, 127);
+    }
+
+    // Página 2: árbol de 50m a 30°
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      drawSceneTriangle(c2a, {
+        angle: 30,
+        distLabel: 'd = 50 m',
+        heightLabel: 'h ≈ 28,87 m',
+        hypLabel: 'línea de visión'
+      });
+    }
+  }
+
+  /* ====== TOOL 1: Calculadora de altura ====== */
+  function setupHeightTool(){
+    var canvas = document.getElementById('height-canvas');
+    if(!canvas) return;
+    var dSlider = document.getElementById('hgt-d');
+    var aSlider = document.getElementById('hgt-a');
+    var dVal = document.getElementById('hgt-d-val');
+    var aVal = document.getElementById('hgt-a-val');
+    var info = document.getElementById('hgt-info');
+
+    function update(){
+      var d = parseFloat(dSlider.value);
+      var a = parseFloat(aSlider.value);
+      dVal.textContent = d;
+      aVal.textContent = a;
+
+      var aRad = a * Math.PI / 180;
+      var h = d * Math.tan(aRad);
+      var lineOfSight = d / Math.cos(aRad);
+
+      drawSceneTriangle(canvas, {
+        angle: a,
+        distLabel: 'd = ' + d + ' m',
+        heightLabel: 'h = ' + h.toFixed(2) + ' m',
+        hypLabel: 'línea de visión = ' + lineOfSight.toFixed(2) + ' m'
+      });
+
+      info.innerHTML =
+        '<strong>Datos:</strong> distancia d = ' + d + ' m, ángulo α = ' + a + '°<br>' +
+        '<strong>Cálculo de la altura:</strong><br>' +
+        'h = d · tan(α) = ' + d + ' · tan(' + a + '°) = ' + d + ' · ' + Math.tan(aRad).toFixed(4) + '<br>' +
+        '<strong>Altura del objeto:</strong> ' + h.toFixed(2) + ' m <span class="badge">RESULTADO</span><br>' +
+        '<strong>Línea de visión (hipotenusa):</strong> ' + lineOfSight.toFixed(2) + ' m<br>' +
+        '<strong>Otro ángulo agudo:</strong> ' + (90 - a) + '°';
+    }
+
+    dSlider.addEventListener('input', update);
+    aSlider.addEventListener('input', update);
+
+    var presets = document.querySelectorAll('[data-hgt]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          var vals = btn.dataset.hgt.split(',');
+          dSlider.value = vals[0]; aSlider.value = vals[1];
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  /* ====== TOOL 2: Resolutor de problemas reales ====== */
+  var problems = [
+    {
+      title: '🏢 Altura de un edificio',
+      text: 'Desde una distancia conocida del edificio, observas la cima con cierto ángulo de elevación. ¿Cuál es la altura del edificio?',
+      params: [
+        {label: 'Distancia al edificio (m):', id: 'p-d', def: 50},
+        {label: 'Ángulo de elevación (°):', id: 'p-a', def: 35}
+      ],
+      solve: function(vals){
+        var d = vals[0], a = vals[1];
+        var h = d * Math.tan(a * Math.PI / 180);
+        return {
+          answer: h.toFixed(2),
+          unit: 'm',
+          steps: [
+            'Identificar: distancia d = ' + d + ' m, ángulo α = ' + a + '°',
+            'La altura es el cateto opuesto al ángulo, distancia es el cateto adyacente',
+            'Usamos tangente: tan(α) = h/d, despejando: h = d · tan(α)',
+            'h = ' + d + ' · tan(' + a + '°) = ' + d + ' · ' + Math.tan(a * Math.PI / 180).toFixed(4),
+            'h = ' + h.toFixed(2) + ' m'
+          ]
+        };
+      }
+    },
+    {
+      title: '⛴ Distancia a un barco desde un faro',
+      text: 'Desde un faro de cierta altura, ves un barco con un ángulo de depresión. ¿A qué distancia horizontal está el barco?',
+      params: [
+        {label: 'Altura del faro (m):', id: 'p-h', def: 40},
+        {label: 'Ángulo de depresión (°):', id: 'p-a', def: 20}
+      ],
+      solve: function(vals){
+        var h = vals[0], a = vals[1];
+        var d = h / Math.tan(a * Math.PI / 180);
+        return {
+          answer: d.toFixed(2),
+          unit: 'm',
+          steps: [
+            'Identificar: altura h = ' + h + ' m, ángulo de depresión = ' + a + '°',
+            'En el triángulo: altura es cateto opuesto, distancia es cateto adyacente al ángulo',
+            'Usamos tangente: tan(α) = h/d, despejando: d = h/tan(α)',
+            'd = ' + h + '/tan(' + a + '°) = ' + h + '/' + Math.tan(a * Math.PI / 180).toFixed(4),
+            'd = ' + d.toFixed(2) + ' m'
+          ]
+        };
+      }
+    },
+    {
+      title: '♿ Longitud de una rampa',
+      text: 'Necesitas construir una rampa para superar un desnivel con cierta inclinación máxima. ¿Cuál es la longitud mínima de la rampa?',
+      params: [
+        {label: 'Altura del desnivel (m):', id: 'p-h', def: 1.5},
+        {label: 'Inclinación máxima (°):', id: 'p-a', def: 8.5}
+      ],
+      solve: function(vals){
+        var h = vals[0], a = vals[1];
+        var L = h / Math.sin(a * Math.PI / 180);
+        return {
+          answer: L.toFixed(2),
+          unit: 'm',
+          steps: [
+            'Identificar: altura = ' + h + ' m, ángulo de inclinación = ' + a + '°',
+            'La rampa es la hipotenusa, la altura es el cateto opuesto',
+            'Usamos seno: sin(α) = h/L, despejando: L = h/sin(α)',
+            'L = ' + h + '/sin(' + a + '°) = ' + h + '/' + Math.sin(a * Math.PI / 180).toFixed(4),
+            'L = ' + L.toFixed(2) + ' m'
+          ]
+        };
+      }
+    },
+    {
+      title: '☀ Sombra y altura del sol',
+      text: 'Un objeto vertical proyecta una sombra de cierta longitud. ¿Cuál es el ángulo de elevación del sol?',
+      params: [
+        {label: 'Altura del objeto (m):', id: 'p-h', def: 4},
+        {label: 'Longitud de la sombra (m):', id: 'p-s', def: 6}
+      ],
+      solve: function(vals){
+        var h = vals[0], s = vals[1];
+        var a = Math.atan(h/s) * 180 / Math.PI;
+        return {
+          answer: a.toFixed(2),
+          unit: '°',
+          steps: [
+            'Identificar: altura del objeto = ' + h + ' m, sombra = ' + s + ' m',
+            'El ángulo del sol está en el extremo de la sombra; altura es opuesto, sombra es adyacente',
+            'tan(α) = h/s = ' + h + '/' + s + ' = ' + (h/s).toFixed(4),
+            'α = arctan(' + (h/s).toFixed(4) + ')',
+            'α ≈ ' + a.toFixed(2) + '°'
+          ]
+        };
+      }
+    },
+    {
+      title: '✈ Altura de un avión en vuelo',
+      text: 'Un avión vuela en línea recta con un ángulo de despegue conocido. Después de recorrer cierta distancia, ¿a qué altura está?',
+      params: [
+        {label: 'Distancia recorrida en línea recta (m):', id: 'p-d', def: 800},
+        {label: 'Ángulo de despegue (°):', id: 'p-a', def: 15}
+      ],
+      solve: function(vals){
+        var d = vals[0], a = vals[1];
+        var h = d * Math.sin(a * Math.PI / 180);
+        return {
+          answer: h.toFixed(2),
+          unit: 'm',
+          steps: [
+            'Identificar: distancia recorrida (hipotenusa) = ' + d + ' m, ángulo = ' + a + '°',
+            'La altura es el cateto opuesto al ángulo de despegue',
+            'Usamos seno: sin(α) = h/d, despejando: h = d · sin(α)',
+            'h = ' + d + ' · sin(' + a + '°) = ' + d + ' · ' + Math.sin(a * Math.PI / 180).toFixed(4),
+            'h = ' + h.toFixed(2) + ' m'
+          ]
+        };
+      }
+    }
+  ];
+
+  var probIndex = 0;
+
+  function renderProblem(){
+    var p = problems[probIndex];
+    var body = document.getElementById('prob-body');
+    if(!body) return;
+
+    var inputsHtml = '';
+    for(var i = 0; i < p.params.length; i++){
+      inputsHtml += '<div class="prob-input-row">' +
+        '<label>' + p.params[i].label + '</label>' +
+        '<input id="' + p.params[i].id + '" type="number" step="0.1" value="' + p.params[i].def + '" />' +
+        '</div>';
+    }
+
+    body.innerHTML =
+      '<div class="prob-title">' + p.title + '</div>' +
+      '<div class="prob-text">' + p.text + '</div>' +
+      inputsHtml +
+      '<div class="prob-input-row" style="justify-content:center;">' +
+        '<button id="prob-solve">Resolver</button>' +
+      '</div>' +
+      '<div class="prob-solution" id="prob-solution"></div>';
+
+    document.getElementById('prob-counter').textContent = 'Problema ' + (probIndex + 1) + ' de ' + problems.length;
+
+    document.getElementById('prob-solve').addEventListener('click', function(){
+      var vals = [];
+      for(var i = 0; i < p.params.length; i++){
+        var v = parseFloat(document.getElementById(p.params[i].id).value);
+        if(isNaN(v)){ alert('Ingresa un número válido en todos los campos.'); return; }
+        vals.push(v);
+      }
+      var result = p.solve(vals);
+      var sol = document.getElementById('prob-solution');
+      var stepsHtml = '';
+      for(var i = 0; i < result.steps.length; i++){
+        stepsHtml += '<span class="step">▸ ' + result.steps[i] + '</span>';
+      }
+      sol.innerHTML = stepsHtml + '<div class="answer">Respuesta: ' + result.answer + ' ' + result.unit + '</div>';
+      sol.classList.add('show');
+    });
+  }
+
+  function setupProblemSolver(){
+    var prevBtn = document.getElementById('prob-prev');
+    var nextBtn = document.getElementById('prob-next');
+    if(!prevBtn) return;
+    prevBtn.addEventListener('click', function(){
+      probIndex = (probIndex - 1 + problems.length) % problems.length;
+      renderProblem();
+    });
+    nextBtn.addEventListener('click', function(){
+      probIndex = (probIndex + 1) % problems.length;
+      renderProblem();
+    });
+    renderProblem();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupHeightTool();
+    setupProblemSolver();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

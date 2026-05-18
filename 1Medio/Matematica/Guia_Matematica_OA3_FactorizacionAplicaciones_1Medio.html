@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Factorización y aplicaciones — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.15rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .summary-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.92rem;}
+    .summary-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .summary-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .summary-table tr:nth-child(even){background:#f8f4e9;}
+    .summary-table td.center{text-align:center;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+    .input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.55rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .5rem;font-size:.72rem;margin-right:.5rem;font-weight:700;letter-spacing:.5px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué es factorizar?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Factorización y aplicaciones</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Síntesis</span>
+    <span class="chip">Métodos de factorización</span>
+    <span class="chip">Completar el cuadrado</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Aplicar los <strong>productos notables</strong> y el <strong>factor común</strong> para factorizar expresiones algebraicas, completar el cuadrado y resolver problemas de áreas y reducción de expresiones.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué significa factorizar?</div>
+
+      <p><strong>Factorizar</strong> es el proceso opuesto a multiplicar. Si multiplicar es <em>juntar</em> factores para formar un producto, factorizar es <em>separar</em> un polinomio en sus factores.</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Multiplicar:</strong> \(3 \cdot (x+2) = 3x + 6\) (parto de factores y obtengo un polinomio).</span>
+        <span class="math-step"><strong>Factorizar:</strong> \(3x + 6 = 3 \cdot (x+2)\) (parto del polinomio y descubro los factores).</span>
+      </div>
+
+      <p>Es la misma identidad leída en sentidos opuestos. Factorizar es muy útil para:</p>
+      <ul>
+        <li><strong>Simplificar</strong> fracciones algebraicas.</li>
+        <li><strong>Resolver</strong> ecuaciones cuadráticas igualando cada factor a cero.</li>
+        <li><strong>Encontrar</strong> dimensiones (largo, ancho) cuando solo conoces el área.</li>
+        <li><strong>Reducir</strong> expresiones complejas.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Los 4 métodos que debes dominar</div>
+
+      <table class="summary-table">
+        <thead><tr><th>Método</th><th>Cuándo aplicarlo</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Factor común</strong></td><td>Todos los términos comparten un factor</td><td>\(ab + ac = a(b+c)\)</td></tr>
+          <tr><td><strong>2. Diferencia de cuadrados</strong></td><td>\(a^2 - b^2\)</td><td>\((a+b)(a-b)\)</td></tr>
+          <tr><td><strong>3. Trinomio cuadrado perfecto</strong></td><td>\(a^2 \pm 2ab + b^2\)</td><td>\((a \pm b)^2\)</td></tr>
+          <tr><td><strong>4. Trinomio del tipo \(x^2+Sx+P\)</strong></td><td>Cuando puedes encontrar dos números \(a,b\) con \(a+b=S\) y \(ab=P\)</td><td>\((x+a)(x+b)\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <span class="card-label">Estrategia maestra</span>
+        Cuando te enfrentes a una expresión por factorizar, <strong>primero</strong> busca un factor común. Una vez fuera, mira lo que queda y aplica los demás métodos sobre el resto.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Factor común
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Factor común</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Distributiva al revés</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>La distributiva, al revés</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Factor común</div>
+        <div class="prop-formula">\(a \cdot b + a \cdot c = a (b + c)\)</div>
+        <div class="prop-words">Si todos los términos comparten un factor, lo "sacas" delante del paréntesis.</div>
+      </div>
+
+      <p>Es la propiedad distributiva leída de derecha a izquierda. Antes la usabas para <em>repartir</em>; ahora la usas para <em>agrupar</em>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo identificar el factor común</div>
+
+      <ol class="steps-num">
+        <li>Mira los <strong>coeficientes</strong>: el factor común es el <strong>máximo común divisor (mcd)</strong> de todos.</li>
+        <li>Mira las <strong>variables</strong>: el factor común es la variable con el <strong>menor exponente</strong> que aparece en todos los términos.</li>
+        <li>Saca ese factor delante del paréntesis y dentro deja lo que queda al dividir cada término por el factor.</li>
+      </ol>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> \(6x + 9 = 3(2x + 3)\). (mcd de 6 y 9 es 3; no hay variable común en todos los términos.)</span>
+        <span class="math-step"><strong>Ej. 2:</strong> \(4x^2 - 8x = 4x(x - 2)\). (mcd de 4 y 8 es 4; mínimo exponente de \(x\) es 1.)</span>
+        <span class="math-step"><strong>Ej. 3:</strong> \(15a^3 + 10a^2 - 5a = 5a(3a^2 + 2a - 1)\).</span>
+        <span class="math-step"><strong>Ej. 4:</strong> \(12xy - 18x^2y = 6xy(2 - 3x)\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Siempre verifica</div>
+
+      <p>Para asegurarte de que factorizaste bien, <strong>multiplica de vuelta</strong> y verifica que obtienes la expresión original.</p>
+      <div class="math-block">
+        <span class="math-step">\(4x(x-2)\) multiplicado: \(4x \cdot x - 4x \cdot 2 = 4x^2 - 8x\) ✔ Coincide con el original.</span>
+      </div>
+
+      <div class="card card-warn">
+        <span class="card-label">Error frecuente</span>
+        Olvidar el "1" cuando un término se cancela completamente. Ej.: \(5x + 5 = 5(x + 1)\), no \(5(x)\). El \(+5\) divididido por \(5\) deja un \(1\) adentro del paréntesis.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Combinar métodos
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Combinar varios métodos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Estrategia</span>
+    <span class="chip">Factor común + producto notable</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Primero factor común, después producto notable</div>
+
+      <p>Muchas expresiones requieren <strong>dos pasos</strong>: sacar primero el factor común y luego aplicar un producto notable sobre lo que quedó. Mira este ejemplo:</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Factoriza:</strong> \(2x^2 - 18\).</span>
+        <span class="math-step"><strong>Paso 1.</strong> Factor común: \(2\). \(\Rightarrow 2(x^2 - 9)\).</span>
+        <span class="math-step"><strong>Paso 2.</strong> Diferencia de cuadrados dentro: \(x^2 - 9 = (x+3)(x-3)\).</span>
+        <span class="math-step"><span class="math-result">\(2x^2 - 18 = 2(x+3)(x-3)\)</span></span>
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Factoriza:</strong> \(3x^2 + 12x + 12\).</span>
+        <span class="math-step"><strong>Paso 1.</strong> Factor común: \(3\). \(\Rightarrow 3(x^2 + 4x + 4)\).</span>
+        <span class="math-step"><strong>Paso 2.</strong> Trinomio cuadrado perfecto: \(x^2 + 4x + 4 = (x+2)^2\).</span>
+        <span class="math-step"><span class="math-result">\(3x^2 + 12x + 12 = 3(x+2)^2\)</span></span>
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Factoriza:</strong> \(x^3 - 4x\).</span>
+        <span class="math-step"><strong>Paso 1.</strong> Factor común: \(x\). \(\Rightarrow x(x^2 - 4)\).</span>
+        <span class="math-step"><strong>Paso 2.</strong> Diferencia de cuadrados: \(x^2 - 4 = (x+2)(x-2)\).</span>
+        <span class="math-step"><span class="math-result">\(x^3 - 4x = x(x+2)(x-2)\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Reglas para no equivocarte</div>
+
+      <ul>
+        <li>Siempre <strong>comienza con factor común</strong>. Te ahorra cálculos.</li>
+        <li>Después <strong>identifica la forma</strong> que queda: ¿es diferencia de cuadrados? ¿TCP? ¿\(x^2+Sx+P\)?</li>
+        <li>Cuando creas que terminaste, mira de nuevo: ¿se puede seguir factorizando? Ej.: \(x^4 - 16 = (x^2+4)(x^2-4) = (x^2+4)(x+2)(x-2)\) (¡tres factores!).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Tabla maestra de factorización</div>
+
+      <table class="summary-table">
+        <thead><tr><th>Si ves…</th><th>Aplica…</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Términos con factor común</td><td>Factor común</td><td class="center">\(a(b+c)\)</td></tr>
+          <tr><td>\(a^2 - b^2\)</td><td>Suma por diferencia</td><td class="center">\((a+b)(a-b)\)</td></tr>
+          <tr><td>\(a^2 + 2ab + b^2\)</td><td>TCP suma</td><td class="center">\((a+b)^2\)</td></tr>
+          <tr><td>\(a^2 - 2ab + b^2\)</td><td>TCP resta</td><td class="center">\((a-b)^2\)</td></tr>
+          <tr><td>\(x^2 + Sx + P\)</td><td>Dos números: suma \(S\), producto \(P\)</td><td class="center">\((x+a)(x+b)\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Factorizador universal
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Factorizador universal</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Detecta el método</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Factorizador automático</div>
+
+      <p>Ingresa los coeficientes de un trinomio \(Ax^2 + Bx + C\). La herramienta detecta el método correcto (factor común, diferencia de cuadrados, TCP o trinomio con término común) y muestra la factorización paso a paso.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Si tu expresión es \(x^2 - 9\), pon \(A=1, B=0, C=-9\).</li>
+          <li>Si es \(2x^2 + 8x\), pon \(A=2, B=8, C=0\).</li>
+          <li>Si es \(x^2 + 6x + 9\), pon \(A=1, B=6, C=9\).</li>
+          <li>Los presets violetas te ahorran escribir.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Coeficientes del polinomio \(Ax^2 + Bx + C\):</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">A</label><input type="number" id="facA" value="1" /></div>
+              <div><label style="font-size:.78rem;">B</label><input type="number" id="facB" value="6" /></div>
+              <div><label style="font-size:.78rem;">C</label><input type="number" id="facC" value="9" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadFU(1,6,9)">x²+6x+9 (TCP)</button>
+            <button onclick="loadFU(1,0,-25)">x²−25 (DC)</button>
+            <button onclick="loadFU(1,7,12)">x²+7x+12 (común)</button>
+            <button onclick="loadFU(2,8,0)">2x²+8x (factor)</button>
+            <button onclick="loadFU(2,0,-18)">2x²−18 (mixto)</button>
+            <button onclick="loadFU(3,12,12)">3x²+12x+12 (mixto)</button>
+            <button onclick="loadFU(1,1,1)">x²+x+1 (no factor.)</button>
+          </div>
+          <button class="calc-button" onclick="factorizeUniv()">Factorizar →</button>
+        </div>
+
+        <div class="tool-display" id="facDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa A, B, C y presiona <strong>Factorizar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Completar el cuadrado
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Completar el cuadrado</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Técnica</span>
+    <span class="chip">Convertir en TCP</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es completar el cuadrado?</div>
+
+      <p>Es una técnica para <strong>transformar</strong> un trinomio \(x^2 + Bx + C\) cualquiera en un <strong>trinomio cuadrado perfecto</strong>, ajustando el término constante. Es muy útil para resolver ecuaciones cuadráticas y graficar parábolas.</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Completar el cuadrado</div>
+        <div class="prop-formula">\(x^2 + Bx \;\to\; x^2 + Bx + \left(\dfrac{B}{2}\right)^2 = \left(x + \dfrac{B}{2}\right)^2\)</div>
+        <div class="prop-words">Tomas la mitad del coeficiente lineal, la elevas al cuadrado y se la sumas al trinomio.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Paso a paso</div>
+
+      <ol class="steps-num">
+        <li>Identifica el coeficiente lineal \(B\) (el del término \(Bx\)).</li>
+        <li>Calcula \(\dfrac{B}{2}\).</li>
+        <li>Eleva al cuadrado: \(\left(\dfrac{B}{2}\right)^2\). Ese es el número que tienes que <strong>agregar</strong> para completar el cuadrado.</li>
+        <li>Escribe el trinomio cuadrado perfecto resultante: \(\left(x + \dfrac{B}{2}\right)^2\).</li>
+      </ol>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> Completa el cuadrado en \(x^2 + 6x\).</span>
+        <span class="math-step">\(B = 6\); \(\dfrac{B}{2} = 3\); \(\left(\dfrac{B}{2}\right)^2 = 9\).</span>
+        <span class="math-step">Sumo 9: \(x^2 + 6x + 9 = (x+3)^2\). ✔</span>
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 2:</strong> Completa el cuadrado en \(x^2 - 10x\).</span>
+        <span class="math-step">\(B = -10\); \(\dfrac{B}{2} = -5\); \(\left(-5\right)^2 = 25\).</span>
+        <span class="math-step">Sumo 25: \(x^2 - 10x + 25 = (x-5)^2\). ✔</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ajustando el término constante</div>
+
+      <p>Si tu expresión ya tiene un término constante (no cero), debes <strong>compensar</strong>: sumar lo que falta y restar lo que sobra, manteniendo la igualdad. Mira:</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Reescribe \(x^2 + 6x + 5\) como un cuadrado más una constante.</span>
+        <span class="math-step">Lo que falta para completar el cuadrado: \(\left(\dfrac{6}{2}\right)^2 = 9\). Pero ya tengo \(5\).</span>
+        <span class="math-step">Le sumo y le resto \(4\) (la diferencia entre 9 y 5):</span>
+        <span class="math-step">\(x^2 + 6x + 5 = (x^2 + 6x + 9) - 4 = (x+3)^2 - 4\).</span>
+        <span class="math-step"><span class="math-result">\(x^2 + 6x + 5 = (x+3)^2 - 4\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">¿Para qué sirve esto?</span>
+        Esta forma \((x+h)^2 + k\) se llama <strong>forma canónica</strong> de una cuadrática. Permite saber de inmediato el <em>vértice</em> de la parábola \((-h, k)\), información clave en 2° Medio cuando estudies funciones cuadráticas.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Completador
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Completar el cuadrado</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Forma canónica</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Completador automático</div>
+
+      <p>Ingresa los coeficientes \(B\) y \(C\) del trinomio \(x^2 + Bx + C\). La herramienta calcula cuánto hay que sumar para completar el cuadrado y reescribe la expresión como \((x+h)^2 + k\).</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Si tu trinomio es \(x^2 + 6x\), pon \(B=6, C=0\).</li>
+          <li>Si es \(x^2 + 6x + 5\), pon \(B=6, C=5\).</li>
+          <li>Si es \(x^2 - 8x + 20\), pon \(B=-8, C=20\).</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Coeficientes \(x^2 + Bx + C\):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">B</label><input type="number" id="ccB" value="6" /></div>
+              <div><label style="font-size:.78rem;">C</label><input type="number" id="ccC" value="5" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadCC(6,0)">x²+6x</button>
+            <button onclick="loadCC(6,5)">x²+6x+5</button>
+            <button onclick="loadCC(-10,0)">x²−10x</button>
+            <button onclick="loadCC(-8,20)">x²−8x+20</button>
+            <button onclick="loadCC(4,-3)">x²+4x−3</button>
+            <button onclick="loadCC(-6,9)">x²−6x+9 (ya TCP)</button>
+          </div>
+          <button class="calc-button" onclick="completeSquare()">Completar →</button>
+        </div>
+
+        <div class="tool-display" id="ccDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa B y C y presiona <strong>Completar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Factorización — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Factoriza \(6x + 9\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(6(x+9)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste dividir el 9 por 3.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3(2x+3)\)<div class="opt-feedback"><strong>Correcto.</strong> mcd de 6 y 9 es 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(3x(2+3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> No hay variable común en todos los términos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2(3x+9)\)<div class="opt-feedback"><strong>Incorrecto.</strong> 2 no divide a 9.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Factoriza \(x^2 - 16\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x-16)(x+1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^2-15x-16\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+4)(x-4)\)<div class="opt-feedback"><strong>Correcto.</strong> Diferencia de cuadrados con \(\sqrt{16}=4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x-4)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^2 - 8x + 16\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se puede factorizar.<div class="opt-feedback"><strong>Incorrecto.</strong> Es diferencia de cuadrados perfectos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Completa el cuadrado en \(x^2 + 8x\): ¿cuánto hay que sumar?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(B/2\), pero falta elevar al cuadrado.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 16<div class="opt-feedback"><strong>Correcto.</strong> \((8/2)^2 = 4^2 = 16\). Y \(x^2+8x+16 = (x+4)^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> No es el coeficiente lineal.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 64<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 8 en vez de dividir.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza \(2x^2 - 50\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((2x-5)(2x+5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(4x^2 - 25\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2(x+5)(x-5)\)<div class="opt-feedback"><strong>Correcto.</strong> Primero factor común 2; luego diferencia de cuadrados.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(2(x^2-25)\)<div class="opt-feedback"><strong>Incompleto.</strong> Falta factorizar la diferencia de cuadrados.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x-5)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2-10x+25\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza \(x^2 + 10x + 25\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x+5)^2\)<div class="opt-feedback"><strong>Correcto.</strong> Es TCP: \(\sqrt{25}=5\) y \(2 \cdot x \cdot 5 = 10x\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+5)(x-5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^2 - 25\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x+10)(x+25)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste los datos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No factorizable<div class="opt-feedback"><strong>Incorrecto.</strong> Es un TCP claro.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza \(x^3 - 4x\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x(x^2-4)\)<div class="opt-feedback"><strong>Incompleto.</strong> Falta factorizar la diferencia de cuadrados.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x(x+2)(x-2)\)<div class="opt-feedback"><strong>Correcto.</strong> Factor común \(x\), luego diferencia de cuadrados.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x(x-2)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^3 - 4x^2 + 4x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se puede.<div class="opt-feedback"><strong>Incorrecto.</strong> Sí se puede en dos pasos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Reescribe \(x^2 + 6x + 5\) en forma \((x+h)^2 + k\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x+3)^2 + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste restar el ajuste.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+3)^2 - 4\)<div class="opt-feedback"><strong>Correcto.</strong> Completas con 9, pero tenías 5: \(9-5=4\) extra, por eso restas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x+6)^2 - 31\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tomaste \(B\) en vez de \(B/2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x-3)^2 + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Simplifica \(\dfrac{x^2 - 4}{x^2 + 4x + 4}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> Los polinomios no son iguales.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{x-2}{x+2}\)<div class="opt-feedback"><strong>Correcto.</strong> Numerador: \((x+2)(x-2)\); denominador: \((x+2)^2\). Cancelas un \((x+2)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{x+2}{x-2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Quedó invertido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x - 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se cancelan los dos \((x+2)\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un terreno rectangular tiene área \(x^2 + 7x + 10\) m². Si su largo es \((x+5)\), ¿cuánto mide su ancho?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería un cuadrado, no un rectángulo en general.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x + 2\)<div class="opt-feedback"><strong>Correcto.</strong> Factorizando: \(x^2+7x+10 = (x+5)(x+2)\). El ancho es \(x+2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x + 10\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tomaste el término constante, no el factor.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tomaste el coeficiente lineal.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Factoriza completamente \(x^4 - 81\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x^2+9)(x^2-9)\)<div class="opt-feedback"><strong>Incompleto.</strong> El segundo factor sigue siendo diferencia de cuadrados.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x^2+9)(x+3)(x-3)\)<div class="opt-feedback"><strong>Correcto.</strong> Primera factorización: \((x^2+9)(x^2-9)\). El \(x^2-9\) se vuelve a factorizar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x+3)^4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría algo muy distinto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x^2-3)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^4 - 6x^2 + 9\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Factorización — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Factorización y aplicaciones</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">Factoriza \(10x - 15\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(10(x-15)\)<div class="opt-feedback"><strong>Incorrecto.</strong> 10 no divide a 15.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(5(2x-3)\)<div class="opt-feedback"><strong>Correcto.</strong> mcd(10,15) = 5.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(15(x-10)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mal cálculo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x(10-15)\)<div class="opt-feedback"><strong>Incorrecto.</strong> No hay variable común en todos los términos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Factoriza \(x^2 - 36\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x+6)(x-6)\)<div class="opt-feedback"><strong>Correcto.</strong> Diferencia de cuadrados, \(\sqrt{36}=6\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x-6)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(x^2-12x+36\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x-36)(x+1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2-35x-36\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> No factorizable<div class="opt-feedback"><strong>Incorrecto.</strong> 36 es cuadrado perfecto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Factoriza \(4x^2 - 16\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((2x-4)(2x+4)\)<div class="opt-feedback"><strong>Incompleto.</strong> Cada factor todavía tiene factor común 2.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(4(x+2)(x-2)\)<div class="opt-feedback"><strong>Correcto.</strong> Saca factor común 4, luego diferencia de cuadrados.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4(x^2-4)\)<div class="opt-feedback"><strong>Incompleto.</strong> Falta factorizar la diferencia de cuadrados.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x-2)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2-4x+4\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Para completar el cuadrado en \(x^2 + 12x\), debes sumar:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 6<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(B/2\), pero falta elevarlo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 36<div class="opt-feedback"><strong>Correcto.</strong> \((12/2)^2 = 6^2 = 36\). Y \(x^2+12x+36=(x+6)^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(B\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 144<div class="paes-l opt-feedback"><strong>Incorrecto.</strong> Olvidaste dividir por 2 primero.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Factoriza \(x^2 + 5x - 14\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x+7)(x+2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+14\) en la constante.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x+7)(x-2)\)<div class="opt-feedback"><strong>Correcto.</strong> \(7 \cdot (-2) = -14\) y \(7 + (-2) = 5\) ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x-7)(x+2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x-14)(x+1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-13\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Simplifica \(\dfrac{x^2 - 9}{x + 3}\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x + 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cancelaste el factor equivocado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x - 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2-9 = (x+3)(x-3)\). Cancela \((x+3)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 - 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se simplifica así.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es cociente de constantes.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Reescribe \(x^2 - 6x + 11\) en forma \((x+h)^2+k\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x-6)^2 - 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tomaste \(B\) en vez de \(B/2\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x-3)^2 + 2\)<div class="opt-feedback"><strong>Correcto.</strong> \(B/2 = -3\); falta 9; ya tengo 11; sobra 2: \((x-3)^2 + 2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x-3)^2 + 11\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste restar el ajuste.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x+3)^2 + 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Un rectángulo tiene área \(x^2 - 9\). ¿Cuáles podrían ser sus lados?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x-9)\) y \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x-9\), no \(x^2-9\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x+3)\) y \((x-3)\)<div class="opt-feedback"><strong>Correcto.</strong> Diferencia de cuadrados con \(\sqrt{9}=3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x\) y \((x-9)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 - 9x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x-3)\) y \((x-3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \((x-3)^2 = x^2-6x+9\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Factoriza \(5x^3 - 20x\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(5x(x^2 - 4)\)<div class="opt-feedback"><strong>Incompleto.</strong> Aún hay diferencia de cuadrados.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(5x(x+2)(x-2)\)<div class="opt-feedback"><strong>Correcto.</strong> Factor común \(5x\), luego diferencia de cuadrados.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(5x^3(1 - \dfrac{4}{x^2})\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa forma no es factorización polinómica estándar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((5x-4)(x^2+5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al desarrollo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál de las siguientes expresiones NO se puede factorizar como producto de dos binomios con enteros?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 - 16\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x+4)(x-4)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 6x + 9\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x+3)^2\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 9\)<div class="opt-feedback"><strong>Correcto: no factoriza con enteros.</strong> Es <em>suma</em> de cuadrados, no diferencia.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 - 5x + 6\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x-2)(x-3)\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Completaste el OA 3 entero. Ya dominas los tres productos notables, sabes factorizar usando factor común y los productos notables al revés, y sabes completar el cuadrado para llevar un trinomio a forma canónica.</p>
+    <p>El álgebra que aprendiste aquí es la base para resolver ecuaciones cuadráticas, graficar parábolas y entender funciones polinómicas en 2° Medio. Buen trabajo.</p>
+    <span class="next-pill">Próximo: OA 4 (ecuaciones lineales)</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Factorización · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Factorizador universal ---------- */
+function loadFU(A,B,C){
+  document.getElementById('facA').value=A;
+  document.getElementById('facB').value=B;
+  document.getElementById('facC').value=C;
+  factorizeUniv();
+}
+function gcdInt(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+function gcd3(a,b,c){return gcdInt(gcdInt(a,b),c);}
+function termLatex(coef, varStr, isFirst){
+  if(coef===0) return '';
+  const abs = Math.abs(coef);
+  const sign = coef < 0 ? ' - ' : (isFirst ? '' : ' + ');
+  let mid;
+  if(varStr === '') mid = String(abs);
+  else if(abs === 1) mid = varStr;
+  else mid = abs + varStr;
+  return sign + mid;
+}
+function trinLatex(A,B,C){
+  let s = '';
+  s += termLatex(A, 'x^2', true);
+  s += termLatex(B, 'x', s==='');
+  s += termLatex(C, '', s==='');
+  return s || '0';
+}
+function factorizeUniv(){
+  const A = parseInt(document.getElementById('facA').value);
+  const B = parseInt(document.getElementById('facB').value);
+  const C = parseInt(document.getElementById('facC').value);
+  const out = document.getElementById('facDisplay');
+  if([A,B,C].some(isNaN)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa A, B y C enteros.</p>'; return; }
+
+  const expr = `\\(${trinLatex(A,B,C)}\\)`;
+  let steps = [];
+  let method = '';
+  let result = '';
+
+  // Trabajamos sobre A', B', C' (después de sacar factor común numérico)
+  let Ap = A, Bp = B, Cp = C, fc = 1;
+  let nonZero = [A,B,C].filter(v => v !== 0).map(Math.abs);
+  if(nonZero.length > 0){
+    fc = nonZero.reduce((a,b)=>gcdInt(a,b));
+    if(fc > 1){
+      Ap = A/fc; Bp = B/fc; Cp = C/fc;
+      steps.push(`<div class="resolver-step"><span class="step-label">Paso 1</span>Factor común numérico: \\(${fc}\\). Queda \\(${fc}(${trinLatex(Ap,Bp,Cp)})\\).</div>`);
+    }
+  }
+
+  // ¿Factor x?
+  let xFactor = false;
+  if(Ap !== 0 && Bp !== 0 && Cp === 0){
+    xFactor = true;
+    steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Factor común <em>x</em>: queda \\(x(${termLatex(Ap,'x',true).trim()}${termLatex(Bp,'',false)})\\).</div>`);
+    // Expresión lineal Ap*x + Bp; ya está factorizada
+    const inner = `${Ap===1?'x':(Ap+'x')}${Bp>=0?'+':'-'}${Math.abs(Bp)}`;
+    result = `${fc>1?fc:''}x(${inner})`;
+    method = 'Factor común + x';
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.4rem;">${expr}</div>
+      <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.55rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;text-align:center;">
+        <b style="color:#6A2C91;">Método: ${method}</b>
+      </div>
+      ${steps.join('')}
+      <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${result}\\)</span></div>
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  // Solo factor común
+  if(Bp === 0 && Cp === 0){
+    method = 'Factor común';
+    result = `${fc>1?fc:''}${A===0?'':'x^2'}`;
+    // Caso raro; igual lo mostramos
+  }
+
+  // Diferencia de cuadrados: Ap > 0, Bp == 0, Cp < 0, ambos cuadrados perfectos
+  if(Bp === 0 && Ap > 0 && Cp < 0){
+    const sqrtA = Math.sqrt(Ap);
+    const sqrtC = Math.sqrt(-Cp);
+    if(Number.isInteger(sqrtA) && Number.isInteger(sqrtC)){
+      method = 'Diferencia de cuadrados';
+      const aStr = sqrtA===1?'x':`${sqrtA}x`;
+      steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Reconozco diferencia de cuadrados. \\(\\sqrt{${Ap}}=${sqrtA}\\), \\(\\sqrt{${-Cp}}=${sqrtC}\\).</div>`);
+      steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Aplico \\((a+b)(a-b)\\).</div>`);
+      result = `${fc>1?fc:''}(${aStr}+${sqrtC})(${aStr}-${sqrtC})`;
+    }
+  }
+
+  // TCP: Ap > 0, Cp > 0, sqrt(Ap) y sqrt(Cp) enteros, Bp = ±2*sqrtA*sqrtC
+  if(!method && Ap > 0 && Cp > 0){
+    const sqrtA = Math.sqrt(Ap);
+    const sqrtC = Math.sqrt(Cp);
+    if(Number.isInteger(sqrtA) && Number.isInteger(sqrtC)){
+      const dp = 2 * sqrtA * sqrtC;
+      if(Bp === dp || Bp === -dp){
+        method = 'Trinomio cuadrado perfecto';
+        const aStr = sqrtA===1?'x':`${sqrtA}x`;
+        const sign = Bp >= 0 ? '+' : '-';
+        steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Reconozco TCP. \\(\\sqrt{${Ap}}=${sqrtA}\\), \\(\\sqrt{${Cp}}=${sqrtC}\\), \\(2 \\cdot ${sqrtA} \\cdot ${sqrtC}=${dp}\\) ✔.</div>`);
+        steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Aplico \\((a${sign}b)^2\\).</div>`);
+        result = `${fc>1?fc:''}(${aStr}${sign}${sqrtC})^2`;
+      }
+    }
+  }
+
+  // Trinomio común: Ap == 1
+  if(!method && Ap === 1){
+    const absC = Math.abs(Cp);
+    let found = null;
+    if(Cp === 0){
+      // ya manejado arriba si era el caso
+    } else {
+      for(let i=1;i<=absC;i++){
+        if(absC % i === 0){
+          const j = absC/i;
+          const combos = Cp > 0 ? [[i,j],[-i,-j]] : [[i,-j],[-i,j]];
+          for(const [a,b] of combos){
+            if(a+b === Bp){ found=[a,b]; break; }
+          }
+          if(found) break;
+        }
+      }
+    }
+    if(found){
+      method = 'Trinomio con término común';
+      const [a,b] = found;
+      const aStr = a>=0?`x+${a}`:`x-${-a}`;
+      const bStr = b>=0?`x+${b}`:`x-${-b}`;
+      steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Busco dos enteros con suma ${Bp} y producto ${Cp}: son ${a} y ${b}.</div>`);
+      steps.push(`<div class="resolver-step"><span class="step-label">Paso ${steps.length+1}</span>Aplico \\((x+a)(x+b)\\).</div>`);
+      result = `${fc>1?fc:''}(${aStr})(${bStr})`;
+    }
+  }
+
+  if(!method){
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.4rem;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.7rem;border-radius:0 8px 8px 0;color:#0B0F3F;">
+        <b>No factorizable con métodos elementales</b> (factor común + productos notables + término común con enteros).
+      </div>${steps.length>0 ? '<div style="margin-top:.4rem;">'+steps.join('')+'</div>' : ''}
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.4rem;">${expr}</div>
+    <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.55rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;text-align:center;">
+      <b style="color:#6A2C91;">Método: ${method}</b>
+    </div>
+    ${steps.join('')}
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${result}\\)</span></div>
+  `;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+/* ---------- Completar el cuadrado ---------- */
+function loadCC(B,C){
+  document.getElementById('ccB').value = B;
+  document.getElementById('ccC').value = C;
+  completeSquare();
+}
+function completeSquare(){
+  const B = parseFloat(document.getElementById('ccB').value);
+  const C = parseFloat(document.getElementById('ccC').value);
+  const out = document.getElementById('ccDisplay');
+  if(isNaN(B)||isNaN(C)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa B y C.</p>'; return; }
+
+  const expr = `\\(x^2 ${B>=0?'+':'-'} ${Math.abs(B)===1?'':Math.abs(B)}x ${C>=0?'+':'-'} ${Math.abs(C)}\\)`;
+  const h = B/2;
+  const completeTerm = h*h;
+  const k = C - completeTerm;
+
+  const hStr = h >= 0 ? `+${h}` : `${h}`;
+  const hAbs = Math.abs(h);
+  const sign = h >= 0 ? '+' : '-';
+
+  let kPart = '';
+  if(k > 0) kPart = ` + ${k}`;
+  else if(k < 0) kPart = ` - ${Math.abs(k)}`;
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div class="resolver-step"><span class="step-label">Paso 1</span>Identifico \\(B = ${B}\\), \\(C = ${C}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 2</span>Mitad de B: \\(B/2 = ${h}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 3</span>Cuadrado de la mitad: \\((${h})^2 = ${completeTerm}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 4</span>Ya tengo C = ${C}; necesito ${completeTerm}; diferencia: \\(${C} - ${completeTerm} = ${k}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 5</span>Reescribo: el trinomio \\(x^2 ${B>=0?'+':'-'} ${Math.abs(B)===1?'':Math.abs(B)}x\\) parte de \\((x ${sign} ${hAbs})^2\\); el ajuste va al final.</div>
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\((x ${sign} ${hAbs})^2${kPart}\\)</span></div>
+  `;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  factorizeUniv();
+  completeSquare();
+});
+</script>
+
+</body>
+</html>

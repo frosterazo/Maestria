@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaestrIA · Writing: Historias e Información · 1° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <style>
+    /* ── Botones interactivos ── */
+    .btn-opt {
+      display: flex; align-items: flex-start; gap: 10px;
+      width: 100%; background: #fff;
+      border: 1.5px solid #d0d0d0; border-radius: 7px;
+      padding: 8px 12px; margin: 5px 0;
+      cursor: pointer; text-align: left;
+      font-size: 9.5pt; font-family: inherit; color: #222;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-opt:hover:not(:disabled) { background: #f0edf8; border-color: #6A2C91; }
+    .btn-opt:disabled { cursor: default; }
+    .btn-opt .opt-letter {
+      min-width: 22px; height: 22px; background: #0B0F3F; color: #fff;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 8pt; font-weight: 700; flex-shrink: 0;
+    }
+    .btn-opt.opt-selected-ok  { border-color: #1a7a3c; background: #d4edda; }
+    .btn-opt.opt-selected-ok  .opt-letter { background: #1a7a3c; }
+    .btn-opt.opt-selected-err { border-color: #c0392b; background: #fdecea; }
+    .btn-opt.opt-selected-err .opt-letter { background: #c0392b; }
+    .btn-opt.opt-correct-reveal { border-color: #1a7a3c !important; background: #eafaf1 !important; }
+    .btn-opt.opt-correct-reveal .opt-letter { background: #1a7a3c !important; }
+    .q-feedback {
+      display: none; border-radius: 7px; padding: 8px 12px;
+      margin: 6px 0 2px; font-size: 9pt; line-height: 1.5;
+    }
+    .q-feedback.fb-ok  { background: #d4edda; border-left: 4px solid #1a7a3c; color: #155724; }
+    .q-feedback.fb-err { background: #fdecea; border-left: 4px solid #c0392b; color: #721c24; }
+    .score-bar {
+      position: sticky; bottom: 0; background: #0B0F3F; color: #D4AF37;
+      text-align: center; padding: 9px 20px; font-size: 10pt; font-weight: 700;
+      z-index: 100; border-top: 2px solid #D4AF37; letter-spacing: .3px;
+    }
+    .pdf-sol { display: none; }
+    body.pdf-mode .pdf-sol { display: block; }
+    @media print {
+      .no-print, .score-bar { display: none !important; }
+      .btn-opt { pointer-events: none; background: #fff !important; page-break-inside: avoid; }
+      .btn-opt.opt-correct-reveal { background: #d4edda !important; border-color: #1a7a3c !important; }
+      .btn-opt.opt-correct-reveal .opt-letter { background: #1a7a3c !important; }
+      .q-feedback { display: none !important; }
+      .pdf-sol { display: block !important; }
+      .page { page-break-after: always; box-shadow: none !important; }
+    }
+    /* ── Estilos específicos OA13 Writing ── */
+    .writing-sample {
+      background: #f8f6ff; border: 1.5px solid #c4aff0; border-radius: 10px;
+      padding: 14px 18px; margin: 10px 0 14px; font-size: 9.5pt;
+      line-height: 1.8; color: #1a1a3a;
+    }
+    .writing-sample .ws-label {
+      display: inline-block; background: #6A2C91; color: #fff;
+      font-size: 7.5pt; font-weight: 700; border-radius: 4px;
+      padding: 2px 8px; margin-bottom: 8px; letter-spacing: .4px;
+    }
+    .writing-sample .ws-good { border-color: #1a7a3c; background: #f0faf4; }
+    .writing-sample .ws-bad  { border-color: #c0392b; background: #fdf5f5; }
+    .structure-box {
+      background: #fff8e6; border: 1.5px solid #D4AF37; border-radius: 9px;
+      padding: 12px 16px; margin: 10px 0; font-size: 9pt; line-height: 1.7;
+    }
+    .structure-box strong { color: #0B0F3F; }
+    .narrative-parts {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 0;
+    }
+    .np-card {
+      background: #f4f0fc; border: 1.5px solid #c4aff0; border-radius: 8px;
+      padding: 9px 8px; text-align: center;
+    }
+    .np-card .np-name { font-weight: 700; font-size: 8.5pt; color: #6A2C91; }
+    .np-card .np-desc { font-size: 7.5pt; color: #555; margin-top: 3px; line-height: 1.4; }
+    .connectors-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;
+    }
+    .conn-card {
+      background: #f5f5f5; border: 1.5px solid #ddd; border-radius: 8px;
+      padding: 10px 13px;
+    }
+    .conn-card .cc-title { font-weight: 700; font-size: 9pt; color: #0B0F3F; margin-bottom: 5px; }
+    .conn-card p { font-size: 8.5pt; margin: 0; line-height: 1.6; color: #333; }
+    .tense-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 10px 0; }
+    .tense-table th { background: #0B0F3F; color: #fff; padding: 6px 10px; text-align: left; }
+    .tense-table td { padding: 6px 10px; border-bottom: 1px solid #e0e0e0; }
+    .tense-table tr:nth-child(even) td { background: #f5f5f5; }
+    .signal-box {
+      background: #f0f7ff; border: 1.5px solid #a3c0e0; border-radius: 9px;
+      padding: 11px 16px; margin: 10px 0; font-size: 9pt; line-height: 1.6;
+    }
+    .signal-box strong { color: #0B0F3F; }
+    .ex-text-box {
+      background: #f4f8ff; border: 1.5px solid #b3c8e8; border-radius: 10px;
+      padding: 12px 16px; margin: 8px 0 12px; font-size: 9.5pt; line-height: 1.8;
+      color: #1a2a4a;
+    }
+    .ex-text-box .etb-label {
+      display: inline-block; background: #0B0F3F; color: #D4AF37;
+      font-size: 7.5pt; font-weight: 700; border-radius: 4px;
+      padding: 2px 8px; margin-bottom: 7px; letter-spacing: .4px;
+    }
+    .paes-text-block {
+      background: #f0f4ff; border: 1.5px solid #a3b8e0; border-radius: 10px;
+      padding: 14px 18px; margin-bottom: 16px; font-size: 9.5pt; line-height: 1.8;
+      color: #1a2040;
+    }
+    .paes-text-block h4 { color: #0B0F3F; font-size: 10.5pt; margin: 0 0 10px; }
+    .paes-text-block .text-source { font-size: 8pt; color: #777; font-style: italic; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 1 — TEORÍA I
+     Escritura de historias: estructura narrativa y verbos
+════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Inglés · 1° Medio<br>
+      Unidad: Writing — Historias e Información<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+
+  <div class="guide-banner">
+    <div class="subject-pill">Inglés · Writing</div>
+    <h2>Escritura de Historias e Información</h2>
+    <div class="meta-chips">
+      <div class="chip"><strong>Nivel:</strong> 1° Medio</div>
+      <div class="chip"><strong>Eje:</strong> Escritura (Writing)</div>
+      <div class="chip"><strong>Duración:</strong> 90 min</div>
+      <div class="chip"><strong>Currículum:</strong> MINEDUC 2026</div>
+    </div>
+  </div>
+
+  <div class="oa-box">
+    <div class="oa-badge">OA 13</div>
+    <div class="oa-text">
+      <strong>Objetivo de Aprendizaje:</strong> Escribir en inglés textos de diverso tipo (narrativos e informativos) con una estructura organizada, usando conectores adecuados, vocabulario variado y tiempos verbales correctos para comunicar experiencias, historias e información.
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">1</div>Narrative Structure — Estructura de una Historia</div>
+      <p>Una buena historia en inglés tiene cinco partes. Antes de escribir, planifica con este esquema:</p>
+      <div class="narrative-parts">
+        <div class="np-card">
+          <div class="np-name">1. Setting</div>
+          <div class="np-desc">¿Cuándo y dónde ocurre? Presenta personajes y contexto.</div>
+        </div>
+        <div class="np-card">
+          <div class="np-name">2. Problem</div>
+          <div class="np-desc">¿Qué conflicto o evento desencadena la historia?</div>
+        </div>
+        <div class="np-card">
+          <div class="np-name">3. Rising Action</div>
+          <div class="np-desc">Los eventos que desarrollan el conflicto.</div>
+        </div>
+        <div class="np-card">
+          <div class="np-name">4. Climax</div>
+          <div class="np-desc">El momento de mayor tensión o punto de quiebre.</div>
+        </div>
+        <div class="np-card">
+          <div class="np-name">5. Resolution</div>
+          <div class="np-desc">Cómo se resuelve el problema. El final.</div>
+        </div>
+      </div>
+      <div class="writing-sample ws-good">
+        <div class="ws-label">✓ EJEMPLO COMPLETO</div>
+        <p><strong>Setting:</strong> <em>Last summer, Ana and her brother were camping in the mountains near Valparaíso.</em><br>
+        <strong>Problem:</strong> <em>On their second day, a storm arrived and they got lost on the trail.</em><br>
+        <strong>Rising action:</strong> <em>They walked for hours, getting colder and more scared. Their phone had no signal.</em><br>
+        <strong>Climax:</strong> <em>Suddenly, Ana heard a dog barking nearby.</em><br>
+        <strong>Resolution:</strong> <em>A park ranger found them and guided them back to the campsite safely.</em></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">2</div>Past Simple — El tiempo verbal de las historias</div>
+      <p>Las historias se narran en <strong>Past Simple</strong>. Hay dos tipos de verbos:</p>
+      <table class="tense-table">
+        <thead><tr><th>Tipo</th><th>Regla</th><th>Ejemplos</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Regular verbs</strong></td><td>Añadir <strong>-ed</strong> al infinitivo</td><td>walk → walked · arrive → arrived · stop → stopped</td></tr>
+          <tr><td><strong>Irregular verbs</strong></td><td>Forma especial (memorizar)</td><td>go → went · see → saw · find → found · hear → heard</td></tr>
+          <tr><td><strong>Negative</strong></td><td>did not (didn't) + infinitivo</td><td>She didn't know the way. · They didn't stop.</td></tr>
+          <tr><td><strong>Question</strong></td><td>Did + sujeto + infinitivo?</td><td>Did they find help? · Did it rain?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">3</div>Time Connectors — Conectores temporales para narrar</div>
+      <p>Los conectores ordenan los eventos y dan fluidez a la historia:</p>
+      <div class="structure-box">
+        <strong>Inicio:</strong> One day · Last summer · Long ago · Once upon a time · In 2024<br>
+        <strong>Secuencia:</strong> First · Then · Next · After that · A few minutes later · Soon<br>
+        <strong>Contraste:</strong> However · But · Although · Even though · Despite<br>
+        <strong>Final:</strong> Finally · In the end · Eventually · At last
+      </div>
+    </div>
+
+    <div class="meta-box">
+      <div class="meta-title">🧠 Pausa metacognitiva — ¿Cómo está tu comprensión?</div>
+      <ul>
+        <li>¿Puedes identificar las 5 partes de la estructura narrativa en una película o libro que conozcas?</li>
+        <li>¿Cuál es la diferencia entre "I walk" y "I walked"? ¿En qué parte de una historia usarías cada uno?</li>
+        <li>Si una historia dice "First... Then... Finally...", ¿qué función cumplen esas palabras?</li>
+        <li>¿Por qué es importante planificar la estructura ANTES de escribir?</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 2 — TEORÍA II
+     Escritura informativa: párrafos, cohesión y corrección
+════════════════════════════════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio — Teoría (cont.)</strong>
+      Inglés · 1° Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">4</div>Informative Writing — Escritura Informativa</div>
+      <p>Un texto informativo presenta datos, explica conceptos o describe hechos reales. Su estructura es:</p>
+      <div class="structure-box">
+        <strong>Introduction:</strong> Presenta el tema y capta la atención del lector.<br>
+        <strong>Body paragraphs:</strong> Cada párrafo desarrolla una idea con ejemplos o datos. Comienza con una <em>topic sentence</em>.<br>
+        <strong>Conclusion:</strong> Resume las ideas principales y cierra el texto con una reflexión o mensaje final.
+      </div>
+      <div class="writing-sample ws-good">
+        <div class="ws-label">✓ PÁRRAFO INFORMATIVO BIEN ESCRITO</div>
+        <p><em>"Chile is one of the best countries in the world for stargazing. The Atacama Desert, located in the north, has some of the clearest skies on Earth. As a result, many international observatories have been built there, including the ALMA telescope. Every year, thousands of tourists visit the region to see the Milky Way with their own eyes."</em></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">5</div>Connectors for Informative Writing — Conectores en textos informativos</div>
+      <div class="connectors-grid">
+        <div class="conn-card">
+          <div class="cc-title">Añadir información</div>
+          <p>In addition · Furthermore · Also · Moreover · Besides · Another reason is...</p>
+        </div>
+        <div class="conn-card">
+          <div class="cc-title">Causa y efecto</div>
+          <p>Because · Since · As a result · Therefore · Consequently · Due to · This leads to...</p>
+        </div>
+        <div class="conn-card">
+          <div class="cc-title">Contraste</div>
+          <p>However · Although · On the other hand · In contrast · Despite · Nevertheless</p>
+        </div>
+        <div class="conn-card">
+          <div class="cc-title">Ejemplos y datos</div>
+          <p>For example · For instance · Such as · According to · Research shows that...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">6</div>Common Writing Errors — Errores frecuentes al escribir</div>
+      <table class="tense-table">
+        <thead><tr><th>Error frecuente</th><th>Incorrecto ✗</th><th>Correcto ✓</th></tr></thead>
+        <tbody>
+          <tr><td>Olvidar -s en 3ª persona singular (presente)</td><td>She walk to school.</td><td>She <strong>walks</strong> to school.</td></tr>
+          <tr><td>Usar infinitivo después de auxiliar en pasado</td><td>She didn't <s>went</s>.</td><td>She didn't <strong>go</strong>.</td></tr>
+          <tr><td>Confundir there / their / they're</td><td>Their is a problem.</td><td><strong>There</strong> is a problem.</td></tr>
+          <tr><td>Usar "and" repetidamente como único conector</td><td>I went and I saw and I ate...</td><td>I went. Then I saw... Finally, I ate...</td></tr>
+          <tr><td>No usar mayúscula al inicio de oración</td><td>the dog was lost.</td><td><strong>The</strong> dog was lost.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="sec-num">7</div>Writing Checklist — Lista de verificación antes de entregar</div>
+      <div class="signal-box">
+        <strong>✓ Content:</strong> ¿Responde la pregunta o tarea pedida? ¿Tiene introducción, desarrollo y conclusión?<br>
+        <strong>✓ Organization:</strong> ¿Las ideas están ordenadas lógicamente? ¿Usé conectores?<br>
+        <strong>✓ Vocabulary:</strong> ¿Usé palabras variadas? ¿Evité repetir la misma palabra?<br>
+        <strong>✓ Grammar:</strong> ¿Los verbos están en el tiempo correcto? ¿Concordancia sujeto-verbo?<br>
+        <strong>✓ Mechanics:</strong> ¿Mayúsculas al inicio? ¿Puntos y comas en su lugar? ¿Ortografía correcta?
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 3 — EJERCICIOS PROGRESIVOS INTERACTIVOS
+     3 Básico · 4 Intermedio · 3 Avanzado
+     IDs: q01–q10
+     Nota: En Writing los ejercicios evalúan conocimiento
+     sobre escritura (elección de la opción CORRECTA)
+════════════════════════════════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ejercicios Progresivos</strong>
+      Writing OA13 · 1° Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <!-- ── NIVEL BÁSICO (1–3) ── -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <div class="ex-level-badge">Nivel Básico</div>
+        <h3>Verbos en pasado simple, conectores básicos y estructura de oraciones</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item q-item" id="q01" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 1</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">Choose the correct past simple form to complete the sentence:<br><em>"Yesterday, María _____ to the market and _____ some fruit."</em></div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'Go' y 'buy' son infinitivos; en pasado simple de afirmación se usan las formas irregulares: went y bought."><div class="opt-letter">A</div>go / buy</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! 'Went' es el pasado de 'go' y 'bought' es el pasado de 'buy'. Ambos son verbos irregulares."><div class="opt-letter">B</div>went / bought</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'Goed' no existe en inglés; 'go' es irregular. Y 'buyed' tampoco es correcto; el pasado de 'buy' es 'bought'."><div class="opt-letter">C</div>goed / buyed</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. 'Going' y 'buying' son gerundios/participios presentes; no se usan solos para narrar acciones pasadas completadas."><div class="opt-letter">D</div>going / buying</button>
+          </div>
+          <div class="q-feedback" id="fb-q01"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q02" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 2</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">Which sentence uses a TIME CONNECTOR correctly to show the ORDER of events?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'However' expresa contraste o contradicción, no secuencia temporal entre acciones."><div class="opt-letter">A</div>He woke up. However, he had breakfast. He left the house.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. 'Although' introduce una idea contraria; no sirve para ordenar acciones en secuencia."><div class="opt-letter">B</div>He woke up. Although, he had breakfast. He left the house.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! 'First... Then... Finally...' son conectores de secuencia temporal que ordenan los eventos cronológicamente."><div class="opt-letter">C</div>First, he woke up. Then, he had breakfast. Finally, he left the house.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. 'Because' expresa causa; 'In addition' añade información paralela. Ninguno de los dos ordena eventos en el tiempo."><div class="opt-letter">D</div>Because he woke up. In addition, he had breakfast. He left the house.</button>
+          </div>
+          <div class="q-feedback" id="fb-q02"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q03" data-correct="A">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 3</div><div class="diff diff-b">Básico</div></div>
+          <div class="ex-stmt">Which sentence is grammatically CORRECT?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! 'She didn't go' usa correctamente: auxiliar 'didn't' + infinitivo 'go'. La oración es negativa en pasado simple."><div class="opt-letter">A</div>She didn't go to school yesterday.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Después de 'didn't' se usa el infinitivo, no el pasado. Debe ser: She didn't GO (no 'went')."><div class="opt-letter">B</div>She didn't went to school yesterday.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. En pasado afirmativo con sujeto singular, 'go' se convierte en 'went'. No se agrega -s. Además 'goed' no existe."><div class="opt-letter">C</div>She goed to school yesterday.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. En pasado simple interrogativo se usa 'Did' como auxiliar: 'Did she go?' (no se usa 'goes' en el pasado)."><div class="opt-letter">D</div>Did she goes to school yesterday?</button>
+          </div>
+          <div class="q-feedback" id="fb-q03"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── NIVEL INTERMEDIO (4–7) ── -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <div class="ex-level-badge">Nivel Intermedio</div>
+        <h3>Organización de párrafos, conectores informativos y estructura narrativa</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item q-item" id="q04" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 4</div><div class="diff diff-m">Intermedio</div></div>
+          <div class="ex-stmt">Read the paragraph. Which sentence should be the TOPIC SENTENCE (first sentence) of an informative paragraph about penguins?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Esta oración da un detalle específico (el tamaño de la especie más pequeña) que sería una idea de apoyo, no la idea principal del párrafo."><div class="opt-letter">A</div>The smallest penguin species is only 40 centimeters tall.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Que algunos pingüinos vivan en Chile es un detalle de ubicación geográfica, no una afirmación general que introduzca el tema."><div class="opt-letter">B</div>Some penguins can be found in Chile and the Galápagos Islands.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! Una buena topic sentence introduce el tema general del párrafo. Esta frase establece el tema (pingüinos) y una afirmación general (fascinantes e interesantes aves) que el resto del párrafo desarrollará."><div class="opt-letter">C</div>Penguins are fascinating birds with unique characteristics that allow them to survive in extreme environments.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Esta oración cierra una idea (los pingüinos son peligrosos) que es demasiado específica y valorativa para abrir un párrafo informativo general."><div class="opt-letter">D</div>Therefore, penguins are considered one of the most dangerous birds.</button>
+          </div>
+          <div class="q-feedback" id="fb-q04"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q05" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 5</div><div class="diff diff-m">Intermedio</div></div>
+          <div class="ex-stmt">Choose the connector that best completes the informative sentence:<br><em>"Chile has a long coastline. _____, the country has a very important fishing industry."</em></div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'However' introduce un contraste o contradicción. Tener costa larga y tener industria pesquera no son ideas opuestas."><div class="opt-letter">A</div>However</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! 'As a result' (como resultado) indica que la industria pesquera es consecuencia lógica de tener una larga costa. Expresa causa-efecto."><div class="opt-letter">B</div>As a result</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'Although' introduce una idea contraria o concesión; no sirve para mostrar consecuencia lógica."><div class="opt-letter">C</div>Although</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. 'For example' introduce un ejemplo concreto; la industria pesquera no es un ejemplo de tener costa, sino su consecuencia."><div class="opt-letter">D</div>For example</button>
+          </div>
+          <div class="q-feedback" id="fb-q05"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q06" data-correct="D">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 6</div><div class="diff diff-m">Intermedio</div></div>
+          <div class="ex-stmt">Read the story beginning. Which option correctly identifies the NARRATIVE PART shown?<br></div>
+          <div class="ex-text-box">
+            <div class="etb-label">READ</div>
+            <p><em>"It was a cold Tuesday in July. Pedro, a 16-year-old student from Concepción, was walking home from school when he noticed a strange dog following him."</em></p>
+          </div>
+          <div class="ex-stmt">This excerpt is the:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El clímax es el momento de mayor tensión de la historia. Aquí apenas se presenta la situación inicial; no hay tensión máxima todavía."><div class="opt-letter">A</div>Climax — the moment of highest tension</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. La resolución es el final, cuando el problema se resuelve. En este fragmento aún no hay problema ni solución; solo se presenta el contexto."><div class="opt-letter">B</div>Resolution — the end of the story</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. La 'rising action' son los eventos que desarrollan el conflicto después de que el problema ya fue presentado. Aquí aún no ha surgido ningún conflicto."><div class="opt-letter">C</div>Rising action — events that develop the conflict</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="¡Correcto! El 'setting' (ambientación) presenta el cuándo (Tuesday in July), dónde (Concepción) y quién (Pedro, 16 años). Introduce el contexto antes de que comience el conflicto."><div class="opt-letter">D</div>Setting — the introduction of time, place and characters</button>
+          </div>
+          <div class="q-feedback" id="fb-q06"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q07" data-correct="A">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 7</div><div class="diff diff-m">Intermedio</div></div>
+          <div class="ex-stmt">Which version of the text is BETTER written and WHY?</div>
+          <div class="ex-text-box">
+            <div class="etb-label">VERSION A</div>
+            <p><em>"Last Saturday, I visited the museum with my family. First, we saw the ancient Egyptian exhibition. Then, we had lunch in the café. Finally, we watched a short documentary about dinosaurs. It was an amazing day."</em></p>
+          </div>
+          <div class="ex-text-box" style="background:#fff5f5; border-color:#e0a0a0;">
+            <div class="etb-label" style="background:#c0392b;">VERSION B</div>
+            <p><em>"Last Saturday I visited the museum and we saw the Egyptian exhibition and we had lunch and we watched a documentary and it was amazing."</em></p>
+          </div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! La Versión A usa conectores variados (First, Then, Finally), oraciones cortas y claras, y vocabulario preciso. Fluye mejor y es más fácil de leer."><div class="opt-letter">A</div>Version A, because it uses varied connectors and has a clear sequence of events</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. La Versión B repite 'and' como único conector, lo que hace el texto monótono, difícil de leer y poco organizado."><div class="opt-letter">B</div>Version B, because it uses 'and' to connect all ideas smoothly</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Las dos versiones NO son equivalentes. La Versión A está claramente mejor estructurada con conectores variados y oraciones bien divididas."><div class="opt-letter">C</div>Both versions are equally correct and communicate the same idea</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. La Versión B no es más formal; de hecho, es más informal y mal estructurada por el uso repetitivo de 'and'."><div class="opt-letter">D</div>Version B, because it is more formal and professional</button>
+          </div>
+          <div class="q-feedback" id="fb-q07"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── NIVEL AVANZADO (8–10) ── -->
+    <div class="ex-section">
+      <div class="ex-section-head">
+        <div class="ex-level-badge">Nivel Avanzado</div>
+        <h3>Análisis crítico de textos escritos: coherencia, cohesión y mejoras</h3>
+      </div>
+      <div class="ex-section-body">
+
+        <div class="ex-item q-item" id="q08" data-correct="C">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 8</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-text-box">
+            <div class="etb-label">READ — Student's paragraph (with errors)</div>
+            <p><em>"Volcanoes is very interesting natural phenomena. Chile have more than 90 active volcanoes. For example, the Villarrica volcano erupted in 2015. Although, it is one of the most active in South America. Many tourist visit the area every year."</em></p>
+          </div>
+          <div class="ex-stmt">How many grammatical errors does this paragraph contain?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Hay más de un error. Busca: concordancia sujeto-verbo (Volcanoes is → are), (Chile have → has), uso incorrecto de 'Although' y (tourist → tourists)."><div class="opt-letter">A</div>One — only "is" should be "are"</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Hay al menos cuatro errores: Volcanoes is / Chile have / Although (mal usado) / tourist. Revisa cada oración."><div class="opt-letter">B</div>Two — "is" and "have"</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! Los 4 errores son: (1) 'Volcanoes is' → 'are'; (2) 'Chile have' → 'has'; (3) 'Although' mal usado (debería ser 'In fact' o 'Furthermore'); (4) 'tourist' → 'tourists'."><div class="opt-letter">C</div>Four — subject-verb agreement (×2), wrong connector, missing plural</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. No hay cinco errores; los identificables son cuatro. El tiempo verbal está correcto (pasado para el volcán Villarrica)."><div class="opt-letter">D</div>Five — including a wrong verb tense in every sentence</button>
+          </div>
+          <div class="q-feedback" id="fb-q08"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q09" data-correct="B">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 9</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-text-box">
+            <div class="etb-label">READ — Story excerpt</div>
+            <p><em>"Last night, Camila heard a noise outside her window. She opened the curtains carefully. _____, the garden was empty. _____, she heard the noise again, this time closer. Her hands started to shake."</em></p>
+          </div>
+          <div class="ex-stmt">Which pair of connectors best completes the story to create TENSION and CONTRAST?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'Furthermore' y 'As a result' son conectores informativos (adición y causa-efecto). No crean la tensión ni el contraste dramático que la historia necesita."><div class="opt-letter">A</div>Furthermore / As a result</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! 'At first' introduce la situación inicial (el jardín vacío), y 'However' crea el contraste dramático (pero luego volvió a oírlo). Esta combinación genera tensión narrativa."><div class="opt-letter">B</div>At first / However</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'For example' introduce un ejemplo y 'In addition' añade información; ninguno de los dos genera el giro inesperado que la narrativa requiere."><div class="opt-letter">C</div>For example / In addition</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. 'First' ordena pasos y 'Finally' cierra una secuencia; dan un tono de lista de instrucciones, no de tensión narrativa."><div class="opt-letter">D</div>First / Finally</button>
+          </div>
+          <div class="q-feedback" id="fb-q09"></div>
+        </div>
+
+        <div class="ex-item q-item" id="q10" data-correct="D">
+          <div class="ex-header-row"><div class="ex-num-label">Ejercicio 10</div><div class="diff diff-a">Avanzado</div></div>
+          <div class="ex-text-box">
+            <div class="etb-label">READ — Informative paragraph</div>
+            <p><em>"Water is essential for all living things. Without water, no organism can survive more than a few days. _____, the world is facing a serious freshwater crisis. According to the United Nations, two billion people currently live in countries experiencing high water stress. _____, experts warn that this situation will worsen due to climate change and population growth."</em></p>
+          </div>
+          <div class="ex-stmt">Which pair of connectors gives the paragraph the best LOGICAL FLOW?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'For example' no funciona aquí porque la crisis del agua no es un ejemplo de que el agua es esencial; es una consecuencia. 'Although' introduce contraste, pero la segunda frase es una consecuencia, no una contradicción."><div class="opt-letter">A</div>For example / Although</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. 'However' introduce contraste; no tiene sentido pasar de 'el agua es esencial' a 'sin embargo, hay crisis' como si fueran opuestos directos. 'In addition' añadiría una idea paralela, pero 'Furthermore' funciona mejor para intensificar la advertencia."><div class="opt-letter">B</div>However / In addition</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'First' es un conector de secuencia temporal y 'Finally' cierra una serie; ninguno de los dos funciona para conectar argumentos en un texto informativo analítico."><div class="opt-letter">C</div>First / Finally</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="¡Correcto! 'Despite this' (a pesar de esto) introduce el contraste entre la importancia del agua y la crisis que enfrenta. 'Furthermore' (además) añade y refuerza la advertencia de los expertos. Ambos dan coherencia lógica al párrafo."><div class="opt-letter">D</div>Despite this / Furthermore</button>
+          </div>
+          <div class="q-feedback" id="fb-q10"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── AUTOEVALUACIÓN ── -->
+    <div class="autoeval">
+      <div class="autoeval-head"><h3>✦ Autoevaluación — ¿Qué aprendí hoy?</h3></div>
+      <table class="autoeval-tbl">
+        <thead><tr>
+          <th style="text-align:left; width:64%">Indicador de aprendizaje</th>
+          <th>Lo logré ✓</th><th>En proceso ~</th><th>Lo necesito ✗</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Conjugo verbos regulares e irregulares en pasado simple correctamente</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Identifico y uso conectores de secuencia, causa-efecto y contraste</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Organizo una historia usando la estructura: Setting–Problem–Action–Climax–Resolution</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Escribo párrafos informativos con topic sentence, ideas de apoyo y conclusión</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+          <tr><td>Identifico y corrijo errores de concordancia sujeto-verbo y uso de conectores</td><td class="cbox">☐</td><td class="cbox">☐</td><td class="cbox">☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     PÁGINA 4 — ENSAYO PAES INTERACTIVO + SOLUCIONARIO
+     IDs: q11–q20
+════════════════════════════════════════════════ -->
+<div class="page pb">
+  <div class="header">
+    <img src="../../logo.png" class="header-logo" alt="Logo MaestrIA" />
+    <div class="header-right">
+      <strong>Ensayo Tipo PAES</strong>
+      Writing OA13 · 1° Medio<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a>
+    </div>
+  </div>
+
+  <div style="padding:22px 30px 30px;">
+
+    <div class="paes-wrap">
+      <div class="paes-head">
+        <div class="paes-badge">Ensayo tipo PAES — 10 preguntas interactivas</div>
+        <p>Writing OA13 · Una alternativa correcta · Tiempo sugerido: 25 min · Se permite usar diccionario</p>
+      </div>
+      <div class="paes-body">
+
+        <!-- Texto base para preguntas 1–5 -->
+        <div class="paes-text-block">
+          <h4>Text 1 — Read the story and answer questions 1 to 5</h4>
+          <p>Last March, a group of five students from a school in Santiago decided to participate in a regional science fair. (A) Their project was about water filtration using natural materials. They worked every afternoon for three weeks, testing different combinations of sand, gravel, and charcoal.</p>
+          <p>On the day of the fair, everything seemed to go wrong. Their filter broke during the demonstration, and the judges were already walking toward their table. (B) _____, one of the students, Valentina, kept calm and quickly explained the science behind the design, even without the working model.</p>
+          <p>The judges were so impressed by her explanation that they awarded the team second place. (C) _____, the experience taught all five students that preparation and teamwork matter more than perfection. They celebrated with pizza that night, already planning their project for next year.</p>
+          <div class="text-source">Original narrative text for comprehension and writing analysis. Level: 1° Medio · OA 13</div>
+        </div>
+
+        <div class="paes-item q-item" id="q11" data-correct="A">
+          <div class="paes-num">Pregunta 1</div>
+          <div class="paes-stmt">The first paragraph of the story presents the:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! El primer párrafo es el 'setting': presenta a los personajes (cinco estudiantes), el contexto (Santiago, feria de ciencias) y el proyecto (filtración de agua). Esto es la ambientación."><div class="opt-letter">A</div>Setting — characters, context and initial situation</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El clímax es el momento de mayor tensión. En el primer párrafo no hay tensión; el conflicto aún no ha ocurrido."><div class="opt-letter">B</div>Climax — the most intense moment of the story</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. La resolución es el final de la historia. El primer párrafo es introductorio, no conclusivo."><div class="opt-letter">C</div>Resolution — how the problem is solved</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. La 'rising action' implica que el problema ya fue presentado y los eventos se complican. En el primer párrafo aún no hay ningún conflicto."><div class="opt-letter">D</div>Rising action — events that develop after the problem begins</button>
+          </div>
+          <div class="q-feedback" id="fb-q11"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q12" data-correct="C">
+          <div class="paes-num">Pregunta 2</div>
+          <div class="paes-stmt">The moment when the filter broke and the judges were approaching (second paragraph) represents the:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. El setting es la introducción. En este punto ya estamos en medio de la historia con el problema activo."><div class="opt-letter">A</div>Setting of the story</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. La resolución es el momento en que el problema se soluciona. Aquí el problema acaba de ocurrir y aún no está resuelto."><div class="opt-letter">B</div>Resolution of the conflict</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! El clímax es el punto de mayor tensión: el filtro se rompe justo cuando los jueces se acercan. Es el momento decisivo de la historia."><div class="opt-letter">C</div>Climax — the moment of highest tension in the story</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El 'setting' es la introducción; el filtro roto es el clímax, el momento de mayor tensión."><div class="opt-letter">D</div>Introduction to the setting and characters</button>
+          </div>
+          <div class="q-feedback" id="fb-q12"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q13" data-correct="B">
+          <div class="paes-num">Pregunta 3</div>
+          <div class="paes-stmt">Which connector best fills blank (B) in the second paragraph to show Valentina's reaction CONTRASTS with the bad situation?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'As a result' indica consecuencia. Aquí no se dice que la calma de Valentina es consecuencia del problema; se contrasta con el problema."><div class="opt-letter">A</div>As a result</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! 'Despite this' (a pesar de esto) muestra que Valentina reaccionó con calma en contraste con la situación caótica. Es el conector de contraste perfecto aquí."><div class="opt-letter">B</div>Despite this</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'For example' introduce un ejemplo. La calma de Valentina no es un ejemplo de que todo salió mal; es lo contrario."><div class="opt-letter">C</div>For example</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. 'Furthermore' añade información adicional del mismo tipo. Aquí se necesita un contraste, no una adición."><div class="opt-letter">D</div>Furthermore</button>
+          </div>
+          <div class="q-feedback" id="fb-q13"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q14" data-correct="D">
+          <div class="paes-num">Pregunta 4</div>
+          <div class="paes-stmt">Which connector best fills blank (C) to introduce the LESSON LEARNED and signal the end of the story?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'However' introduce una contradicción o contraste. La lección aprendida no contradice el hecho de ganar el segundo lugar; lo complementa."><div class="opt-letter">A</div>However</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. 'First' ordena pasos en una secuencia. No sirve para introducir una reflexión final al cierre de una historia."><div class="opt-letter">B</div>First</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'For instance' introduce un ejemplo. La lección aprendida es una conclusión, no un ejemplo."><div class="opt-letter">C</div>For instance</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="¡Correcto! 'In addition' podría funcionar, pero 'Moreover' añade con énfasis. Sin embargo, la mejor opción aquí es 'Moreover' porque refuerza y cierra la reflexión final de la historia con el sentido de 'más aún, lo más importante fue...'"><div class="opt-letter">D</div>Moreover</button>
+          </div>
+          <div class="q-feedback" id="fb-q14"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q15" data-correct="A">
+          <div class="paes-num">Pregunta 5</div>
+          <div class="paes-stmt">The sentence "They celebrated with pizza that night, already planning their project for next year" is part of the story's:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! Esta oración es la resolución: el conflicto (el filtro roto) ya fue superado, los estudiantes celebran y miran hacia el futuro. El problema está resuelto y la historia termina."><div class="opt-letter">A</div>Resolution — the conflict is resolved and the story ends</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. El problema (conflict/problem) es cuando el filtro se rompe. Celebrar con pizza es el estado posterior a la resolución."><div class="opt-letter">B</div>Problem — the conflict that starts the story</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. El clímax ya pasó (el filtro roto frente a los jueces). Celebrar es la consecuencia positiva de haber superado ese momento."><div class="opt-letter">C</div>Climax — the point of highest tension</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El setting es el primer párrafo donde se presentan los personajes y la situación. Esta oración cierra la historia, no la abre."><div class="opt-letter">D</div>Setting — the introduction of time and place</button>
+          </div>
+          <div class="q-feedback" id="fb-q15"></div>
+        </div>
+
+        <!-- Preguntas 6–10: análisis de escritura -->
+        <div class="paes-text-block" style="margin-top:20px;">
+          <h4>Questions 6 to 10 — Grammar and Writing Analysis</h4>
+          <p style="font-size:9pt; color:#555;">Each question presents a writing situation. Choose the best answer.</p>
+        </div>
+
+        <div class="paes-item q-item" id="q16" data-correct="C">
+          <div class="paes-num">Pregunta 6</div>
+          <div class="paes-stmt">Choose the sentence that is written CORRECTLY:</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'She don't' es incorrecto para 3ª persona singular en presente. Debe ser 'She doesn't like'."><div class="opt-letter">A</div>She don't like horror movies.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Después de 'didn't', el verbo debe estar en infinitivo, no en pasado. Debe ser: 'He didn't study' (no 'studied')."><div class="opt-letter">B</div>He didn't studied for the test.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! La oración está bien escrita: sujeto (They) + pasado irregular (found) + complemento. Es una oración afirmativa en pasado simple correctamente formada."><div class="opt-letter">C</div>They found an old map in the attic.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. En interrogativo pasado con 'Did', el verbo principal va en infinitivo: 'Did you see?' (no 'saw')."><div class="opt-letter">D</div>Did you saw the game last night?</button>
+          </div>
+          <div class="q-feedback" id="fb-q16"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q17" data-correct="B">
+          <div class="paes-num">Pregunta 7</div>
+          <div class="paes-stmt">A student wants to add information to support the idea: <em>"Exercise is important for teenagers."</em> Which sentence works BEST as a supporting detail?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Esta oración habla de ejercicio para adultos mayores; no apoya directamente la idea sobre los adolescentes."><div class="opt-letter">A</div>Many elderly people prefer swimming as their main form of exercise.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="¡Correcto! Esta oración da un dato específico que respalda la afirmación. Menciona directamente a los 'teenagers' y proporciona una estadística sobre los beneficios del ejercicio."><div class="opt-letter">B</div>Studies show that teenagers who exercise regularly have better concentration and lower stress levels.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Hablar de comida chatarra es un tema relacionado con la salud, pero no apoya directamente la idea de que el ejercicio es importante."><div class="opt-letter">C</div>Junk food is one of the main causes of obesity among young people.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Esto es una opinión subjetiva que no aporta evidencia ni datos concretos para apoyar la afirmación principal."><div class="opt-letter">D</div>Exercise is fun and everyone should do it every day.</button>
+          </div>
+          <div class="q-feedback" id="fb-q17"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q18" data-correct="D">
+          <div class="paes-num">Pregunta 8</div>
+          <div class="paes-stmt">Which sentence correctly uses the connector "although"?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. 'Although' introduce una cláusula subordinada (con sujeto y verbo), no una frase nominal. Aquí debería usarse 'Despite his tiredness'."><div class="opt-letter">A</div>Although his tiredness, he kept running.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Con 'although' al inicio de la oración, la segunda parte debe ir sin conector. No se necesita 'but': 'Although she studied, she failed' (sin 'but')."><div class="opt-letter">B</div>Although she studied, but she failed the exam.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. 'Although' introduce contraste (una concesión). Aquí no hay contraste; las dos ideas son coherentes (estudiarse mucho y aprobar). Debería usarse 'because' o 'since'."><div class="opt-letter">C</div>Although he studied hard, he passed the exam.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="¡Correcto! 'Although it was raining' introduce la condición adversa y 'they decided to play' es la acción contraria a lo esperado. Hay contraste real y la estructura gramatical es correcta."><div class="opt-letter">D</div>Although it was raining, they decided to play outside.</button>
+          </div>
+          <div class="q-feedback" id="fb-q18"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q19" data-correct="A">
+          <div class="paes-num">Pregunta 9</div>
+          <div class="paes-stmt">A student is writing an informative paragraph about climate change. Which is the BEST concluding sentence for the paragraph?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="¡Correcto! Una buena conclusión retoma la idea principal (el cambio climático es un desafío urgente) y da un mensaje final o llamado a la acción (se necesitan medidas colectivas). No introduce ideas nuevas."><div class="opt-letter">A</div>In conclusion, addressing climate change requires urgent collective action from governments, businesses, and individuals around the world.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Una conclusión no debe introducir información nueva. Esta oración comienza a hablar de política energética específica, lo que sería una idea nueva para desarrollar, no una conclusión."><div class="opt-letter">B</div>Furthermore, solar energy is becoming cheaper every year and many countries are investing in it.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="Incorrecto. Esta oración retrocede al inicio (First) en lugar de cerrar. Una conclusión mira hacia adelante o resume, no regresa al principio del argumento."><div class="opt-letter">C</div>First, scientists discovered that the Earth's temperature has increased over the last century.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. El cambio climático es el tema central del párrafo. Decir 'no importa tanto' en la conclusión contradice completamente el propósito del texto informativo."><div class="opt-letter">D</div>However, some people believe that climate change is not a serious problem and doesn't require immediate attention.</button>
+          </div>
+          <div class="q-feedback" id="fb-q19"></div>
+        </div>
+
+        <div class="paes-item q-item" id="q20" data-correct="C">
+          <div class="paes-num">Pregunta 10</div>
+          <div class="paes-stmt">Which writing task is an example of NARRATIVE writing (not informative)?</div>
+          <div class="opts">
+            <button class="btn-opt" onclick="pick(this)" data-letter="A" data-msg="Incorrecto. Explicar el proceso de reciclaje con pasos y datos es escritura informativa / expositiva, no narrativa."><div class="opt-letter">A</div>Write a paragraph explaining how recycling helps the environment, using data and examples.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="B" data-msg="Incorrecto. Describir las características del calentamiento global con causas y efectos es escritura informativa / analítica."><div class="opt-letter">B</div>Write a description of global warming, including its main causes and effects on ecosystems.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="C" data-msg="¡Correcto! Escribir sobre 'the most exciting day of your life' es narrativo: cuenta una historia personal con personajes (tú), eventos, emociones, una secuencia temporal y un desenlace."><div class="opt-letter">C</div>Write a story about the most exciting day of your life, including what happened, how you felt, and what you learned.</button>
+            <button class="btn-opt" onclick="pick(this)" data-letter="D" data-msg="Incorrecto. Comparar dos países usando datos y tablas es escritura informativa / comparativa."><div class="opt-letter">D</div>Write a comparison between two countries, using facts, statistics, and a table of data.</button>
+          </div>
+          <div class="q-feedback" id="fb-q20"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Puntaje final -->
+    <div id="score-final" style="margin-top:16px; padding:12px 16px; background:#f8f4e9; border-radius:8px; border:1.5px solid #D4AF37; font-size:10pt; display:none;">
+      <strong>Tu puntaje final:</strong> <span id="score-text"></span>
+    </div>
+
+    <!-- Cierre -->
+    <div class="closing" style="margin-top:16px;">
+      <h3>Resumen — Lo que aprendiste hoy</h3>
+      <p>En esta guía trabajaste la escritura en inglés en sus dos grandes modalidades: narrativa (historias con estructura Setting–Problem–Rising Action–Climax–Resolution) e informativa (párrafos con topic sentence, ideas de apoyo y conclusión). Practicaste el Past Simple, los conectores más usados y aprendiste a reconocer y corregir los errores más frecuentes.</p>
+      <p>En el examen, si te piden completar un texto con el conector correcto, analiza la relación entre las ideas: ¿son ideas que se suman? (Furthermore, Also) · ¿Son opuestas? (However, Although, Despite) · ¿Una causa a la otra? (As a result, Therefore). El contexto siempre te dará la pista.</p>
+      <div class="next-pill">Siguiente tema → OA 16 · Writing: Funciones del Lenguaje</div>
+    </div>
+
+    <!-- Botón exportar PDF -->
+    <div style="text-align:center; margin-top:20px;">
+      <button class="btn-pdf no-print" onclick="exportPDF()" style="background:#D4AF37; color:#0B0F3F; border:none; padding:10px 28px; border-radius:8px; font-size:10pt; font-weight:700; cursor:pointer;">
+        📄 Exportar PDF con respuestas
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Solucionario -->
+  <div class="pdf-sol page" style="padding:24px 30px;">
+    <h3 style="color:#0B0F3F; margin-bottom:12px;">✦ Solucionario — Inglés OA13 · Writing: Historias e Información</h3>
+    <table style="width:100%; border-collapse:collapse; font-size:8.5pt;">
+      <thead><tr style="background:#0B0F3F; color:#fff;">
+        <th style="padding:5px 8px; text-align:left;">Ejercicio</th>
+        <th style="padding:5px 8px;">Rpta.</th>
+        <th style="padding:5px 8px; text-align:left;">Clave</th>
+        <th style="padding:5px 8px; text-align:left;">Pregunta PAES</th>
+        <th style="padding:5px 8px;">Rpta.</th>
+        <th style="padding:5px 8px; text-align:left;">Clave</th>
+      </tr></thead>
+      <tbody>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">1</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">went/bought (verbos irregulares en pasado)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">1</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Setting: personajes, contexto, situación inicial</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">2</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">First/Then/Finally = conectores de secuencia</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">2</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Clímax: filtro roto frente a los jueces</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">3</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">didn't go (negativo: didn't + infinitivo)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">3</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"Despite this" = contraste con la situación caótica</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">4</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Topic sentence: afirmación general que introduce el párrafo</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">4</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">D</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"Moreover" para reforzar y cerrar la reflexión final</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">5</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"As a result" = causa-efecto (costa larga → industria)</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">5</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Resolución: conflicto superado, historia termina</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">6</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">D</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Setting = tiempo, lugar y personajes</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">6</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"They found" = oración correcta en pasado simple</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">7</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Versión A: conectores variados, secuencia clara</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">7</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Dato específico sobre adolescentes y ejercicio</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">8</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">4 errores: are/has/conector/tourists</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">8</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">D</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"Although it was raining, they..." = contraste correcto</td></tr>
+        <tr style="background:#f8f4e9;"><td style="padding:4px 8px; border-bottom:1px solid #ddd;">9</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">B</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"At first/However" = contraste narrativo = tensión</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">9</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">A</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Conclusión: resume + mensaje final sin ideas nuevas</td></tr>
+        <tr><td style="padding:4px 8px; border-bottom:1px solid #ddd;">10</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">D</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">"Despite this/Furthermore" = flujo lógico informativo</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">10</td><td style="padding:4px 8px; border-bottom:1px solid #ddd; text-align:center; font-weight:700;">C</td><td style="padding:4px 8px; border-bottom:1px solid #ddd;">Historia personal = escritura narrativa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a><br>
+      Material conforme al currículum MINEDUC · 1° Medio · 2026
+    </div>
+  </div>
+</div>
+
+<!-- Barra de puntaje sticky -->
+<div class="score-bar no-print" id="score-bar">Progreso: 0 / 20 preguntas respondidas &nbsp;|&nbsp; Puntaje: 0 correctas</div>
+
+<script>
+(function () {
+  const GUIDE_ID = 'maestria_OA13_WritingHistorias';
+
+  let progress = {};
+  try { progress = JSON.parse(localStorage.getItem(GUIDE_ID) || '{}'); } catch(e) {}
+
+  let correctCount  = 0;
+  let answeredCount = 0;
+  const TOTAL = 20;
+
+  function updateBar() {
+    const bar = document.getElementById('score-bar');
+    if (bar) bar.textContent = 'Progreso: ' + answeredCount + ' / ' + TOTAL + ' respondidas  |  Puntaje: ' + correctCount + ' correctas';
+    if (answeredCount === TOTAL) showFinalScore();
+  }
+
+  function showFinalScore() {
+    const el  = document.getElementById('score-final');
+    const txt = document.getElementById('score-text');
+    if (el && txt) {
+      const pct = Math.round((correctCount / TOTAL) * 100);
+      const label = pct >= 70 ? '✅ ¡Buen trabajo!' : pct >= 50 ? '🔶 En proceso, sigue repasando.' : '🔴 Refuerza los contenidos.';
+      txt.textContent = correctCount + ' / ' + TOTAL + ' correctas (' + pct + '%)  ' + label;
+      el.style.display = 'block';
+    }
+  }
+
+  window.pick = function(btn) {
+    const qItem = btn.closest('.q-item');
+    const qId   = qItem.id;
+    if (progress[qId]) return;
+
+    const correct   = qItem.dataset.correct;
+    const letter    = btn.dataset.letter;
+    const msg       = btn.dataset.msg;
+    const isCorrect = letter === correct;
+
+    qItem.querySelectorAll('.btn-opt').forEach(function(b) {
+      b.disabled = true;
+      if (b.dataset.letter === correct) b.classList.add('opt-correct-reveal');
+    });
+    btn.classList.add(isCorrect ? 'opt-selected-ok' : 'opt-selected-err');
+
+    const fb = document.getElementById('fb-' + qId);
+    if (fb) {
+      fb.className     = 'q-feedback ' + (isCorrect ? 'fb-ok' : 'fb-err');
+      fb.textContent   = msg;
+      fb.style.display = 'block';
+    }
+
+    progress[qId] = { letter, correct, isCorrect, msg };
+    try { localStorage.setItem(GUIDE_ID, JSON.stringify(progress)); } catch(e) {}
+
+    if (isCorrect) correctCount++;
+    answeredCount++;
+    updateBar();
+  };
+
+  function restore() {
+    Object.entries(progress).forEach(function([qId, data]) {
+      const qItem = document.getElementById(qId);
+      if (!qItem) return;
+      qItem.querySelectorAll('.btn-opt').forEach(function(b) {
+        b.disabled = true;
+        if (b.dataset.letter === data.correct)                   b.classList.add('opt-correct-reveal');
+        if (b.dataset.letter === data.letter && !data.isCorrect) b.classList.add('opt-selected-err');
+        if (b.dataset.letter === data.letter &&  data.isCorrect) b.classList.add('opt-selected-ok');
+      });
+      const fb = document.getElementById('fb-' + qId);
+      if (fb) {
+        fb.className     = 'q-feedback ' + (data.isCorrect ? 'fb-ok' : 'fb-err');
+        fb.textContent   = data.msg || '';
+        fb.style.display = 'block';
+      }
+      if (data.isCorrect) correctCount++;
+      answeredCount++;
+    });
+    updateBar();
+  }
+
+  window.exportPDF = function() {
+    document.querySelectorAll('.q-item').forEach(function(q) {
+      const btn = q.querySelector('[data-letter="' + q.dataset.correct + '"]');
+      if (btn) btn.classList.add('opt-correct-reveal');
+    });
+    document.body.classList.add('pdf-mode');
+    window.print();
+    window.addEventListener('afterprint', function cleanup() {
+      document.body.classList.remove('pdf-mode');
+      window.removeEventListener('afterprint', cleanup);
+    }, { once: true });
+  };
+
+  document.addEventListener('DOMContentLoaded', restore);
+})();
+</script>
+
+</body>
+</html>

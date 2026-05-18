@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introducción al álgebra — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.15rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .algebra-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .algebra-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .algebra-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .algebra-table tr:nth-child(even){background:#f8f4e9;}
+    .algebra-table td.center{text-align:center;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:300px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+
+    canvas.dist-canvas{width:100%;height:280px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué es el álgebra?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Introducción al álgebra y producto de binomios</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Variables y términos</span>
+    <span class="chip">Distributividad</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Reconocer el <strong>lenguaje algebraico</strong> (variables, términos, expresiones, binomios) y aplicar la <strong>propiedad distributiva</strong> para multiplicar polinomios, como base para entender los productos notables.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es el álgebra?</div>
+
+      <p>El álgebra es la <strong>generalización de la aritmética</strong>. En lugar de trabajar con números fijos (3, 7, \(\dfrac{2}{5}\)), usamos <strong>letras</strong> (como \(x\), \(y\), \(a\), \(b\)) que representan números cualesquiera.</p>
+
+      <p>¿Por qué? Porque así podemos escribir <strong>fórmulas universales</strong> que valen para cualquier valor. Por ejemplo:</p>
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li>Área de un cuadrado: \(A = l^2\) sirve para cualquier lado \(l\).</li>
+        <li>Perímetro de un rectángulo: \(P = 2(a+b)\) vale para cualquier base \(a\) y altura \(b\).</li>
+        <li>Conversión de Celsius a Fahrenheit: \(F = 1{,}8 \cdot C + 32\) sirve para cualquier temperatura.</li>
+      </ul>
+
+      <p>Sin álgebra, tendrías que reescribir la fórmula cada vez que cambiara un número.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Vocabulario básico</div>
+
+      <table class="algebra-table">
+        <thead><tr><th>Término</th><th>Significado</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Variable</strong></td><td>Letra que representa un número.</td><td>\(x\), \(y\), \(a\), \(n\)</td></tr>
+          <tr><td><strong>Coeficiente</strong></td><td>Número que multiplica a la variable.</td><td>En \(5x\), el coeficiente es \(5\).</td></tr>
+          <tr><td><strong>Término</strong></td><td>Producto de un número y variables (sin sumas/restas adentro).</td><td>\(5x\), \(-3y^2\), \(7\) (constante).</td></tr>
+          <tr><td><strong>Monomio</strong></td><td>Un solo término.</td><td>\(5x\), \(4xy\), \(-7a^2\)</td></tr>
+          <tr><td><strong>Binomio</strong></td><td>Suma o resta de dos términos.</td><td>\(x+3\), \(2a-b\), \(x^2+5\)</td></tr>
+          <tr><td><strong>Trinomio</strong></td><td>Tres términos.</td><td>\(x^2+5x+6\)</td></tr>
+          <tr><td><strong>Polinomio</strong></td><td>Suma de varios términos.</td><td>\(x^3-2x^2+x-7\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Términos semejantes y reducción
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Términos semejantes y reducción</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Reducir expresiones</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué son términos semejantes?</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Términos semejantes</div>
+        <div class="prop-formula">Mismas variables elevadas a los mismos exponentes</div>
+        <div class="prop-words">Solo pueden diferir en su coeficiente. Son los únicos términos que se pueden <strong>sumar o restar entre sí</strong>.</div>
+      </div>
+
+      <table class="algebra-table">
+        <thead><tr><th>¿Son semejantes?</th><th>Términos</th><th>¿Por qué?</th></tr></thead>
+        <tbody>
+          <tr><td class="center"><strong>Sí</strong></td><td>\(3x\) y \(7x\)</td><td>Mismo \(x\) elevado a 1.</td></tr>
+          <tr><td class="center"><strong>Sí</strong></td><td>\(-5x^2\) y \(\dfrac{2}{3}x^2\)</td><td>Misma variable \(x\) elevada a 2.</td></tr>
+          <tr><td class="center"><strong>Sí</strong></td><td>\(4xy\) y \(-9xy\)</td><td>Mismas \(x\) y \(y\), ambas elevadas a 1.</td></tr>
+          <tr><td class="center"><strong>No</strong></td><td>\(5x\) y \(5x^2\)</td><td>Mismo \(x\) pero distinto exponente.</td></tr>
+          <tr><td class="center"><strong>No</strong></td><td>\(2xy\) y \(2x\)</td><td>Una tiene \(y\) y la otra no.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Reducción de términos semejantes</div>
+
+      <p>Para sumar o restar términos semejantes, <strong>se suman o restan los coeficientes</strong> y se conservan las variables.</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(3x + 7x = (3+7)x = 10x\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(8a^2 - 5a^2 = (8-5)a^2 = 3a^2\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(5xy + 3x - 2xy + 4 = (5-2)xy + 3x + 4 = 3xy + 3x + 4\).</span>
+      </div>
+
+      <div class="card card-warn">
+        <span class="card-label">No te dejes engañar</span>
+        \(3x + 4y\) NO se puede reducir, porque \(x\) y \(y\) son variables distintas. Queda igual: \(3x + 4y\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>El signo "−" delante de un paréntesis</div>
+
+      <p>Cuando hay un \(-\) antes de un paréntesis, se <strong>invierten</strong> los signos de todos los términos al expandir:</p>
+      <div class="math-block">
+        <span class="math-step">\(-(2x - 5y + 7) = -2x + 5y - 7\).</span>
+        <span class="math-step">\(10a - (3a + 4b) = 10a - 3a - 4b = 7a - 4b\).</span>
+        <span class="math-step">\(8 - (x - 3) = 8 - x + 3 = 11 - x\).</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Propiedad distributiva con literales
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Propiedad distributiva con letras</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Monomio · binomio</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Repaso: distributiva</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Propiedad distributiva</div>
+        <div class="prop-formula">\(a(b + c) = a \cdot b + a \cdot c\)</div>
+        <div class="prop-words">Lo mismo que en aritmética, pero ahora con letras.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Monomio por binomio</div>
+
+      <p>Multiplicas el monomio por <strong>cada término</strong> del binomio:</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(3(x + 4) = 3 \cdot x + 3 \cdot 4 = 3x + 12\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(2x(x - 5) = 2x \cdot x - 2x \cdot 5 = 2x^2 - 10x\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(-4(2a + 3b) = -8a - 12b\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(\dfrac{1}{2}(6x - 8) = 3x - 4\).</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Recordatorio de exponentes</span>
+        Al multiplicar variables iguales, sumas exponentes: \(x \cdot x = x^2\); \(x^2 \cdot x^3 = x^5\); \(2x \cdot 3x = 6x^2\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Binomio por binomio: el método FOIL</div>
+
+      <p>Cuando multiplicas dos binomios, debes multiplicar <strong>cada término del primero</strong> por <strong>cada término del segundo</strong>. Es decir: 4 productos.</p>
+      <div class="math-box">\((a + b)(c + d) = a \cdot c + a \cdot d + b \cdot c + b \cdot d\)</div>
+
+      <p>Una forma de recordarlo es el método <strong>FOIL</strong> (en inglés):</p>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li><strong>F</strong>irst (primeros): \(a \cdot c\).</li>
+        <li><strong>O</strong>utside (exteriores): \(a \cdot d\).</li>
+        <li><strong>I</strong>nside (interiores): \(b \cdot c\).</li>
+        <li><strong>L</strong>ast (últimos): \(b \cdot d\).</li>
+      </ul>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \((x+2)(x+5)\).</span>
+        <span class="math-step">F: \(x \cdot x = x^2\)</span>
+        <span class="math-step">O: \(x \cdot 5 = 5x\)</span>
+        <span class="math-step">I: \(2 \cdot x = 2x\)</span>
+        <span class="math-step">L: \(2 \cdot 5 = 10\)</span>
+        <span class="math-step">Suma: \(x^2 + 5x + 2x + 10 = x^2 + 7x + 10\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(x^2 + 7x + 10\)</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Multiplicador FOIL visual
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Multiplicador de binomios (FOIL)</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Desarrollo paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Multiplicador interactivo (ax+b)(cx+d)</div>
+
+      <p>Ingresa los coeficientes \(a\), \(b\), \(c\) y \(d\) del producto \((ax + b)(cx + d)\). La herramienta aplica el método FOIL y muestra los 4 productos parciales, su suma y la reducción.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Primer binomio (ax + b):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">a</label><input type="number" id="coefA" value="1" /></div>
+              <div><label style="font-size:.78rem;">b</label><input type="number" id="coefB" value="2" /></div>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Segundo binomio (cx + d):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">c</label><input type="number" id="coefC" value="1" /></div>
+              <div><label style="font-size:.78rem;">d</label><input type="number" id="coefD" value="5" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadBin(1,2,1,5)">(x+2)(x+5)</button>
+            <button onclick="loadBin(1,3,1,-4)">(x+3)(x−4)</button>
+            <button onclick="loadBin(2,1,3,2)">(2x+1)(3x+2)</button>
+            <button onclick="loadBin(1,-3,1,3)">(x−3)(x+3)</button>
+            <button onclick="loadBin(1,5,1,5)">(x+5)²</button>
+            <button onclick="loadBin(2,-1,2,-1)">(2x−1)²</button>
+          </div>
+          <button class="calc-button" onclick="solveFOIL()">Multiplicar →</button>
+        </div>
+
+        <div class="tool-display" id="foilDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los coeficientes y presiona <strong>Multiplicar</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Recuerda</span>
+        FOIL solo funciona para multiplicar <strong>dos binomios</strong>. Si hay más términos (trinomios, polinomios), se aplica distributiva término a término.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Visualización con áreas
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Multiplicación con áreas (pictórica)</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Visual</span>
+    <span class="chip">Representación geométrica</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué áreas?</div>
+
+      <p>La multiplicación de dos binomios puede verse como el <strong>área de un rectángulo</strong>. Si los lados son \((a+b)\) y \((c+d)\), el área total se descompone en 4 rectángulos pequeños cuyas áreas son \(ac, ad, bc, bd\). Sumándolas, obtienes el producto.</p>
+
+      <canvas id="distCanvas" class="dist-canvas" width="900" height="280"></canvas>
+
+      <p style="margin-top:.5rem;">En el rectángulo de arriba, los lados son \(a+b\) y \(c+d\):</p>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Rectángulo morado: \(a \cdot c\)</li>
+        <li>Rectángulo dorado: \(a \cdot d\)</li>
+        <li>Rectángulo navy: \(b \cdot c\)</li>
+        <li>Rectángulo claro: \(b \cdot d\)</li>
+      </ul>
+      <p>Área total = \((a+b)(c+d) = ac + ad + bc + bd\). Justo lo que da FOIL.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo numérico de la visualización</div>
+
+      <p>Calculemos \(13 \cdot 12\) usando la idea de áreas. Descomponemos:</p>
+      <div class="math-block">
+        <span class="math-step">\(13 = 10 + 3\) y \(12 = 10 + 2\).</span>
+        <span class="math-step">\(13 \cdot 12 = (10+3)(10+2)\).</span>
+        <span class="math-step">FOIL: \(10\cdot 10 + 10\cdot 2 + 3\cdot 10 + 3\cdot 2 = 100+20+30+6 = 156\).</span>
+        <span class="math-step"><span class="math-result">Resultado: 156</span></span>
+      </div>
+
+      <p>Esto explica por qué el método FOIL "funciona": es literalmente sumar las áreas de los rectángulos en que descompones la multiplicación.</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Reductor de expresiones
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Reductor de términos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Agrupa semejantes</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Reductor automático</div>
+
+      <p>Escribe una expresión algebraica con sumas y restas (por ejemplo: <code>3x + 5x - 2y + 4</code>). La herramienta detecta los <strong>términos semejantes</strong> (los que tienen las mismas variables con los mismos exponentes), suma sus coeficientes y te muestra la expresión <strong>ya simplificada</strong>.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo escribir</span>
+        <ul>
+          <li>Usa <code>+</code> y <code>-</code> entre términos. Las multiplicaciones implícitas: <code>3x</code> significa "3 por x".</li>
+          <li>Para exponentes, usa <code>^</code> seguido del número. Ejemplos: <code>x^2</code>, <code>2a^3</code>, <code>-5x^2</code>.</li>
+          <li>Variables múltiples se escriben juntas: <code>xy</code>, <code>2x^2y</code>, <code>3abc</code>.</li>
+          <li>Puedes usar los botones violetas con ejemplos listos para probar.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Expresión (ej.: 3x + 5x - 2y + 4 + y):</label>
+            <input type="text" id="reduceInput" value="3x + 5x - 2y + 4 + y" />
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadRed('3x + 5x - 2y + 4 + y')">3x+5x−2y+4+y</button>
+            <button onclick="loadRed('2x^2 + 5x - 3x^2 + 7')">2x²+5x−3x²+7</button>
+            <button onclick="loadRed('4xy + 3x - 2xy + 6x')">4xy+3x−2xy+6x</button>
+            <button onclick="loadRed('a + 2a + 3a + 4a')">a+2a+3a+4a</button>
+            <button onclick="loadRed('5x^3 - 2x + x^3 - x + 7')">5x³−2x+x³−x+7</button>
+          </div>
+          <button class="calc-button" onclick="reduceExpr()">Reducir →</button>
+        </div>
+
+        <div class="tool-display" id="redDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa una expresión y presiona <strong>Reducir</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Intro álgebra — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Reduce: \(4x + 7x - 2x\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(13x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste todos los coeficientes sin restar \(2\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(9x\)<div class="opt-feedback"><strong>Correcto.</strong> \((4+7-2)x = 9x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(9\)<div class="opt-feedback"><strong>Incorrecto.</strong> No olvides la variable \(x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumas coeficientes, no usas exponente.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál par es de términos semejantes?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3x\) y \(3x^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Distinto exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2xy\) y \(2y\)<div class="opt-feedback"><strong>Incorrecto.</strong> Una tiene \(x\) y la otra no.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(-5a^2\) y \(7a^2\)<div class="opt-feedback"><strong>Correcto.</strong> Misma variable \(a\) elevada a 2.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(4\) y \(4x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Una es constante y otra tiene \(x\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Desarrolla: \(3(x + 4)\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3x + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar el 3 al 4.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3x + 12\)<div class="opt-feedback"><strong>Correcto.</strong> Distributiva: \(3\cdot x + 3 \cdot 4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar el 3 al \(x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(7x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste 3+4 sin distribuir.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Desarrolla: \(2x(x - 5)\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2x - 10\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar las variables.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2x^2 - 10x\)<div class="opt-feedback"><strong>Correcto.</strong> \(2x \cdot x = 2x^2\); \(2x \cdot 5 = 10x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(2x^2 - 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar el 2x al 5.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(-3x\)<div class="opt-feedback"><strong>Incorrecto.</strong> No aplicaste distributiva.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Simplifica: \(10a - (3a + 4b)\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(7a + 4b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste cambiar el signo del 4b.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(7a - 4b\)<div class="opt-feedback"><strong>Correcto.</strong> \(10a - 3a - 4b = 7a - 4b\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(13a + 4b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste el 3a en vez de restar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(3a\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste términos no semejantes.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Desarrolla: \((x + 3)(x + 4)\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste los términos cruzados.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 + 7x + 12\)<div class="opt-feedback"><strong>Correcto.</strong> FOIL: \(x^2 + 4x + 3x + 12 = x^2 + 7x + 12\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el término constante 12.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2x^2 + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste las \(x\)'s al cuadrado.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Reduce: \(2x^2 + 5x - 3x^2 + 7\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(-x^2 + 5x + 7\)<div class="opt-feedback"><strong>Correcto.</strong> \((2-3)x^2 + 5x + 7 = -x^2 + 5x + 7\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(5x^2 + 5x + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste en vez de restar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(-x^2 + 12x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste el \(5x\) con el \(7\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 + 5x + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste mal: \(2-3=-1\), no \(1\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Desarrolla: \((2x + 3)(x - 4)\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2x^2 - 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste los términos cruzados.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2x^2 - 5x - 12\)<div class="opt-feedback"><strong>Correcto.</strong> FOIL: \(2x \cdot x = 2x^2\); \(2x\cdot(-4) = -8x\); \(3 \cdot x = 3x\); \(3\cdot(-4) = -12\). Suma: \(2x^2 - 5x - 12\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(2x^2 + 5x - 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2x^2 - 11x + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Doble error en signos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Calcula \(13 \cdot 12\) usando \((10+3)(10+2)\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sumar los rectángulos cruzados.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 156<div class="opt-feedback"><strong>Correcto.</strong> \(100+20+30+6 = 156\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 130<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste solo los términos lineales.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 150<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el cuadrado pequeño (3·2=6).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál expresión NO se puede reducir más?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(5x + 3x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Se reduce a \(8x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2a^2 + 5a^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Se reduce a \(7a^2\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4x + 3y\)<div class="opt-feedback"><strong>Correcto.</strong> Son términos no semejantes (\(x\) y \(y\)), no se reduce más.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(7xy - 2xy\)<div class="opt-feedback"><strong>Incorrecto.</strong> Se reduce a \(5xy\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Intro álgebra — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Álgebra y distributiva</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">\(6x + 4x - 2x\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste la variable.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(8x\)<div class="opt-feedback"><strong>Correcto.</strong> \((6+4-2)x = 8x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(12x\)<div class="opt-feedback"><strong>Incorrecto.</strong> No restaste el \(2x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumas coeficientes, no usas exponente.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(5(2x - 3)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(10x - 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar el 5 al \(-3\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(10x - 15\)<div class="opt-feedback"><strong>Correcto.</strong> Distributiva: \(5 \cdot 2x - 5 \cdot 3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(7x - 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste en lugar de multiplicar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(10x + 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">\((x + 2)(x + 3)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste términos cruzados.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 5x + 6\)<div class="opt-feedback"><strong>Correcto.</strong> FOIL: \(x^2 + 3x + 2x + 6 = x^2 + 5x + 6\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(2x^2 + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mal sumadas las \(x\)².</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 + 6x + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste el coeficiente lineal con el constante.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(7a - (2a - 5)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(5a - 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste cambiar el signo del \(-5\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(5a + 5\)<div class="opt-feedback"><strong>Correcto.</strong> \(7a - 2a + 5 = 5a + 5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(9a + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste el \(2a\) en vez de restar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(9a - 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Doble error de signos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">\((x - 4)(x + 6)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 - 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste términos cruzados.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 2x - 24\)<div class="opt-feedback"><strong>Correcto.</strong> FOIL: \(x^2 + 6x - 4x - 24 = x^2 + 2x - 24\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 - 2x - 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en signo del término lineal.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 + 10x + 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste donde había resta.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">\(3x(x^2 - 2x + 4)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3x^3 - 6x^2 + 12x\)<div class="opt-feedback"><strong>Correcto.</strong> Distributiva: cada término por \(3x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(3x^3 - 2x + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo multiplicaste el primer término.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(3x^2 - 6x + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste exponentes mal.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(3x^3 + 6x^2 + 12x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en el término medio.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">\(4x + 7 - 3x + 2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(7x + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste el \(3x\) en vez de restar.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x + 9\)<div class="opt-feedback"><strong>Correcto.</strong> \((4-3)x + (7+2) = x + 9\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste el 2 en vez de sumar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(7 + 2 = 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el término en \(x\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">El perímetro de un rectángulo de lados \((x+3)\) y \((x+5)\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2x + 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste duplicar el perímetro.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(4x + 16\)<div class="opt-feedback"><strong>Correcto.</strong> \(P = 2(x+3) + 2(x+5) = 2x + 6 + 2x + 10 = 4x + 16\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 8x + 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el área, no el perímetro.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2x + 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste lados y un producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">El área de un rectángulo de lados \((x+3)\) y \((x+5)\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2x + 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la suma de lados.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste términos cruzados.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 8x + 15\)<div class="opt-feedback"><strong>Correcto.</strong> \((x+3)(x+5) = x^2 + 5x + 3x + 15 = x^2 + 8x + 15\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2x^2 + 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste mal las \(x^2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál pareja contiene términos semejantes?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(5x\) y \(5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Uno tiene variable y otro no.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-4x^2 y\) y \(\dfrac{1}{2}x^2 y\)<div class="opt-feedback"><strong>Correcto.</strong> Mismas variables, mismos exponentes.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(3xy\) y \(3yx^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Distintos exponentes en \(x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(7a\) y \(7b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Distintas variables.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya tienes lo esencial del lenguaje algebraico: términos, semejantes, distributividad y multiplicación de binomios con el método FOIL. La visualización con áreas te da el "por qué" geométrico de todo.</p>
+    <p>En las próximas guías verás los tres <strong>productos notables</strong>: atajos para multiplicar binomios sin tener que hacer FOIL completo.</p>
+    <span class="next-pill">Próximo: Cuadrado del binomio</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro álgebra · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Multiplicador FOIL ---------- */
+function loadBin(a,b,c,d){
+  document.getElementById('coefA').value=a;
+  document.getElementById('coefB').value=b;
+  document.getElementById('coefC').value=c;
+  document.getElementById('coefD').value=d;
+  solveFOIL();
+}
+
+function fmtTerm(coef, deg){
+  if(coef===0) return null;
+  let s = '';
+  if(coef===1 && deg>0) s = '';
+  else if(coef===-1 && deg>0) s = '-';
+  else s = String(coef);
+  if(deg===0) return s===''?'1':(s==='-'?'-1':s);
+  if(deg===1) return s + 'x';
+  return s + 'x^{' + deg + '}';
+}
+
+function combineWithSign(s, isFirst){
+  if(s.startsWith('-')) return ' - ' + s.substring(1);
+  return (isFirst?'':' + ') + s;
+}
+
+function solveFOIL(){
+  const a = parseFloat(document.getElementById('coefA').value);
+  const b = parseFloat(document.getElementById('coefB').value);
+  const c = parseFloat(document.getElementById('coefC').value);
+  const d = parseFloat(document.getElementById('coefD').value);
+  const out = document.getElementById('foilDisplay');
+  if([a,b,c,d].some(isNaN)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa los cuatro coeficientes.</p>'; return; }
+
+  // Formato del binomio (ax+b)
+  function bin(p,q){
+    let pStr = p===1?'x':(p===-1?'-x':p+'x');
+    let qStr = q>=0?(' + '+q):(' - '+(-q));
+    return '('+pStr+qStr+')';
+  }
+  const expr = `\\(${bin(a,b)}${bin(c,d)}\\)`;
+
+  // Productos parciales
+  const F = a*c, Fdeg = 2;
+  const O = a*d, Odeg = 1;
+  const I = b*c, Ideg = 1;
+  const L = b*d, Ldeg = 0;
+
+  // Reducir términos
+  const x2coef = F;
+  const x1coef = O + I;
+  const ctcoef = L;
+
+  // Construir expresión final
+  let final = '';
+  if(x2coef !== 0){
+    final += fmtTerm(x2coef, 2);
+  }
+  if(x1coef !== 0){
+    const t = fmtTerm(x1coef, 1);
+    final += final===''?t:combineWithSign(t, false);
+  }
+  if(ctcoef !== 0){
+    const t = fmtTerm(ctcoef, 0);
+    final += final===''?t:combineWithSign(t, false);
+  }
+  if(final==='') final = '0';
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.2rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.7rem;border-radius:0 6px 6px 0;margin-bottom:.5rem;font-size:.93rem;line-height:1.8;">
+      <b style="color:#6A2C91;">FOIL:</b><br>
+      <b>F</b>irst: \\(${a===1?'x':(a===-1?'-x':a+'x')} \\cdot ${c===1?'x':(c===-1?'-x':c+'x')} = ${fmtTerm(F,2)}\\)<br>
+      <b>O</b>utside: \\(${a===1?'x':(a===-1?'-x':a+'x')} \\cdot ${d} = ${fmtTerm(O,1)}\\)<br>
+      <b>I</b>nside: \\(${b} \\cdot ${c===1?'x':(c===-1?'-x':c+'x')} = ${fmtTerm(I,1)}\\)<br>
+      <b>L</b>ast: \\(${b} \\cdot ${d} = ${L}\\)
+    </div>
+    <div style="text-align:center;font-size:1rem;color:#0B0F3F;margin-bottom:.3rem;">Suma y reducción de términos semejantes:</div>
+    <div style="text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${final}\\)</span></div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+/* ---------- Reductor de términos semejantes ---------- */
+function loadRed(s){ document.getElementById('reduceInput').value = s; reduceExpr(); }
+
+// Parsea un término sin signo (signo ya extraído)
+// "3x", "5", "x", "x^2", "xy", "4xy^2", "x^2y", etc.
+function parseUnsignedTerm(s){
+  s = s.trim();
+  if(s === '') return null;
+  // Extraer coeficiente numérico al inicio (puede ser entero o decimal)
+  const m = s.match(/^(\d*\.?\d*)(.*)$/);
+  if(!m) return null;
+  let coefStr = m[1];
+  let varPart = m[2].trim();
+  let coef = (coefStr === '' || coefStr === '.') ? 1 : parseFloat(coefStr);
+  if(isNaN(coef)) return null;
+  // Validar parte variable (letras opcionalmente con ^entero)
+  if(varPart && !/^([a-zA-Z](\^-?\d+)?)+$/.test(varPart)) return null;
+  // Normalizar parte variable: ordenar letras alfabéticamente (xy = yx)
+  varPart = normalizeVar(varPart);
+  return {coef, varPart};
+}
+
+function normalizeVar(v){
+  if(!v) return '';
+  // Extraer pares letra + exponente
+  const parts = [];
+  const regex = /([a-zA-Z])(\^-?\d+)?/g;
+  let m;
+  while((m = regex.exec(v)) !== null){
+    parts.push({letter: m[1], exp: m[2] || ''});
+  }
+  parts.sort((a,b) => a.letter.localeCompare(b.letter));
+  return parts.map(p => p.letter + p.exp).join('');
+}
+
+function reduceExpr(){
+  const rawOriginal = document.getElementById('reduceInput').value;
+  const raw = rawOriginal.replace(/\s+/g,'').replace(/−/g,'-');
+  const out = document.getElementById('redDisplay');
+
+  // Tokenizar: separar términos con signo
+  // Cada término empieza con + o - (excepto el primero)
+  const tokens = [];
+  let current = '';
+  for(let i = 0; i < raw.length; i++){
+    const c = raw[i];
+    if((c === '+' || c === '-') && current !== ''){
+      // Verificar que no sea parte de un exponente negativo (después de ^)
+      const prev = current[current.length - 1];
+      if(prev !== '^'){
+        tokens.push(current);
+        current = c;
+        continue;
+      }
+    }
+    current += c;
+  }
+  if(current !== '') tokens.push(current);
+
+  // Parsear cada token
+  const groups = {};
+  let invalid = false;
+  tokens.forEach(t => {
+    if(t === '') return;
+    let sign = 1;
+    let s = t;
+    if(s[0] === '+'){ s = s.substring(1); }
+    else if(s[0] === '-'){ sign = -1; s = s.substring(1); }
+    const parsed = parseUnsignedTerm(s);
+    if(!parsed){ invalid = true; return; }
+    const key = parsed.varPart || '_const_';
+    groups[key] = (groups[key] || 0) + sign * parsed.coef;
+  });
+
+  if(invalid){
+    out.innerHTML = '<p style="color:#a44;">⚠ Expresión no reconocida. Usa formato como <code>3x + 2y - x^2</code>.</p>';
+    return;
+  }
+
+  // Ordenar grupos: por grado descendente, constantes al final
+  const entries = Object.entries(groups).filter(([_, c]) => c !== 0);
+  entries.sort((a, b) => {
+    if(a[0] === '_const_') return 1;
+    if(b[0] === '_const_') return -1;
+    const degA = getDegree(a[0]);
+    const degB = getDegree(b[0]);
+    if(degA !== degB) return degB - degA;
+    return a[0].localeCompare(b[0]);
+  });
+
+  // Construir resultado en LaTeX
+  let resultLatex = '';
+  entries.forEach(([k, coef], i) => {
+    const varPart = k === '_const_' ? '' : k;
+    let coefPart;
+    if(varPart === ''){
+      coefPart = String(Math.abs(coef));
+    } else {
+      coefPart = Math.abs(coef) === 1 ? '' : String(Math.abs(coef));
+    }
+    const term = coefPart + varToLatex(varPart);
+    if(i === 0){
+      resultLatex += (coef < 0 ? '-' : '') + term;
+    } else {
+      resultLatex += (coef < 0 ? ' - ' : ' + ') + term;
+    }
+  });
+  if(resultLatex === '') resultLatex = '0';
+
+  // Listar grupos
+  let beforeHtml = '';
+  entries.forEach(([k, coef]) => {
+    const lbl = k === '_const_' ? 'constantes' : 'términos en \\(' + varToLatex(k) + '\\)';
+    beforeHtml += `<li>${lbl}: coeficiente combinado = ${coef}</li>`;
+  });
+  if(entries.length === 0) beforeHtml = '<li>Todos los términos se cancelan entre sí.</li>';
+
+  out.innerHTML = `
+    <div style="font-size:.95rem;color:#0B0F3F;margin-bottom:.5rem;text-align:center;"><b>Expresión original:</b> \\(${exprToLatex(rawOriginal)}\\)</div>
+    <div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.6rem .8rem;border-radius:0 6px 6px 0;margin-bottom:.5rem;font-size:.92rem;">
+      <b style="color:#6A2C91;">Grupos identificados:</b>
+      <ul style="margin:.3rem 0 0 0;padding-left:1.4rem;">${beforeHtml}</ul>
+    </div>
+    <div style="text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${resultLatex}\\)</span></div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+function getDegree(varKey){
+  // Suma de exponentes
+  let sum = 0;
+  const regex = /([a-zA-Z])(\^(-?\d+))?/g;
+  let m;
+  while((m = regex.exec(varKey)) !== null){
+    sum += m[3] ? parseInt(m[3]) : 1;
+  }
+  return sum;
+}
+
+function varToLatex(v){
+  // Convierte "x^2y" o "xy^3" en LaTeX
+  if(!v) return '';
+  return v.replace(/\^(-?\d+)/g, '^{$1}');
+}
+
+function exprToLatex(s){
+  // Convierte la expresión del input a LaTeX (solo cambia ^N por ^{N})
+  return s.replace(/\^(-?\d+)/g, '^{$1}').replace(/\*/g,' \\cdot ');
+}
+
+/* ---------- Canvas distributiva (a+b)(c+d) ---------- */
+function drawDist(){
+  const cv = document.getElementById('distCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Valores demostrativos
+  const a = 4, b = 2, c = 3, d = 2;
+  const unit = 45;
+  const x0 = 60, y0 = 30;
+
+  const aPx = a*unit, bPx = b*unit, cPx = c*unit, dPx = d*unit;
+
+  // Rect a*c (sup izq) - morado
+  ctx.fillStyle='rgba(106,44,145,.28)';
+  ctx.fillRect(x0, y0, aPx, cPx);
+  ctx.strokeStyle='#6A2C91'; ctx.lineWidth=2;
+  ctx.strokeRect(x0, y0, aPx, cPx);
+
+  // Rect b*c (sup der) - dorado
+  ctx.fillStyle='rgba(212,175,55,.35)';
+  ctx.fillRect(x0+aPx, y0, bPx, cPx);
+  ctx.strokeStyle='#D4AF37';
+  ctx.strokeRect(x0+aPx, y0, bPx, cPx);
+
+  // Rect a*d (inf izq) - navy
+  ctx.fillStyle='rgba(11,15,63,.25)';
+  ctx.fillRect(x0, y0+cPx, aPx, dPx);
+  ctx.strokeStyle='#0B0F3F';
+  ctx.strokeRect(x0, y0+cPx, aPx, dPx);
+
+  // Rect b*d (inf der) - claro
+  ctx.fillStyle='rgba(248,244,233,.95)';
+  ctx.fillRect(x0+aPx, y0+cPx, bPx, dPx);
+  ctx.strokeStyle='#8a7426';
+  ctx.strokeRect(x0+aPx, y0+cPx, bPx, dPx);
+
+  // Etiquetas internas
+  ctx.fillStyle='#0B0F3F'; ctx.font='bold 16px Inter, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('a·c', x0+aPx/2, y0+cPx/2);
+  ctx.fillText('b·c', x0+aPx+bPx/2, y0+cPx/2);
+  ctx.fillText('a·d', x0+aPx/2, y0+cPx+dPx/2);
+  ctx.fillText('b·d', x0+aPx+bPx/2, y0+cPx+dPx/2);
+
+  // Etiquetas externas (lados)
+  ctx.font='bold 14px Inter, sans-serif'; ctx.fillStyle='#6A2C91';
+  ctx.fillText('a', x0+aPx/2, y0-15);
+  ctx.fillStyle='#9b7c1c';
+  ctx.fillText('b', x0+aPx+bPx/2, y0-15);
+  ctx.fillStyle='#0B0F3F';
+  ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillText('c', x0-10, y0+cPx/2);
+  ctx.fillStyle='#555';
+  ctx.fillText('d', x0-10, y0+cPx+dPx/2);
+
+  // Texto a la derecha
+  const tx = x0 + aPx + bPx + 40;
+  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  ctx.fillStyle='#6A2C91'; ctx.font='bold 15px Inter, sans-serif';
+  ctx.fillText('(a + b)(c + d)', tx, y0+25);
+  ctx.fillStyle='#0B0F3F'; ctx.font='14px Inter, sans-serif';
+  ctx.fillText('= a·c + a·d + b·c + b·d', tx, y0+50);
+  ctx.fillStyle='#9b7c1c'; ctx.font='13px Inter, sans-serif';
+  ctx.fillText('Ej.: (4+2)(3+2)', tx, y0+90);
+  ctx.fillStyle='#0B0F3F';
+  ctx.fillText('= 12 + 8 + 6 + 4', tx, y0+108);
+  ctx.fillText('= 30 ✔', tx, y0+126);
+  ctx.fillText('Y 6·5 = 30 ✔', tx, y0+150);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  solveFOIL();
+  reduceExpr();
+  drawDist();
+});
+</script>
+
+</body>
+</html>

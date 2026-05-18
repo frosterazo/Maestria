@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recta numérica — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+<!-- PÁGINA 1 — Recta y números reales -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Recta numérica: ubicar potencias, raíces y logaritmos</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Aproximación</span>
+    <span class="chip">Comparación de magnitudes</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Comparar representaciones de potencias con exponente racional con raíces enésimas, y representarlas en la recta numérica.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Cada número real tiene <em>su</em> lugar en la recta</div>
+
+      <p>La <strong>recta numérica</strong> es una línea infinita donde cada punto representa un número real, y cada número real tiene un único punto. Es la herramienta visual más potente para comparar magnitudes: si un número está más a la derecha que otro, es mayor.</p>
+
+      <div class="card card-def">
+        <strong>Densidad de los racionales:</strong> entre dos números reales distintos cualesquiera siempre existe (de hecho, hay infinitos) otro número racional. Por eso la recta numérica no tiene "huecos visibles" cuando se llena de fracciones.
+      </div>
+
+      <p>Pero los racionales no llenan la recta completamente. Existen números como \(\sqrt{2}\), \(\pi\), \(\sqrt[3]{5}\), \(\log_{2}(3)\) que no son racionales (no se pueden escribir como cociente de enteros): son los <strong>números irracionales</strong>. Juntos, racionales e irracionales forman los reales y completan la recta.</p>
+
+      <div class="card card-tip">
+        <strong>Imagen mental:</strong> piensa en la recta numérica como una hilera de baldosas. Los enteros marcan las junturas principales (–2, –1, 0, 1, 2…). Entre cada par hay un infinito de racionales y otro infinito de irracionales, todos compartiendo el espacio sin chocarse.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ubicar racionales conocidos</div>
+
+      <p>Antes de pasar a raíces y logaritmos, recordemos cómo ubicar racionales. Para una fracción \(p/q\):</p>
+
+      <ol class="steps-num">
+        <li>Conviértela a decimal aproximado (dividiendo \(p\) por \(q\)).</li>
+        <li>Identifica entre qué dos enteros consecutivos cae.</li>
+        <li>Ubica el punto a esa altura entre ellos.</li>
+      </ol>
+
+      <div class="subsec">Ejemplos</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>Número</th><th>Forma decimal</th><th>Ubicación</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\dfrac{1}{2}\)</td><td>0,5</td><td>Justo entre 0 y 1</td></tr>
+          <tr><td>\(\dfrac{3}{4}\)</td><td>0,75</td><td>Más cerca de 1 que de 0</td></tr>
+          <tr><td>\(-\dfrac{5}{3}\)</td><td>≈ −1,67</td><td>Entre −2 y −1, más cerca de −2</td></tr>
+          <tr><td>\(\dfrac{7}{2}\)</td><td>3,5</td><td>Justo entre 3 y 4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ubicar raíces cuadradas</div>
+
+      <p>Para ubicar \(\sqrt{n}\) en la recta, la pregunta clave es: <em>¿entre qué cuadrados perfectos está \(n\)?</em> Si \(n\) está entre \(k^{2}\) y \((k+1)^{2}\), entonces \(\sqrt{n}\) está entre \(k\) y \(k+1\).</p>
+
+      <div class="subsec">Ejemplo 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Entre qué enteros consecutivos está \(\sqrt{20}\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Cuadrados cercanos: \(4^{2}=16\) y \(5^{2}=25\).</span>
+        <span class="math-step">Como \(16 < 20 < 25\), entonces \(4 < \sqrt{20} < 5\).</span>
+        <span class="math-step">Más exacto: 20 está más cerca de 16 que de 25, así que \(\sqrt{20}\) está más cerca de 4 que de 5. Aproximación decimal: \(\sqrt{20} \approx 4{,}47\).</span>
+        <span class="math-step"><span class="math-result">\(\sqrt{20}\) se ubica entre 4 y 5, cerca de 4,5</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Memoriza los cuadrados perfectos hasta 15:</strong> 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225. Si los tienes en la cabeza, ubicar cualquier raíz cuadrada hasta \(\sqrt{225}\) es instantáneo.
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Raíz cúbica</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Entre qué enteros consecutivos está \(\sqrt[3]{50}\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Cubos cercanos: \(3^{3}=27\) y \(4^{3}=64\).</span>
+        <span class="math-step">Como \(27 < 50 < 64\), entonces \(3 < \sqrt[3]{50} < 4\).</span>
+        <span class="math-step"><span class="math-result">\(\sqrt[3]{50}\) se ubica entre 3 y 4 (más cerca de 4: \(\approx 3{,}68\))</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Antes de seguir, ubica mentalmente \(\sqrt{75}\) entre dos enteros. Pista: \(8^{2}=64\) y \(9^{2}=81\). ¿Listo? Cuando puedes hacer estos cálculos sin lápiz, ya tienes el músculo entrenado para responder PAES con velocidad.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Recta numérica · Página 1 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 2 — Comparar potencias con exponente racional -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Comparar potencias y raíces sin calcular</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Igualar base · igualar exponente</span>
+    <span class="chip">Reglas de orden</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Reglas básicas de orden</div>
+
+      <p>Antes de comparar, conviene tener claras dos reglas fundamentales sobre cómo se ordenan las potencias y las raíces:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Misma base (\(b > 1\)), distinto exponente</span>
+          <span class="prop-eq">Mayor exponente ⇒ mayor potencia. Ej: \(2^{5} > 2^{3}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Misma base (\(0 < b < 1\)), distinto exponente</span>
+          <span class="prop-eq">Mayor exponente ⇒ MENOR potencia. Ej: \((1/2)^{5} < (1/2)^{3}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Mismo exponente, distinta base</span>
+          <span class="prop-eq">Mayor base ⇒ mayor potencia. Ej: \(5^{3} > 3^{3}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Raíces de misma cantidad, distinto índice</span>
+          <span class="prop-eq">Mayor índice ⇒ MENOR raíz (si la cantidad &gt; 1). Ej: \(\sqrt[3]{10} < \sqrt{10}\).</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Truco mental:</strong> "índice grande achata la raíz". Cuando aumenta el índice, la raíz se acerca a 1 (si la base es \(>1\)). \(\sqrt{10} \approx 3{,}16\); \(\sqrt[3]{10} \approx 2{,}15\); \(\sqrt[5]{10} \approx 1{,}58\); \(\sqrt[10]{10} \approx 1{,}26\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Estrategia 1: Igualar el índice (de raíces)</div>
+
+      <p>Para comparar raíces con índices distintos, conviértelas todas al mismo índice usando el mínimo común múltiplo. La conversión se hace vía exponente fraccionario.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Comparar \(\sqrt[4]{16}\) y \(\sqrt[6]{64}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Estrategia: convertir ambos a la forma \(a^{m/n}\).</span>
+        <span class="math-step">\(\sqrt[4]{16} = 16^{1/4} = (2^{4})^{1/4} = 2^{1} = 2\).</span>
+        <span class="math-step">\(\sqrt[6]{64} = 64^{1/6} = (2^{6})^{1/6} = 2^{1} = 2\).</span>
+        <span class="math-step"><span class="math-result">Son iguales: \(\sqrt[4]{16} = \sqrt[6]{64} = 2\).</span></span>
+      </div>
+
+      <p>Este ejemplo enseña una idea poderosa: <strong>distintas raíces pueden representar el mismo número real</strong>. La equivalencia entre potencia y raíz permite descubrirlo.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Estrategia 2: Igualar la base (de potencias)</div>
+
+      <p>Para comparar potencias con bases distintas pero relacionadas (una es potencia de la otra), reescríbelas con la misma base.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Comparar \(8^{2/3}\) y \(4^{1/2}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Reescribir con base 2: \(8 = 2^{3}\) y \(4 = 2^{2}\).</span>
+        <span class="math-step">\(8^{2/3} = (2^{3})^{2/3} = 2^{2} = 4\).</span>
+        <span class="math-step">\(4^{1/2} = (2^{2})^{1/2} = 2^{1} = 2\).</span>
+        <span class="math-step"><span class="math-result">\(8^{2/3} = 4 > 2 = 4^{1/2}\).</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Estrategia general:</strong> cuando dos números parecen distintos pero comparten una base común (potencias de 2, 3, 5, etc.), siempre <em>reescribir con la misma base</em> es la jugada ganadora. Convierte el problema de comparación en simple comparación de exponentes.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Comparar logaritmos</div>
+
+      <p>Para logaritmos, dos reglas útiles:</p>
+
+      <ul style="margin:.5rem 0;">
+        <li><strong>Misma base, distinto argumento:</strong> mayor argumento ⇒ mayor logaritmo. Ej: \(\log_{2}(10) > \log_{2}(5)\).</li>
+        <li><strong>Mismo argumento, distinta base (con base \(&gt; 1\)):</strong> mayor base ⇒ MENOR logaritmo. Ej: \(\log_{10}(100) = 2 < \log_{2}(100) \approx 6{,}64\).</li>
+      </ul>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Comparar \(\log_{3}(9)\) y \(\log_{2}(4)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\log_{3}(9) = 2\) porque \(3^{2}=9\).</span>
+        <span class="math-step">\(\log_{2}(4) = 2\) porque \(2^{2}=4\).</span>
+        <span class="math-step"><span class="math-result">Son iguales: \(\log_{3}(9) = \log_{2}(4) = 2\).</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Recta numérica · Página 2 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 3 — Aproximación y aplicación -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aproximaciones útiles y orden combinado</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Decimales aproximados</span>
+    <span class="chip">Listas ordenadas</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Aproximaciones decimales clave</div>
+
+      <p>Para responder PAES con velocidad, conviene memorizar algunas aproximaciones decimales de raíces e irracionales famosos. Te ahorran tiempo y te permiten estimar resultados sin calculadora.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Número</th><th>Aproximación</th><th>Memo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\sqrt{2}\)</td><td>≈ 1,414</td><td>"Uno-cuatro-uno-cuatro"</td></tr>
+          <tr><td>\(\sqrt{3}\)</td><td>≈ 1,732</td><td>"Año bisiesto" mnemónico</td></tr>
+          <tr><td>\(\sqrt{5}\)</td><td>≈ 2,236</td><td></td></tr>
+          <tr><td>\(\sqrt{7}\)</td><td>≈ 2,646</td><td></td></tr>
+          <tr><td>\(\sqrt{10}\)</td><td>≈ 3,162</td><td></td></tr>
+          <tr><td>\(\sqrt[3]{2}\)</td><td>≈ 1,260</td><td></td></tr>
+          <tr><td>\(\sqrt[3]{10}\)</td><td>≈ 2,154</td><td></td></tr>
+          <tr><td>\(\log(2)\)</td><td>≈ 0,301</td><td>"Logaritmo de dos en base diez"</td></tr>
+          <tr><td>\(\log(3)\)</td><td>≈ 0,477</td><td></td></tr>
+          <tr><td>\(\log(5)\)</td><td>≈ 0,699</td><td>= \(1 - \log(2)\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Útil:</strong> \(\log(2) + \log(5) = \log(10) = 1\). Por eso \(\log(5) \approx 1 - 0{,}301 \approx 0{,}699\). Esta clase de relaciones cortocircuita cálculos en la PAES.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ordenar varios números en la recta</div>
+
+      <p>Cuando te piden ordenar varios números mixtos (algunos enteros, otros raíces, otros potencias con exponente fraccionario), la estrategia es <strong>llevarlos a una forma comparable</strong>: o todos a decimales aproximados, o todos a la misma base, o todos a la misma representación (raíz, potencia, logaritmo).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Ordenar de menor a mayor: \(\sqrt{2}\), \(2^{1/3}\), \(\log_{2}(2)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\sqrt{2} \approx 1{,}414\)</span>
+        <span class="math-step">\(2^{1/3} = \sqrt[3]{2} \approx 1{,}260\)</span>
+        <span class="math-step">\(\log_{2}(2) = 1\)</span>
+        <span class="math-step">Comparando: \(1 < 1{,}260 < 1{,}414\)</span>
+        <span class="math-step"><span class="math-result">\(\log_{2}(2) < 2^{1/3} < \sqrt{2}\).</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>El truco del exponente fraccionario para comparar</div>
+
+      <p>Cuando dos números tienen la misma base y exponentes fraccionarios distintos, comparar es trivial: <strong>compara los exponentes</strong>. Pero si la base es \(b &gt; 1\), mayor exponente ⇒ mayor valor; si \(0 &lt; b &lt; 1\), mayor exponente ⇒ menor valor (regla del "achatamiento" para bases entre 0 y 1).</p>
+
+      <div class="subsec">Ejemplo 1 — Base > 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Ordenar de menor a mayor: \(2^{1/2}\), \(2^{1/3}\), \(2^{1/4}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Base 2 (mayor que 1) ⇒ mayor exponente ⇒ mayor valor.</span>
+        <span class="math-step">Exponentes: \(1/4 < 1/3 < 1/2\).</span>
+        <span class="math-step"><span class="math-result">\(2^{1/4} < 2^{1/3} < 2^{1/2}\).</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Base entre 0 y 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Comparar \((1/2)^{1/2}\) y \((1/2)^{1/3}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Base \(1/2\) (entre 0 y 1) ⇒ regla invertida: mayor exponente ⇒ MENOR valor.</span>
+        <span class="math-step">\(1/2 > 1/3\) (exponentes), entonces \((1/2)^{1/2} < (1/2)^{1/3}\).</span>
+        <span class="math-step">Verificación numérica: \((1/2)^{1/2} \approx 0{,}707\); \((1/2)^{1/3} \approx 0{,}794\). ✓</span>
+        <span class="math-step"><span class="math-result">\((1/2)^{1/2} < (1/2)^{1/3}\).</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        ¿Por qué con base entre 0 y 1 la regla se "invierte"? Piensa: \(1/2\) es ya menor que 1. Multiplicarlo por sí mismo lo hace MÁS pequeño, no más grande. Por eso más factores (exponente mayor) significa resultado menor. Esta intuición es clave para no caer en errores PAES.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Recta numérica · Página 3 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 4 — EJERCICIOS -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Recta numérica — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Entre qué enteros consecutivos está \(\sqrt{7}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 1 y 2<div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{2}=4 < 7\), aún falta.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 2 y 3<div class="opt-feedback"><strong>Correcto.</strong> \(2^{2}=4\) y \(3^{2}=9\); como \(4<7<9\), \(\sqrt{7}\) está entre 2 y 3 (\(\approx 2{,}65\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 3 y 4<div class="opt-feedback"><strong>Incorrecto.</strong> \(3^{2}=9 > 7\), se pasó.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 7 y 8<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el radicando con el rango.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál de estos números está más cercano a 0 en la recta numérica?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> 0,5 está más lejos que 1/5.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> ≈ 0,33; está más lejos que 1/5.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> 0,25; aún más lejos que 1/5.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{5}\)<div class="opt-feedback"><strong>Correcto.</strong> 1/5 = 0,2, el más pequeño, por tanto el más cercano a 0.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es mayor: \(\sqrt{16}\) o \(\sqrt{15}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\sqrt{16}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{16}=4\) (exacto) y \(\sqrt{15} \approx 3{,}87\); como el radicando es mayor, la raíz también.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\sqrt{15}\)<div class="opt-feedback"><strong>Incorrecto.</strong> A mayor radicando, mayor raíz (con índice constante).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Son iguales<div class="opt-feedback"><strong>Incorrecto.</strong> Los radicandos son distintos, las raíces también.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se puede comparar<div class="opt-feedback"><strong>Incorrecto.</strong> Siempre se pueden comparar raíces del mismo índice por sus radicandos.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Entre qué enteros consecutivos está \(\sqrt[3]{50}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 2 y 3<div class="opt-feedback"><strong>Incorrecto.</strong> \(3^{3}=27\), no llega aún a 50.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 3 y 4<div class="opt-feedback"><strong>Correcto.</strong> \(3^{3}=27\), \(4^{3}=64\); como \(27<50<64\), \(\sqrt[3]{50}\) está entre 3 y 4.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 4 y 5<div class="opt-feedback"><strong>Incorrecto.</strong> \(4^{3}=64\), ya se pasa de 50.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> Muy lejos del valor real (\(\approx 3{,}68\)).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Ordena de menor a mayor: \(\sqrt{2}\), \(\sqrt{3}\), \(\sqrt{5}\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\sqrt{2} < \sqrt{3} < \sqrt{5}\)<div class="opt-feedback"><strong>Correcto.</strong> Mismo índice: mayor radicando ⇒ mayor raíz. \(2 < 3 < 5\) implica el orden de las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\sqrt{5} < \sqrt{3} < \sqrt{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el orden.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\sqrt{3} < \sqrt{2} < \sqrt{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sqrt{3} > \sqrt{2}\) porque \(3 > 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Todos iguales<div class="opt-feedback"><strong>Incorrecto.</strong> Radicandos distintos ⇒ raíces distintas.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es mayor: \(2^{1/2}\) o \(2^{1/3}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2^{1/2}\)<div class="opt-feedback"><strong>Correcto.</strong> Misma base \(>1\): mayor exponente ⇒ mayor valor. \(1/2 > 1/3\), así que \(2^{1/2} > 2^{1/3}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2^{1/3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la regla; con base >1 a mayor exponente, mayor valor.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Son iguales<div class="opt-feedback"><strong>Incorrecto.</strong> Exponentes distintos ⇒ resultados distintos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Depende del valor exacto<div class="opt-feedback"><strong>Incorrecto.</strong> La regla es determinista para bases positivas.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es la mejor aproximación entera de \(\sqrt{50}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 6<div class="opt-feedback"><strong>Incorrecto.</strong> \(6^{2}=36\); 50 está más cerca de 49 que de 36.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 7<div class="opt-feedback"><strong>Correcto.</strong> \(7^{2}=49\), muy cerca de 50. \(\sqrt{50} \approx 7{,}07\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> \(8^{2}=64\), está más lejos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> \(10^{2}=100\), muy alejado.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es mayor: \(\sqrt[4]{16}\) o \(\sqrt[6]{64}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\sqrt[4]{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Calcula: \(\sqrt[4]{16}=2\); también \(\sqrt[6]{64}=2\). Son iguales.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\sqrt[6]{64}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Ambos valen 2.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Son iguales<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt[4]{16} = (2^{4})^{1/4} = 2\) y \(\sqrt[6]{64} = (2^{6})^{1/6} = 2\). Distintas notaciones, mismo número.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se pueden comparar<div class="opt-feedback"><strong>Incorrecto.</strong> Sí se pueden, convirtiendo a la misma base.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En la recta numérica, ¿entre qué valores está \(\dfrac{\sqrt{2}}{2}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Entre 0 y 1/2<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sqrt{2}/2 \approx 0{,}707\), mayor que 0,5.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Entre 1/2 y 1<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{2}/2 \approx 1{,}414/2 \approx 0{,}707\), entre 0,5 y 1.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Entre 1 y 2<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sqrt{2}/2 < 1\) porque \(\sqrt{2} < 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Entre 2 y 3<div class="opt-feedback"><strong>Incorrecto.</strong> Muy lejos del valor real.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es mayor: \(\log_{2}(8)\) o \(\sqrt{9}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Son iguales: ambos valen 3<div class="opt-feedback"><strong>Correcto.</strong> \(\log_{2}(8) = 3\) (porque \(2^{3}=8\)) y \(\sqrt{9} = 3\). Distintas operaciones, mismo número.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\log_{2}(8)\) es mayor<div class="opt-feedback"><strong>Incorrecto.</strong> Ambos son iguales a 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\sqrt{9}\) es mayor<div class="opt-feedback"><strong>Incorrecto.</strong> Ambos valen 3 exactamente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se pueden comparar<div class="opt-feedback"><strong>Incorrecto.</strong> Todos los números reales se pueden comparar en la recta numérica.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Recta numérica · Página 4 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 5 — PAES + CIERRE -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Recta numérica — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Recta numérica y comparación</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Entre qué dos enteros consecutivos se encuentra \(\sqrt{20}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3 y 4<div class="opt-feedback"><strong>Incorrecto.</strong> \(4^{2}=16 < 20\), aún falta.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4 y 5<div class="opt-feedback"><strong>Correcto.</strong> \(4^{2}=16\), \(5^{2}=25\); como \(16<20<25\), \(\sqrt{20}\) está entre 4 y 5 (\(\approx 4{,}47\)).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> \(5^{2}=25 > 20\), se pasó.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 19 y 21<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la raíz con el radicando.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">En la recta numérica, ¿cuál de estos puntos está más a la derecha?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Está a la izquierda de 0.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> 1/3 (positivo) está más a la derecha.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Correcto.</strong> Es el único positivo entre los cuatro, por tanto el más a la derecha.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(-2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es el más a la izquierda (más negativo).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Qué relación hay entre \(\sqrt{8}\) y \(2\sqrt{2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\sqrt{8} < 2\sqrt{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> En realidad son iguales.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sqrt{8} > 2\sqrt{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Son iguales.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt{8} = 2\sqrt{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{8} = \sqrt{4 \cdot 2} = 2\sqrt{2}\). Distinta notación, mismo punto en la recta.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Son números totalmente distintos<div class="opt-feedback"><strong>Incorrecto.</strong> Solo cambia la notación, no el valor.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuál es la mejor aproximación entera de \(\sqrt{45}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> \(5^{2}=25\), muy lejos de 45.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 6<div class="opt-feedback"><strong>Incorrecto.</strong> \(6^{2}=36\); 45 está más cerca de 49 que de 36.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 7<div class="opt-feedback"><strong>Correcto.</strong> \(7^{2}=49\), está muy cerca de 45. \(\sqrt{45} \approx 6{,}71\), redondeo a 7.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 22<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(45/2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Ordena de menor a mayor: \(2^{1/2}\), \(2^{1/3}\), \(2^{1/4}\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2^{1/2} < 2^{1/3} < 2^{1/4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la regla: con base >1, mayor exponente ⇒ mayor valor.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(2^{1/4} < 2^{1/3} < 2^{1/2}\)<div class="opt-feedback"><strong>Correcto.</strong> Base 2 (>1): mayor exponente ⇒ mayor valor. Como \(1/4 < 1/3 < 1/2\), el orden es ese.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Todos iguales<div class="opt-feedback"><strong>Incorrecto.</strong> Exponentes distintos ⇒ valores distintos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2^{1/3} < 2^{1/2} < 2^{1/4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No respeta el orden de los exponentes.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuál es mayor: \(\log_{3}(9)\) o \(\log_{2}(4)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\log_{3}(9) > \log_{2}(4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Calcula: ambos son 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\log_{3}(9) < \log_{2}(4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Ambos son 2.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\log_{3}(9) = \log_{2}(4) = 2\)<div class="opt-feedback"><strong>Correcto.</strong> \(\log_{3}(9)=2\) (\(3^{2}=9\)) y \(\log_{2}(4)=2\) (\(2^{2}=4\)). Mismo punto en la recta.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> No se pueden comparar<div class="opt-feedback"><strong>Incorrecto.</strong> Todos los logaritmos son números reales y se pueden comparar.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuál es la mejor aproximación decimal de \(\sqrt{2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1,2<div class="opt-feedback"><strong>Incorrecto.</strong> \(1{,}2^{2} = 1{,}44\), muy lejos de 2.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1,41<div class="opt-feedback"><strong>Correcto.</strong> \(1{,}41^{2} \approx 1{,}988\), muy cerca de 2. El valor exacto es \(\sqrt{2} \approx 1{,}414\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 1,7<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\sqrt{3}\), no \(\sqrt{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2,0<div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{2}=4\), no 2.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si \(a = \sqrt[3]{27}\), \(b = \sqrt{9}\), \(c = \log_{2}(8)\), ¿cuál es la relación entre ellos?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a < b < c\)<div class="opt-feedback"><strong>Incorrecto.</strong> Los tres son iguales.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(a = b = c = 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt[3]{27}=3\), \(\sqrt{9}=3\), \(\log_{2}(8)=3\). Tres operaciones distintas, todas dan el mismo número.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(c < a < b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Los tres son 3.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Son todos distintos<div class="opt-feedback"><strong>Incorrecto.</strong> Aunque la notación es distinta, los tres valen 3.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">En la recta numérica, ¿dónde se ubica \(\sqrt{2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Entre 1 y 2, más cerca de 1<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{2} \approx 1{,}414\); está entre 1 y 2, más cerca de 1 (porque 1,414 - 1 = 0,414 vs 2 - 1,414 = 0,586).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Entre 1 y 2, más cerca de 2<div class="opt-feedback"><strong>Incorrecto.</strong> 1,414 está más cerca de 1 que de 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Entre 0 y 1<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sqrt{2} > 1\) porque \(1^{2}=1 < 2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Entre 2 y 3<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sqrt{2} < 2\) porque \(2^{2}=4 > 2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Qué valor es mayor: \(\sqrt{\tfrac{1}{2}}\) o \(\sqrt[3]{\tfrac{1}{2}}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\sqrt{\tfrac{1}{2}}\) (raíz cuadrada)<div class="opt-feedback"><strong>Incorrecto.</strong> Con base entre 0 y 1, mayor exponente ⇒ MENOR valor. \(1/2 > 1/3\) ⇒ \((1/2)^{1/2} < (1/2)^{1/3}\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sqrt[3]{\tfrac{1}{2}}\) (raíz cúbica)<div class="opt-feedback"><strong>Correcto.</strong> Base \(1/2 < 1\): regla invertida. \(\sqrt[3]{1/2} \approx 0{,}794 > 0{,}707 \approx \sqrt{1/2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Son iguales<div class="opt-feedback"><strong>Incorrecto.</strong> Exponentes distintos ⇒ valores distintos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Ambas son negativas<div class="opt-feedback"><strong>Incorrecto.</strong> Ambas son positivas porque \(1/2 > 0\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Saber ubicar y comparar números en la recta numérica es la base para todo lo que viene: gráficos de funciones, desigualdades, intervalos, análisis estadístico. Si dominas el orden de potencias, raíces y logaritmos, dominas la "geografía" del mundo real.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Cambio de registro</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Recta numérica · Página 5 de 5</div>
+  </div>
+</div>
+
+</body>
+</html>

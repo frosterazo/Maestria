@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raíces y números racionales — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+<!-- PÁGINA 1 — Teoría I -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Raíces y números racionales: operatoria combinada</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Fracciones bajo raíz</span>
+    <span class="chip">Operaciones combinadas</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Resolver problemas que involucren raíces y números racionales, combinando ambas operaciones en contextos diversos.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El reencuentro: raíces con fracciones</div>
+
+      <p>Hasta ahora trabajaste raíces con números enteros (\(\sqrt{16}\), \(\sqrt[3]{27}\)). Pero la realidad rara vez te entrega números "redondos": una baldosa puede medir \(\sqrt{1{,}25}\) m, una caja \(\sqrt[3]{8/27}\) m de arista. Necesitas saber qué hacer cuando el radicando es una fracción o un decimal.</p>
+
+      <div class="card card-def">
+        <strong>Propiedad clave:</strong> la raíz de un cociente es el cociente de las raíces. Esto permite "repartir" la raíz entre numerador y denominador.
+      </div>
+
+      <div class="math-box">
+        \(\sqrt[n]{\dfrac{a}{b}} = \dfrac{\sqrt[n]{a}}{\sqrt[n]{b}}\) &nbsp;&nbsp;(\(a \geq 0,\ b > 0\) si \(n\) par)
+      </div>
+
+      <div class="subsec">Ejemplo 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\sqrt{\dfrac{9}{16}}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\sqrt{\dfrac{9}{16}} = \dfrac{\sqrt{9}}{\sqrt{16}} = \dfrac{3}{4}\)</span>
+        <span class="math-step"><span class="math-result">\(\sqrt{\dfrac{9}{16}} = \dfrac{3}{4}\)</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Raíz cúbica de fracción</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\sqrt[3]{\dfrac{8}{27}}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\sqrt[3]{\dfrac{8}{27}} = \dfrac{\sqrt[3]{8}}{\sqrt[3]{27}} = \dfrac{2}{3}\)</span>
+        <span class="math-step"><span class="math-result">\(\sqrt[3]{\dfrac{8}{27}} = \dfrac{2}{3}\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Atajo mental:</strong> si numerador y denominador son potencias perfectas del índice, la raíz da un número racional exacto. Cuando no, hay que dejar la raíz indicada (irracional) o simplificar.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Suma y resta de raíces con coeficientes racionales</div>
+
+      <p>Recordemos: dos raíces se pueden <em>sumar o restar</em> solo si son <strong>semejantes</strong> (mismo índice y mismo radicando). Los coeficientes pueden ser cualquier número racional: enteros, fracciones, decimales. En todos los casos, se suman o restan únicamente los coeficientes.</p>
+
+      <div class="math-box">
+        \(p\sqrt[n]{a} \pm q\sqrt[n]{a} = (p \pm q)\sqrt[n]{a}\)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{1}{2}\sqrt{5} + \dfrac{3}{4}\sqrt{5}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Radicales semejantes: ambos son \(\sqrt{5}\).</span>
+        <span class="math-step">Suma de coeficientes: \(\dfrac{1}{2} + \dfrac{3}{4} = \dfrac{2}{4} + \dfrac{3}{4} = \dfrac{5}{4}\).</span>
+        <span class="math-step"><span class="math-result">\(\dfrac{1}{2}\sqrt{5} + \dfrac{3}{4}\sqrt{5} = \dfrac{5}{4}\sqrt{5}\)</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Cuando hay que simplificar antes</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\sqrt{18} + \dfrac{1}{2}\sqrt{8}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Simplificar cada radical para descubrir si son semejantes:</span>
+        <span class="math-step">\(\sqrt{18} = \sqrt{9 \cdot 2} = 3\sqrt{2}\)</span>
+        <span class="math-step">\(\dfrac{1}{2}\sqrt{8} = \dfrac{1}{2}\sqrt{4 \cdot 2} = \dfrac{1}{2} \cdot 2\sqrt{2} = \sqrt{2}\)</span>
+        <span class="math-step">Ahora son semejantes: \(3\sqrt{2} + \sqrt{2} = 4\sqrt{2}\).</span>
+        <span class="math-step"><span class="math-result">\(\sqrt{18} + \dfrac{1}{2}\sqrt{8} = 4\sqrt{2}\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Estrategia siempre que veas suma de raíces:</strong> primero simplifica cada radical extrayendo factores. Lo que parecía imposible muchas veces se vuelve trivial.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Si te entregaran \(\sqrt{50} + \sqrt{32}\), ¿podrías sumarlos? Antes de seguir leyendo, intenta. (Pista: \(50 = 25 \cdot 2\), \(32 = 16 \cdot 2\)). Si llegas a \(9\sqrt{2}\), estás dominando el método.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Raíces y racionales · Página 1 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 2 — Teoría II: Racionalización -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Racionalización de denominadores</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Sin raíz en el denominador</span>
+    <span class="chip">Conjugado</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es racionalizar?</div>
+
+      <p>Por convención matemática, un resultado se considera "más limpio" cuando el denominador <strong>no contiene raíces</strong>. La técnica para lograrlo se llama <em>racionalización</em>: consiste en multiplicar numerador y denominador por una expresión adecuada que elimine la raíz del denominador, sin alterar el valor original (multiplicar por una fracción equivalente a 1).</p>
+
+      <div class="card card-def">
+        <strong>Racionalizar:</strong> transformar una expresión con raíz en el denominador en otra equivalente cuyo denominador sea racional (sin raíz).
+      </div>
+
+      <div class="card card-tip">
+        <strong>Idea base:</strong> \(\sqrt{a} \cdot \sqrt{a} = a\). Así, si multiplicas \(\sqrt{a}\) por sí mismo, el resultado es un número racional. Esa es la "llave" para eliminar raíces de un denominador.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caso 1: Denominador con una sola raíz cuadrada</div>
+
+      <p>Cuando el denominador es \(\sqrt{a}\), se multiplica numerador y denominador por \(\sqrt{a}\).</p>
+
+      <div class="math-box">
+        \(\dfrac{1}{\sqrt{a}} = \dfrac{1}{\sqrt{a}} \cdot \dfrac{\sqrt{a}}{\sqrt{a}} = \dfrac{\sqrt{a}}{a}\)
+      </div>
+
+      <div class="subsec">Ejemplo 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Racionalizar \(\dfrac{1}{\sqrt{2}}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{1}{\sqrt{2}} \cdot \dfrac{\sqrt{2}}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\)</span>
+        <span class="math-step"><span class="math-result">\(\dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\)</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Con numerador distinto de 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Racionalizar \(\dfrac{6}{\sqrt{3}}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{6}{\sqrt{3}} \cdot \dfrac{\sqrt{3}}{\sqrt{3}} = \dfrac{6\sqrt{3}}{3} = 2\sqrt{3}\)</span>
+        <span class="math-step"><span class="math-result">\(\dfrac{6}{\sqrt{3}} = 2\sqrt{3}\)</span></span>
+      </div>
+
+      <p>Observa que al final pudimos simplificar: \(6/3 = 2\). Siempre que tras racionalizar quede una fracción reducible, se simplifica.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Caso 2: Denominador con suma o resta de raíces (conjugado)</div>
+
+      <p>Cuando el denominador es del tipo \(\sqrt{a} + b\) o \(\sqrt{a} - b\), multiplicar por la misma raíz no elimina nada (queda otra raíz). Hay que usar el <strong>conjugado</strong>: la misma expresión con el signo opuesto entre los dos términos.</p>
+
+      <div class="card card-def">
+        <strong>Conjugado:</strong> el conjugado de \(\sqrt{a} + b\) es \(\sqrt{a} - b\), y viceversa. Al multiplicarlos, se obtiene la diferencia de cuadrados \(a - b^{2}\), que ya no contiene raíz.
+      </div>
+
+      <div class="math-box">
+        \((\sqrt{a} + b)(\sqrt{a} - b) = a - b^{2}\)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Racionalizar \(\dfrac{4}{\sqrt{5} - 1}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Conjugado del denominador: \(\sqrt{5} + 1\).</span>
+        <span class="math-step">\(\dfrac{4}{\sqrt{5}-1} \cdot \dfrac{\sqrt{5}+1}{\sqrt{5}+1} = \dfrac{4(\sqrt{5}+1)}{(\sqrt{5})^{2} - 1^{2}}\)</span>
+        <span class="math-step">\(= \dfrac{4(\sqrt{5}+1)}{5 - 1} = \dfrac{4(\sqrt{5}+1)}{4} = \sqrt{5}+1\)</span>
+        <span class="math-step"><span class="math-result">\(\dfrac{4}{\sqrt{5}-1} = \sqrt{5} + 1\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Patrón visual:</strong> conjugado significa "el mismo, pero con el signo intermedio cambiado". El producto siempre da una diferencia de cuadrados, que elimina la raíz por estar elevada al cuadrado.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>¿Por qué racionalizar?</div>
+
+      <p>Tres razones prácticas:</p>
+
+      <ol class="steps-num">
+        <li><strong>Conveniencia de cálculo:</strong> dividir entre un número irracional (\(\sqrt{2} \approx 1{,}414\)) es engorroso; dividir entre 2 es trivial.</li>
+        <li><strong>Comparación de magnitudes:</strong> es difícil saber si \(\dfrac{3}{\sqrt{7}}\) es mayor o menor que \(\dfrac{4}{\sqrt{11}}\). Al racionalizar (\(\dfrac{3\sqrt{7}}{7}\) vs \(\dfrac{4\sqrt{11}}{11}\)) la comparación se vuelve más manejable.</li>
+        <li><strong>Convención académica:</strong> en pruebas como la PAES, el resultado se entrega con denominador racional. Si no, te pueden marcar incorrecto aunque el valor numérico sea el mismo.</li>
+      </ol>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Antes de seguir: ¿podrías decir cuál es el conjugado de \(\sqrt{3} + 2\)? ¿Y al multiplicarlos, qué resultado da? Si llegaste a "conjugado \(= \sqrt{3} - 2\), producto \(= 3 - 4 = -1\)", ya entiendes la mecánica.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Raíces y racionales · Página 2 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 3 — Teoría III: Problemas contextualizados -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas en contexto</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Geometría · Física · Finanzas</span>
+    <span class="chip">Modelos reales</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Geometría: la raíz cuadrada del área</div>
+
+      <p>Si conoces el área \(A\) de un cuadrado y quieres saber cuánto mide cada lado, debes calcular \(\sqrt{A}\). Si el área es una fracción racional, el lado puede o no ser racional, dependiendo de si es un cuadrado perfecto fraccionario.</p>
+
+      <div class="subsec">Ejemplo 1 — Cuadrado con área racional perfecta</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una baldosa cuadrada tiene un área de \(\dfrac{25}{4}\) cm². ¿Cuánto mide cada lado?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Lado = \(\sqrt{A} = \sqrt{\dfrac{25}{4}} = \dfrac{\sqrt{25}}{\sqrt{4}} = \dfrac{5}{2}\) cm</span>
+        <span class="math-step"><span class="math-result">El lado mide \(\dfrac{5}{2} = 2{,}5\) cm.</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — La diagonal de un cuadrado</div>
+      <p>Por el Teorema de Pitágoras, en un cuadrado de lado \(\ell\), la diagonal es \(d = \ell\sqrt{2}\). Si el lado es racional, la diagonal es irracional (porque \(\sqrt{2}\) lo es).</p>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular la diagonal de un cuadrado cuyo lado mide 3 cm.
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(d = 3\sqrt{2}\) cm \(\approx 3 \cdot 1{,}414 \approx 4{,}24\) cm</span>
+        <span class="math-step"><span class="math-result">\(d = 3\sqrt{2}\) cm</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Patrón geométrico:</strong> la raíz aparece naturalmente cuando despejas una longitud a partir de un área (lado, radio, arista). El área es el cuadrado de la longitud; la longitud es la raíz cuadrada del área.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Física: caída libre y velocidad</div>
+
+      <p>La velocidad final con que un objeto llega al suelo tras caer desde una altura \(h\) (en el vacío, sin roce) es:</p>
+
+      <div class="math-box">
+        \(v = \sqrt{2 \cdot g \cdot h}\) &nbsp;&nbsp;(donde \(g \approx 10\) m/s²)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una manzana cae desde una rama de 5 m de altura. ¿Con qué velocidad llega al suelo?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(v = \sqrt{2 \cdot 10 \cdot 5} = \sqrt{100}\) m/s</span>
+        <span class="math-step">\(= 10\) m/s</span>
+        <span class="math-step"><span class="math-result">\(v = 10\) m/s</span></span>
+      </div>
+
+      <p>Aquí los números fueron amistosos (\(2 \cdot 10 \cdot 5 = 100\), cuadrado perfecto). Si la altura hubiera sido distinta, podría haber quedado una raíz irracional que se expresa simplificada (por ejemplo, \(\sqrt{50} = 5\sqrt{2}\)).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Volúmenes: raíz cúbica de un volumen</div>
+
+      <p>Análogamente al caso del cuadrado, si conoces el volumen \(V\) de un cubo y quieres saber la arista \(a\), calculas \(a = \sqrt[3]{V}\).</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una caja con forma de cubo tiene un volumen de \(\dfrac{27}{8}\) m³. ¿Cuánto mide cada arista?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(a = \sqrt[3]{V} = \sqrt[3]{\dfrac{27}{8}} = \dfrac{\sqrt[3]{27}}{\sqrt[3]{8}} = \dfrac{3}{2}\) m</span>
+        <span class="math-step"><span class="math-result">Arista = \(\dfrac{3}{2}\) m = 1,5 m</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Estrategia general para resolver problemas</div>
+
+      <ol class="steps-num">
+        <li><strong>Identifica el modelo:</strong> ¿es área, volumen, velocidad, distancia? Cada uno tiene su fórmula con raíz.</li>
+        <li><strong>Reemplaza los datos:</strong> reemplaza los valores conocidos en la fórmula.</li>
+        <li><strong>Simplifica el radicando:</strong> si tienes una fracción, separa raíces del numerador y denominador.</li>
+        <li><strong>Racionaliza si hace falta:</strong> si queda una raíz en el denominador, racionalízala.</li>
+        <li><strong>Verifica con unidades:</strong> el resultado debe tener sentido físico (lados positivos, velocidades en m/s, etc.).</li>
+      </ol>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Piensa en un problema cotidiano donde aparezcan raíces y números racionales. (Ejemplo: si la pantalla de tu celular mide \(6 \cdot \dfrac{1}{2}\sqrt{2}\) cm en diagonal, ¿qué proporciones tiene la pantalla?) Cuanto más conectes la matemática con tu mundo, más fácil será recordarla en la PAES.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Raíces y racionales · Página 3 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 4 — EJERCICIOS -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Raíces y racionales — Ejercicios</h2></div>
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+    <span class="chip">Con justificaciones</span>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es el valor de \(\sqrt{\dfrac{1}{4}}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{1/4} = \sqrt{1}/\sqrt{4} = 1/2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el radicando; falta extraer la raíz.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la fracción sin extraer raíz.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eleva al cuadrado en lugar de extraer raíz.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(\sqrt{\dfrac{9}{16}}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{3}{4}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{9/16} = \sqrt{9}/\sqrt{16} = 3/4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{9}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es el radicando; falta extraer la raíz.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{3}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Toma raíz solo del numerador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{9}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Toma raíz solo del denominador.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Al expresar \(\dfrac{1}{\sqrt{2}}\) con denominador racional se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{\sqrt{2}}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Multiplica numerador y denominador por \(\sqrt{2}\): \(\dfrac{\sqrt{2}}{(\sqrt{2})^{2}} = \dfrac{\sqrt{2}}{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Pierde la raíz en el numerador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\sqrt{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el denominador 2 que aparece al racionalizar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{2}{\sqrt{2}}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mueve el 2 al numerador en lugar de eliminar la raíz.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El valor de \(\sqrt{\dfrac{1}{9}} + \sqrt{\dfrac{4}{9}}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(1\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{1/9} = 1/3\), \(\sqrt{4/9} = 2/3\). Suma: \(1/3 + 2/3 = 3/3 = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{5}{9}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma los radicandos en lugar de las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{5}{18}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con la fórmula de promedio o suma incorrecta.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\sqrt{\dfrac{5}{9}}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma de raíces NO es raíz de la suma.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Al racionalizar \(\dfrac{6}{\sqrt{3}}\) se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2\sqrt{3}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{6}{\sqrt{3}} \cdot \dfrac{\sqrt{3}}{\sqrt{3}} = \dfrac{6\sqrt{3}}{3} = 2\sqrt{3}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(6\sqrt{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta simplificar la fracción \(6/3 = 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\sqrt{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna operación válida.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\sqrt{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica numerador y radicando sin justificación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es la longitud (en cm) del lado de un cuadrado cuya área es 18 cm²?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3\sqrt{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Lado = \(\sqrt{18} = \sqrt{9 \cdot 2} = 3\sqrt{2}\) cm.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Divide el área por 2 sin justificación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{\sqrt{18}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Divide la raíz por 2; el lado es \(\sqrt{A}\), no \(\sqrt{A}/2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(6\sqrt{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a la descomposición de 18.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El valor de \(\dfrac{3}{4} \cdot \sqrt{16}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{16} = 4\), luego \(\dfrac{3}{4} \cdot 4 = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{4}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la fracción.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica \(\sqrt{16} = 4\) por 3, olvidando dividir por 4.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{3}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(\sqrt{16}\) con \(\dfrac{1}{4}\) (lo que sería \(\sqrt{1/16}\)).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si el área de un cuadrado es \(\dfrac{25}{4}\) cm², ¿cuál es el lado?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{5}{2}\) cm<div class="opt-feedback"><strong>Correcto.</strong> Lado = \(\sqrt{25/4} = \sqrt{25}/\sqrt{4} = 5/2\) cm.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{25}{2}\) cm<div class="opt-feedback"><strong>Incorrecto.</strong> Toma raíz solo del denominador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{5}{4}\) cm<div class="opt-feedback"><strong>Incorrecto.</strong> Toma raíz solo del numerador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\sqrt{\dfrac{25}{2}}\) cm<div class="opt-feedback"><strong>Incorrecto.</strong> Divide el denominador por 2 sin justificación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Al racionalizar \(\dfrac{4}{\sqrt{5} - 1}\) se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\sqrt{5} + 1\)<div class="opt-feedback"><strong>Correcto.</strong> Multiplica por el conjugado: \(\dfrac{4(\sqrt{5}+1)}{(\sqrt{5})^{2}-1^{2}} = \dfrac{4(\sqrt{5}+1)}{4} = \sqrt{5}+1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4(\sqrt{5}+1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida simplificar el 4 con el denominador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{\sqrt{5}-1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la expresión.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{4}{\sqrt{5}+1}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo del denominador sin racionalizar.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una varilla mide \(\sqrt{20}\) cm de largo. Al expresarla como múltiplo de \(\sqrt{5}\), se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2\sqrt{5}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{20} = \sqrt{4 \cdot 5} = 2\sqrt{5}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4\sqrt{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Saca 4 fuera sin tomar su raíz.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(5\sqrt{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Saca 5 fuera y deja 4 dentro: invertido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\sqrt{20}\) ya está simplificado<div class="opt-feedback"><strong>Incorrecto.</strong> 20 contiene el cuadrado perfecto 4; sí se puede simplificar.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Raíces y racionales · Página 4 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 5 — PAES + CIERRE -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Raíces y racionales — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Raíces y números racionales</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">\(\sqrt{\dfrac{25}{16}}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{5}{4}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{25/16} = 5/4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{25}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es el radicando.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{5}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Toma raíz solo del numerador.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{25}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Toma raíz solo del denominador.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(\dfrac{\sqrt{2}}{2}\) es equivalente a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{\sqrt{2}}\)<div class="opt-feedback"><strong>Correcto.</strong> Multiplicando arriba y abajo por \(\sqrt{2}\), \(\dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\). Son la misma expresión sin/con racionalización.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{2}{\sqrt{2}}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{2}{\sqrt{2}} = \sqrt{2}\), no \(\dfrac{\sqrt{2}}{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt{2} \cdot 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica en lugar de dividir.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Pierde la raíz.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">El valor de \(\sqrt{\dfrac{36}{49}}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{6}{7}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{36/49} = 6/7\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{36}{49}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es el radicando.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{7}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la fracción.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{12}{14}\) sin simplificar<div class="opt-feedback"><strong>Incorrecto.</strong> No es \(\sqrt{144/196}\); además no simplifica.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Al racionalizar \(\dfrac{5}{\sqrt{3}}\) se obtiene:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{5\sqrt{3}}{3}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{5}{\sqrt{3}} \cdot \dfrac{\sqrt{3}}{\sqrt{3}} = \dfrac{5\sqrt{3}}{3}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{5}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Pierde la raíz al racionalizar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(5\sqrt{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el denominador 3 que aparece.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{5}{3}\sqrt{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Reordena pero no simplifica correctamente; equivale a A solo si la separación es estricta.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuánto mide la diagonal de un cuadrado de lado 3 cm?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\sqrt{2}\) cm<div class="opt-feedback"><strong>Correcto.</strong> En un cuadrado, \(d = \ell \cdot \sqrt{2} = 3\sqrt{2}\) cm.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(6\) cm<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde diagonal con perímetro/2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt{6}\) cm<div class="opt-feedback"><strong>Incorrecto.</strong> Suma los cuadrados de los lados (\(3^{2}+3^{2}=18\)) pero luego confunde con \(\sqrt{6}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(9\sqrt{2}\) cm<div class="opt-feedback"><strong>Incorrecto.</strong> Eleva el lado al cuadrado dentro del producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">\(\sqrt{\dfrac{1}{2}} + \sqrt{\dfrac{1}{8}}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{3\sqrt{2}}{4}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{1/2} = \sqrt{2}/2\), \(\sqrt{1/8} = \sqrt{2}/4\). Suma: \(\dfrac{2\sqrt{2}}{4} + \dfrac{\sqrt{2}}{4} = \dfrac{3\sqrt{2}}{4}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Pierde la raíz \(\sqrt{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt{\dfrac{5}{8}}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma los radicandos; suma de raíces no es raíz de la suma.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{5\sqrt{2}}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en suma de fracciones; el denominador común es 4, no 8.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Si el área de un círculo es \(9\pi\) m², ¿cuánto mide el radio?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\) m<div class="opt-feedback"><strong>Correcto.</strong> \(A = \pi r^{2} \Rightarrow r = \sqrt{A/\pi} = \sqrt{9} = 3\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sqrt{9\pi}\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida dividir por \(\pi\) antes de extraer la raíz.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(9\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el área con el radio.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(3\pi\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Mantiene \(\pi\) en el resultado innecesariamente.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Para construir un cubo con volumen \(V = \dfrac{8}{27}\) m³, ¿cuánto mide su arista?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{2}{3}\) m<div class="opt-feedback"><strong>Correcto.</strong> Arista = \(\sqrt[3]{V} = \sqrt[3]{8/27} = 2/3\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{8}{27}\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el volumen con la arista.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt[3]{\dfrac{27}{8}}\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte numerador y denominador.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{3}\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(\sqrt[3]{8}\) con 1, error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">La velocidad de caída libre de un objeto desde altura \(h\) es \(v = \sqrt{2gh}\), con \(g = 10\) m/s². Si \(h = 5\) m, ¿cuál es \(v\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(10\) m/s<div class="opt-feedback"><strong>Correcto.</strong> \(v = \sqrt{2 \cdot 10 \cdot 5} = \sqrt{100} = 10\) m/s.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sqrt{50}\) m/s<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida multiplicar por 2 (factor del modelo).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(5\) m/s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde altura con velocidad.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(50\) m/s<div class="opt-feedback"><strong>Incorrecto.</strong> Da el valor del radicando sin extraer la raíz.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Al racionalizar \(\dfrac{3}{\sqrt{7} + 2}\) se obtiene:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\sqrt{7} - 2\)<div class="opt-feedback"><strong>Correcto.</strong> Multiplica por el conjugado \(\sqrt{7}-2\): \(\dfrac{3(\sqrt{7}-2)}{(\sqrt{7})^{2}-2^{2}} = \dfrac{3(\sqrt{7}-2)}{7-4} = \dfrac{3(\sqrt{7}-2)}{3} = \sqrt{7}-2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3\sqrt{7} - 6}{9}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en el denominador: \((\sqrt{7})^{2}-2^{2}=3\), no 9.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{3}{\sqrt{7} - 2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo del denominador sin multiplicar por el conjugado.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{\sqrt{7} + 2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte numerador y denominador.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Combinar raíces con números racionales aparece en geometría (áreas, volúmenes, diagonales), en física (caídas, péndulos, velocidades) y en ingeniería (resistencias, escalas). Es la matemática del mundo real, donde los números rara vez son redondos.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Relaciones entre potencias, raíces y logaritmos</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Raíces y racionales · Página 5 de 5</div>
+  </div>
+</div>
+
+</body>
+</html>

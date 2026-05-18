@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Potencias — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    /* Botón Exportar a PDF */
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    /* Alternativas click-para-revelar */
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar">
+  <button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — TEORÍA I
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Potencias: propiedades y operatoria</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Multiplicación y división</span>
+    <span class="chip">Base entera y racional</span>
+  </div>
+
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Realizar cálculos y estimaciones que involucren operaciones con números reales, aplicando propiedades relativas a multiplicación y división con potencias, combinando con raíces y números racionales en contextos diversos.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es una potencia?</div>
+
+      <div class="card card-def">
+        <strong>Potencia:</strong> es una multiplicación abreviada de un mismo factor. Si \(a\) es un número real y \(n\) es un número natural, entonces \(a^{n}\) significa multiplicar la base \(a\) por sí misma \(n\) veces.
+      </div>
+
+      <div class="math-box">
+        \(a^{n} = \underbrace{a \cdot a \cdot a \cdot \ldots \cdot a}_{n \text{ factores}}\)
+      </div>
+
+      <p>Cada potencia tiene tres partes que conviene nombrar con precisión, porque las propiedades que verás más adelante dependen de saber distinguirlas con claridad.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Parte</th><th>Símbolo</th><th>Qué representa</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Base</td><td>\(a\)</td><td>El factor que se repite.</td></tr>
+          <tr><td>Exponente</td><td>\(n\)</td><td>La cantidad de veces que se multiplica la base.</td></tr>
+          <tr><td>Potencia (valor)</td><td>\(a^{n}\)</td><td>El resultado de la operación.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular el valor de la potencia \(2^{5}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(2^{5} = 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2\)</span>
+        <span class="math-step">\(= 4 \cdot 2 \cdot 2 \cdot 2 = 8 \cdot 2 \cdot 2 = 16 \cdot 2\)</span>
+        <span class="math-step"><span class="math-result">\(2^{5} = 32\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Lectura:</strong> \(2^{5}\) se lee "dos elevado a cinco" o "dos a la quinta". Cuando el exponente es 2 se dice "al cuadrado"; cuando es 3, "al cubo".
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Multiplicación de potencias de igual base</div>
+
+      <p>Cuando multiplicas dos potencias que tienen <strong>la misma base</strong>, los exponentes se <em>suman</em> y la base se conserva. Al desarrollar las potencias, simplemente estás juntando todos los factores iguales en un solo grupo.</p>
+
+      <div class="math-box">
+        \(a^{n} \cdot a^{m} = a^{n+m}\)
+      </div>
+
+      <div class="subsec">Ejemplo 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(3^{2} \cdot 3^{4}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(3^{2} \cdot 3^{4} = (3 \cdot 3) \cdot (3 \cdot 3 \cdot 3 \cdot 3) = 3^{2+4} = 3^{6}\)</span>
+        <span class="math-step"><span class="math-result">\(3^{2} \cdot 3^{4} = 729\)</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Base negativa</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \((-2)^{3} \cdot (-2)^{2}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\((-2)^{3} \cdot (-2)^{2} = (-2)^{3+2} = (-2)^{5}\)</span>
+        <span class="math-step"><span class="math-result">\((-2)^{3} \cdot (-2)^{2} = -32\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Atención al signo:</strong> en una potencia de base negativa, si el exponente es <em>par</em> el resultado es positivo; si es <em>impar</em>, negativo. Consecuencia directa de la regla de los signos.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>División de potencias de igual base</div>
+
+      <p>Al dividir dos potencias de la misma base, los exponentes se <em>restan</em> (numerador menos denominador) y la base se conserva. La base debe ser distinta de cero.</p>
+
+      <div class="math-box">
+        \(a^{n} : a^{m} = a^{n-m}\) &nbsp;&nbsp;(\(a \neq 0\))
+      </div>
+
+      <div class="subsec">Ejemplo 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(5^{7} : 5^{4}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{5^{7}}{5^{4}} = 5^{7-4} = 5^{3}\)</span>
+        <span class="math-step"><span class="math-result">\(5^{7} : 5^{4} = 125\)</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Exponente final negativo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(2^{5} : 2^{7}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(2^{5} : 2^{7} = 2^{5-7} = 2^{-2} = \dfrac{1}{2^{2}} = \dfrac{1}{4}\)</span>
+        <span class="math-step"><span class="math-result">\(2^{5} : 2^{7} = \dfrac{1}{4}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Exponente cero y exponente uno</div>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Exponente cero</span>
+          <span class="prop-eq">\(a^{0} = 1\) &nbsp;(\(a \neq 0\))</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Exponente uno</span>
+          <span class="prop-eq">\(a^{1} = a\)</span>
+        </div>
+      </div>
+
+      <p><strong>¿Por qué \(a^{0}=1\)?</strong> Usa la propiedad de división: \(a^{n}:a^{n} = a^{n-n} = a^{0}\). Pero también \(a^{n}:a^{n} = 1\). Por lo tanto \(a^{0}=1\).</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        ¿Puedes explicar con tus propias palabras, sin mirar la guía, por qué al multiplicar \(3^{2} \cdot 3^{4}\) los exponentes se suman? Si te cuesta, vuelve al ejemplo 1 de la sección 2 y desarrolla los factores.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Potencias · Página 1 de 4</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — TEORÍA II
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Potencias II: propiedades avanzadas y exponente negativo</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Potencia de potencia</span>
+    <span class="chip">Exponente negativo</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Potencia de una potencia</div>
+
+      <p>Cuando elevas una potencia a otro exponente, los exponentes se <strong>multiplican</strong>. La base no cambia.</p>
+
+      <div class="math-box">
+        \((a^{n})^{m} = a^{n \cdot m}\)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \((2^{3})^{4}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\((2^{3})^{4} = 2^{3} \cdot 2^{3} \cdot 2^{3} \cdot 2^{3} = 2^{3+3+3+3} = 2^{3 \cdot 4} = 2^{12}\)</span>
+        <span class="math-step"><span class="math-result">\((2^{3})^{4} = 4096\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>No confundir:</strong> \((2^{3})^{4} \neq 2^{3} \cdot 2^{4}\). En el primero los exponentes se multiplican (\(2^{12}\)); en el segundo se suman (\(2^{7}\)).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Potencia de un producto y de un cociente</div>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Producto</span>
+          <span class="prop-eq">\((a \cdot b)^{n} = a^{n} \cdot b^{n}\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Cociente</span>
+          <span class="prop-eq">\((a:b)^{n} = a^{n} : b^{n}\) &nbsp;(\(b \neq 0\))</span>
+        </div>
+      </div>
+
+      <div class="subsec">Ejemplo 1 — Producto</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \((2 \cdot 5)^{3}\) usando la propiedad del producto.
+      </div>
+      <div class="math-block">
+        <span class="math-step">\((2 \cdot 5)^{3} = 2^{3} \cdot 5^{3} = 8 \cdot 125\)</span>
+        <span class="math-step"><span class="math-result">\((2 \cdot 5)^{3} = 1000\)</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Cociente</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\dfrac{6^{4}}{2^{4}}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{6^{4}}{2^{4}} = \left(\dfrac{6}{2}\right)^{4} = 3^{4} = 81\)</span>
+        <span class="math-step"><span class="math-result">\(6^{4} : 2^{4} = 81\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Trampa frecuente:</strong> la propiedad solo se aplica cuando hay <em>un mismo exponente</em> sobre el producto o cociente completo. NO se cumple para sumas: \((a + b)^{n} \neq a^{n} + b^{n}\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Exponente negativo</div>
+
+      <p>Un exponente negativo indica el inverso multiplicativo de la potencia con exponente positivo.</p>
+
+      <div class="math-box">
+        \(a^{-n} = \dfrac{1}{a^{n}}\) &nbsp;&nbsp;(\(a \neq 0\))
+      </div>
+
+      <div class="subsec">Ejemplo 1</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Expresar \(2^{-3}\) como fracción y calcular su valor.
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(2^{-3} = \dfrac{1}{2^{3}} = \dfrac{1}{8}\)</span>
+        <span class="math-step"><span class="math-result">\(2^{-3} = \dfrac{1}{8}\)</span></span>
+      </div>
+
+      <p>Cuando la base es una fracción y el exponente es negativo, se invierte la fracción y el exponente queda positivo.</p>
+
+      <div class="math-box">
+        \(\left(\dfrac{a}{b}\right)^{-n} = \left(\dfrac{b}{a}\right)^{n}\) &nbsp;&nbsp;(\(a,b \neq 0\))
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Base racional con exponente negativo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\left(\dfrac{2}{3}\right)^{-2}\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\left(\dfrac{2}{3}\right)^{-2} = \left(\dfrac{3}{2}\right)^{2} = \dfrac{3^{2}}{2^{2}} = \dfrac{9}{4}\)</span>
+        <span class="math-step"><span class="math-result">\(\left(\dfrac{2}{3}\right)^{-2} = \dfrac{9}{4}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Resumen de propiedades</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Propiedad</th><th>Fórmula</th><th>Condición</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Producto, igual base</td><td>\(a^{n} \cdot a^{m} = a^{n+m}\)</td><td>\(a \in \mathbb{R}\)</td></tr>
+          <tr><td>Cociente, igual base</td><td>\(a^{n} : a^{m} = a^{n-m}\)</td><td>\(a \neq 0\)</td></tr>
+          <tr><td>Potencia de potencia</td><td>\((a^{n})^{m} = a^{n \cdot m}\)</td><td>\(a \in \mathbb{R}\)</td></tr>
+          <tr><td>Potencia de un producto</td><td>\((a \cdot b)^{n} = a^{n} \cdot b^{n}\)</td><td>\(a,b \in \mathbb{R}\)</td></tr>
+          <tr><td>Potencia de un cociente</td><td>\((a:b)^{n} = a^{n} : b^{n}\)</td><td>\(b \neq 0\)</td></tr>
+          <tr><td>Exponente cero</td><td>\(a^{0} = 1\)</td><td>\(a \neq 0\)</td></tr>
+          <tr><td>Exponente negativo</td><td>\(a^{-n} = 1/a^{n}\)</td><td>\(a \neq 0\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Estrategia PAES:</strong> antes de calcular, pregúntate si puedes <em>simplificar primero</em> con propiedades. Convertir 8 en \(2^{3}\) o 27 en \(3^{3}\) antes de operar suele transformar un cálculo complejo en uno trivial.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cierra la guía y enumera, de memoria, las siete propiedades de la tabla. ¿Cuántas recordaste sin ayuda?
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Potencias · Página 2 de 4</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Potencias — Ejercicios</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+    <span class="chip">Con justificaciones</span>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-b">Básico</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El valor de la potencia \(4^{3}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(12\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 12 es \(4 \cdot 3\) (multiplicación), no la potencia \(4^{3}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(16\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(16 = 4^{2} = 4 \cdot 4\); te falta multiplicar una vez más por 4.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(64\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(4^{3} = 4 \cdot 4 \cdot 4 = 64\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(81\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(81 = 3^{4}\); confunde base con exponente.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Al aplicar la propiedad de multiplicación de potencias de igual base, \(5^{3} \cdot 5^{2}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(5^{5}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Al multiplicar potencias de igual base, los exponentes se suman: \(5^{3} \cdot 5^{2} = 5^{3+2} = 5^{5}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(5^{6}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 6 es \(3 \cdot 2\); al multiplicar potencias de igual base se suman los exponentes, no se multiplican.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(25^{5}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> La base nunca se multiplica consigo misma en esta propiedad; se conserva.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(10^{5}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(5 \cdot 5 = 25\), no 10. Y la base se conserva, no se modifica.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es el resultado de \(7^{0} + 7^{1}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(0\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(7^{0} = 1\) (no 0). Cualquier número distinto de cero elevado a 0 da 1.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(7\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(7^{1} = 7\), pero falta sumar \(7^{0} = 1\).</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(8\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(7^{0} + 7^{1} = 1 + 7 = 8\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(14\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(7^{0}\) con \(7\); sería \(7+7=14\).</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-m">Intermedio</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El resultado de \((2^{3})^{2} \cdot 2^{-4}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(2^{2} = 4\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \((2^{3})^{2} = 2^{6}\), luego \(2^{6} \cdot 2^{-4} = 2^{6-4} = 2^{2} = 4\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(2^{3} = 8\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Error en simplificación de exponentes: \(6 - 4 = 2\), no 3.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(2^{-2} = 1/4\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sumarías mal los exponentes; revisa: \(6 + (-4) = 2\), positivo.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(2^{10}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Suma exponentes ignorando el signo negativo (\(6+4=10\)).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El valor de \((-3)^{4} \cdot (-3)^{-2}\) corresponde a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(-9\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Exponente final \(4-2=2\) es par; el resultado es positivo.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(9\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \((-3)^{4} \cdot (-3)^{-2} = (-3)^{4-2} = (-3)^{2} = 9\). Base negativa con exponente par ⇒ positivo.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(-6\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna operación válida con potencias.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(1/9\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \((-3)^{-2}\) sin considerar la otra potencia.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El valor de la expresión \(\left(\dfrac{2}{5}\right)^{-3}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(\dfrac{8}{125}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\left(\dfrac{2}{5}\right)^{3}\), sin invertir por el exponente negativo.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(\dfrac{125}{8}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Exponente negativo en base racional ⇒ se invierte: \(\left(\dfrac{5}{2}\right)^{3} = \dfrac{125}{8}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(-\dfrac{8}{125}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo no afecta al signo del resultado.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(\dfrac{6}{15}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con multiplicar numerador y denominador por el exponente.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Al simplificar la expresión \(\dfrac{6^{5} \cdot 6^{-2}}{6^{4}}\) se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(6^{-1} = \dfrac{1}{6}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Numerador: \(6^{5} \cdot 6^{-2} = 6^{3}\). Luego \(6^{3}:6^{4} = 6^{-1} = 1/6\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(6^{3} = 216\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es solo el numerador simplificado; falta dividir por \(6^{4}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(6^{7}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sumaría todos los exponentes incluyendo el del denominador como positivo.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(6\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Daría si la división fuera al revés, \(6^{4}:6^{3}\).</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-a">Avanzado</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(M = 2^{5} \cdot 4^{3}\) y se quiere expresar \(M\) como una sola potencia de base 2, ¿cuál es el resultado?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(2^{8}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sumaría exponentes (\(5+3=8\)) sin convertir \(4^{3}\) a base 2.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(2^{11}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(4^{3} = (2^{2})^{3} = 2^{6}\). Entonces \(M = 2^{5} \cdot 2^{6} = 2^{11}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(2^{15}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(5+10\), confundiendo \(4^{3}\) con \(2^{10}\) (sería \(4 \cdot 4 \cdot 4 \cdot 4 \cdot 4\), no \(4^{3}\)).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(8^{8}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Cambia la base a 8 sin justificación.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">El valor de la expresión \(\dfrac{9^{3} \cdot 27^{2}}{3^{10}}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(1/9\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(3^{-2}\); revisa: numerador es \(3^{12}\), no \(3^{8}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(1/3\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(3^{-1}\); error en exponentes del numerador.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(3\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(3^{1}\); error en simplificación final.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(9\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(9 = 3^{2}\) y \(27 = 3^{3}\): \(9^{3} \cdot 27^{2} = 3^{6} \cdot 3^{6} = 3^{12}\). Dividiendo por \(3^{10}\): \(3^{2} = 9\).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(a = 2^{3}\) y \(b = 2^{-2}\), ¿cuál es el valor de \((a \cdot b)^{2}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(a \cdot b = 2\), pero falta elevar al cuadrado.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(4\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(a \cdot b = 2^{3} \cdot 2^{-2} = 2^{1} = 2\). Luego \((a \cdot b)^{2} = 2^{2} = 4\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(16\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería \((a \cdot b)^{4} = 2^{4} = 16\), distinto al exponente del enunciado.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(64\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Error en cálculo del producto \(a \cdot b\) (no es \(2^{6}\)).</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Potencias · Página 3 de 4</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Potencias — Preguntas PAES</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🎯 Estilo PAES</span>
+    <span class="chip">10 preguntas</span>
+    <span class="chip">Con justificaciones</span>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <span class="paes-badge">PAES Preguntas estilo PAES — Potencias</span>
+    </div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es el valor de la expresión \(3^{4} \cdot 3^{-2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(1\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería si los exponentes finales fueran 0; aquí \(4-2 = 2\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(3\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(3^{1}\), error de un punto en la suma.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(9\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(3^{4} \cdot 3^{-2} = 3^{4-2} = 3^{2} = 9\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(81\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(3^{4}\); falta aplicar el exponente negativo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Al simplificar la expresión \(\dfrac{5^{8}}{5^{5}}\) se obtiene:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(5^{13}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Suma los exponentes; en cociente se restan.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(5^{40}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicar los exponentes no es propiedad válida.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(5^{3}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> En cociente de igual base, los exponentes se restan: \(5^{8-5} = 5^{3}\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(1^{3}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> La base nunca se divide consigo misma; se conserva.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál de las siguientes expresiones es igual a \(2^{-4}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(-16\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo NO hace negativo el número; lo convierte en fracción.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(-8\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Mismo error y mal cálculo.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(\dfrac{1}{8}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(2^{-3}\), no \(2^{-4}\).</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(\dfrac{1}{16}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(2^{-4} = \dfrac{1}{2^{4}} = \dfrac{1}{16}\).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Al aplicar la propiedad correspondiente, \((4^{2})^{3}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(4^{5}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sumaría exponentes; en potencia de potencia se multiplican.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(4^{6}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Potencia de potencia: \((4^{2})^{3} = 4^{2 \cdot 3} = 4^{6}\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(8^{3}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con elevar la base al exponente interior.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(12^{2}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicar base por exponente no corresponde a ninguna propiedad.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál es el valor de \(\left(\dfrac{3}{4}\right)^{-2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(\dfrac{9}{16}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\left(\dfrac{3}{4}\right)^{2}\), sin invertir por el exponente negativo.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(\dfrac{16}{9}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Exponente negativo en base fracción ⇒ se invierte. \(\left(\dfrac{4}{3}\right)^{2} = \dfrac{16}{9}\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(-\dfrac{9}{16}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo no afecta el signo del resultado.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(\dfrac{6}{8}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con multiplicar numerador y denominador por el exponente.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Sea \(T = (-2)^{3} \cdot (-2)^{2}\). El valor de \(T\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(-32\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \((-2)^{3+2} = (-2)^{5} = -32\). Base negativa con exponente impar ⇒ resultado negativo.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(32\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo: el exponente final 5 es impar, resultado negativo.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(-10\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica base por exponente (\(-2 \cdot 5\)), error frecuente.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(10\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Mismo error, sin el signo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Una bacteria se duplica cada hora. Si al inicio hay \(2^{3}\) bacterias, ¿cuántas habrá luego de 5 horas?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(2^{8}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Cada hora se multiplica por 2; en 5 horas, por \(2^{5}\). Total: \(2^{3} \cdot 2^{5} = 2^{8}\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(2^{15}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica exponentes (\(3 \cdot 5\)) en vez de sumarlos.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(10^{3}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Cambia la base sin justificación.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(2 \cdot 3 \cdot 5\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla valores sin sentido; el crecimiento es exponencial, no lineal.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">¿Cuál es el valor de la expresión \(\dfrac{8^{2}}{2^{3}}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(2^{1}\); error en simplificación.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(4\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(2^{2}\); error de un punto en la resta de exponentes.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(8\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(8 = 2^{3}\), así que \(8^{2} = 2^{6}\). Luego \(2^{6}:2^{3} = 2^{3} = 8\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(16\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(2^{4}\), error de un punto en la resta.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Si \(a \cdot b \neq 0\), ¿cuál de las siguientes expresiones es siempre equivalente a \((a \cdot b)^{-2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(a^{-2} \cdot b^{-2}\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Potencia de un producto: el exponente se aplica a cada factor. \((a \cdot b)^{-2} = a^{-2} \cdot b^{-2}\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(a^{2} \cdot b^{2}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo del exponente; el exponente negativo se mantiene en cada factor.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(a \cdot b^{-2}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El exponente debe aplicarse a ambos factores, no solo a uno.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(-2 \cdot a \cdot b\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica base por exponente, error muy frecuente.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">El resultado de la operación \(2^{10} \cdot 2^{-7} : 2^{2}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(1\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(2^{0}\); pero la suma es \(10 - 7 - 2 = 1\), no 0.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(2\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Operando exponentes: \(10 + (-7) - 2 = 1\). Resultado: \(2^{1} = 2\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(4\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(2^{2}\); error en suma de exponentes.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(8\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(2^{3}\); error en suma de exponentes.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Entender potencias es entender el lenguaje del crecimiento exponencial: el interés compuesto, la propagación de virus, la memoria de un computador, la escala del universo… todo se describe con potencias.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Raíces y propiedades</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Potencias · Página 4 de 4</div>
+  </div>
+</div>
+
+</body>
+</html>

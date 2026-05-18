@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suma por su diferencia — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.2rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .compare-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .compare-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .compare-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .compare-table tr:nth-child(even){background:#f8f4e9;}
+    .compare-table td.center{text-align:center;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    .mode-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;}
+    .mode-toggle button.active{background:#6A2C91;color:#fff;}
+    .mode-toggle button:hover{background:#552072;color:#fff;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.55rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .5rem;font-size:.72rem;margin-right:.5rem;font-weight:700;letter-spacing:.5px;}
+
+    canvas.area-canvas{width:100%;height:300px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button,.mode-toggle{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — La fórmula mágica
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Suma por su diferencia</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Producto notable</span>
+    <span class="chip">Diferencia de cuadrados</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Desarrollar y reconocer el producto notable <strong>suma por su diferencia</strong>: \((a+b)(a-b) = a^2 - b^2\), tanto algebraica como geométricamente, y aplicarlo en factorización y cálculos rápidos.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El segundo producto notable</div>
+
+      <p>Hay un caso muy especial cuando multiplicas dos binomios: cuando son <strong>iguales pero con signos opuestos</strong>. Es decir, uno con suma y otro con resta, pero los mismos números o letras.</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Suma por su diferencia</div>
+        <div class="prop-formula">\((a + b)(a - b) = a^2 - b^2\)</div>
+        <div class="prop-words">Cuadrado del primero, menos cuadrado del segundo. Sin términos del medio.</div>
+      </div>
+
+      <p>El resultado se llama <strong>diferencia de cuadrados</strong>. Lo más sorprendente es que <strong>no aparece término lineal</strong> en el medio. Los productos cruzados se cancelan.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¿Por qué desaparece el término del medio?</div>
+
+      <p>Apliquemos FOIL a \((a+b)(a-b)\):</p>
+      <div class="math-block">
+        <span class="math-step"><strong>F</strong>irst: \(a \cdot a = a^2\)</span>
+        <span class="math-step"><strong>O</strong>utside: \(a \cdot (-b) = -ab\)</span>
+        <span class="math-step"><strong>I</strong>nside: \(b \cdot a = +ab\)</span>
+        <span class="math-step"><strong>L</strong>ast: \(b \cdot (-b) = -b^2\)</span>
+        <span class="math-step">Suma: \(a^2 - ab + ab - b^2\).</span>
+        <span class="math-step">Los términos \(-ab\) y \(+ab\) son opuestos y se <strong>anulan</strong>: \(-ab + ab = 0\).</span>
+        <span class="math-step"><span class="math-result">\((a+b)(a-b) = a^2 - b^2\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">La clave</span>
+        Como un binomio tiene "+b" y el otro "-b", los productos cruzados son uno positivo y otro negativo de la <strong>misma magnitud</strong>. Por eso se cancelan.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Ejemplos
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Ejemplos del producto notable</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">5 desarrollos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Ejemplos con variables simples</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> \((x+5)(x-5) = x^2 - 25\).</span>
+        <span class="math-step"><strong>Ej. 2:</strong> \((x+7)(x-7) = x^2 - 49\).</span>
+        <span class="math-step"><strong>Ej. 3:</strong> \((a+b)(a-b) = a^2 - b^2\) (fórmula general).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplos con coeficientes</div>
+
+      <p>Cuando hay coeficientes en \(x\), también se elevan al cuadrado. Recuerda: <strong>todo el primer término</strong> elevado al cuadrado.</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 4:</strong> \((2x+3)(2x-3) = (2x)^2 - 3^2 = 4x^2 - 9\).</span>
+        <span class="math-step"><strong>Ej. 5:</strong> \((5y-1)(5y+1) = (5y)^2 - 1^2 = 25y^2 - 1\).</span>
+        <span class="math-step"><strong>Ej. 6:</strong> \((3a+4b)(3a-4b) = 9a^2 - 16b^2\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>El orden no importa</div>
+
+      <p>Da exactamente lo mismo \((a+b)(a-b)\) que \((a-b)(a+b)\). La multiplicación es conmutativa.</p>
+      <div class="math-block">
+        <span class="math-step">\((x+4)(x-4) = x^2 - 16\)</span>
+        <span class="math-step">\((x-4)(x+4) = x^2 - 16\) ← mismo resultado</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Truco mental con números</div>
+
+      <p>La fórmula sirve para multiplicar mentalmente números que están a la misma distancia de un "número redondo".</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(98 \cdot 102 = (100-2)(100+2) = 100^2 - 2^2 = 10.000 - 4 = 9.996\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(47 \cdot 53 = (50-3)(50+3) = 50^2 - 3^2 = 2.500 - 9 = 2.491\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(19 \cdot 21 = (20-1)(20+1) = 400 - 1 = 399\).</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo identificar el truco</span>
+        <ul>
+          <li>Calcula el promedio de los dos números: es tu \(a\).</li>
+          <li>La distancia desde el promedio a cualquiera de los dos números: es tu \(b\).</li>
+          <li>Multiplica por la fórmula: \(a^2 - b^2\).</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Demostración geométrica
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Demostración geométrica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Visual</span>
+    <span class="chip">Diferencia de áreas</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>"Diferencia de cuadrados" tiene sentido literal</div>
+
+      <p>La fórmula \(a^2 - b^2\) se llama así porque, geométricamente, representa el <strong>área que sobra</strong> al sacar un cuadradito de lado \(b\) de un cuadrado más grande de lado \(a\).</p>
+
+      <canvas id="diffCanvas" class="area-canvas" width="900" height="300"></canvas>
+
+      <p style="margin-top:.5rem;">Mira la imagen:</p>
+      <ul>
+        <li>El cuadrado morado grande tiene área \(a^2\).</li>
+        <li>Le quitamos un cuadradito dorado de área \(b^2\) (esquina inferior derecha).</li>
+        <li>La figura en forma de "L" que queda tiene área \(a^2 - b^2\).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Reorganizando la "L" en un rectángulo</div>
+
+      <p>Lo curioso es que esa figura "L" se puede <strong>cortar y reorganizar</strong> en un rectángulo perfecto de lados \((a+b)\) y \((a-b)\). De ahí sale la igualdad:</p>
+
+      <div class="math-block">
+        <span class="math-step">Área de la "L" = \(a^2 - b^2\).</span>
+        <span class="math-step">Área del rectángulo equivalente = \((a+b)(a-b)\).</span>
+        <span class="math-step">Como son la misma figura, \(\boxed{(a+b)(a-b) = a^2 - b^2}\). ✔</span>
+      </div>
+
+      <p>En la imagen anterior, con \(a = 6\) y \(b = 2\):</p>
+      <ul>
+        <li>\(a^2 - b^2 = 36 - 4 = 32\).</li>
+        <li>\((a+b)(a-b) = 8 \cdot 4 = 32\). ✔ Cuadran.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Expansor
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Expansor de suma por diferencia</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Expansor de \((ax+b)(ax-b)\)</div>
+
+      <p>Ingresa los coeficientes \(a\) y \(b\) del binomio. La herramienta aplica la fórmula \((a+b)(a-b) = a^2 - b^2\) y muestra el desarrollo paso a paso.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para \((x+5)(x-5)\), pon \(a = 1\) y \(b = 5\).</li>
+          <li>Para \((3x+2)(3x-2)\), pon \(a = 3\) y \(b = 2\).</li>
+          <li>Los presets violetas tienen ejemplos comunes listos.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Binomios \((ax+b)(ax-b)\):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">a (coef. de x)</label><input type="number" id="sdA" value="1" /></div>
+              <div><label style="font-size:.78rem;">b (constante)</label><input type="number" id="sdB" value="5" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadSD(1,5)">(x+5)(x−5)</button>
+            <button onclick="loadSD(1,7)">(x+7)(x−7)</button>
+            <button onclick="loadSD(2,3)">(2x+3)(2x−3)</button>
+            <button onclick="loadSD(5,1)">(5x+1)(5x−1)</button>
+            <button onclick="loadSD(3,4)">(3x+4)(3x−4)</button>
+            <button onclick="loadSD(10,9)">(10x+9)(10x−9)</button>
+          </div>
+          <button class="calc-button" onclick="expandSD()">Expandir →</button>
+        </div>
+
+        <div class="tool-display" id="sdDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los datos y presiona <strong>Expandir</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Factorización: el camino inverso
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Factorización: el camino inverso</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">De a²−b² a (a+b)(a−b)</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Leer la fórmula al revés</div>
+
+      <p>La fórmula también se puede leer de derecha a izquierda. Si ves una <strong>diferencia de cuadrados</strong>, puedes <strong>factorizarla</strong> como producto de suma por diferencia:</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Factorizar diferencia de cuadrados</div>
+        <div class="prop-formula">\(a^2 - b^2 = (a + b)(a - b)\)</div>
+        <div class="prop-words">Identifica \(a\) (raíz del primer cuadrado) y \(b\) (raíz del segundo). El resto, sale solo.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo factorizar paso a paso</div>
+
+      <ol class="steps-num">
+        <li>Verifica que la expresión sea una <strong>resta</strong> de dos términos.</li>
+        <li>Que ambos términos sean <strong>cuadrados perfectos</strong>.</li>
+        <li>Saca la <strong>raíz</strong> de cada uno: te dan \(a\) y \(b\).</li>
+        <li>Escribe \((a+b)(a-b)\).</li>
+      </ol>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> \(x^2 - 9\). \(\sqrt{x^2}=x\), \(\sqrt{9}=3\) → \((x+3)(x-3)\).</span>
+        <span class="math-step"><strong>Ej. 2:</strong> \(4x^2 - 25\). \(\sqrt{4x^2}=2x\), \(\sqrt{25}=5\) → \((2x+5)(2x-5)\).</span>
+        <span class="math-step"><strong>Ej. 3:</strong> \(100 - y^2 = (10+y)(10-y)\).</span>
+        <span class="math-step"><strong>Ej. 4:</strong> \(49a^2 - 16b^2 = (7a+4b)(7a-4b)\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Casos que NO se pueden factorizar así</div>
+
+      <table class="compare-table">
+        <thead><tr><th>Expresión</th><th>¿Se puede como (a+b)(a−b)?</th><th>¿Por qué?</th></tr></thead>
+        <tbody>
+          <tr><td>\(x^2 + 9\)</td><td class="center"><strong>No</strong></td><td>Es <strong>suma</strong> de cuadrados, no resta.</td></tr>
+          <tr><td>\(x^2 - 5\)</td><td class="center"><strong>No (con enteros)</strong></td><td>5 no es cuadrado perfecto.</td></tr>
+          <tr><td>\(x^3 - 8\)</td><td class="center"><strong>No</strong></td><td>Es diferencia de <em>cubos</em>, no de cuadrados (otra fórmula).</td></tr>
+          <tr><td>\(4x^2 + 25\)</td><td class="center"><strong>No</strong></td><td>Es suma, no resta.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Factorizador
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Factorizador de diferencia de cuadrados</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">a² − b² → (a+b)(a−b)</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Factorizador de \(Ax^2 - C\)</div>
+
+      <p>Ingresa los coeficientes \(A\) y \(C\) del binomio \(Ax^2 - C\). La herramienta verifica si es una diferencia de cuadrados perfectos y, si lo es, la factoriza.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para \(x^2 - 9\), pon \(A = 1\), \(C = 9\).</li>
+          <li>Para \(4x^2 - 25\), pon \(A = 4\), \(C = 25\).</li>
+          <li>Si no es factorizable como diferencia de cuadrados con enteros, te lo indica.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Coeficientes del binomio \(Ax^2 - C\):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">A</label><input type="number" id="factA" value="1" /></div>
+              <div><label style="font-size:.78rem;">C</label><input type="number" id="factC" value="9" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadFact(1,9)">x²−9</button>
+            <button onclick="loadFact(1,49)">x²−49</button>
+            <button onclick="loadFact(4,25)">4x²−25</button>
+            <button onclick="loadFact(9,16)">9x²−16</button>
+            <button onclick="loadFact(1,100)">x²−100</button>
+            <button onclick="loadFact(1,5)">x²−5 (no entero)</button>
+            <button onclick="loadFact(3,12)">3x²−12 (no TCP)</button>
+          </div>
+          <button class="calc-button" onclick="factorize()">Factorizar →</button>
+        </div>
+
+        <div class="tool-display" id="factDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa A y C, y presiona <strong>Factorizar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Suma por diferencia — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\((x+6)(x-6)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 36\)<div class="opt-feedback"><strong>Incorrecto.</strong> La fórmula da \(a^2 - b^2\), con resta.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - 36\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2 - 6^2 = x^2 - 36\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 12x - 36\)<div class="opt-feedback"><strong>Incorrecto.</strong> El término del medio se cancela; queda \(x^2 - 36\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 - 12x + 36\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((x-6)^2\), no \((x+6)(x-6)\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Factoriza \(x^2 - 16\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x+4)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^2 + 8x + 16\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+4)(x-4)\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{x^2}=x\), \(\sqrt{16}=4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x-4)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^2 - 8x + 16\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x+16)(x-16)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tomaste \(16\), no su raíz.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es una diferencia de cuadrados?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es <em>suma</em> de cuadrados, no diferencia.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - 36\)<div class="opt-feedback"><strong>Correcto.</strong> Ambos son cuadrados y van restando.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^3 - 27\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es diferencia de <em>cubos</em>, no de cuadrados.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 - 6x\)<div class="opt-feedback"><strong>Incorrecto.</strong> El segundo término no es un cuadrado puro.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\((3x+2)(3x-2)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(9x^2 + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es resta, no suma.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(9x^2 - 4\)<div class="opt-feedback"><strong>Correcto.</strong> \((3x)^2 - 2^2 = 9x^2 - 4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(3x^2 - 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> \((3x)^2 = 9x^2\), no \(3x^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(6x^2 - 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> \((3x)^2\) significa \(9x^2\), no \(6x^2\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza \(25x^2 - 49\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((25x+49)(25x-49)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sacar raíz.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((5x+7)(5x-7)\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{25x^2}=5x\), \(\sqrt{49}=7\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((5x+49)(5x-49)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sacar la raíz de 49.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((5x-7)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(25x^2 - 70x + 49\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Usando el producto notable, calcula \(98 \cdot 102\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 9.800<div class="opt-feedback"><strong>Incorrecto.</strong> Te faltó restar \(2^2\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 9.996<div class="opt-feedback"><strong>Correcto.</strong> \((100-2)(100+2) = 10.000 - 4 = 9.996\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 10.004<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste 4 en vez de restar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 10.000<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste la corrección \(-2^2\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\((a-b)(a+b)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(b^2 - a^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> El cuadrado del primero queda primero; \(a^2 - b^2\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(a^2 - b^2\)<div class="opt-feedback"><strong>Correcto.</strong> El orden de los factores no importa: \((a-b)(a+b) = (a+b)(a-b) = a^2 - b^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(a^2 + b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es resta, no suma.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(a^2 - 2ab + b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((a-b)^2\), no \((a-b)(a+b)\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Factoriza \(4x^2 - 81y^2\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((2x+9y)(2x-9y)\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{4x^2}=2x\), \(\sqrt{81y^2}=9y\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((4x+9y)(x-9y)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mal sacada la raíz del primer término.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((2x+9y)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(4x^2 + 36xy + 81y^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se puede factorizar.<div class="opt-feedback"><strong>Incorrecto.</strong> Es una diferencia de cuadrados perfectos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Simplifica \(\dfrac{x^2 - 25}{x + 5}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x - 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se puede simplificar \(25\) con \(5\) directamente.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x - 5\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2-25 = (x+5)(x-5)\); cancela el \((x+5)\) y queda \(x-5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x + 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cancelaste el factor equivocado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se simplifica así.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una sala rectangular mide \((x+8)\) m de largo y \((x-8)\) m de ancho. ¿Cuál es su área?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 64\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Es diferencia, no suma.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - 64\) m²<div class="opt-feedback"><strong>Correcto.</strong> \((x+8)(x-8) = x^2 - 64\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4x\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería el perímetro \(4x\) si fuera cuadrado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 - 16x + 64\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((x-8)^2\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Suma por diferencia — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Diferencia de cuadrados</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">\((x+3)(x-3)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es resta.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 - 9\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2 - 3^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 - 6x + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((x-3)^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 + 6x + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((x+3)^2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\((2y-5)(2y+5)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(4y^2 - 25\)<div class="opt-feedback"><strong>Correcto.</strong> \((2y)^2 - 5^2 = 4y^2 - 25\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(4y^2 + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es resta, no suma.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(2y^2 - 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> \((2y)^2 = 4y^2\), no \(2y^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(4y^2 - 20y + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((2y-5)^2\), no el producto suma por diferencia.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál de las siguientes es una diferencia de cuadrados?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es suma.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(9x^2 - 1\)<div class="opt-feedback"><strong>Correcto.</strong> \(9x^2 = (3x)^2\) y \(1 = 1^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 10x + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es un trinomio cuadrado perfecto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^3 - 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es diferencia de cubos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">La factorización de \(x^2 - 81\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x-81)(x+81)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sacar raíz.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x-9)(x+9)\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{81}=9\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x-9)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(x^2 - 18x + 81\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x(x-81)\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es factorización por factor común.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Calcula \(53 \cdot 47\) usando suma por diferencia.</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 2.500<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el \(-9\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2.491<div class="opt-feedback"><strong>Correcto.</strong> \((50+3)(50-3) = 2.500 - 9 = 2.491\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 2.509<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste 9 en vez de restar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2.450<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Factoriza \(36 - y^2\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((6-y)(6+y)\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{36}=6\); el primero es 6 (positivo).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((6-y)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso daría \(36 - 12y + y^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((36-y)(36+y)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sacar raíz a 36.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((y-6)(y+6)\)<div class="opt-feedback"><strong>Incorrecto en signo.</strong> Daría \(y^2 - 36\), no \(36 - y^2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">\((a+b+c)(a+b-c)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a^2 + b^2 - c^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el doble producto \(2ab\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((a+b)^2 - c^2\)<div class="opt-feedback"><strong>Correcto.</strong> Trata \((a+b)\) como una unidad: aplica suma por diferencia.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(a^2 + b^2 + c^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo \(c\) va con signo opuesto entre los binomios.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(a^2 - b^2 + c^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si solo \(b\) cambiara de signo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si \((x+a)(x-a) = x^2 - 49\), ¿cuánto vale \(a\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 49<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(a^2\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 7<div class="opt-feedback"><strong>Correcto.</strong> \(a^2 = 49\) → \(a = 7\) (o también \(-7\), pero por convención se toma positivo).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 14<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 25<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Simplifica \(\dfrac{x^2 - 9}{x - 3}\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x - 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cancelaste el factor equivocado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x + 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2-9 = (x+3)(x-3)\). Cancelas \((x-3)\) y queda \(x+3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se simplifica así.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{x-3}{x+3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Resultado equivocado.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál NO es un producto notable suma por diferencia?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x+5)(x-5)\)<div class="opt-feedback"><strong>Sí lo es.</strong></div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x+5)(x+3)\)<div class="opt-feedback"><strong>Correcto: no lo es.</strong> Tienen distinto segundo término, no son "suma por diferencia" del mismo número.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((2x-1)(2x+1)\)<div class="opt-feedback"><strong>Sí lo es.</strong></div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((a+b)(a-b)\)<div class="opt-feedback"><strong>Sí lo es.</strong> Es la fórmula general.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya tienes el segundo producto notable: \((a+b)(a-b) = a^2 - b^2\). Lo mejor es que también funciona <strong>al revés</strong> como factorización rápida de cualquier diferencia de cuadrados.</p>
+    <p>En la próxima guía verás el tercer producto notable: el producto de binomios con <strong>término común</strong>, que sirve para multiplicar cosas como \((x+3)(x+5)\) sin tener que hacer FOIL completo.</p>
+    <span class="next-pill">Próximo: Producto con término común</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Suma por diferencia · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Expansor suma por diferencia ---------- */
+function loadSD(a,b){
+  document.getElementById('sdA').value = a;
+  document.getElementById('sdB').value = b;
+  expandSD();
+}
+function expandSD(){
+  const a = parseFloat(document.getElementById('sdA').value);
+  const b = parseFloat(document.getElementById('sdB').value);
+  const out = document.getElementById('sdDisplay');
+  if(isNaN(a)||isNaN(b)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa a y b.</p>'; return; }
+
+  const aStr = a===1?'x':(a===-1?'-x':a+'x');
+  const expr = `\\((${aStr}+${b})(${aStr}-${b})\\)`;
+
+  const A2 = a*a;
+  const B2 = b*b;
+  const A2Str = A2===1?'x^2':A2+'x^2';
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.2rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div class="resolver-step"><span class="step-label">Paso 1</span>Identifico primer término = \\(${aStr}\\), segundo término = ${b}.</div>
+    <div class="resolver-step"><span class="step-label">Paso 2</span>Aplico fórmula: \\((A+B)(A-B) = A^2 - B^2\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 3</span>Cuadrado del primero: \\((${aStr})^2 = ${A2Str}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 4</span>Cuadrado del segundo: \\(${b}^2 = ${B2}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 5</span>Los términos del medio (\\(${aStr} \\cdot ${b}\\) y \\(${b} \\cdot ${aStr}\\), con signos opuestos) se cancelan.</div>
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${A2Str} - ${B2}\\)</span></div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+/* ---------- Factorizador ---------- */
+function loadFact(A,C){
+  document.getElementById('factA').value = A;
+  document.getElementById('factC').value = C;
+  factorize();
+}
+function factorize(){
+  const A = parseFloat(document.getElementById('factA').value);
+  const C = parseFloat(document.getElementById('factC').value);
+  const out = document.getElementById('factDisplay');
+  if(isNaN(A)||isNaN(C)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa A y C.</p>'; return; }
+
+  const expr = `\\(${A===1?'':A}x^2 - ${C}\\)`;
+
+  if(A <= 0 || C <= 0){
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.4rem;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.7rem;border-radius:0 8px 8px 0;color:#0B0F3F;">
+        <b>No es una diferencia de cuadrados.</b> Ambos coeficientes deben ser positivos para usar esta fórmula directamente.
+      </div>
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  const sqrtA = Math.sqrt(A);
+  const sqrtC = Math.sqrt(C);
+
+  if(!Number.isInteger(sqrtA) || !Number.isInteger(sqrtC)){
+    // Verificar si tienen factor común para factorizar
+    const gcd = (a,b) => b===0 ? a : gcd(b, a%b);
+    const g = gcd(Math.abs(A), Math.abs(C));
+    let extra = '';
+    if(g > 1){
+      const A2 = A/g, C2 = C/g;
+      const s2A = Math.sqrt(A2), s2C = Math.sqrt(C2);
+      if(Number.isInteger(s2A) && Number.isInteger(s2C)){
+        const aStr = s2A===1?'x':s2A+'x';
+        extra = `<div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.6rem;border-radius:0 6px 6px 0;margin-top:.5rem;font-size:.93rem;">
+          <b style="color:#6A2C91;">Pero podemos sacar factor común ${g}:</b><br>
+          \\(${A}x^2 - ${C} = ${g}(${A2}x^2 - ${C2}) = ${g}(${aStr}+${s2C})(${aStr}-${s2C})\\)
+        </div>`;
+      }
+    }
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.4rem;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.7rem;border-radius:0 8px 8px 0;color:#0B0F3F;">
+        <b>No es diferencia de cuadrados perfectos enteros.</b> \\(\\sqrt{${A}}\\) o \\(\\sqrt{${C}}\\) no son enteros.
+      </div>${extra}
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  const aStr = sqrtA===1?'x':sqrtA+'x';
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.7rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;">
+      <b style="color:#6A2C91;">¡Sí es diferencia de cuadrados!</b>
+    </div>
+    <div class="resolver-step"><span class="step-label">Paso 1</span>Reconozco que es una resta de dos términos.</div>
+    <div class="resolver-step"><span class="step-label">Paso 2</span>\\(\\sqrt{${A}x^2} = ${aStr}\\) (raíz del primero).</div>
+    <div class="resolver-step"><span class="step-label">Paso 3</span>\\(\\sqrt{${C}} = ${sqrtC}\\) (raíz del segundo).</div>
+    <div class="resolver-step"><span class="step-label">Paso 4</span>Escribo \\((a+b)(a-b)\\).</div>
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\((${aStr}+${sqrtC})(${aStr}-${sqrtC})\\)</span></div>
+  `;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+/* ---------- Canvas diferencia de cuadrados ---------- */
+function drawDiffSquare(){
+  const cv = document.getElementById('diffCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  const a = 6, b = 2;
+  const unit = 30;
+  const x0 = 70, y0 = 30;
+  const aPx = a*unit, bPx = b*unit;
+
+  // Cuadrado grande morado a*a
+  ctx.fillStyle = 'rgba(106,44,145,.28)';
+  ctx.fillRect(x0, y0, aPx, aPx);
+  ctx.strokeStyle = '#6A2C91'; ctx.lineWidth = 2;
+  ctx.strokeRect(x0, y0, aPx, aPx);
+
+  // Cuadradito dorado b*b (esquina inferior derecha) "quitado"
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(x0+aPx-bPx, y0+aPx-bPx, bPx, bPx);
+  ctx.fillStyle = 'rgba(212,175,55,.45)';
+  ctx.fillRect(x0+aPx-bPx, y0+aPx-bPx, bPx, bPx);
+  ctx.strokeStyle = '#D4AF37'; ctx.lineWidth = 2;
+  ctx.strokeRect(x0+aPx-bPx, y0+aPx-bPx, bPx, bPx);
+
+  // Etiquetas internas
+  ctx.fillStyle = '#0B0F3F';
+  ctx.font = 'bold 26px Inter, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('a²', x0+aPx/2-bPx/2, y0+aPx/2-bPx/2);
+  ctx.font = 'bold 18px Inter, sans-serif';
+  ctx.fillText('b²', x0+aPx-bPx/2, y0+aPx-bPx/2);
+
+  // Etiquetas de lados
+  ctx.font = 'bold 15px Inter, sans-serif';
+  ctx.fillStyle = '#6A2C91';
+  ctx.fillText('a', x0+aPx/2, y0-15);
+  ctx.textAlign = 'right';
+  ctx.fillText('a', x0-10, y0+aPx/2);
+  ctx.fillStyle = '#9b7c1c';
+  ctx.textAlign = 'center';
+  ctx.fillText('b', x0+aPx-bPx/2, y0+aPx+18);
+  ctx.textAlign = 'left';
+  ctx.fillText('b', x0+aPx+5, y0+aPx-bPx/2);
+
+  // Texto a la derecha
+  const tx = x0 + aPx + 50;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#6A2C91'; ctx.font = 'bold 17px Inter, sans-serif';
+  ctx.fillText('Diferencia de cuadrados', tx, y0+25);
+  ctx.fillStyle = '#0B0F3F'; ctx.font = '14px Inter, sans-serif';
+  ctx.fillText('Área de la "L" = a² − b²', tx, y0+50);
+  ctx.fillText('Reorganizando: rectángulo', tx, y0+72);
+  ctx.fillText('de lados (a+b) y (a−b).', tx, y0+90);
+  ctx.fillStyle = '#9b7c1c'; ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillText('Ej.: a=6, b=2', tx, y0+125);
+  ctx.fillStyle = '#0B0F3F'; ctx.font = '14px Inter, sans-serif';
+  ctx.fillText('a²−b² = 36−4 = 32', tx, y0+145);
+  ctx.fillText('(a+b)(a−b) = 8·4 = 32 ✔', tx, y0+165);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  expandSD();
+  factorize();
+  drawDiffSquare();
+});
+</script>
+
+</body>
+</html>

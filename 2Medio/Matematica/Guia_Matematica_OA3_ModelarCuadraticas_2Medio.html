@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modelar con cuadráticas — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* Bloque de problema con 4 fases */
+    .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.8rem 0;}
+    @media (max-width:600px){.phases{grid-template-columns:repeat(2,1fr);}}
+    .phase-card{background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.6rem;text-align:center;}
+    .phase-card .phase-num{display:inline-block;background:#6A2C91;color:#fff;width:24px;height:24px;border-radius:50%;line-height:24px;font-weight:700;font-size:.85rem;margin-bottom:.3rem;}
+    .phase-card h5{margin:.2rem 0;color:#0B0F3F;font-size:.88rem;}
+    .phase-card p{margin:.2rem 0;font-size:.75rem;color:#555;line-height:1.4;}
+
+    /* SIMULADOR */
+    .sim-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.sim-wrap{grid-template-columns:1fr;}}
+    .sim-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    .sim-canvas-wrap canvas{width:100%;height:auto;display:block;}
+    .sim-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .slider-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .slider-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .slider-control input[type=range]{width:100%;accent-color:#6A2C91;}
+    .slider-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .sim-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .sim-info .badge{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:0 .5rem;border-radius:10px;font-size:.78rem;font-weight:700;margin-left:.3rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;transition:background .2s;}
+    .preset-buttons button:hover{background:#552072;}
+    .exploration-tasks{background:#FFF8E1;border:2px solid #D4AF37;border-radius:8px;padding:.9rem 1.3rem;margin:1rem 0;}
+    .exploration-tasks h3{margin:0 0 .5rem;color:#0B0F3F;font-size:1.05rem;}
+    .exploration-tasks ol{margin:.4rem 0;padding-left:1.2rem;}
+    .exploration-tasks li{margin:.4rem 0;line-height:1.5;}
+
+    /* Rectángulo visual para optimizador de área */
+    .rect-preview{background:#fff;border:1px dashed #6A2C91;border-radius:8px;padding:.8rem;margin:.6rem 0;text-align:center;font-size:.85rem;color:#0B0F3F;}
+    .rect-shape{display:inline-block;background:rgba(212,175,55,.25);border:2px solid #D4AF37;margin:.4rem 0;}
+    .rect-dim{color:#6A2C91;font-weight:700;font-size:.82rem;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.sim-controls{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Modelar problemas
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Modelar problemas con ecuaciones cuadráticas</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Modelamiento</span>
+    <span class="chip">Cuatro fases</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Modelar problemas geométricos, de la vida cotidiana y de ciencias naturales y sociales mediante ecuaciones cuadráticas.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es modelar?</div>
+
+      <div class="card card-def">
+        <strong>Modelar matemáticamente:</strong> traducir una situación del mundo real al lenguaje de las matemáticas, resolver el problema en ese lenguaje, y luego interpretar el resultado en el contexto original. Es el puente entre las matemáticas y la realidad.
+      </div>
+
+      <p>En esta guía aprenderás a reconocer cuándo un problema se puede modelar con una función cuadrática y cómo resolverlo paso a paso. Las cuadráticas aparecen en muchísimos contextos:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Geometría:</strong> áreas, dimensiones de figuras, problemas de cerco.</li>
+        <li><strong>Física:</strong> trayectorias de proyectiles, caída libre, lanzamiento vertical.</li>
+        <li><strong>Economía:</strong> ingreso, costo, utilidad como función del precio o cantidad.</li>
+        <li><strong>Ciencias sociales:</strong> crecimiento de poblaciones con recursos limitados.</li>
+        <li><strong>Vida cotidiana:</strong> diseño de jardines, cálculo de áreas con materiales limitados.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Las 4 fases del modelamiento</div>
+
+      <p>Resolver un problema con cuadráticas implica seguir cuatro fases ordenadas. Saltarte una es la causa más común de errores.</p>
+
+      <div class="phases">
+        <div class="phase-card">
+          <span class="phase-num">1</span>
+          <h5>Entender</h5>
+          <p>Lee con atención. Identifica qué te piden y qué datos te dan.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">2</span>
+          <h5>Plantear</h5>
+          <p>Define las variables. Escribe la función cuadrática que modela el problema.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">3</span>
+          <h5>Resolver</h5>
+          <p>Calcula vértice, raíces o el valor pedido usando las herramientas algebraicas.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">4</span>
+          <h5>Interpretar</h5>
+          <p>Vuelve al contexto. ¿Qué significa el resultado en el problema real?</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Atajo pedagógico:</strong> en la mayoría de los problemas cuadráticos de la PAES, la pregunta clave es uno de tres tipos:
+        <ul style="margin-top:.4rem;">
+          <li>"¿Cuál es el máximo/mínimo de algo?" → calcula el vértice.</li>
+          <li>"¿Cuándo (o dónde) algo vale cero?" → calcula las raíces (intersecciones eje x).</li>
+          <li>"¿Cuánto vale al inicio (cuando t=0 o x=0)?" → evalúa la función en 0 (es decir, lee \(c\)).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo introductorio</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un agricultor lanza una semilla al aire. Su altura (en metros) sigue la fórmula \(h(t) = -5t^{2} + 20t + 1\), donde \(t\) está en segundos. ¿Cuál es la altura máxima que alcanza la semilla?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Fase 1 — Entender:</strong> el problema nos da una fórmula. Nos pide la altura máxima.</span>
+        <span class="math-step"><strong>Fase 2 — Plantear:</strong> el modelo ya está dado: \(h(t) = -5t^{2} + 20t + 1\). Como \(a = -5 < 0\), la parábola abre hacia abajo y tiene un MÁXIMO en el vértice.</span>
+        <span class="math-step"><strong>Fase 3 — Resolver:</strong> tiempo del máximo: \(t = -20/(2 \cdot (-5)) = -20/(-10) = 2\) s. Altura máxima: \(h(2) = -5(4) + 20(2) + 1 = -20 + 40 + 1 = 21\) m.</span>
+        <span class="math-step"><strong>Fase 4 — Interpretar:</strong> a los 2 segundos del lanzamiento, la semilla alcanza una altura máxima de 21 metros sobre el suelo.</span>
+        <span class="math-step"><span class="math-result">Altura máxima: 21 m, alcanzada a los 2 segundos.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g1a" width="460" height="320"></canvas>
+        <div class="embed-caption">Trayectoria \(h(t) = -5t^{2} + 20t + 1\) con altura máxima en el vértice (2, 21).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Problemas geométricos
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas geométricos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Áreas · perímetros</span>
+    <span class="chip">Optimización</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Área en función de un lado</div>
+
+      <p>Cuando el área de una figura depende del valor de un lado, la fórmula resultante es típicamente cuadrática (porque el área de un cuadrado o rectángulo siempre involucra un producto de lados).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un rectángulo tiene un perímetro fijo de 20 cm. Si uno de sus lados mide \(x\) cm, ¿qué dimensiones le dan el área MÁXIMA y cuál es esa área?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Plantear:</strong> Si el perímetro es 20, entonces \(2x + 2y = 20 \Rightarrow y = 10 - x\). El área es \(A(x) = x \cdot y = x(10 - x) = -x^{2} + 10x\).</span>
+        <span class="math-step"><strong>Resolver:</strong> \(A(x)\) es una cuadrática con \(a = -1 < 0\) (máximo). Vértice: \(h = -10/(-2) = 5\); \(k = A(5) = -25 + 50 = 25\).</span>
+        <span class="math-step"><strong>Interpretar:</strong> el lado óptimo es \(x = 5\) cm. El otro lado también mide \(y = 10 - 5 = 5\) cm. Es decir, el rectángulo de área máxima es un <em>cuadrado</em> de \(5 \times 5\), con área 25 cm².</span>
+        <span class="math-step"><span class="math-result">Dimensiones óptimas: 5 cm × 5 cm. Área máxima: 25 cm².</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="300"></canvas>
+        <div class="embed-caption">Área \(A(x) = -x^{2} + 10x\) en función del lado \(x\). Máximo en vértice (5, 25).</div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Resultado general:</strong> entre todos los rectángulos con perímetro fijo, el que tiene <em>área máxima</em> es el cuadrado. Este es un hecho muy útil que aparece repetidamente en problemas PAES.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Despejar un lado a partir del área</div>
+
+      <p>El proceso inverso: te dan el área y debes encontrar las dimensiones. Aquí terminas resolviendo una ecuación cuadrática.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El área de un cuadrado es 81 cm². ¿Cuánto mide su lado?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Plantear:</strong> \(A(\ell) = \ell^{2}\). Necesitamos \(\ell^{2} = 81\).</span>
+        <span class="math-step"><strong>Resolver:</strong> \(\ell = \sqrt{81} = 9\) cm (descartamos \(\ell = -9\) por no tener sentido geométrico).</span>
+        <span class="math-step"><span class="math-result">Lado = 9 cm.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Problema con restricción especial</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un agricultor tiene 100 m de cerca para hacer un terreno rectangular junto a un río (el río hace de un lado, así que solo necesita cercar 3 lados). ¿Cuál es el área máxima del terreno?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Plantear:</strong> Si \(x\) es el ancho (perpendicular al río) y \(y\) es el largo (paralelo al río), la cerca cubre: \(2x + y = 100\), de donde \(y = 100 - 2x\). El área es \(A(x) = x \cdot y = x(100 - 2x) = -2x^{2} + 100x\).</span>
+        <span class="math-step"><strong>Resolver:</strong> Vértice: \(x = -100/(-4) = 25\) m. Área: \(A(25) = -2(625) + 100(25) = -1250 + 2500 = 1250\) m².</span>
+        <span class="math-step"><strong>Interpretar:</strong> el terreno óptimo mide 25 m de ancho y \(100 - 50 = 50\) m de largo (paralelo al río). El área es 1250 m².</span>
+        <span class="math-step"><span class="math-result">Dimensiones óptimas: 25 m × 50 m. Área máxima: 1250 m².</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Observa cómo en este caso el rectángulo óptimo NO es un cuadrado. Eso se debe a que la restricción (un lado libre por el río) cambia la relación entre largo y ancho. Modelar cuidadosamente la restricción es clave.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Problemas físicos (tiro y caída)
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas físicos: lanzamiento y caída</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Tiro vertical</span>
+    <span class="chip">Caída libre</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El modelo del lanzamiento vertical</div>
+
+      <p>Cuando un objeto se lanza hacia arriba (o cae) bajo la acción de la gravedad, su altura en función del tiempo sigue una parábola. El modelo es:</p>
+
+      <div class="math-box">
+        \(h(t) = -\dfrac{1}{2} g \, t^{2} + v_{0} \, t + h_{0}\)
+      </div>
+
+      <p>Donde:</p>
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li>\(h(t)\): altura sobre el suelo en metros, en el instante \(t\).</li>
+        <li>\(g \approx 10\) m/s² (gravedad). En la PAES se usa frecuentemente \(g = 10\), simplificando a \(\frac{1}{2}g = 5\).</li>
+        <li>\(v_{0}\): velocidad inicial vertical (en m/s). Positiva si se lanza hacia arriba.</li>
+        <li>\(h_{0}\): altura inicial (de dónde se lanza).</li>
+      </ul>
+
+      <div class="card card-tip">
+        <strong>Forma simplificada (PAES):</strong> con \(g = 10\), el modelo es \(h(t) = -5t^{2} + v_{0}\, t + h_{0}\). Aquí \(a = -5\), \(b = v_{0}\), \(c = h_{0}\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Tres preguntas típicas</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Pregunta</th><th>Cómo se resuelve</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>¿Cuál es la altura máxima?</td><td>Calcular el vértice: \(t_{\max} = -b/(2a) = v_{0}/10\); luego \(h_{\max} = h(t_{\max})\).</td></tr>
+          <tr><td>¿Cuándo toca el suelo?</td><td>Resolver \(h(t) = 0\) usando factorización o fórmula cuadrática. Descartar raíces negativas.</td></tr>
+          <tr><td>¿Cuál es la altura inicial?</td><td>Evaluar \(h(0) = h_{0}\), que coincide con el coeficiente \(c\).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo guiado completo</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una pelota se lanza hacia arriba desde una altura de 5 m con velocidad inicial 10 m/s. Su altura sigue \(h(t) = -5t^{2} + 10t + 5\). (a) ¿Cuál es la altura máxima? (b) ¿Cuándo toca el suelo?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Identificar:</strong> \(a = -5\), \(b = 10\), \(c = 5\). Como \(a < 0\), tiene altura MÁXIMA en el vértice.</span>
+        <span class="math-step"><strong>(a) Altura máxima:</strong></span>
+        <span class="math-step">Tiempo del máximo: \(t_{\max} = -10/(-10) = 1\) s.</span>
+        <span class="math-step">Altura máxima: \(h(1) = -5 + 10 + 5 = 10\) m.</span>
+        <span class="math-step"><span class="math-result">Altura máxima: 10 m, a los 1 segundo.</span></span>
+        <span class="math-step"><strong>(b) Tiempo de impacto:</strong></span>
+        <span class="math-step">Resolver \(-5t^{2} + 10t + 5 = 0\). Dividir por \(-5\): \(t^{2} - 2t - 1 = 0\).</span>
+        <span class="math-step">Fórmula cuadrática: \(t = \dfrac{2 \pm \sqrt{4 + 4}}{2} = \dfrac{2 \pm \sqrt{8}}{2} = 1 \pm \sqrt{2}\).</span>
+        <span class="math-step">Las dos soluciones: \(t \approx 1 + 1{,}41 = 2{,}41\) s y \(t \approx 1 - 1{,}41 = -0{,}41\) s. Descartamos la negativa.</span>
+        <span class="math-step"><span class="math-result">La pelota toca el suelo a los \(\approx 2{,}41\) segundos.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g3a" width="460" height="320"></canvas>
+        <div class="embed-caption">\(h(t) = -5t^{2} + 10t + 5\): altura máxima 10 m en t=1; impacto en t ≈ 2,41 s.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — SIMULADOR DE TIRO PARABÓLICO
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Simulador de tiro vertical</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Física: lanzamiento</span>
+    <span class="chip">Velocidad y altura inicial</span>
+  </div>
+
+  <div class="content">
+
+    <p>Experimenta con un lanzamiento vertical. Ajusta la <strong>velocidad inicial</strong> y la <strong>altura inicial</strong> del proyectil y observa cómo cambia la trayectoria, la altura máxima y el tiempo en que toca el suelo. Modelo usado: \(h(t) = -5t^{2} + v_{0}\, t + h_{0}\), con \(g = 10\) m/s².</p>
+
+    <div class="sim-wrap">
+      <div class="sim-canvas-wrap">
+        <canvas id="sim1-canvas" width="600" height="400"></canvas>
+      </div>
+
+      <div class="sim-controls">
+        <div class="slider-control">
+          <label>Velocidad inicial \(v_{0}\) = <span id="sim1-v0">15</span> m/s</label>
+          <input id="sim1-v0-slider" type="range" min="0" max="40" step="1" value="15" />
+          <small>Hacia arriba (positivo). Si es 0, el objeto solo cae.</small>
+        </div>
+        <div class="slider-control">
+          <label>Altura inicial \(h_{0}\) = <span id="sim1-h0">5</span> m</label>
+          <input id="sim1-h0-slider" type="range" min="0" max="30" step="1" value="5" />
+          <small>Desde dónde se lanza (suelo si es 0).</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="sim1-info" class="sim-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Escenarios típicos</div>
+    <div class="preset-buttons">
+      <button data-sim1="20,0">Lanzamiento desde el suelo</button>
+      <button data-sim1="10,5">Pelota desde 5 m con v₀=10 m/s</button>
+      <button data-sim1="30,0">Fuego artificial</button>
+      <button data-sim1="0,20">Caída libre desde 20 m</button>
+      <button data-sim1="15,10">Salto desde una colina</button>
+    </div>
+
+    <div class="exploration-tasks">
+      <h3>🔍 Actividades de exploración</h3>
+      <ol>
+        <li>Pon \(v_{0} = 0\) y \(h_{0} = 20\). ¿Qué representa este escenario? ¿Cuánto tarda en tocar el suelo?</li>
+        <li>Con \(h_{0} = 0\), prueba distintos valores de \(v_{0}\). ¿Cómo cambia el tiempo total de vuelo? ¿Y la altura máxima?</li>
+        <li>Para \(v_{0} = 20\), \(h_{0} = 0\): ¿en qué tiempo alcanza la mitad de la altura máxima? (intenta predecir antes de calcular)</li>
+        <li>Comprueba que el tiempo de subida (hasta vértice) es siempre la mitad del tiempo total de vuelo cuando \(h_{0} = 0\).</li>
+        <li>¿Qué pasa si \(v_{0} = 0\) y \(h_{0} = 0\)? ¿Tiene sentido físico?</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Problemas económicos
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas económicos: ingreso, costo y utilidad</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Ingreso · costo</span>
+    <span class="chip">Optimización</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Ingreso como función del precio</div>
+
+      <p>En economía, el <strong>ingreso</strong> que recibe una empresa al vender un producto suele depender del precio que cobra: si el precio es muy alto, vende pocas unidades; si es muy bajo, vende muchas pero gana poco por unidad. El equilibrio es típicamente cuadrático:</p>
+
+      <div class="math-box">
+        Modelo típico de ingreso: \(I(p) = -a p^{2} + b p\) &nbsp; (con \(a > 0\))
+      </div>
+
+      <p>El signo negativo del \(p^{2}\) refleja que existe un precio óptimo: ni muy bajo ni muy alto.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El ingreso diario de una empresa se modela mediante \(I(p) = -2p^{2} + 40p\), donde \(p\) es el precio del producto. ¿A qué precio se maximiza el ingreso? ¿Cuál es el ingreso máximo?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Identificar:</strong> \(a = -2\), \(b = 40\). Como \(a < 0\), hay un máximo.</span>
+        <span class="math-step"><strong>Resolver:</strong> Precio óptimo: \(p = -b/(2a) = -40/(-4) = 10\). Ingreso máximo: \(I(10) = -2(100) + 40(10) = -200 + 400 = 200\).</span>
+        <span class="math-step"><strong>Interpretar:</strong> el precio óptimo es \$10 por unidad, generando un ingreso diario máximo de \$200.</span>
+        <span class="math-step"><span class="math-result">Precio óptimo: \$10. Ingreso máximo: \$200.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g5a" width="460" height="300"></canvas>
+        <div class="embed-caption">\(I(p) = -2p^{2} + 40p\): el ingreso es máximo (200) cuando el precio es 10.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Costo como función de las unidades</div>
+
+      <p>Los <strong>costos de producción</strong> a menudo siguen un modelo cuadrático con \(a > 0\) (parábola abre arriba): existe un nivel óptimo de producción que minimiza el costo medio.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El costo de producir \(x\) unidades de un producto es \(C(x) = x^{2} - 20x + 150\) (en miles de pesos). ¿Cuántas unidades minimizan el costo y cuánto es ese costo?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Identificar:</strong> \(a = 1 > 0\), tiene mínimo.</span>
+        <span class="math-step"><strong>Resolver:</strong> Unidades óptimas: \(x = -(-20)/2 = 10\). Costo mínimo: \(C(10) = 100 - 200 + 150 = 50\) (miles).</span>
+        <span class="math-step"><span class="math-result">Producir 10 unidades minimiza el costo a \$50.000.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Utilidad = Ingreso − Costo</div>
+
+      <p>La <strong>utilidad</strong> (ganancia) se calcula como la diferencia entre ingreso y costo. Cuando ambos son cuadráticos, la utilidad también lo es. Para maximizar la utilidad, se busca el vértice.</p>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una empresa tiene utilidad \(U(x) = -2x^{2} + 60x - 100\) (en cientos de miles). ¿Cuántas unidades maximizan la utilidad?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Vértice: \(x = -60/(-4) = 15\). Utilidad máxima: \(U(15) = -2(225) + 60(15) - 100 = -450 + 900 - 100 = 350\).</span>
+        <span class="math-step"><span class="math-result">15 unidades dan utilidad máxima de \$35.000.000.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En cualquier problema económico, identifica primero <em>qué cantidad quieres optimizar</em> (ingreso, costo o utilidad) y luego pregúntate si buscas máximo o mínimo. La concavidad de la parábola (signo de \(a\)) te lo dice de inmediato.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — OPTIMIZADOR DE ÁREA (HERRAMIENTA 2)
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Optimizador interactivo de área con perímetro fijo</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Geometría aplicada</span>
+    <span class="chip">Maximizar área</span>
+  </div>
+
+  <div class="content">
+
+    <p>Imagina que tienes una cantidad fija de cerca (el <strong>perímetro</strong>) y quieres construir un rectángulo con la mayor área posible. Esta herramienta te permite explorar:</p>
+    <ul style="margin:.5rem 0;line-height:1.7;">
+      <li>Cómo cambia el área en función del valor del lado \(x\).</li>
+      <li>Cuál es el lado óptimo que <em>maximiza</em> el área (siempre da un cuadrado).</li>
+      <li>Cómo varía el resultado al cambiar el perímetro disponible.</li>
+    </ul>
+
+    <p>Modelo usado: si el perímetro es \(P\) y un lado mide \(x\), el otro lado mide \(P/2 - x\). Entonces el área es:</p>
+    <div class="math-box">
+      \(A(x) = x \cdot (P/2 - x) = -x^{2} + \dfrac{P}{2} x\)
+    </div>
+
+    <div class="sim-wrap">
+      <div class="sim-canvas-wrap">
+        <canvas id="sim2-canvas" width="600" height="400"></canvas>
+      </div>
+
+      <div class="sim-controls">
+        <div class="slider-control">
+          <label>Perímetro \(P\) = <span id="sim2-p">20</span> m</label>
+          <input id="sim2-p-slider" type="range" min="10" max="60" step="2" value="20" />
+          <small>Cerca disponible para hacer el rectángulo.</small>
+        </div>
+        <div class="slider-control">
+          <label>Lado \(x\) = <span id="sim2-x">5</span> m</label>
+          <input id="sim2-x-slider" type="range" min="0.5" max="29.5" step="0.5" value="5" />
+          <small>Mueve para ver cómo varía el área en cada caso.</small>
+        </div>
+
+        <div class="rect-preview">
+          <div>Forma del rectángulo actual:</div>
+          <div id="sim2-rect-preview">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sim2-info" class="sim-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Casos para explorar</div>
+    <div class="preset-buttons">
+      <button data-sim2-p="12">Perímetro 12 m</button>
+      <button data-sim2-p="20">Perímetro 20 m</button>
+      <button data-sim2-p="36">Perímetro 36 m</button>
+      <button data-sim2-p="50">Perímetro 50 m</button>
+    </div>
+
+    <div class="exploration-tasks">
+      <h3>🔍 Actividades de exploración</h3>
+      <ol>
+        <li>Para un perímetro fijo, mueve el slider del lado \(x\) y observa cómo cambia el área. ¿Cuándo es máxima?</li>
+        <li>Comprueba que el lado óptimo siempre es \(P/4\): la mitad de la mitad del perímetro.</li>
+        <li>¿Cuánto es el área máxima para un perímetro de 40 m? Verifica que sale 100 m² (un cuadrado de 10×10).</li>
+        <li>¿Qué pasa con el área cuando \(x = 0\) o cuando \(x = P/2\)? ¿Por qué?</li>
+        <li>Reto: si tuvieras 60 m de cerca y quisieras un rectángulo de 200 m², ¿es posible? ¿Y de 250 m²?</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Modelar cuadráticas — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El área de un cuadrado de lado \(x\) cm es \(A(x) = x^{2}\). Si \(A = 25\) cm², ¿cuánto mide el lado?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 cm<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{25} = 5\) (descartamos \(-5\) por no tener sentido geométrico).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 25 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el área con el lado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 12,5 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Divide el área por 2, sin sentido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 50 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica el área por 2, sin sentido.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Una pelota se lanza al aire con \(h(t) = -5t^{2} + 20t\). ¿A qué tiempo alcanza la altura máxima?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 1 s<div class="opt-feedback"><strong>Incorrecto.</strong> Error en \(-b/(2a)\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 2 s<div class="opt-feedback"><strong>Correcto.</strong> \(t = -b/(2a) = -20/(2 \cdot -5) = 2\) s.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 4 s<div class="opt-feedback"><strong>Incorrecto.</strong> Es el tiempo de impacto, no de altura máxima.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5 s<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ningún cálculo válido.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El ingreso de una empresa es \(I(p) = -2p^{2} + 16p\). ¿Cuál es el precio que MAXIMIZA el ingreso?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(p = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(|a|\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(p = 4\)<div class="opt-feedback"><strong>Correcto.</strong> \(p = -16/(-4) = 4\). El vértice da el máximo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(p = 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida dividir por \(2a\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(p = 16\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(b\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un rectángulo tiene perímetro 20 cm. Si un lado es \(x\), el área es \(A(x) = x(10 - x)\). ¿Cuál es el área MÁXIMA?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 25 cm²<div class="opt-feedback"><strong>Correcto.</strong> \(A(x) = -x^{2} + 10x\); vértice en \(x = 5\), \(A(5) = 25\) cm² (cuadrado de 5×5).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 100 cm²<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si todos los lados fueran 10 (imposible con perímetro 20).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 50 cm²<div class="opt-feedback"><strong>Incorrecto.</strong> El máximo es 25, no 50.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 10 cm²<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con un cálculo intermedio.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Una pelota se lanza desde altura 5 m con velocidad 10 m/s. Su altura es \(h(t) = -5t^{2} + 10t + 5\). ¿Cuál es la altura máxima?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 m<div class="opt-feedback"><strong>Incorrecto.</strong> 5 es la altura inicial, no la máxima.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 m<div class="opt-feedback"><strong>Correcto.</strong> Vértice en \(t = 1\); \(h(1) = -5 + 10 + 5 = 10\) m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 15 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo del vértice.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 20 m<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor al valor real del vértice.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">La trayectoria de un proyectil es \(h(t) = -5t^{2} + 30t\). ¿Cuánto tiempo está en el aire?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 3 s<div class="opt-feedback"><strong>Incorrecto.</strong> Es el tiempo del vértice (altura máxima), no del impacto.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 6 s<div class="opt-feedback"><strong>Correcto.</strong> Raíces: \(-5t(t - 6) = 0 \Rightarrow t = 0\) (lanzamiento) o \(t = 6\) (impacto).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 15 s<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a una raíz.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 30 s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(b\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(A(x) = -x^{2} + 8x\) es el área de un terreno en m² (con \(x\) en m), ¿cuál es el área MÁXIMA?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 8 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Es el valor de \(b\), no del máximo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 16 m²<div class="opt-feedback"><strong>Correcto.</strong> Vértice: \(x = -8/(-2) = 4\); \(A(4) = -16 + 32 = 16\) m².</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 32 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(b \cdot h\) (sin restarle el término cuadrático).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 64 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor al valor real del vértice.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una empresa modela costo \(C(x) = x^{2} - 10x + 50\) (en cientos de pesos). ¿Cuántas unidades MINIMIZAN el costo?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 unidades<div class="opt-feedback"><strong>Correcto.</strong> \(x = -(-10)/(2 \cdot 1) = 10/2 = 5\). El vértice da el mínimo (porque \(a > 0\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 unidades<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(|b|\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 50 unidades<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(c\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 25 unidades<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un alambre de 24 cm se dobla formando un rectángulo. ¿Qué dimensiones dan ÁREA MÁXIMA?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 6 cm × 6 cm<div class="opt-feedback"><strong>Correcto.</strong> Perímetro = 24, lado óptimo = 24/4 = 6 cm (cuadrado). Área máxima: 36 cm².</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 4 cm × 8 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Área = 32 cm², menor que la del cuadrado (36).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 3 cm × 9 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Área = 27 cm², menor.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12 cm × 12 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Perímetro de ese rectángulo sería 48, no 24.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una pelota golpea el suelo cuando \(h(t) = -5t^{2} + 20t + 25 = 0\). ¿En qué tiempo (positivo) toca el suelo?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(t = 1\) s<div class="opt-feedback"><strong>Incorrecto.</strong> No es raíz: \(h(1) = -5+20+25 = 40 \neq 0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(t = 3\) s<div class="opt-feedback"><strong>Incorrecto.</strong> \(h(3) = -45+60+25 = 40 \neq 0\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(t = 5\) s<div class="opt-feedback"><strong>Correcto.</strong> Dividiendo por \(-5\): \(t^{2} - 4t - 5 = 0 \Rightarrow (t-5)(t+1) = 0\). Las raíces son \(t = 5\) (válida) y \(t = -1\) (descartada).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(t = 25\) s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(c\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Modelar cuadráticas — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Modelar con ecuaciones cuadráticas</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">La altura de un objeto lanzado es \(h(t) = -4{,}9t^{2} + 19{,}6t\). ¿A qué tiempo alcanza la altura máxima?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1 s<div class="opt-feedback"><strong>Incorrecto.</strong> Error en \(-b/(2a)\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2 s<div class="opt-feedback"><strong>Correcto.</strong> \(t = -19{,}6 / (2 \cdot -4{,}9) = -19{,}6 / -9{,}8 = 2\) s.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 4 s<div class="opt-feedback"><strong>Incorrecto.</strong> Es el tiempo de impacto, no del máximo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 9,8 s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(g\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Un rectángulo tiene perímetro 16 m. ¿Cuáles son las dimensiones que MAXIMIZAN el área?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4 m × 4 m<div class="opt-feedback"><strong>Correcto.</strong> Entre rectángulos con perímetro fijo, el cuadrado da el área máxima. Lado: \(P/4 = 16/4 = 4\) m. Área: 16 m².</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 8 m × 0 m<div class="opt-feedback"><strong>Incorrecto.</strong> Área = 0 (es un caso degenerado).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5 m × 3 m<div class="opt-feedback"><strong>Incorrecto.</strong> Área = 15 m², menor que la del cuadrado (16).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 6 m × 2 m<div class="opt-feedback"><strong>Incorrecto.</strong> Área = 12 m², aún menor.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Si \(A(x) = x^{2}\) es el área de un cuadrado de lado \(x\) y el área es 81 cm², ¿cuánto mide el lado?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 9 cm<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{81} = 9\). El lado negativo se descarta por no tener sentido físico.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 81 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde área con lado.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 40,5 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Divide el área por 2, sin sentido.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 162 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica el área por 2, sin sentido.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">La función de ingreso es \(I(p) = -p^{2} + 20p\). ¿Cuál es el ingreso MÁXIMO?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 50<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo del vértice.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 100<div class="opt-feedback"><strong>Correcto.</strong> Vértice: \(p = 10\); \(I(10) = -100 + 200 = 100\). Precio óptimo \$10, ingreso máximo \$100.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 200<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(2p\) en el vértice.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 400<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor al máximo real.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Un cohete sigue \(h(t) = -5t^{2} + 50t\). ¿Cuál es su altura máxima?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 50 m<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(b\) (velocidad inicial).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 125 m<div class="opt-feedback"><strong>Correcto.</strong> \(t = -50/(2 \cdot -5) = 5\) s; \(h(5) = -125 + 250 = 125\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 250 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(b \cdot t\), olvida restar el término cuadrático.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 500 m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo muy excedido.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Una piedra cae desde una altura de 80 m con \(h(t) = -5t^{2} + 80\). ¿Cuántos segundos tarda en tocar el suelo?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 2 s<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho menor al tiempo real.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4 s<div class="opt-feedback"><strong>Correcto.</strong> \(-5t^{2} + 80 = 0 \Rightarrow t^{2} = 16 \Rightarrow t = 4\) (solo raíz positiva).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 8 s<div class="opt-feedback"><strong>Incorrecto.</strong> Doble del valor correcto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 16 s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(t^{2} = 16\) con \(t = 16\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Un agricultor tiene 100 m de cerca para hacer un terreno rectangular pegado a un río (solo cerca 3 lados). Si \(x\) es el ancho, el área es \(A(x) = x(100 - 2x)\). ¿Cuál es el ÁREA MÁXIMA?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1250 m²<div class="opt-feedback"><strong>Correcto.</strong> \(A(x) = -2x^{2} + 100x\); vértice \(x = 25\); \(A(25) = 25 \cdot 50 = 1250\) m². Dimensiones: 25 × 50.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2500 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Doble del valor real.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5000 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor al máximo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 10000 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Es 100², no el área del rectángulo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">El costo de producir \(x\) unidades es \(C(x) = x^{2} - 20x + 150\). ¿Cuál es el COSTO MÍNIMO?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 50<div class="opt-feedback"><strong>Correcto.</strong> Vértice: \(x = 10\); \(C(10) = 100 - 200 + 150 = 50\). Como \(a > 0\), 50 es el mínimo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al vértice.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 150<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(c\) (costo cuando \(x=0\)), no el mínimo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 20<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(b\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Una empresa modela su utilidad \(U(x) = -2x^{2} + 60x - 100\) (con \(x\) = unidades vendidas). ¿Cuántas unidades dan UTILIDAD MÁXIMA?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 10 unidades<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo del vértice.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 15 unidades<div class="opt-feedback"><strong>Correcto.</strong> \(x = -60/(-4) = 15\). Vértice da máximo (porque \(a < 0\)).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 30 unidades<div class="opt-feedback"><strong>Incorrecto.</strong> Doble del valor correcto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 60 unidades<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(b\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Un fuego artificial es lanzado con \(h(t) = -5t^{2} + 40t\). ¿Cuánto tiempo está en el aire?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4 s<div class="opt-feedback"><strong>Incorrecto.</strong> Es el tiempo del vértice (altura máxima), no del impacto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 6 s<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo de raíz erróneo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 8 s<div class="opt-feedback"><strong>Correcto.</strong> Raíces: \(-5t(t - 8) = 0 \Rightarrow t = 0\) (lanzamiento) o \(t = 8\) (impacto). Tiempo total: 8 s.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 40 s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(b\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Modelar problemas con ecuaciones cuadráticas es la habilidad más cercana al mundo real que aporta esta unidad. Cuando entiendes que la pregunta "¿cuál es el máximo?" se responde con el vértice, y "¿cuándo vale cero?" con las raíces, puedes resolver problemas de física, geometría, economía y ciencia sin perder tiempo.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Inecuaciones cuadráticas y regiones del plano</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Modelar cuadráticas · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  function makePlotter(canvas, cfg){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var xmin = cfg.xRange[0], xmax = cfg.xRange[1];
+    var ymin = cfg.yRange[0], ymax = cfg.yRange[1];
+    var ppuX = W / (xmax - xmin);
+    var ppuY = H / (ymax - ymin);
+    var xLabel = cfg.xLabel || 'x';
+    var yLabel = cfg.yLabel || 'y';
+
+    function wx(x){ return (x - xmin) * ppuX; }
+    function wy(y){ return H - (y - ymin) * ppuY; }
+
+    function drawGrid(){
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(106,44,145,.1)';
+      ctx.lineWidth = 1;
+      for(var i = Math.ceil(xmin); i <= xmax; i++){
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+      }
+      for(var j = Math.ceil(ymin); j <= ymax; j++){
+        ctx.beginPath(); ctx.moveTo(0, wy(j)); ctx.lineTo(W, wy(j)); ctx.stroke();
+      }
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      if(xmin <= 0 && xmax >= 0){
+        ctx.beginPath(); ctx.moveTo(wx(0), 0); ctx.lineTo(wx(0), H); ctx.stroke();
+      }
+      if(ymin <= 0 && ymax >= 0){
+        ctx.beginPath(); ctx.moveTo(0, wy(0)); ctx.lineTo(W, wy(0)); ctx.stroke();
+      }
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '9px Inter, sans-serif';
+      var yLab = (ymin <= 0 && ymax >= 0) ? wy(0) + 10 : H - 2;
+      var xLab = (xmin <= 0 && xmax >= 0) ? wx(0) + 3 : 3;
+      var stepX = Math.max(1, Math.round((xmax - xmin) / 20));
+      var stepY = Math.max(1, Math.round((ymax - ymin) / 15));
+      for(var k = Math.ceil(xmin); k <= xmax; k++){
+        if(k === 0 || k % stepX !== 0) continue;
+        ctx.fillText(k.toString(), wx(k) - 4, yLab);
+      }
+      for(var m = Math.ceil(ymin); m <= ymax; m++){
+        if(m === 0 || m % stepY !== 0) continue;
+        ctx.fillText(m.toString(), xLab, wy(m) + 3);
+      }
+      // Etiquetas de ejes
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillStyle = '#6A2C91';
+      ctx.fillText(xLabel, W - 14, (ymin <= 0 && ymax >= 0) ? wy(0) - 5 : H - 14);
+      ctx.fillText(yLabel, (xmin <= 0 && xmax >= 0) ? wx(0) + 5 : 5, 12);
+    }
+
+    function drawAxisOfSymmetry(h){
+      ctx.strokeStyle = 'rgba(212,175,55,.9)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(wx(h), 0); ctx.lineTo(wx(h), H); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawParabola(a, b, c, color, lineWidth){
+      ctx.strokeStyle = color || '#6A2C91';
+      ctx.lineWidth = lineWidth || 2.5;
+      ctx.beginPath();
+      var first = true;
+      for(var px = 0; px <= W; px++){
+        var x = px / ppuX + xmin;
+        var y = a*x*x + b*x + c;
+        if(y < ymin - 2 || y > ymax + 2){ first = true; continue; }
+        var py = wy(y);
+        if(first){ ctx.moveTo(px, py); first = false; }
+        else { ctx.lineTo(px, py); }
+      }
+      ctx.stroke();
+    }
+
+    function drawPoint(x, y, color, label){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.beginPath(); ctx.arc(wx(x), wy(y), 4, 0, 2*Math.PI); ctx.fill();
+      if(label){
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.fillText(label, wx(x) + 6, wy(y) - 5);
+      }
+    }
+
+    function drawVertex(h, k, label){
+      ctx.fillStyle = '#D4AF37';
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(wx(h), wy(k), 6, 0, 2*Math.PI);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = 'bold 10px Inter, sans-serif';
+      ctx.fillText(label || ('V(' + h + ',' + k + ')'), wx(h) + 8, wy(k) - 7);
+    }
+
+    return {
+      ctx: ctx, wx: wx, wy: wy,
+      drawGrid: drawGrid,
+      drawAxisOfSymmetry: drawAxisOfSymmetry,
+      drawParabola: drawParabola,
+      drawPoint: drawPoint,
+      drawVertex: drawVertex
+    };
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    // Página 1a: h(t) = -5t² + 20t + 1
+    var c1a = document.getElementById('g1a');
+    if(c1a){
+      var p = makePlotter(c1a, {xRange:[-1, 6], yRange:[-2, 24], xLabel:'t (s)', yLabel:'h (m)'});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(2);
+      p.drawParabola(-5, 20, 1, '#6A2C91', 3);
+      p.drawPoint(0, 1, '#0B0F3F', 'Inicio (0, 1)');
+      p.drawVertex(2, 21, 'Máx. (2, 21)');
+    }
+
+    // Página 2a: A(x) = -x² + 10x
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var p = makePlotter(c2a, {xRange:[-1, 11], yRange:[-2, 28], xLabel:'x (cm)', yLabel:'A (cm²)'});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(5);
+      p.drawParabola(-1, 10, 0, '#6A2C91', 3);
+      p.drawPoint(0, 0, '#0B0F3F', '(0, 0)');
+      p.drawPoint(10, 0, '#0B0F3F', '(10, 0)');
+      p.drawVertex(5, 25, 'Máx. (5, 25)');
+    }
+
+    // Página 3a: h(t) = -5t² + 10t + 5
+    var c3a = document.getElementById('g3a');
+    if(c3a){
+      var p = makePlotter(c3a, {xRange:[-0.5, 3.5], yRange:[-2, 12], xLabel:'t (s)', yLabel:'h (m)'});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(1);
+      p.drawParabola(-5, 10, 5, '#6A2C91', 3);
+      p.drawPoint(0, 5, '#0B0F3F', 'Inicio (0, 5)');
+      p.drawPoint(2.414, 0, '#0B0F3F', 'Impacto');
+      p.drawVertex(1, 10, 'Máx. (1, 10)');
+    }
+
+    // Página 5a: I(p) = -2p² + 40p
+    var c5a = document.getElementById('g5a');
+    if(c5a){
+      var p = makePlotter(c5a, {xRange:[-2, 22], yRange:[-30, 220], xLabel:'p ($)', yLabel:'I ($)'});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(10);
+      p.drawParabola(-2, 40, 0, '#6A2C91', 3);
+      p.drawPoint(0, 0, '#0B0F3F', '(0, 0)');
+      p.drawPoint(20, 0, '#0B0F3F', '(20, 0)');
+      p.drawVertex(10, 200, 'Máx. (10, 200)');
+    }
+  }
+
+  /* ====== SIMULADOR 1: Tiro parabólico ====== */
+  function setupSim1(){
+    var canvas = document.getElementById('sim1-canvas');
+    if(!canvas) return;
+    var v0Slider = document.getElementById('sim1-v0-slider');
+    var h0Slider = document.getElementById('sim1-h0-slider');
+    var v0Span = document.getElementById('sim1-v0');
+    var h0Span = document.getElementById('sim1-h0');
+    var info = document.getElementById('sim1-info');
+
+    function update(){
+      var v0 = parseFloat(v0Slider.value);
+      var h0 = parseFloat(h0Slider.value);
+      v0Span.textContent = v0;
+      h0Span.textContent = h0;
+
+      // h(t) = -5t² + v0·t + h0
+      // Encontrar tiempo de impacto (raíz positiva)
+      var a = -5, b = v0, c = h0;
+      var disc = b*b - 4*a*c;
+      var tImpact = 0;
+      if(disc >= 0){
+        var sd = Math.sqrt(disc);
+        var t1 = (-b - sd)/(2*a);
+        var t2 = (-b + sd)/(2*a);
+        tImpact = Math.max(t1, t2);
+      }
+      if(tImpact <= 0){
+        // Caso especial: v0=0 y h0=0
+        tImpact = 1;
+      }
+
+      var tMax = -b / (2*a); // tiempo de altura máxima
+      var hMax = a*tMax*tMax + b*tMax + c;
+
+      // Rango del gráfico
+      var xmin = -0.3;
+      var xmax = Math.ceil(tImpact + 0.5);
+      var ymin = -2;
+      var ymax = Math.ceil(Math.max(hMax, h0) + 5);
+
+      var p = makePlotter(canvas, {xRange:[xmin, xmax], yRange:[ymin, ymax], xLabel:'t (s)', yLabel:'h (m)'});
+      p.drawGrid();
+
+      if(tMax > 0 && tMax < tImpact){
+        p.drawAxisOfSymmetry(tMax);
+      }
+      p.drawParabola(a, b, c, '#6A2C91', 3);
+
+      // Marcar puntos
+      p.drawPoint(0, h0, '#0B0F3F', 'Inicio');
+      if(tImpact > 0){
+        p.drawPoint(tImpact, 0, '#0B0F3F', 'Impacto');
+      }
+      if(tMax > 0){
+        p.drawVertex(parseFloat(tMax.toFixed(2)), parseFloat(hMax.toFixed(2)));
+      }
+
+      // Panel
+      var concav = 'hacia abajo ↓ <span class="badge">MÁXIMO</span>';
+      info.innerHTML =
+        '<strong>Modelo:</strong> h(t) = -5t² + ' + v0 + 't + ' + h0 + '<br>' +
+        '<strong>Concavidad:</strong> ' + concav + '<br>' +
+        '<strong>Altura inicial (t=0):</strong> ' + h0 + ' m<br>' +
+        '<strong>Tiempo de altura máxima:</strong> ' + tMax.toFixed(2) + ' s<br>' +
+        '<strong>Altura máxima:</strong> ' + hMax.toFixed(2) + ' m<br>' +
+        '<strong>Tiempo en el aire (hasta impacto):</strong> ' + tImpact.toFixed(2) + ' s';
+    }
+
+    v0Slider.addEventListener('input', update);
+    h0Slider.addEventListener('input', update);
+
+    var presets = document.querySelectorAll('[data-sim1]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          var vals = btn.dataset.sim1.split(',');
+          v0Slider.value = vals[0]; h0Slider.value = vals[1];
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  /* ====== SIMULADOR 2: Optimizador de área ====== */
+  function setupSim2(){
+    var canvas = document.getElementById('sim2-canvas');
+    if(!canvas) return;
+    var pSlider = document.getElementById('sim2-p-slider');
+    var xSlider = document.getElementById('sim2-x-slider');
+    var pSpan = document.getElementById('sim2-p');
+    var xSpan = document.getElementById('sim2-x');
+    var info = document.getElementById('sim2-info');
+    var rectPrev = document.getElementById('sim2-rect-preview');
+
+    function update(){
+      var P = parseFloat(pSlider.value);
+      var x = parseFloat(xSlider.value);
+
+      // Ajustar slider de x al rango válido [0, P/2]
+      xSlider.max = (P/2 - 0.1).toFixed(1);
+      if(x > P/2 - 0.1) x = P/2 - 0.1;
+      if(x < 0.1) x = 0.1;
+      xSlider.value = x;
+
+      pSpan.textContent = P;
+      xSpan.textContent = x;
+
+      var y = P/2 - x;
+      var area = x * y;
+
+      // A(x) = -x² + (P/2)x
+      var a = -1, b = P/2, c = 0;
+      var xMax = b/2; // P/4
+      var aMax = a*xMax*xMax + b*xMax + c;
+
+      var xmin = -1;
+      var xmax = Math.ceil(P/2 + 1);
+      var ymin = -2;
+      var ymax = Math.ceil(aMax + 5);
+
+      var p = makePlotter(canvas, {xRange:[xmin, xmax], yRange:[ymin, ymax], xLabel:'x (m)', yLabel:'A (m²)'});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(xMax);
+      p.drawParabola(a, b, c, '#6A2C91', 3);
+      p.drawPoint(0, 0, '#0B0F3F', '(0, 0)');
+      p.drawPoint(P/2, 0, '#0B0F3F', '(' + (P/2) + ', 0)');
+      // Punto actual del estudiante
+      p.drawPoint(x, area, '#6A2C91', 'Actual (' + x.toFixed(1) + ', ' + area.toFixed(2) + ')');
+      p.drawVertex(parseFloat(xMax.toFixed(2)), parseFloat(aMax.toFixed(2)), 'Óptimo (' + xMax.toFixed(2) + ', ' + aMax.toFixed(2) + ')');
+
+      // Preview rectangular visual
+      var maxDim = 220;
+      var scale = maxDim / Math.max(x, y);
+      var widthPx = Math.max(20, Math.min(maxDim, x * scale));
+      var heightPx = Math.max(20, Math.min(maxDim, y * scale));
+      rectPrev.innerHTML =
+        '<div class="rect-shape" style="width:' + widthPx + 'px;height:' + heightPx + 'px;"></div>' +
+        '<div class="rect-dim">Lados: ' + x.toFixed(1) + ' m × ' + y.toFixed(1) + ' m → Área = ' + area.toFixed(2) + ' m²</div>';
+
+      info.innerHTML =
+        '<strong>Modelo:</strong> A(x) = -x² + ' + (P/2) + 'x &nbsp;(con perímetro P = ' + P + ')<br>' +
+        '<strong>Lado actual x:</strong> ' + x.toFixed(1) + ' m, otro lado = ' + y.toFixed(1) + ' m<br>' +
+        '<strong>Área actual:</strong> ' + area.toFixed(2) + ' m²<br>' +
+        '<strong>Lado óptimo (vértice):</strong> ' + xMax.toFixed(2) + ' m (= P/4)<br>' +
+        '<strong>Área máxima:</strong> ' + aMax.toFixed(2) + ' m² <span class="badge">CUADRADO</span><br>' +
+        '<strong>Diferencia con el óptimo:</strong> ' + (aMax - area).toFixed(2) + ' m² menos.';
+    }
+
+    pSlider.addEventListener('input', function(){
+      update();
+    });
+    xSlider.addEventListener('input', update);
+
+    var presets = document.querySelectorAll('[data-sim2-p]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          var P = parseFloat(btn.dataset.sim2P);
+          pSlider.value = P;
+          // Ajustar x al óptimo
+          xSlider.value = (P/4).toFixed(1);
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupSim1();
+    setupSim2();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

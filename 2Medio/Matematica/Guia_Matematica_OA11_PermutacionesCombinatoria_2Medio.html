@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Permutaciones y combinatoria — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    /* Diagrama de árbol */
+    .tree-wrap{background:#fff;border:2px solid #D4AF37;border-radius:10px;padding:1rem;margin:1rem 0;text-align:center;}
+    .tree-node{display:inline-block;background:#F8F4E9;border:1.5px solid #D4AF37;border-radius:50%;width:40px;height:40px;line-height:38px;font-weight:700;color:#6A2C91;margin:.3rem;font-size:.92rem;}
+    .tree-level{margin:.5rem 0;display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;}
+    .tree-line{height:20px;border-left:1.5px solid #6A2C91;margin:0 auto;width:0;}
+    .tree-label{font-size:.78rem;color:#555;margin:.2rem 0;font-style:italic;}
+
+    /* Herramientas */
+    .tool-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:240px;}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .input-control input[type=number]{width:100%;padding:.45rem .55rem;border:1px solid #D9D9D9;border-radius:6px;font-size:1rem;}
+    .input-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .toggle-group{display:grid;gap:.3rem;margin-top:.3rem;}
+    .toggle-group button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:6px;padding:.45rem;cursor:pointer;font-weight:600;font-size:.82rem;font-family:'Inter',sans-serif;transition:all .2s;text-align:left;}
+    .toggle-group button.active{background:#6A2C91;color:#fff;}
+    .toggle-group button:hover{background:#552072;color:#fff;}
+    .tool-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .tool-info .alert{color:#6A2C91;font-weight:700;}
+    .tool-info .badge{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:.15rem .7rem;border-radius:12px;font-size:.82rem;font-weight:700;}
+    .tool-info .formula-big{font-size:1.4rem;text-align:center;margin:.6rem 0;color:#6A2C91;font-weight:700;}
+    .tool-info .result-big{text-align:center;background:#FFF8E1;border:2px solid #D4AF37;border-radius:8px;padding:.7rem;margin:.6rem 0;font-size:1.4rem;font-weight:800;color:#0B0F3F;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Principio fundamental del conteo
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Permutaciones, combinatoria y probabilidad</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Conteo</span>
+    <span class="chip">Probabilidades</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 11</span>
+    <span class="oa-text">Utilizar permutaciones y combinatoria sencilla para calcular probabilidades de eventos y resolver problemas de juegos de azar y de la vida cotidiana.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El principio fundamental del conteo</div>
+
+      <p>Antes de calcular probabilidades, hay que saber <strong>contar</strong>: ¿de cuántas formas puede ocurrir cierto evento? La combinatoria es la rama de la matemática que estudia esto.</p>
+
+      <div class="card card-def">
+        <strong>Principio fundamental del conteo (regla del producto):</strong> si un procedimiento tiene varias etapas, y cada etapa tiene un número determinado de posibilidades, el total de resultados se obtiene <em>multiplicando</em> esos números.
+      </div>
+
+      <div class="math-box">
+        Total de resultados = (opciones etapa 1) × (opciones etapa 2) × ... × (opciones etapa n)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Si tienes 3 poleras (roja, verde, azul) y 2 pantalones (negro, blanco), ¿cuántos atuendos distintos puedes formar?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Etapa 1:</strong> elegir polera (3 opciones).</span>
+        <span class="math-step"><strong>Etapa 2:</strong> elegir pantalón (2 opciones).</span>
+        <span class="math-step">Total = \(3 \times 2 = 6\) atuendos distintos.</span>
+        <span class="math-step"><span class="math-result">6 atuendos distintos.</span></span>
+      </div>
+
+      <div class="tree-wrap">
+        <strong>Diagrama de árbol:</strong>
+        <div class="tree-level">
+          <span class="tree-node">R</span>
+          <span class="tree-node">V</span>
+          <span class="tree-node">A</span>
+        </div>
+        <div class="tree-label">↓ Cada polera se combina con 2 pantalones</div>
+        <div class="tree-level">
+          <span class="tree-node" style="background:#fff;">N</span>
+          <span class="tree-node" style="background:#0B0F3F;color:#fff;">B</span>
+          <span style="margin:0 .6rem;color:#888;">|</span>
+          <span class="tree-node" style="background:#fff;">N</span>
+          <span class="tree-node" style="background:#0B0F3F;color:#fff;">B</span>
+          <span style="margin:0 .6rem;color:#888;">|</span>
+          <span class="tree-node" style="background:#fff;">N</span>
+          <span class="tree-node" style="background:#0B0F3F;color:#fff;">B</span>
+        </div>
+        <div class="tree-label">Total de hojas (atuendos): 3 × 2 = 6</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Más ejemplos del principio del conteo</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Situación</th><th>Cálculo</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Lanzar 3 monedas (cada una: cara o sello)</td><td>2 × 2 × 2</td><td>8 resultados</td></tr>
+          <tr><td>Patente de 4 dígitos (0-9, con repetición)</td><td>10 × 10 × 10 × 10</td><td>10.000 patentes</td></tr>
+          <tr><td>Clave de 3 letras (A-Z, con repetición)</td><td>27 × 27 × 27</td><td>19.683 claves</td></tr>
+          <tr><td>Menú: 4 entradas, 5 platos, 3 postres</td><td>4 × 5 × 3</td><td>60 menús</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Detalle clave:</strong> el principio del conteo multiplica cuando las opciones son <em>independientes</em> (lo que elijas en una etapa no afecta las opciones de otra). Si las elecciones se influyen mutuamente (no puedes repetir), las cuentas cambian — eso lleva a las <strong>permutaciones</strong>.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>¿Para qué sirve contar?</div>
+
+      <p>Saber contar es la base de la <strong>probabilidad clásica</strong>: la probabilidad de un evento se calcula como el cociente entre el número de "casos favorables" (los que cumplen lo que queremos) y el "total de casos posibles".</p>
+
+      <div class="math-box">
+        \(P(\text{evento}) = \dfrac{\text{casos favorables}}{\text{casos totales}}\)
+      </div>
+
+      <p>Para usar esta fórmula, necesitas saber contar bien ambos números. La combinatoria te da las herramientas para hacerlo de forma sistemática.</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En las próximas páginas verás dos herramientas centrales: <strong>permutaciones</strong> (cuando importa el orden, como en una clave) y <strong>combinaciones</strong> (cuando NO importa el orden, como en una lotería). Distinguirlas es la habilidad más importante de esta guía.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Permutaciones
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Permutaciones y factorial</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">El orden importa</span>
+    <span class="chip">Factorial n!</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es una permutación?</div>
+
+      <div class="card card-def">
+        <strong>Permutación:</strong> es una forma de ordenar (o disponer) un conjunto de objetos donde <strong>el orden importa</strong>. Cambiar el orden de los objetos produce una permutación distinta.
+      </div>
+
+      <p>Ejemplos cotidianos donde el orden importa:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Claves y contraseñas:</strong> "1234" es distinta a "4321".</li>
+        <li><strong>Posiciones en un podio:</strong> "Oro - Plata - Bronce" no es lo mismo que "Plata - Oro - Bronce".</li>
+        <li><strong>Cargos jerárquicos:</strong> ser presidente es distinto a ser tesorero, aunque sean las mismas personas.</li>
+        <li><strong>Letras de una palabra:</strong> "ROMA" no es lo mismo que "AMOR" aunque tienen las mismas letras.</li>
+        <li><strong>Orden de canciones en una playlist:</strong> el mismo conjunto en distinto orden suena distinto.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>El factorial: \(n!\)</div>
+
+      <p>Para calcular permutaciones necesitamos una operación llamada <strong>factorial</strong>, denotada con un signo de exclamación.</p>
+
+      <div class="math-box">
+        \(n! = n \cdot (n-1) \cdot (n-2) \cdot \ldots \cdot 2 \cdot 1\)
+      </div>
+
+      <p>Es el producto de todos los números enteros positivos desde 1 hasta \(n\). Por convención, \(0! = 1\) y \(1! = 1\).</p>
+
+      <div class="subsec">Valores comunes</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>\(n\)</th><th>\(n!\)</th><th>Cálculo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>1</td><td>(convención)</td></tr>
+          <tr><td>1</td><td>1</td><td>1</td></tr>
+          <tr><td>2</td><td>2</td><td>2 · 1</td></tr>
+          <tr><td>3</td><td>6</td><td>3 · 2 · 1</td></tr>
+          <tr><td>4</td><td>24</td><td>4 · 3 · 2 · 1</td></tr>
+          <tr><td>5</td><td>120</td><td>5 · 4 · 3 · 2 · 1</td></tr>
+          <tr><td>6</td><td>720</td><td>6!</td></tr>
+          <tr><td>7</td><td>5.040</td><td>7!</td></tr>
+          <tr><td>10</td><td>3.628.800</td><td>10!</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Crece muy rápido:</strong> \(10! \approx 3{,}6\) millones. \(15! \approx 1{,}3\) billones. \(20! \approx 2{,}4 \times 10^{18}\). Esto explica por qué el orden importa: hay enormemente más formas de ordenar de lo que parece.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Permutación de \(n\) objetos en \(n\) posiciones</div>
+
+      <p>Si tienes \(n\) objetos distintos y quieres ordenarlos en \(n\) posiciones, el número de permutaciones posibles es \(n!\).</p>
+
+      <div class="math-box">
+        \(P_{n} = n!\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿De cuántas maneras se pueden ordenar 5 libros distintos en un estante?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Para la primera posición: 5 opciones. Para la segunda: 4 (quedan menos). Tercera: 3. Cuarta: 2. Quinta: 1.</span>
+        <span class="math-step">Total: \(5 \times 4 \times 3 \times 2 \times 1 = 5! = 120\) maneras.</span>
+        <span class="math-step"><span class="math-result">120 ordenaciones distintas.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Permutación de \(r\) objetos tomados de \(n\)</div>
+
+      <p>Cuando tienes \(n\) objetos pero solo quieres ordenar \(r\) de ellos (con \(r \leq n\)), la fórmula es:</p>
+
+      <div class="math-box">
+        \(P(n, r) = \dfrac{n!}{(n - r)!}\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        En un grupo de 20 estudiantes, ¿cuántas formas hay de elegir un presidente y un secretario (cargos distintos)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Como los cargos son distintos, el ORDEN importa. Es una permutación de 2 de 20.</span>
+        <span class="math-step">\(P(20, 2) = \dfrac{20!}{18!} = 20 \cdot 19 = 380\).</span>
+        <span class="math-step"><span class="math-result">380 formas distintas.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Observa que la fórmula \(P(n, r) = n!/(n-r)!\) realmente es solo \(n \cdot (n-1) \cdot (n-2) \cdot \ldots\) por \(r\) factores. Por ejemplo, \(P(20, 2) = 20 \cdot 19\); \(P(10, 3) = 10 \cdot 9 \cdot 8\). Eso facilita el cálculo mental.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Combinaciones
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Combinaciones: cuando el orden no importa</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">El orden NO importa</span>
+    <span class="chip">Combinatoria</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es una combinación?</div>
+
+      <div class="card card-def">
+        <strong>Combinación:</strong> es una forma de elegir un subconjunto de objetos donde <strong>el orden NO importa</strong>. Solo importa <em>quiénes</em> son elegidos, no el orden en que se eligen.
+      </div>
+
+      <p>Ejemplos cotidianos donde el orden NO importa:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Comités o grupos sin cargos diferenciados:</strong> elegir 3 personas para un proyecto donde todos son iguales.</li>
+        <li><strong>Mano de cartas:</strong> 5 cartas de póker; da igual el orden en que las recibiste.</li>
+        <li><strong>Ensaladas o pizzas:</strong> los ingredientes son los mismos en cualquier orden.</li>
+        <li><strong>Lotería:</strong> los números ganadores son los mismos independiente del orden.</li>
+        <li><strong>Selección de productos en una compra:</strong> los productos son los mismos.</li>
+      </ul>
+
+      <div class="card card-tip">
+        <strong>Pregunta clave:</strong> "¿Si cambiara el orden, sería distinto?" Si la respuesta es SÍ, es permutación. Si la respuesta es NO, es combinación. Esta sola pregunta resuelve el 80% de los problemas combinatorios.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La fórmula de combinaciones</div>
+
+      <div class="math-box">
+        \(C(n, r) = \binom{n}{r} = \dfrac{n!}{r! \cdot (n - r)!}\)
+      </div>
+
+      <p>Lee así: "combinaciones de \(n\) objetos tomados de \(r\) en \(r\)". El símbolo \(\binom{n}{r}\) también se llama "coeficiente binomial".</p>
+
+      <p><strong>¿Por qué dividimos por \(r!\)?</strong> Porque la permutación \(P(n,r)\) cuenta todas las ordenaciones de los \(r\) objetos elegidos, pero como el orden NO importa, cada grupo de \(r\) está contado \(r!\) veces. Dividir por \(r!\) elimina esa repetición.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        De un grupo de 6 personas, ¿cuántos comités distintos de 3 personas se pueden formar?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Como en un comité todos son iguales (no hay cargos), el orden NO importa. Es una combinación.</span>
+        <span class="math-step">\(C(6, 3) = \dfrac{6!}{3! \cdot 3!} = \dfrac{720}{6 \cdot 6} = \dfrac{720}{36} = 20\).</span>
+        <span class="math-step"><span class="math-result">20 comités distintos.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Comparación clave: permutación vs combinación</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Característica</th><th>Permutación \(P(n,r)\)</th><th>Combinación \(C(n,r)\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>¿Importa el orden?</td><td>Sí</td><td>No</td></tr>
+          <tr><td>Fórmula</td><td>\(\dfrac{n!}{(n-r)!}\)</td><td>\(\dfrac{n!}{r!(n-r)!}\)</td></tr>
+          <tr><td>Relación</td><td>\(P(n,r) = C(n,r) \cdot r!\)</td><td>\(C(n,r) = \dfrac{P(n,r)}{r!}\)</td></tr>
+          <tr><td>Ejemplo típico</td><td>Claves, podios, cargos</td><td>Comités, lotería, manos de cartas</td></tr>
+          <tr><td>Resultado para n=5, r=3</td><td>60</td><td>10</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Observación matemática:</strong> \(C(n,r) \leq P(n,r)\) siempre. La combinación NUNCA es mayor que la permutación. De hecho, son iguales solo cuando \(r = 0\) o \(r = 1\) (donde no hay ordenaciones distintas).
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En la próxima página tendrás una calculadora interactiva para experimentar con \(P(n,r)\) y \(C(n,r)\). Antes de usarla, intenta calcular en tu cabeza: \(C(4, 2)\) y \(P(4, 2)\). Si llegas a 6 y 12 respectivamente, ya tienes bien internalizado el concepto.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — HERRAMIENTA 1: Calculadora P y C
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Calculadora interactiva de permutaciones y combinaciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Calcula P y C</span>
+    <span class="chip">Ve el desarrollo</span>
+  </div>
+
+  <div class="content">
+
+    <p>Ingresa los valores de \(n\) (total de elementos) y \(r\) (cuántos se eligen u ordenan). La herramienta calcula \(P(n,r)\), \(C(n,r)\) y \(n!\), mostrando el desarrollo paso a paso.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-display">
+        <div id="pc-display" style="font-size:1rem;color:#0B0F3F;line-height:1.6;">Cargando…</div>
+      </div>
+
+      <div class="tool-controls">
+        <div class="input-control">
+          <label>Total de elementos \(n\)</label>
+          <input id="pc-n" type="number" min="1" max="15" step="1" value="6" />
+          <small>Máximo 15 (para que el factorial no se desborde).</small>
+        </div>
+        <div class="input-control">
+          <label>Cuántos se eligen \(r\)</label>
+          <input id="pc-r" type="number" min="0" max="15" step="1" value="3" />
+          <small>Debe ser ≤ n.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:1rem;">Ejemplos clásicos</div>
+    <div class="preset-buttons">
+      <button data-pc="5,3">5 elementos, eligiendo 3</button>
+      <button data-pc="10,2">10 elementos, eligiendo 2</button>
+      <button data-pc="6,6">6 elementos, todos (n!)</button>
+      <button data-pc="20,3">20 personas, comité de 3</button>
+      <button data-pc="52,5">Mano de póker (5 de 52)</button>
+      <button data-pc="4,2">4 elementos, 2 (clásico)</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Aplicación a probabilidades
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>De la combinatoria a la probabilidad</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Casos favorables / posibles</span>
+    <span class="chip">Aplicación</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>La probabilidad clásica</div>
+
+      <p>Cuando todos los resultados de un experimento son <em>equiprobables</em> (igualmente probables), la probabilidad de un evento se calcula con la fórmula:</p>
+
+      <div class="math-box">
+        \(P(A) = \dfrac{\text{número de casos favorables al evento } A}{\text{número total de casos posibles}}\)
+      </div>
+
+      <p>La combinatoria nos da las herramientas para contar bien tanto el numerador como el denominador.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo 1: probabilidad con dados</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Al lanzar dos dados, ¿cuál es la probabilidad de obtener una suma de 7?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Casos totales:</strong> 6 × 6 = 36 (cada dado tiene 6 caras, son independientes).</span>
+        <span class="math-step"><strong>Casos favorables (suma 7):</strong> (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 casos.</span>
+        <span class="math-step">\(P(\text{suma 7}) = \dfrac{6}{36} = \dfrac{1}{6}\).</span>
+        <span class="math-step"><span class="math-result">Probabilidad = 1/6 ≈ 0,167 ≈ 16,7%.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo 2: probabilidad con combinaciones (urna)</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        En una urna hay 5 bolas rojas y 3 azules. Si sacas 2 bolas al azar (sin reemplazo), ¿cuál es la probabilidad de que ambas sean rojas?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Casos totales (todas las formas de elegir 2 de 8):</strong> \(C(8, 2) = \dfrac{8!}{2! \cdot 6!} = \dfrac{8 \cdot 7}{2} = 28\).</span>
+        <span class="math-step"><strong>Casos favorables (elegir 2 rojas de 5):</strong> \(C(5, 2) = \dfrac{5!}{2! \cdot 3!} = \dfrac{5 \cdot 4}{2} = 10\).</span>
+        <span class="math-step">\(P(\text{ambas rojas}) = \dfrac{10}{28} = \dfrac{5}{14}\).</span>
+        <span class="math-step"><span class="math-result">Probabilidad = 5/14 ≈ 0,357 ≈ 35,7%.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Ejemplo 3: probabilidad con permutaciones (claves)</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una clave de seguridad tiene 4 dígitos distintos (del 0 al 9). ¿Cuál es la probabilidad de adivinar la clave en un intento al azar?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Casos totales (permutaciones de 4 dígitos distintos de 10):</strong> \(P(10, 4) = \dfrac{10!}{6!} = 10 \cdot 9 \cdot 8 \cdot 7 = 5040\).</span>
+        <span class="math-step"><strong>Casos favorables:</strong> solo 1 (la clave correcta).</span>
+        <span class="math-step">\(P(\text{adivinar}) = \dfrac{1}{5040}\).</span>
+        <span class="math-step"><span class="math-result">Probabilidad ≈ 0,0002 ≈ 0,02% (muy baja).</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Observa cómo el mismo problema usa <em>permutaciones</em> cuando importa el orden (claves) y <em>combinaciones</em> cuando no (urnas). Identificar correctamente cuál usar es la habilidad más importante: si te equivocas, todo el cálculo de probabilidad será incorrecto.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — HERRAMIENTA 2: Calculadora de probabilidades
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Calculadora de probabilidades en escenarios reales</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">5 escenarios</span>
+    <span class="chip">Casos favorables / posibles</span>
+  </div>
+
+  <div class="content">
+
+    <p>Practica con 5 escenarios reales donde la probabilidad se calcula usando combinatoria. Para cada uno, ajusta los datos y la herramienta calcula la probabilidad mostrando los <strong>casos favorables y posibles</strong>.</p>
+
+    <div class="tool-wrap" style="grid-template-columns:1fr 1.2fr;">
+      <div class="tool-controls">
+        <div class="input-control">
+          <label>Selecciona un escenario</label>
+          <div class="toggle-group" id="prob-mode">
+            <button data-mode="urna" class="active">🟣 Bolas en una urna</button>
+            <button data-mode="cartas">🃏 Cartas de un mazo (52)</button>
+            <button data-mode="dados">🎲 Lanzar 2 dados</button>
+            <button data-mode="moneda">🪙 Lanzar varias monedas</button>
+            <button data-mode="loto">🎫 Lotería simple</button>
+          </div>
+        </div>
+        <div id="prob-inputs"></div>
+      </div>
+
+      <div class="tool-display">
+        <div id="prob-result">Selecciona un escenario y ajusta los parámetros.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Permutaciones y combinatoria — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuántos resultados posibles hay al lanzar 2 monedas?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Es el número de opciones de UNA moneda, no de dos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 3<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si distinguiéramos "0 caras, 1 cara, 2 caras", pero los pares ordenados son 4.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 4<div class="opt-feedback"><strong>Correcto.</strong> Por el principio del conteo: \(2 \times 2 = 4\) (CC, CS, SC, SS).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería con 3 monedas (\(2^{3} = 8\)).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuánto vale \(5!\) (5 factorial)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> Es el valor de 5, no de 5!.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con 5 + 5.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 25<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(5^{2}\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 120<div class="opt-feedback"><strong>Correcto.</strong> \(5! = 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 120\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿De cuántas maneras se pueden ordenar 3 libros distintos en un estante?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 3<div class="opt-feedback"><strong>Incorrecto.</strong> Es el número de libros, no de ordenaciones.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 6<div class="opt-feedback"><strong>Correcto.</strong> \(3! = 3 \cdot 2 \cdot 1 = 6\). Ordenaciones: ABC, ACB, BAC, BCA, CAB, CBA.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 9<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(3^{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 27<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(3^{3}\) (con repetición).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">De un grupo de 6 personas, ¿cuántos comités distintos de 3 personas se pueden formar?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 6<div class="opt-feedback"><strong>Incorrecto.</strong> Es el total de personas, no comités.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 18<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 6·3, sin sentido combinatorio.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 20<div class="opt-feedback"><strong>Correcto.</strong> En un comité no importa el orden, por tanto combinación: \(C(6,3) = \dfrac{6!}{3! \cdot 3!} = \dfrac{720}{36} = 20\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 120<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(P(6,3)\) (orden importa). Aquí no importa.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿De cuántas maneras se pueden ordenar las letras de la palabra "MESA"?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Es el número de letras.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(4^{2}\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 24<div class="opt-feedback"><strong>Correcto.</strong> Las 4 letras son distintas: \(4! = 24\). Es una permutación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 64<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(4^{3}\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuántas patentes de 4 dígitos se pueden formar (con repetición permitida)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 24<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(4!\), pero aquí no es permutación sino con repetición.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1.000<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(10^{3}\) (3 dígitos), no 4.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 5.040<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(P(10,4)\) (sin repetición).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 10.000<div class="opt-feedback"><strong>Correcto.</strong> Por el principio del conteo: \(10 \times 10 \times 10 \times 10 = 10^{4} = 10000\). Cada dígito tiene 10 opciones independientes.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">En una clase de 20 alumnos, ¿de cuántas maneras se puede elegir un presidente y un secretario (cargos distintos)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 20+20, sin sentido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 190<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(C(20,2)\) (combinación), pero los cargos son distintos, así que importa el orden.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 380<div class="opt-feedback"><strong>Correcto.</strong> Los cargos son distintos ⇒ permutación. \(P(20,2) = 20 \cdot 19 = 380\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 400<div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(20^{2}\), pero no se puede ser presidente y secretario a la vez.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si se eligen 3 cartas de un mazo de 52 (sin importar el orden), ¿cuántas combinaciones distintas hay?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 156<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 52·3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 132.600<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(P(52,3) = 52 \cdot 51 \cdot 50\) (con orden). Como no importa el orden, hay que dividir por \(3!\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 22.100<div class="opt-feedback"><strong>Correcto.</strong> \(C(52,3) = \dfrac{52 \cdot 51 \cdot 50}{3!} = \dfrac{132600}{6} = 22100\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 140.608<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(52^{3}\) (con repetición), pero las cartas no se repiten.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En una urna hay 5 bolas rojas y 3 azules. ¿Cuál es la probabilidad de sacar 2 bolas rojas al azar (sin reemplazo)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5/8<div class="opt-feedback"><strong>Incorrecto.</strong> Es la probabilidad de la primera sea roja, pero hay dos extracciones.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 5/14<div class="opt-feedback"><strong>Correcto.</strong> \(P = \dfrac{C(5,2)}{C(8,2)} = \dfrac{10}{28} = \dfrac{5}{14}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 2/5<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al cálculo correcto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1/4<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo aproximado erróneo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿De cuántas maneras pueden 5 personas sentarse alrededor de una mesa redonda?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 24<div class="opt-feedback"><strong>Correcto.</strong> En permutaciones circulares, fijamos una persona y permutamos las otras: \((n-1)! = 4! = 24\). En una mesa redonda no hay un "primer asiento" identificable.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 120<div class="opt-feedback"><strong>Incorrecto.</strong> Sería 5! para una fila, pero en círculo se descuentan las rotaciones.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 60<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo intermedio sin sentido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> Es el número de personas.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Datos y Azar<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Permutaciones y combinatoria — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Permutaciones, combinatoria y probabilidades</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuántos números de 3 cifras distintas se pueden formar con los dígitos 1, 2, 3, 4, 5?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 15<div class="opt-feedback"><strong>Incorrecto.</strong> Es 5·3, sin sentido.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 60<div class="opt-feedback"><strong>Correcto.</strong> Permutación de 3 de 5 (orden importa, sin repetición): \(P(5,3) = 5 \cdot 4 \cdot 3 = 60\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 120<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(5!\) (todos los dígitos), no 3 de 5.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 125<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(5^{3}\) (con repetición), pero el problema pide cifras distintas.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">De 10 estudiantes, ¿cuántas formas distintas hay de elegir 2 para un proyecto (no importa el orden)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 20<div class="opt-feedback"><strong>Incorrecto.</strong> Es 10·2, sin justificación.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 45<div class="opt-feedback"><strong>Correcto.</strong> Combinación de 2 de 10: \(C(10,2) = \dfrac{10 \cdot 9}{2} = 45\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 90<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(P(10,2)\) (con orden); el problema dice "no importa el orden".</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(10^{2}\), pero no se puede elegir la misma persona dos veces.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál es la probabilidad de obtener "cara" en las 3 veces al lanzar una moneda 3 veces seguidas?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1/2<div class="opt-feedback"><strong>Incorrecto.</strong> Es la probabilidad de una sola tirada.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1/4<div class="opt-feedback"><strong>Incorrecto.</strong> Es \((1/2)^{2}\), para 2 caras seguidas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 1/6<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al cálculo correcto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 1/8<div class="opt-feedback"><strong>Correcto.</strong> Eventos independientes: \(P = (1/2)^{3} = 1/8\). O por conteo: 1 caso favorable (CCC) sobre 8 totales (\(2^{3}\)).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿De cuántas formas se pueden ordenar las letras de "ROSA"?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Es el número de letras.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(4^{2}\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 24<div class="opt-feedback"><strong>Correcto.</strong> 4 letras distintas: \(4! = 24\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 256<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(4^{4}\) (con repetición).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">En un sorteo se elige una bola entre 1 y 20. ¿Cuál es la probabilidad de obtener un número par?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1/4<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a la proporción de pares.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1/2<div class="opt-feedback"><strong>Correcto.</strong> Pares entre 1 y 20: hay 10 (2, 4, 6, ..., 20). \(P = 10/20 = 1/2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 1/10<div class="opt-feedback"><strong>Incorrecto.</strong> No es 1 de 10.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 1/20<div class="opt-feedback"><strong>Incorrecto.</strong> Es la probabilidad de un número específico.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">En una clase de 15 alumnos, ¿de cuántas maneras se puede elegir un comité de presidente y secretario?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 15<div class="opt-feedback"><strong>Incorrecto.</strong> Solo cuenta uno de los cargos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 30<div class="opt-feedback"><strong>Incorrecto.</strong> Es 15·2, no corresponde.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 105<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(C(15,2)\) (combinación), pero presidente y secretario son cargos DISTINTOS.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 210<div class="opt-feedback"><strong>Correcto.</strong> Cargos distintos ⇒ orden importa ⇒ permutación: \(P(15,2) = 15 \cdot 14 = 210\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuántos resultados distintos hay al lanzar 2 dados?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Es la suma, no el número de pares posibles.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 24<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 36<div class="opt-feedback"><strong>Correcto.</strong> Principio del conteo: \(6 \times 6 = 36\). Cada dado tiene 6 caras, son independientes.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 64<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(8^{2}\), no corresponde a dados.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">¿Cuál es la probabilidad de obtener una suma de 7 al lanzar 2 dados?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1/12<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 1/6<div class="opt-feedback"><strong>Correcto.</strong> Casos favorables (suma 7): (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6. Casos totales: 36. \(P = 6/36 = 1/6\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 1/4<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al cálculo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 7/36<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la suma con casos favorables.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">De un grupo de 8 hombres y 5 mujeres, ¿de cuántas formas se puede elegir un equipo de 3 personas (sin importar género ni orden)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Es 8·5, sin sentido para este problema.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 120<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 286<div class="opt-feedback"><strong>Correcto.</strong> Total de personas: 13. Combinaciones de 3 de 13: \(C(13,3) = \dfrac{13 \cdot 12 \cdot 11}{6} = 286\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 1.716<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(P(13,3)\), pero el orden no importa.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿De cuántas formas se pueden elegir 3 personas de un grupo de 7 (sin importar el orden)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 7<div class="opt-feedback"><strong>Incorrecto.</strong> Es el total de personas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 21<div class="opt-feedback"><strong>Incorrecto.</strong> Es 7·3, no la combinatoria.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 35<div class="opt-feedback"><strong>Correcto.</strong> \(C(7,3) = \dfrac{7!}{3! \cdot 4!} = \dfrac{7 \cdot 6 \cdot 5}{6} = 35\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 210<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(P(7,3) = 7 \cdot 6 \cdot 5\) (con orden). El problema dice "sin importar el orden".</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Has completado el OA 11 con éxito. La combinatoria es la base para entender desde juegos de azar hasta criptografía moderna. La clave para resolver cualquier problema es siempre hacer la pregunta: <strong>"¿Importa el orden?"</strong>. Si sí: permutaciones. Si no: combinaciones. Si los eventos son independientes y con repetición: principio del producto. Con estas tres herramientas resuelves prácticamente todo.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">¡OA 11 completo!</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Permutaciones y combinatoria · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  function factorial(n){
+    if(n < 0) return NaN;
+    if(n > 15) return Infinity;
+    var r = 1;
+    for(var i = 2; i <= n; i++) r *= i;
+    return r;
+  }
+
+  function permutation(n, r){
+    if(r > n || r < 0 || n < 0) return NaN;
+    var p = 1;
+    for(var i = 0; i < r; i++) p *= (n - i);
+    return p;
+  }
+
+  function combination(n, r){
+    if(r > n || r < 0 || n < 0) return NaN;
+    if(r > n - r) r = n - r; // optimización
+    var c = 1;
+    for(var i = 0; i < r; i++){
+      c = c * (n - i) / (i + 1);
+    }
+    return Math.round(c);
+  }
+
+  function fmtNum(n){
+    if(!isFinite(n)) return '∞';
+    return n.toLocaleString('es-CL');
+  }
+
+  /* ====== TOOL 1: Calculadora P y C ====== */
+  function setupPCTool(){
+    var nInp = document.getElementById('pc-n');
+    var rInp = document.getElementById('pc-r');
+    var display = document.getElementById('pc-display');
+    if(!nInp) return;
+
+    function update(){
+      var n = parseInt(nInp.value);
+      var r = parseInt(rInp.value);
+      if(isNaN(n) || isNaN(r) || n < 0 || r < 0){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ Ingresa valores válidos (n, r ≥ 0).</strong>';
+        return;
+      }
+      if(r > n){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ r no puede ser mayor que n.</strong>';
+        return;
+      }
+      if(n > 15){
+        display.innerHTML = '<strong style="color:#6A2C91;">⚠ n máximo 15 para evitar desborde.</strong>';
+        return;
+      }
+
+      var fn = factorial(n);
+      var fr = factorial(r);
+      var fnr = factorial(n - r);
+      var pnr = permutation(n, r);
+      var cnr = combination(n, r);
+
+      var perDesarrollo = '';
+      for(var i = 0; i < r; i++){
+        perDesarrollo += (n - i) + (i < r - 1 ? ' · ' : '');
+      }
+      if(r === 0) perDesarrollo = '1 (caso vacío)';
+
+      display.innerHTML =
+        '<div style="background:#F8F4E9;padding:.7rem;border-radius:8px;margin-bottom:.6rem;">' +
+          '<strong style="color:#6A2C91;">Datos:</strong> n = ' + n + ', r = ' + r + '<br>' +
+          '<strong style="color:#6A2C91;">Factorial de n:</strong> ' + n + '! = ' + fmtNum(fn) +
+        '</div>' +
+        '<div style="margin:.6rem 0;padding:.7rem;background:#fff;border:2px solid #6A2C91;border-radius:8px;">' +
+          '<strong style="color:#6A2C91;">PERMUTACIÓN (orden SÍ importa)</strong><br>' +
+          'P(' + n + ',' + r + ') = ' + n + '! / (' + n + '−' + r + ')! = ' + perDesarrollo + ' = <strong>' + fmtNum(pnr) + '</strong>' +
+        '</div>' +
+        '<div style="margin:.6rem 0;padding:.7rem;background:#fff;border:2px solid #D4AF37;border-radius:8px;">' +
+          '<strong style="color:#D4AF37;">COMBINACIÓN (orden NO importa)</strong><br>' +
+          'C(' + n + ',' + r + ') = P(' + n + ',' + r + ') / ' + r + '! = ' + fmtNum(pnr) + ' / ' + fmtNum(fr) + ' = <strong>' + fmtNum(cnr) + '</strong>' +
+        '</div>' +
+        '<div style="margin:.4rem 0;padding:.5rem;background:#f8f9ff;border-left:3px solid #6A2C91;border-radius:0 6px 6px 0;font-size:.85rem;">' +
+          '<strong>Tip pedagógico:</strong> P(' + n + ',' + r + ') / C(' + n + ',' + r + ') = ' + r + '! = ' + fmtNum(fr) + '. La permutación es exactamente \(r!\) veces más grande que la combinación.' +
+        '</div>';
+    }
+
+    nInp.addEventListener('input', update);
+    rInp.addEventListener('input', update);
+
+    var presets = document.querySelectorAll('[data-pc]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          var vals = btn.dataset.pc.split(',');
+          nInp.value = vals[0]; rInp.value = vals[1];
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  /* ====== TOOL 2: Calculadora de probabilidades ====== */
+  var probScenarios = {
+    urna: {
+      title: '🟣 Bolas de colores en una urna',
+      params: [
+        {label: 'Bolas rojas:', id: 'p-r', def: 5, min: 0, max: 30},
+        {label: 'Bolas azules:', id: 'p-a', def: 3, min: 0, max: 30},
+        {label: 'Bolas a extraer:', id: 'p-k', def: 2, min: 1, max: 10}
+      ],
+      solve: function(vals){
+        var rojas = vals[0], azules = vals[1], k = vals[2];
+        var total = rojas + azules;
+        if(k > total) return {error: 'No puedes extraer más bolas que las que hay (' + total + ').'};
+        var fav = combination(rojas, k);
+        var pos = combination(total, k);
+        return {
+          eventLabel: 'extraer ' + k + ' bolas rojas',
+          favorable: fav,
+          possible: pos,
+          steps: [
+            'Total de bolas en la urna: ' + rojas + ' rojas + ' + azules + ' azules = ' + total,
+            'Casos totales: C(' + total + ', ' + k + ') = ' + fmtNum(pos),
+            'Casos favorables (todas rojas): C(' + rojas + ', ' + k + ') = ' + fmtNum(fav)
+          ]
+        };
+      }
+    },
+    cartas: {
+      title: '🃏 Mano de cartas de un mazo de 52',
+      params: [
+        {label: 'Cartas a recibir:', id: 'p-k', def: 5, min: 1, max: 10},
+        {label: 'Quieres exactamente X cartas de corazones:', id: 'p-x', def: 2, min: 0, max: 10}
+      ],
+      solve: function(vals){
+        var k = vals[0], x = vals[1];
+        if(x > k || x > 13) return {error: 'No puedes obtener más cartas de corazones que las que recibes (' + k + ') o que las que hay (13).'};
+        if(k - x > 39) return {error: 'No quedan suficientes no-corazones.'};
+        var fav = combination(13, x) * combination(39, k - x);
+        var pos = combination(52, k);
+        return {
+          eventLabel: 'recibir exactamente ' + x + ' corazones de ' + k + ' cartas',
+          favorable: fav,
+          possible: pos,
+          steps: [
+            'Casos totales: C(52, ' + k + ') = ' + fmtNum(pos),
+            'Casos favorables: elegir ' + x + ' corazones (de 13) y ' + (k - x) + ' no-corazones (de 39)',
+            'C(13, ' + x + ') · C(39, ' + (k - x) + ') = ' + fmtNum(combination(13, x)) + ' · ' + fmtNum(combination(39, k - x)) + ' = ' + fmtNum(fav)
+          ]
+        };
+      }
+    },
+    dados: {
+      title: '🎲 Lanzar 2 dados',
+      params: [
+        {label: 'Suma deseada (2 a 12):', id: 'p-s', def: 7, min: 2, max: 12}
+      ],
+      solve: function(vals){
+        var s = vals[0];
+        var fav = 0;
+        for(var i = 1; i <= 6; i++){
+          for(var j = 1; j <= 6; j++){
+            if(i + j === s) fav++;
+          }
+        }
+        return {
+          eventLabel: 'obtener suma ' + s,
+          favorable: fav,
+          possible: 36,
+          steps: [
+            'Casos totales: 6 × 6 = 36 (cada dado tiene 6 caras)',
+            'Casos favorables (pares (i, j) con i + j = ' + s + '): ' + fav,
+            fav === 0 ? '⚠ Suma imposible con 2 dados de 6 caras.' : 'Esos son todos los pares (i, j) cuya suma es ' + s + '.'
+          ]
+        };
+      }
+    },
+    moneda: {
+      title: '🪙 Lanzar varias monedas',
+      params: [
+        {label: 'Número de monedas:', id: 'p-n', def: 5, min: 1, max: 10},
+        {label: 'Número de caras deseadas:', id: 'p-k', def: 3, min: 0, max: 10}
+      ],
+      solve: function(vals){
+        var n = vals[0], k = vals[1];
+        if(k > n) return {error: 'No puedes obtener más caras que monedas lanzadas.'};
+        var fav = combination(n, k);
+        var pos = Math.pow(2, n);
+        return {
+          eventLabel: 'obtener exactamente ' + k + ' caras al lanzar ' + n + ' monedas',
+          favorable: fav,
+          possible: pos,
+          steps: [
+            'Casos totales: 2^' + n + ' = ' + fmtNum(pos) + ' (cada moneda: cara o sello)',
+            'Casos favorables (exactamente ' + k + ' caras de ' + n + '): C(' + n + ', ' + k + ') = ' + fmtNum(fav),
+            'Esto es como elegir cuáles ' + k + ' monedas mostrarán cara.'
+          ]
+        };
+      }
+    },
+    loto: {
+      title: '🎫 Lotería simple',
+      params: [
+        {label: 'Total de números disponibles:', id: 'p-t', def: 20, min: 5, max: 50},
+        {label: 'Números que se eligen en el sorteo:', id: 'p-k', def: 3, min: 1, max: 10}
+      ],
+      solve: function(vals){
+        var t = vals[0], k = vals[1];
+        if(k > t) return {error: 'No puedes elegir más números que los disponibles.'};
+        var pos = combination(t, k);
+        return {
+          eventLabel: 'acertar todos los ' + k + ' números',
+          favorable: 1,
+          possible: pos,
+          steps: [
+            'Casos totales: C(' + t + ', ' + k + ') = ' + fmtNum(pos) + ' combinaciones posibles',
+            'Casos favorables: solo 1 (la combinación ganadora)',
+            'Probabilidad de acertar = 1 / ' + fmtNum(pos)
+          ]
+        };
+      }
+    }
+  };
+
+  var currentScenario = 'urna';
+
+  function gcd(a, b){ return b ? gcd(b, a % b) : a; }
+
+  function simplifyFraction(num, den){
+    if(num === 0) return '0';
+    var g = gcd(num, den);
+    var nn = num / g, dd = den / g;
+    if(dd === 1) return nn.toString();
+    return nn + '/' + dd;
+  }
+
+  function renderProb(){
+    var sc = probScenarios[currentScenario];
+    var inputs = document.getElementById('prob-inputs');
+    var html = '<div class="input-control"><label>Datos del escenario:</label>';
+    for(var i = 0; i < sc.params.length; i++){
+      var p = sc.params[i];
+      html += '<div style="margin-top:.4rem;"><label style="font-size:.85rem;color:#0B0F3F;font-weight:600;">' + p.label + '</label>' +
+              '<input id="' + p.id + '" type="number" min="' + p.min + '" max="' + p.max + '" step="1" value="' + p.def + '" /></div>';
+    }
+    html += '</div>';
+    inputs.innerHTML = html;
+
+    var inps = inputs.querySelectorAll('input');
+    for(var i = 0; i < inps.length; i++){
+      inps[i].addEventListener('input', solveProb);
+    }
+
+    solveProb();
+  }
+
+  function solveProb(){
+    var sc = probScenarios[currentScenario];
+    var vals = [];
+    for(var i = 0; i < sc.params.length; i++){
+      var el = document.getElementById(sc.params[i].id);
+      var v = parseInt(el.value);
+      if(isNaN(v)){
+        document.getElementById('prob-result').innerHTML = '<strong>⚠ Ingresa valores válidos.</strong>';
+        return;
+      }
+      vals.push(v);
+    }
+    var result = sc.solve(vals);
+    var display = document.getElementById('prob-result');
+
+    if(result.error){
+      display.innerHTML = '<div style="background:rgba(106,44,145,.12);padding:.7rem;border-radius:8px;color:#6A2C91;font-weight:700;">⚠ ' + result.error + '</div>';
+      return;
+    }
+
+    var prob = result.favorable / result.possible;
+    var fracStr = simplifyFraction(result.favorable, result.possible);
+    var pct = (prob * 100).toFixed(2);
+
+    var stepsHtml = '';
+    for(var i = 0; i < result.steps.length; i++){
+      stepsHtml += '<div style="margin:.3rem 0;font-size:.88rem;">▸ ' + result.steps[i] + '</div>';
+    }
+
+    display.innerHTML =
+      '<div style="background:#F8F4E9;padding:.7rem;border-radius:8px;margin-bottom:.6rem;color:#0B0F3F;font-weight:600;">' +
+        '<strong>Escenario:</strong> ' + sc.title + '<br>' +
+        '<strong>Evento:</strong> ' + result.eventLabel +
+      '</div>' +
+      '<div style="background:#fff;padding:.7rem;border:1px solid #D9D9D9;border-radius:8px;margin-bottom:.6rem;">' +
+        stepsHtml +
+      '</div>' +
+      '<div style="background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.8rem;text-align:center;">' +
+        '<div style="font-size:.85rem;color:#6A2C91;font-weight:700;margin-bottom:.3rem;">Probabilidad calculada:</div>' +
+        '<div style="font-size:1.5rem;color:#0B0F3F;font-weight:800;">' +
+          'P = ' + fmtNum(result.favorable) + ' / ' + fmtNum(result.possible) +
+        '</div>' +
+        '<div style="font-size:1.1rem;color:#6A2C91;margin-top:.4rem;font-weight:700;">' +
+          '= ' + fracStr + ' ≈ ' + prob.toFixed(4) + ' (' + pct + '%)' +
+        '</div>' +
+      '</div>';
+  }
+
+  function setupProbTool(){
+    var btns = document.querySelectorAll('#prob-mode button');
+    if(!btns.length) return;
+    for(var i = 0; i < btns.length; i++){
+      btns[i].addEventListener('click', (function(btn){
+        return function(){
+          for(var k = 0; k < btns.length; k++) btns[k].classList.remove('active');
+          btn.classList.add('active');
+          currentScenario = btn.dataset.mode;
+          renderProb();
+        };
+      })(btns[i]));
+    }
+    renderProb();
+  }
+
+  function init(){
+    setupPCTool();
+    setupProbTool();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

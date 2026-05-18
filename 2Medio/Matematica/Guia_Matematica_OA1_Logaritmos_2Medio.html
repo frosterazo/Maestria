@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logaritmos — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    /* ── Botón Exportar a PDF ── */
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    /* ── Alternativas click-para-revelar ── */
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      /* Forzar impresión de colores de fondo, bordes y backgrounds */
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      /* Revelar TODAS las alternativas en el PDF, con su color y justificación */
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Botón Exportar a PDF -->
+<div class="pdf-bar">
+  <button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — TEORÍA I: Definición y casos básicos
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Logaritmos: definición y propiedades</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Definición</span>
+    <span class="chip">Base 10 y base e</span>
+  </div>
+
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Resolver problemas rutinarios y no rutinarios que involucren logaritmos, aplicando sus propiedades en contextos diversos (escalas físicas, química, modelos exponenciales).</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── Sección 1 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es un logaritmo?</div>
+
+      <p>Una potencia responde a la pregunta: "¿cuánto vale \(b\) elevado a \(c\)?". Un logaritmo responde a la pregunta inversa: "¿a qué exponente hay que elevar \(b\) para obtener \(a\)?". Esa es toda la idea.</p>
+
+      <div class="card card-def">
+        <strong>Logaritmo:</strong> dados un número real \(a > 0\) y una base \(b > 0\) con \(b \neq 1\), el logaritmo de \(a\) en base \(b\), anotado \(\log_{b}(a)\), es el número real \(c\) tal que \(b^{c} = a\).
+      </div>
+
+      <div class="math-box">
+        \(\log_{b}(a) = c \iff b^{c} = a\)
+      </div>
+
+      <p>Las dos expresiones dicen <em>exactamente lo mismo</em>, pero desde puntos de vista distintos. Saber traducir de una a otra es la mitad del trabajo con logaritmos.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\log_{2}(8)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Pregunta equivalente: ¿A qué exponente hay que elevar 2 para obtener 8?</span>
+        <span class="math-step">\(2^{?} = 8\) ⇒ \(2^{3} = 8\), por lo tanto \(? = 3\).</span>
+        <span class="math-step"><span class="math-result">\(\log_{2}(8) = 3\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Lectura:</strong> \(\log_{2}(8) = 3\) se lee "logaritmo en base 2 de 8 es igual a 3". El "8" es el <em>argumento</em>; el "2", la <em>base</em>; el "3", el <em>resultado</em> (o valor del logaritmo).
+      </div>
+    </div>
+
+    <!-- ─── Sección 2 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Notación: log y ln</div>
+
+      <p>Hay dos bases que aparecen tanto en ciencia y tecnología que tienen notación abreviada:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Notación</th><th>Significado</th><th>Dónde aparece</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\log(a)\)</td><td>\(\log_{10}(a)\) — base 10</td><td>pH, escala Richter, decibeles</td></tr>
+          <tr><td>\(\ln(a)\)</td><td>\(\log_{e}(a)\) — base \(e \approx 2{,}718\)</td><td>Crecimiento poblacional, interés continuo, física</td></tr>
+          <tr><td>\(\log_{b}(a)\)</td><td>Logaritmo en cualquier otra base \(b\)</td><td>Informática (base 2), modelos genéricos</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Convención chilena:</strong> cuando ves "\(\log\)" sin base explícita en una pregunta PAES o un libro de 2° Medio, casi siempre se refiere a base 10. Si es base \(e\), siempre se escribe \(\ln\).
+      </div>
+    </div>
+
+    <!-- ─── Sección 3 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Propiedades básicas (deducidas de la definición)</div>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Logaritmo de 1</span>
+          <span class="prop-eq">\(\log_{b}(1) = 0\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Logaritmo de la base</span>
+          <span class="prop-eq">\(\log_{b}(b) = 1\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Logaritmo de potencia de la base</span>
+          <span class="prop-eq">\(\log_{b}(b^{n}) = n\)</span>
+        </div>
+      </div>
+
+      <p><strong>¿Por qué \(\log_{b}(1) = 0\)?</strong> Porque \(b^{0} = 1\) para cualquier base \(b\). La pregunta "¿a qué exponente hay que elevar \(b\) para obtener 1?" siempre se responde "a cero".</p>
+
+      <p><strong>¿Por qué \(\log_{b}(b) = 1\)?</strong> Porque \(b^{1} = b\). Cualquier número elevado a 1 es él mismo, así que el exponente es 1.</p>
+
+      <div class="subsec">Ejemplos directos</div>
+      <div class="math-block">
+        <span class="math-step">\(\log_{10}(1) = 0\), &nbsp; \(\log_{5}(1) = 0\), &nbsp; \(\log_{2}(1) = 0\)</span>
+        <span class="math-step">\(\log_{10}(10) = 1\), &nbsp; \(\log(100) = 2\) (porque \(10^{2}=100\)), &nbsp; \(\log(1000) = 3\)</span>
+        <span class="math-step">\(\log_{2}(16) = 4\) (porque \(2^{4}=16\)), &nbsp; \(\log_{3}(81) = 4\) (porque \(3^{4}=81\))</span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Atajo:</strong> si reconoces que el argumento es una potencia de la base, el logaritmo es directo. Por eso conviene tener memorizadas las potencias de 2, 3, 5 y 10 hasta exponente 5 o 6.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Calcula sin lápiz: \(\log_{2}(64)\), \(\log_{3}(27)\), \(\log_{5}(125)\). Si dudaste, vuelve a la sección 1: la pregunta clave es "¿a qué exponente hay que elevar la base para obtener el argumento?". Si esa frase no se vuelve automática en tu cabeza, los logaritmos te van a parecer mágicos en vez de mecánicos.
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Logaritmos · Página 1 de 4</div>
+  </div>
+</div><!-- /page1 -->
+
+
+<!-- ============================================================
+     PÁGINA 2 — TEORÍA II: Propiedades operatorias
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Logaritmos II: propiedades operatorias</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Producto · cociente · potencia</span>
+    <span class="chip">Cambio de base</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── Sección 1 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Logaritmo de un producto</div>
+
+      <p>El logaritmo de un producto es la <strong>suma</strong> de los logaritmos de los factores. Esta propiedad es la herramienta más poderosa: convierte multiplicaciones (operación complicada) en sumas (operación fácil). Es justamente por esto que los logaritmos se inventaron en el siglo XVII.</p>
+
+      <div class="math-box">
+        \(\log_{b}(x \cdot y) = \log_{b}(x) + \log_{b}(y)\) &nbsp;&nbsp;(\(x, y > 0\))
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Si \(\log(2) \approx 0{,}30\) y \(\log(3) \approx 0{,}48\), calcular \(\log(6)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(6 = 2 \cdot 3\) ⇒ \(\log(6) = \log(2 \cdot 3)\)</span>
+        <span class="math-step">\(= \log(2) + \log(3)\)</span>
+        <span class="math-step">\(\approx 0{,}30 + 0{,}48 = 0{,}78\)</span>
+        <span class="math-step"><span class="math-result">\(\log(6) \approx 0{,}78\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Atención:</strong> la propiedad NO funciona con sumas dentro del logaritmo. \(\log(a + b) \neq \log(a) + \log(b)\). Es un error tan común que vale la pena memorizarlo al revés: "el log de una suma no se separa nunca".
+      </div>
+    </div>
+
+    <!-- ─── Sección 2 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Logaritmo de un cociente</div>
+
+      <p>El logaritmo de un cociente es la <strong>resta</strong> de los logaritmos: numerador menos denominador.</p>
+
+      <div class="math-box">
+        \(\log_{b}\!\left(\dfrac{x}{y}\right) = \log_{b}(x) - \log_{b}(y)\) &nbsp;&nbsp;(\(x, y > 0\))
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\log(20) - \log(2)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\log(20) - \log(2) = \log\!\left(\dfrac{20}{2}\right)\)</span>
+        <span class="math-step">\(= \log(10) = 1\)</span>
+        <span class="math-step"><span class="math-result">\(\log(20) - \log(2) = 1\)</span></span>
+      </div>
+    </div>
+
+    <!-- ─── Sección 3 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Logaritmo de una potencia</div>
+
+      <p>Cuando el argumento es una potencia, el exponente <strong>se baja como coeficiente</strong> que multiplica al logaritmo. Esta propiedad es clave en problemas de crecimiento exponencial: convierte una incógnita "atrapada" en un exponente en una incógnita "libre" multiplicando un logaritmo.</p>
+
+      <div class="math-box">
+        \(\log_{b}(x^{n}) = n \cdot \log_{b}(x)\) &nbsp;&nbsp;(\(x > 0\))
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Si \(\log(2) \approx 0{,}30\), calcular \(\log(8)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(8 = 2^{3}\) ⇒ \(\log(8) = \log(2^{3})\)</span>
+        <span class="math-step">\(= 3 \cdot \log(2)\)</span>
+        <span class="math-step">\(\approx 3 \cdot 0{,}30 = 0{,}90\)</span>
+        <span class="math-step"><span class="math-result">\(\log(8) \approx 0{,}90\)</span></span>
+      </div>
+    </div>
+
+    <!-- ─── Sección 4 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Cambio de base</div>
+
+      <p>Si necesitas calcular un logaritmo en una base que tu calculadora no tiene (por ejemplo, base 2), puedes reescribirlo en términos de otra base (típicamente 10 o \(e\)):</p>
+
+      <div class="math-box">
+        \(\log_{b}(a) = \dfrac{\log_{c}(a)}{\log_{c}(b)}\)
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\log_{2}(10)\) usando logaritmo en base 10.
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\log_{2}(10) = \dfrac{\log(10)}{\log(2)} = \dfrac{1}{0{,}30}\)</span>
+        <span class="math-step">\(\approx 3{,}33\)</span>
+        <span class="math-step"><span class="math-result">\(\log_{2}(10) \approx 3{,}33\)</span></span>
+      </div>
+    </div>
+
+    <!-- ─── Sección 5 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>Resumen de propiedades</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Propiedad</th><th>Fórmula</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Logaritmo de 1</td><td>\(\log_{b}(1) = 0\)</td></tr>
+          <tr><td>Logaritmo de la base</td><td>\(\log_{b}(b) = 1\)</td></tr>
+          <tr><td>Producto</td><td>\(\log_{b}(x \cdot y) = \log_{b}(x) + \log_{b}(y)\)</td></tr>
+          <tr><td>Cociente</td><td>\(\log_{b}(x/y) = \log_{b}(x) - \log_{b}(y)\)</td></tr>
+          <tr><td>Potencia</td><td>\(\log_{b}(x^{n}) = n \cdot \log_{b}(x)\)</td></tr>
+          <tr><td>Cambio de base</td><td>\(\log_{b}(a) = \dfrac{\log_{c}(a)}{\log_{c}(b)}\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Errores frecuentes que evitar:</strong>
+        <ul style="margin-top:.4rem;">
+          <li>\(\log(a + b) \neq \log(a) + \log(b)\) — el log de una suma no se separa.</li>
+          <li>\(\log(a \cdot b) \neq \log(a) \cdot \log(b)\) — el log de un producto es <em>suma</em>, no producto, de logs.</li>
+          <li>\(\dfrac{\log(a)}{\log(b)} \neq \log\!\left(\dfrac{a}{b}\right)\) — el cociente de logs no es el log del cociente; eso es cambio de base.</li>
+        </ul>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Sin mirar la tabla, intenta decirte a ti mismo, en voz alta: "el log de un producto es…", "el log de una potencia es…". Si dudas, mira la tabla, cierra los ojos y repite. La fluidez verbal en estas tres propiedades vale más que cualquier truco: en la PAES no tendrás tiempo de derivarlas.
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Logaritmos · Página 2 de 4</div>
+  </div>
+</div><!-- /page2 -->
+
+
+<!-- ============================================================
+     PÁGINA 3 — EJERCICIOS (con justificación inline)
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Logaritmos — Ejercicios</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+    <span class="chip">Con justificaciones</span>
+  </div>
+
+  <!-- ── Nivel Básico ── -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-b">Básico</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es el valor de \(\log_{2}(8)\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{2}=4\), no 8.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(3\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(2^{3}=8\), por eso \(\log_{2}(8)=3\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(4\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{4}=16\) ya supera 8.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(8\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el argumento (8) con el valor del logaritmo. El logaritmo es el <em>exponente</em>, no el número de adentro.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(\log(1000)\) (base 10) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(1\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(\log(10)=1\), no \(\log(1000)\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(\log(100)=2\). Aún falta un cero.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(3\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(10^{3}=1000\), entonces \(\log(1000)=3\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(10\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la base del logaritmo con su valor. La base es 10, pero el logaritmo da 3.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El valor de \(\log_{5}(1)\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(0\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Para cualquier base \(b\), \(\log_{b}(1)=0\) porque \(b^{0}=1\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(1\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(\log_{5}(5)=1\), no \(\log_{5}(1)\). Confunde el argumento con la base.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(5\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la base con el valor del logaritmo.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> Indefinido
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El logaritmo de 1 sí está definido para cualquier base válida; vale 0.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Nivel Intermedio ── -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-m">Intermedio</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(\log(a)=2\) y \(\log(b)=3\), ¿cuál es el valor de \(\log(a \cdot b)\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(5\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Propiedad del producto: \(\log(a \cdot b) = \log(a) + \log(b) = 2 + 3 = 5\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(6\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicar los logaritmos (\(2 \cdot 3 = 6\)) NO es una propiedad válida. El log de un producto es <em>suma</em> de logs.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(1\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(\log(b) - \log(a) = 3-2 = 1\), que correspondería a \(\log(b/a)\), no a \(\log(a \cdot b)\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(2/3\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Dividir los logs no corresponde a ninguna propiedad estándar.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(\log_{2}(32)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(4\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{4}=16\), no 32.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(5\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(2^{5}=32\), entonces \(\log_{2}(32)=5\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(6\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{6}=64\), ya pasaste de 32.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(16\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(32:2=16\) con \(\log_{2}(32)\). El logaritmo no es una división.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(\log(x)=2\), entonces \(\log(x^{3})\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(5\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sumar 2+3 sería tratar el exponente como un sumando externo, no como factor multiplicativo del log.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(6\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Propiedad de la potencia: \(\log(x^{3}) = 3 \cdot \log(x) = 3 \cdot 2 = 6\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(8\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna propiedad: parece confundir con \(2^{3}\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(9\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Sería \([\log(x)]^{2}\) algo distinto. El exponente del argumento baja como factor del log, una sola vez.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(\log(20) - \log(2)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(1\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Propiedad del cociente: \(\log(20) - \log(2) = \log(20/2) = \log(10) = 1\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(\log(18)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> La resta de logaritmos NO es el log de la resta. Es el log del <em>cociente</em>.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(10\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 10 es el cociente \(20/2\), pero la pregunta pide el logaritmo de ese cociente, que da 1.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(18\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 18 es la resta \(20-2\), pero los logaritmos no funcionan así.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Nivel Avanzado ── -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-a">Avanzado</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es el valor de \(\log_{4}(64)\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(4^{2}=16\), no 64.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(3\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(4^{3}=64\), entonces \(\log_{4}(64)=3\). También: \(64 = 2^{6}\) y \(4 = 2^{2}\) ⇒ \(6/2=3\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(16\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 16 es \(64/4\), pero el logaritmo no es una división simple.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(32\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 32 es \(64/2\), pero la base es 4, no 2.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(10^{x}=200\), entonces \(x\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(\log(200)\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Por definición de logaritmo: \(10^{x}=200 \iff x = \log(200)\). Aproximadamente \(x \approx 2{,}30\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(20\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 20 es \(200/10\), pero esa operación no resuelve la ecuación exponencial.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(\log(20)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El argumento del logaritmo debe ser 200, no 20. Habría que aplicar log a ambos lados sin modificar el argumento.</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(10^{2}=100\), no 200. El valor exacto es \(\log(200)\), un poco mayor que 2.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">La expresión \(2\log(x) + \log(y) - \log(z)\) (con \(x,y,z>0\)) es equivalente a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">A</span> \(\log(2x + y - z)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Los coeficientes y restas no se trasladan al argumento como suma o resta. Hay que usar las propiedades de producto, cociente y potencia.</div>
+          </div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">B</span> \(\log\!\left(\dfrac{x^{2}y}{z}\right)\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(2\log(x) = \log(x^{2})\), luego \(\log(x^{2}) + \log(y) = \log(x^{2}y)\), y finalmente \(\log(x^{2}y) - \log(z) = \log(x^{2}y/z)\).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">C</span> \(\log\!\left(\dfrac{2xy}{z}\right)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Falla en el coeficiente 2, que se convierte en exponente de \(x\) (no en factor de \(x\)).</div>
+          </div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="opt-letter">D</span> \(\log(x^{2} + y - z)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> El producto \(\log(x^{2}) + \log(y)\) no se traduce en suma <em>dentro</em> del logaritmo: se traduce en producto del argumento.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Logaritmos · Página 3 de 4</div>
+  </div>
+</div><!-- /page-ejercicios -->
+
+
+<!-- ============================================================
+     PÁGINA 4 — PAES (con justificación inline) + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>
+      Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Logaritmos — Preguntas PAES</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🎯 Estilo PAES</span>
+    <span class="chip">10 preguntas</span>
+    <span class="chip">Con justificaciones</span>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <span class="paes-badge">PAES Preguntas estilo PAES — Logaritmos</span>
+    </div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es el valor de \(\log_{3}(81)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(3\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(3^{3}=27\), no 81.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(4\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(3^{4}=81\) ⇒ \(\log_{3}(81)=4\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(9\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 9 es \(\sqrt{81}\), no el logaritmo.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(27\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 27 es \(3^{3}\), pero el argumento es 81, no 27.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(\log(5) + \log(2)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(\log(7)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Suma de logaritmos NO es log de la suma. Esa propiedad no existe.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(1\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Por la propiedad del producto: \(\log(5) + \log(2) = \log(5 \cdot 2) = \log(10) = 1\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(\log(2{,}5)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 2,5 es \(5/2\), pero la pregunta es suma, no resta de logs.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(7\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 7 es \(5+2\), pero esa suma corresponde a logaritmos de números, no a sus argumentos.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Si \(\log(2) \approx 0{,}30\), ¿cuál es el valor aproximado de \(\log(8)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(0{,}60\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(0{,}60\) corresponde a \(\log(4) = \log(2^{2}) = 2 \cdot 0{,}30\). Pero \(8 = 2^{3}\), no \(2^{2}\).</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(0{,}90\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(\log(8) = \log(2^{3}) = 3 \cdot \log(2) \approx 3 \cdot 0{,}30 = 0{,}90\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(0{,}80\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna potencia entera de 2.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(1{,}20\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(1{,}20\) sería \(\log(16) = 4 \cdot 0{,}30\), no \(\log(8)\).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(\log(100) - \log(10)\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(\log(90)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Resta de logs NO es log de la resta. Esa propiedad no existe.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(90\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 90 es \(100-10\), pero la pregunta pide la resta de logaritmos, no la resta de los argumentos.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(1\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Propiedad del cociente: \(\log(100) - \log(10) = \log(100/10) = \log(10) = 1\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(10\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 10 es el resultado del cociente \(100/10\), no del logaritmo de ese cociente.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál de las siguientes igualdades es FALSA (suponiendo \(a, b > 0\))?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(\log(a \cdot b) = \log(a) + \log(b)\)
+            <div class="opt-feedback"><strong>Verdadera.</strong> Es la propiedad del producto. No corresponde a la pregunta (se busca la falsa).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(\log(a/b) = \log(a) - \log(b)\)
+            <div class="opt-feedback"><strong>Verdadera.</strong> Es la propiedad del cociente. No corresponde.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(\log(a + b) = \log(a) + \log(b)\)
+            <div class="opt-feedback"><strong>FALSA — esta es la respuesta correcta.</strong> El logaritmo de una suma NO se separa: es uno de los errores más comunes en logaritmos.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(\log(a^{n}) = n \cdot \log(a)\)
+            <div class="opt-feedback"><strong>Verdadera.</strong> Es la propiedad de la potencia. No corresponde.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">El pH de una solución se define como \(\text{pH} = -\log[\text{H}^{+}]\). Si la concentración \([\text{H}^{+}] = 10^{-5}\), ¿cuál es el pH?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(5\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(\text{pH} = -\log(10^{-5}) = -(-5) = 5\). Aplicación directa de la propiedad de potencia.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(-5\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo negativo que aparece delante del logaritmo en la fórmula.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(10^{5}\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el signo del exponente pero olvida aplicar el logaritmo.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(0{,}5\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna operación válida con \(10^{-5}\).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Si \(\log_{b}(x)=4\) y \(\log_{b}(y)=2\), ¿cuál es el valor de \(\log_{b}(x/y)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(2\)
+            <div class="opt-feedback"><strong>Correcto.</strong> Propiedad del cociente: \(\log_{b}(x/y) = \log_{b}(x) - \log_{b}(y) = 4 - 2 = 2\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(6\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 6 es la suma, que correspondería a \(\log_{b}(x \cdot y)\), no al cociente.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(8\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 8 es \(4 \cdot 2\): multiplicar logaritmos no es propiedad válida.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(1/2\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> \(1/2\) es \(\dfrac{\log_{b}(y)}{\log_{b}(x)}\), no la resta. Eso correspondería a cambio de base.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">\(\log_{2}(16) + \log_{2}(4)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(6\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(\log_{2}(16)=4\) y \(\log_{2}(4)=2\) ⇒ \(4+2=6\). También: \(\log_{2}(16 \cdot 4) = \log_{2}(64) = 6\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(4\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Es solo \(\log_{2}(16)\); falta sumar \(\log_{2}(4)\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(64\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 64 es \(16 \cdot 4\), pero la pregunta pide la <em>suma de logaritmos</em>, no el producto de argumentos.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(\log_{2}(20)\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Suma de logaritmos NO es log de la suma de argumentos.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">La escala de Richter mide la magnitud de un terremoto y la energía liberada se modela como \(E = 10^{M}\). Si un terremoto B tiene magnitud \(M_{B} = M_{A} + 1\) (una unidad más que A), ¿la energía liberada por B es aproximadamente cuántas veces la de A?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(1\) vez (igual energía)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Si fuera igual, los logaritmos también lo serían, contradiciendo \(M_{B}=M_{A}+1\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(2\) veces
+            <div class="opt-feedback"><strong>Incorrecto.</strong> No es lineal: una diferencia de 1 en una escala logarítmica corresponde a un factor de 10 en la energía.</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(10\) veces
+            <div class="opt-feedback"><strong>Correcto.</strong> \(E_{B} = 10^{M_{A}+1} = 10^{M_{A}} \cdot 10^{1} = 10 \cdot E_{A}\). Cada unidad en la escala Richter multiplica la energía por 10.</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(100\) veces
+            <div class="opt-feedback"><strong>Incorrecto.</strong> 100 veces correspondería a una diferencia de 2 unidades (\(10^{2}\)), no de 1.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Si \(\log(2) \approx 0{,}30\) y \(\log(3) \approx 0{,}48\), ¿cuál es el valor aproximado de \(\log(6)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">A</span> \(0{,}18\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Esa es la resta \(0{,}48 - 0{,}30\), que correspondería a \(\log(3/2)\), no a \(\log(6)\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">B</span> \(0{,}30\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Es solo \(\log(2)\); el 3 también aporta al producto \(6 = 2 \cdot 3\).</div>
+          </div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')">
+            <span class="paes-l">C</span> \(0{,}78\)
+            <div class="opt-feedback"><strong>Correcto.</strong> \(\log(6) = \log(2 \cdot 3) = \log(2) + \log(3) \approx 0{,}30 + 0{,}48 = 0{,}78\).</div>
+          </div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')">
+            <span class="paes-l">D</span> \(1{,}44\)
+            <div class="opt-feedback"><strong>Incorrecto.</strong> Es el producto \(0{,}30 \cdot 0{,}48 \cdot 10\) aprox.: multiplicar logaritmos no corresponde a ninguna propiedad estándar.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /paes-body -->
+  </div><!-- /paes-wrap -->
+
+  <!-- ── Cierre pedagógico ── -->
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Los logaritmos son la clave para entender escalas que crecen explosivamente: pH en química, magnitud de terremotos en geofísica, decibeles en acústica, brillo de las estrellas en astronomía, interés compuesto en finanzas. Cuando un fenómeno crece o decrece por <em>factores</em> en vez de <em>cantidades fijas</em>, el lenguaje correcto es el de los logaritmos.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Ecuaciones exponenciales y logarítmicas</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Logaritmos · Página 4 de 4</div>
+  </div>
+</div><!-- /page-paes -->
+
+</body>
+</html>

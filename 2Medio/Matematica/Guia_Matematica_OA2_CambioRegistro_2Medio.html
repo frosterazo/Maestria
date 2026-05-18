@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cambio de registro — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Cambio de registro: potencia ↔ raíz ↔ logaritmo</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Tres notaciones</span>
+    <span class="chip">Conversión bidireccional</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Convertir desde un tipo de registro a otro: desde potencias a raíces y viceversa, y desde potencias a logaritmos y viceversa.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Tres notaciones, una misma información</div>
+
+      <p>Cada relación entre tres cantidades (base, exponente, valor) se puede escribir de tres formas distintas. La elección no es arbitraria: cada notación <em>destaca</em> uno de los tres datos, y por eso se usa en contextos distintos.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Notación</th><th>Forma general</th><th>Qué destaca</th><th>Ejemplo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Potencia</td><td>\(b^{c} = a\)</td><td>El valor \(a\)</td><td>\(2^{3} = 8\)</td></tr>
+          <tr><td>Raíz</td><td>\(\sqrt[c]{a} = b\)</td><td>La base \(b\)</td><td>\(\sqrt[3]{8} = 2\)</td></tr>
+          <tr><td>Logaritmo</td><td>\(\log_{b}(a) = c\)</td><td>El exponente \(c\)</td><td>\(\log_{2}(8) = 3\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-def">
+        <strong>Equivalencia maestra:</strong> las tres notaciones son completamente equivalentes. La información que contienen es la misma; cambia solo cuál de los tres datos aparece "despejado" a la derecha del igual.
+      </div>
+
+      <div class="math-box">
+        \(b^{c} = a \iff \sqrt[c]{a} = b \iff \log_{b}(a) = c\)
+      </div>
+
+      <div class="card card-tip">
+        <strong>Imagen mental:</strong> piensa en una mesa con tres lados (base, exponente, valor). Cada notación es una "foto" tomada desde uno de los lados de la mesa: muestra los otros dos como datos y deja el del frente como respuesta.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Mapa de conversiones</div>
+
+      <p>Entre tres notaciones hay seis conversiones posibles (de cada una a las otras dos). Vamos a clasificarlas en pares:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Potencia ↔ Raíz</span>
+          <span class="prop-eq">Despeja la base: \(b^{c}=a \iff b = \sqrt[c]{a}\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Potencia ↔ Logaritmo</span>
+          <span class="prop-eq">Despeja el exponente: \(b^{c}=a \iff c = \log_{b}(a)\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Raíz ↔ Logaritmo</span>
+          <span class="prop-eq">Pasa por potencia: \(\sqrt[c]{a}=b \iff b^{c}=a \iff \log_{b}(a)=c\)</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Estrategia universal:</strong> cuando dudes cómo convertir, pasa primero por la <em>forma potencia</em>. Es la "lengua común" entre las tres notaciones. Convertir cualquier expresión a \(b^{c}=a\) y desde ahí ir a la notación deseada nunca falla.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo guiado: convertir en todas las direcciones</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        La expresión \(2^{5} = 32\) está en forma potencia. Escríbela como raíz y como logaritmo.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Identificar: base \(b=2\), exponente \(c=5\), valor \(a=32\).</span>
+        <span class="math-step">Forma raíz (despeja base): \(\sqrt[5]{32} = 2\).</span>
+        <span class="math-step">Forma logaritmo (despeja exponente): \(\log_{2}(32) = 5\).</span>
+        <span class="math-step"><span class="math-result">Las tres son equivalentes: \(2^{5} = 32 \iff \sqrt[5]{32} = 2 \iff \log_{2}(32) = 5\)</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Antes de continuar: dada la expresión \(\log_{4}(16) = 2\), conviértela a forma potencia y a forma raíz. Si llegaste a \(4^{2} = 16\) y \(\sqrt{16} = 4\), ya internalizaste las tres notaciones. Si no, vuelve al mapa de conversiones.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Cambio de registro · Página 1 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reglas y tablas de conversión</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Detalle por dirección</span>
+    <span class="chip">Errores típicos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>De raíz a potencia (y viceversa)</div>
+
+      <p>Esta conversión usa el <em>exponente fraccionario</em>: el índice de la raíz va al denominador del exponente; la potencia del radicando, al numerador.</p>
+
+      <div class="math-box">
+        \(\sqrt[n]{a^{m}} \iff a^{m/n}\)
+      </div>
+
+      <div class="subsec">Tabla de conversiones rápidas</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>Forma raíz</th><th>Forma potencia</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\sqrt{a}\)</td><td>\(a^{1/2}\)</td></tr>
+          <tr><td>\(\sqrt[3]{a}\)</td><td>\(a^{1/3}\)</td></tr>
+          <tr><td>\(\sqrt[5]{a^{2}}\)</td><td>\(a^{2/5}\)</td></tr>
+          <tr><td>\(\sqrt[3]{x^{4}}\)</td><td>\(x^{4/3}\)</td></tr>
+          <tr><td>\(\sqrt[4]{x^{3}}\)</td><td>\(x^{3/4}\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Error frecuente:</strong> invertir numerador y denominador. Recuerda: el índice (lo más visible de la raíz, pequeñito arriba a la izquierda del símbolo) va al <em>denominador</em>. La regla "lo grande al numerador" no funciona aquí.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>De potencia a logaritmo (y viceversa)</div>
+
+      <p>Esta conversión es la <em>definición</em> del logaritmo. La base de la potencia es la base del logaritmo; el valor de la potencia es el argumento; el exponente es el resultado del logaritmo.</p>
+
+      <div class="math-box">
+        \(b^{c} = a \iff \log_{b}(a) = c\)
+      </div>
+
+      <div class="subsec">Tabla de conversiones</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>Forma potencia</th><th>Forma logaritmo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(2^{3} = 8\)</td><td>\(\log_{2}(8) = 3\)</td></tr>
+          <tr><td>\(10^{4} = 10000\)</td><td>\(\log(10000) = 4\)</td></tr>
+          <tr><td>\(5^{0} = 1\)</td><td>\(\log_{5}(1) = 0\)</td></tr>
+          <tr><td>\(3^{-2} = 1/9\)</td><td>\(\log_{3}(1/9) = -2\)</td></tr>
+          <tr><td>\(b^{c} = a\)</td><td>\(\log_{b}(a) = c\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Lectura ordenada:</strong> en \(\log_{b}(a) = c\), pregúntate "¿la base es \(b\), elevada a qué da \(a\)? La respuesta es \(c\)". En la forma potencia, este mismo razonamiento se lee al revés: "la base \(b\) elevada a \(c\) da \(a\)".
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>De raíz a logaritmo (vía potencia)</div>
+
+      <p>No existe una conversión "directa" entre raíz y logaritmo. La estrategia es siempre la misma: <strong>pasar por la forma potencia</strong>.</p>
+
+      <ol class="steps-num">
+        <li>Convertir la raíz a potencia: \(\sqrt[n]{a^{m}} = a^{m/n}\).</li>
+        <li>Aplicar la equivalencia con logaritmo: \(\log_{a}(a^{m/n}) = m/n\).</li>
+      </ol>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Expresar \(\sqrt[4]{8}\) como logaritmo en base 2.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Paso 1 — convertir a potencia con base 2: \(\sqrt[4]{8} = 8^{1/4} = (2^{3})^{1/4} = 2^{3/4}\).</span>
+        <span class="math-step">Paso 2 — aplicar logaritmo: \(\log_{2}(\sqrt[4]{8}) = \log_{2}(2^{3/4}) = \dfrac{3}{4}\).</span>
+        <span class="math-step"><span class="math-result">\(\log_{2}(\sqrt[4]{8}) = \dfrac{3}{4}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Conversión cuando hay exponentes negativos</div>
+
+      <p>Los exponentes negativos requieren un paso extra: convierten potencias en fracciones (\(a^{-n} = 1/a^{n}\)).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        La expresión \(2^{-3} = \dfrac{1}{8}\) se puede expresar como logaritmo y como raíz.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Forma logaritmo: \(\log_{2}\!\left(\dfrac{1}{8}\right) = -3\) (el exponente negativo aparece como valor del logaritmo).</span>
+        <span class="math-step">Como raíz (delicado): \(2^{-3} = (2^{-1})^{3} = (1/2)^{3}\), equivalente a "raíz cúbica de 1/8 invertida". En general, los exponentes negativos no se expresan cómodamente con notación de raíz; se prefiere mantenerlos como potencia o convertirlos a fracción.</span>
+        <span class="math-step"><span class="math-result">\(2^{-3} = 1/8 \iff \log_{2}(1/8) = -3\)</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cuando veas un exponente negativo, no te asustes: la única diferencia es que el resultado es una fracción menor que 1, y el logaritmo correspondiente es negativo. La regla de conversión es idéntica.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Cambio de registro · Página 2 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cuándo conviene cada notación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Estrategia</span>
+    <span class="chip">Casos avanzados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué tres notaciones?</div>
+
+      <p>Si las tres notaciones son equivalentes, ¿por qué usar tres? Porque cada una facilita un tipo distinto de operación o cálculo:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Notación</th><th>Conviene cuando…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Potencia</td><td>Quieres <em>calcular</em> el valor (multiplicar la base por sí misma).</td></tr>
+          <tr><td>Potencia con exponente fraccionario</td><td>Necesitas <em>operar</em> propiedades (sumar, restar exponentes).</td></tr>
+          <tr><td>Raíz</td><td>Quieres <em>resaltar</em> que extraes la base; lectura intuitiva en geometría.</td></tr>
+          <tr><td>Logaritmo</td><td>Necesitas <em>despejar el exponente</em>; trabajas con crecimiento exponencial.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Regla práctica:</strong> usa la notación que más simplifique el problema. No te quedes con la notación del enunciado si convertir te simplifica el trabajo. La PAES no exige usar una notación específica; exige llegar al resultado correcto.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caso avanzado: conversión con cambio de base</div>
+
+      <p>A veces el problema viene con una expresión cuya base no es la "natural" para el cálculo. La estrategia es <strong>reescribir todo en una base común</strong> (usualmente 2, 3, 5 o 10) y luego convertir.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\log_{8}(32)\) convirtiendo a base 2.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Reescribir argumento y base con base 2: \(32 = 2^{5}\), \(8 = 2^{3}\).</span>
+        <span class="math-step">\(\log_{8}(32) = \log_{2^{3}}(2^{5})\). La pregunta es: ¿a qué exponente hay que elevar \(2^{3}\) para obtener \(2^{5}\)?</span>
+        <span class="math-step">Si \(\left(2^{3}\right)^{x} = 2^{5}\), entonces \(3x = 5\), de donde \(x = 5/3\).</span>
+        <span class="math-step"><span class="math-result">\(\log_{8}(32) = \dfrac{5}{3}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Caso avanzado: argumento expresado con raíz</div>
+
+      <p>Si el argumento del logaritmo es una raíz, conviene convertirla primero a potencia, y luego usar las propiedades de logaritmos.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\log_{3}(\sqrt{27})\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Convertir raíz a potencia: \(\sqrt{27} = 27^{1/2}\).</span>
+        <span class="math-step">Reescribir con base 3: \(27 = 3^{3}\), así que \(27^{1/2} = (3^{3})^{1/2} = 3^{3/2}\).</span>
+        <span class="math-step">Aplicar logaritmo: \(\log_{3}(3^{3/2}) = 3/2\).</span>
+        <span class="math-step"><span class="math-result">\(\log_{3}(\sqrt{27}) = \dfrac{3}{2}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Síntesis: el flujo de conversión</div>
+
+      <p>Para cualquier expresión que mezcle potencias, raíces y logaritmos, este es el orden recomendado de pasos:</p>
+
+      <ol class="steps-num">
+        <li><strong>Reconocer la notación de cada parte:</strong> ¿qué tienes — potencia, raíz, logaritmo?</li>
+        <li><strong>Llevar todo a "lengua común":</strong> usualmente, convertir todas las raíces a potencias con exponente fraccionario.</li>
+        <li><strong>Reescribir con una base común:</strong> si las bases pueden expresarse como potencias de un mismo número (2, 3, 5, 10), hazlo.</li>
+        <li><strong>Aplicar propiedades:</strong> sumar, restar, multiplicar exponentes según la operación.</li>
+        <li><strong>Convertir al registro pedido en la respuesta final.</strong></li>
+      </ol>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        La capacidad de moverte fluidamente entre las tres notaciones es la marca distintiva del estudiante que <em>realmente</em> domina el OA 2. No es memorizar las tres formas: es <em>verlas como una sola</em>, escrita en tres idiomas distintos.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Cambio de registro · Página 3 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cambio de registro — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(5^{2} = 25\) se puede escribir como logaritmo:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\log_{5}(25) = 2\)<div class="opt-feedback"><strong>Correcto.</strong> Base 5, valor 25, exponente 2: \(\log_{5}(25) = 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\log_{25}(5) = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con argumento del logaritmo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\log_{2}(25) = 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia exponente con base.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\log_{25}(2) = 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia todo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(\sqrt[4]{16} = 2\) se puede escribir como potencia:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(16^{4} = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia roles; \(16^{4}\) es un número enorme.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2^{4} = 16\)<div class="opt-feedback"><strong>Correcto.</strong> La raíz despeja la base; convertir a potencia "eleva" la base al índice: \(b^{n} = a\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4^{16} = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla roles sin sentido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2^{16} = 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia exponente por valor.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(\log_{3}(81) = 4\) se puede escribir como potencia:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3^{4} = 81\)<div class="opt-feedback"><strong>Correcto.</strong> Por definición: \(\log_{b}(a) = c \iff b^{c} = a\). Aquí \(b=3\), \(c=4\), \(a=81\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4^{3} = 81\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base y exponente. Y \(4^{3}=64\), no 81.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(3^{81} = 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla todos los roles.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(81^{4} = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte completamente.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(\sqrt[3]{125} = 5\) se puede escribir como logaritmo:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\log_{3}(125) = 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el índice de la raíz con la base del logaritmo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\log_{5}(125) = 3\)<div class="opt-feedback"><strong>Correcto.</strong> Primero a potencia: \(5^{3} = 125\). Entonces \(\log_{5}(125) = 3\). La base del log es la base de la potencia (5), no el índice de la raíz.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\log_{125}(5) = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con argumento.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\log_{125}(3) = 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla todo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(2^{-3} = \dfrac{1}{8}\) se puede escribir como logaritmo:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\log_{2}(1/8) = -3\)<div class="opt-feedback"><strong>Correcto.</strong> La base es 2, el argumento es \(1/8\), y el exponente (negativo) es el valor del logaritmo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\log_{2}(8) = -3\)<div class="opt-feedback"><strong>Incorrecto.</strong> El argumento debe ser \(1/8\), no 8.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\log_{-3}(1/8) = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> La base de un logaritmo no puede ser negativa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\log_{8}(1/2) = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla varios roles incorrectamente.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">La expresión \(\sqrt[5]{32}\) se puede escribir como potencia:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(32^{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eleva en lugar de extraer raíz.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(32^{1/5}\)<div class="opt-feedback"><strong>Correcto.</strong> El índice de la raíz (5) va al denominador del exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(5^{32}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((1/5)^{32}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Convierte la base en fracción sin justificación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(8^{2/3}\) se puede escribir como raíz:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\sqrt[3]{8^{2}} = \sqrt[3]{64} = 4\)<div class="opt-feedback"><strong>Correcto.</strong> El denominador 3 es el índice; el numerador 2 es la potencia del radicando.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\sqrt{8^{3}}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte numerador y denominador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((8/2)^{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Divide la base por el numerador, sin sentido.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((8/3)^{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde fracción del exponente con división de la base.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(\log_{2}(\sqrt{8})\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{3}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Convertir raíz a potencia: \(\sqrt{8} = 8^{1/2} = (2^{3})^{1/2} = 2^{3/2}\). Entonces \(\log_{2}(2^{3/2}) = 3/2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\log_{2}(8)\), no de \(\sqrt{8}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna operación válida.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica en lugar de dividir.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(b^{m/n} = a\), entonces el logaritmo de \(a\) en base \(b\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(m \cdot n\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica numerador y denominador.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(m/n\)<div class="opt-feedback"><strong>Correcto.</strong> Por definición: \(\log_{b}(a) = m/n\) (el logaritmo es el exponente, que aquí es \(m/n\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(n/m\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte numerador y denominador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(m+n\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma en lugar de mantener fracción.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(\log_{8}(32)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{5}{3}\)<div class="opt-feedback"><strong>Correcto.</strong> Reescribir con base 2: \(8 = 2^{3}\), \(32 = 2^{5}\). \(\log_{8}(32) = \log_{2^{3}}(2^{5}) = 5/3\) (los exponentes se dividen).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{3}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte numerador y denominador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna operación válida.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(8\)<div class="opt-feedback"><strong>Incorrecto.</strong> 8 es la base, no el resultado del logaritmo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Cambio de registro · Página 4 de 5</div>
+  </div>
+</div>
+
+
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cambio de registro — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Conversión entre registros</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es la forma logarítmica de \(4^{3} = 64\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\log_{4}(64) = 3\)<div class="opt-feedback"><strong>Correcto.</strong> Base 4, valor 64, exponente 3.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\log_{3}(64) = 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con exponente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\log_{64}(4) = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con argumento.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\log_{64}(3) = 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla todo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">La forma de potencia (con exponente entero) de \(\sqrt[5]{a} = b\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a^{5} = b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eleva el radicando al índice.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(b^{5} = a\)<div class="opt-feedback"><strong>Correcto.</strong> La raíz despeja la base; convertir a potencia: la base resultante elevada al índice da el radicando.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(a^{b} = 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla todo sin sentido.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(b^{a} = 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia roles.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Convertir \(\log_{5}(125)\) a forma exponencial:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(5^{125}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Toma el argumento como exponente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(125^{5} = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la base con el argumento.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(5^{3} = 125\)<div class="opt-feedback"><strong>Correcto.</strong> \(\log_{5}(125) = 3\) porque \(5^{3} = 125\). La definición misma del logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(3^{5} = 125\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(3^{5} = 243\), no 125. Intercambia base con exponente.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(\sqrt[3]{x^{4}}\) escrito como potencia es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica el exponente del radicando por el índice, debería dividirse.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^{4/3}\)<div class="opt-feedback"><strong>Correcto.</strong> Índice 3 al denominador, potencia 4 al numerador.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^{3/4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte numerador y denominador.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^{7}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma 3+4 sin justificación.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál es la forma de raíz de \(7^{1/2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\sqrt{7}\)<div class="opt-feedback"><strong>Correcto.</strong> El denominador 2 del exponente es el índice de la raíz (que no se escribe por convención).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sqrt[7]{1}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con índice.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt[7]{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla roles.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(7^{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el exponente (elevar en lugar de extraer raíz).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">\(\log(0{,}01)\) (base 10) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-2\)<div class="opt-feedback"><strong>Correcto.</strong> \(0{,}01 = 10^{-2}\), entonces \(\log(0{,}01) = -2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(\log(0{,}1) = -1\), no \(\log(0{,}01)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo negativo: \(0{,}01 < 1\), su logaritmo (base 10) es negativo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1/2\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ninguna operación válida.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuál es la forma logarítmica de \(\sqrt{49} = 7\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\log_{7}(49) = 2\)<div class="opt-feedback"><strong>Correcto.</strong> Primero a potencia: \(\sqrt{49} = 7 \iff 7^{2} = 49\). Luego a log: \(\log_{7}(49) = 2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\log_{49}(7) = 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con argumento.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\log_{2}(49) = 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la base 2 (índice de la raíz) con la base del logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\log_{2}(7) = 49\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mezcla todo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si \(10^{x} = 100\,000\), ¿cuál es \(x\) escrito como logaritmo?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\log(100\,000) = x\), \(x = 5\)<div class="opt-feedback"><strong>Correcto.</strong> \(100\,000 = 10^{5}\), entonces \(x = \log(100\,000) = 5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\log_{100000}(10) = x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte base con argumento.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\log_{5}(100\,000) = x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia la base del logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\log(10) = x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso siempre es 1; pierde el argumento real.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">La expresión \(b^{-2} = \dfrac{1}{b^{2}}\) se puede escribir en forma logarítmica como:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\log_{b}(b^{2}) = -2\)<div class="opt-feedback"><strong>Incorrecto.</strong> El argumento debe ser \(1/b^{2}\), no \(b^{2}\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\log_{b}(1/b^{2}) = -2\)<div class="opt-feedback"><strong>Correcto.</strong> Base \(b\), argumento \(1/b^{2}\), exponente \(-2\). El signo negativo del exponente se conserva.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\log_{-2}(1/b^{2}) = b\)<div class="opt-feedback"><strong>Incorrecto.</strong> La base de un log no puede ser negativa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\log_{1/b^{2}}(b) = -2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con argumento.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Si \(\log_{2}(x) = -3\), entonces \(x\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(8\)<div class="opt-feedback"><strong>Incorrecto.</strong> 8 sería si \(\log_{2}(x) = 3\); el signo negativo cambia el resultado a una fracción.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-8\)<div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo no hace negativo el resultado; lo convierte en fracción.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> Por equivalencia: \(\log_{2}(x) = -3 \iff 2^{-3} = x = 1/8\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(-\dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> El argumento de un log debe ser positivo; el resultado no es negativo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Cambiar de registro es como hablar varios idiomas matemáticos. El estudiante que solo "habla" potencia se traba en preguntas con logaritmos; el que solo "habla" raíz no entiende crecimiento exponencial. Quien domina las tres conversiones puede leer cualquier problema sin que la notación lo bloquee.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Problemas con logaritmos</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Cambio de registro · Página 5 de 5</div>
+  </div>
+</div>
+
+</body>
+</html>

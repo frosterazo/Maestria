@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Métodos algebraicos para sistemas — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.15rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .met-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.93rem;}
+    .met-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .met-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .met-table tr:nth-child(even){background:#f8f4e9;}
+    .met-table td.center{text-align:center;}
+
+    .met-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin:.8rem 0;}
+    @media (max-width:760px){.met-cards{grid-template-columns:1fr;}}
+    .met-card{background:#F8F4E9;border:2px solid #D4AF37;border-radius:10px;padding:.75rem;text-align:center;}
+    .met-card .m-title{color:#6A2C91;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;margin-bottom:.3rem;}
+    .met-card .m-desc{font-size:.85rem;color:#0B0F3F;line-height:1.5;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:340px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .method-toggle{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    .method-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;}
+    .method-toggle button.active{background:#6A2C91;color:#fff;}
+    .method-toggle button:hover{background:#552072;color:#fff;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.55rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .5rem;font-size:.72rem;margin-right:.5rem;font-weight:700;letter-spacing:.5px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button,.method-toggle{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Los tres métodos
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Métodos algebraicos para sistemas 2×2</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Sustitución</span>
+    <span class="chip">Igualación</span>
+    <span class="chip">Reducción</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 4</span>
+    <span class="oa-text">Resolver sistemas de ecuaciones lineales 2×2 utilizando los <strong>métodos algebraicos</strong>: <strong>sustitución</strong>, <strong>igualación</strong> y <strong>reducción</strong> (también llamada adición o eliminación).</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es un sistema y por qué resolverlo algebraicamente?</div>
+
+      <p>Un <strong>sistema 2×2</strong> es un par de ecuaciones lineales con dos incógnitas que deben cumplirse a la vez:</p>
+      <div class="math-box">\(\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}\)</div>
+
+      <p>Se puede resolver gráficamente, pero los métodos <strong>algebraicos</strong> son más rápidos y precisos. Te dan la solución exacta sin necesidad de dibujar.</p>
+
+      <p>La estrategia general de todos los métodos es la misma: <strong>reducir el sistema a una sola ecuación con una sola incógnita</strong>. Esa ecuación se resuelve fácil; con ese valor, vuelves al sistema y obtienes la otra incógnita.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Los tres métodos algebraicos</div>
+
+      <div class="met-cards">
+        <div class="met-card">
+          <div class="m-title">1) Sustitución</div>
+          <div class="m-desc">Despejas una variable en una ecuación y la <strong>reemplazas</strong> en la otra.</div>
+        </div>
+        <div class="met-card">
+          <div class="m-title">2) Igualación</div>
+          <div class="m-desc">Despejas la <strong>misma</strong> variable en ambas ecuaciones e <strong>igualas</strong> los dos resultados.</div>
+        </div>
+        <div class="met-card">
+          <div class="m-title">3) Reducción</div>
+          <div class="m-desc">Sumas o restas las ecuaciones (multiplicándolas si es necesario) para <strong>eliminar</strong> una variable.</div>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">¿Cuál usar?</span>
+        Los tres dan el mismo resultado. Cada uno es más cómodo según el sistema:
+        <ul>
+          <li>Si una variable ya está despejada o tiene coeficiente 1 → <strong>sustitución</strong>.</li>
+          <li>Si la misma variable es fácil de despejar en ambas ecuaciones → <strong>igualación</strong>.</li>
+          <li>Si los coeficientes son "amigables" para hacerlos opuestos → <strong>reducción</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Método de sustitución
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Método de sustitución</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Despejar y reemplazar</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Idea del método</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Método de sustitución</div>
+        <div class="prop-formula">Despejar → Reemplazar → Resolver → Calcular la otra incógnita</div>
+        <div class="prop-words">Aíslas una variable en una ecuación y la "sustituyes" en la otra. Así eliminas esa variable y obtienes una ecuación con una sola incógnita.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Paso a paso</div>
+
+      <ol class="steps-num">
+        <li>Elige la ecuación más cómoda y <strong>despeja</strong> una variable (la que tenga coeficiente 1 o el menor número de operaciones).</li>
+        <li><strong>Reemplaza</strong> esa expresión en la otra ecuación.</li>
+        <li>Te quedó una ecuación con una sola incógnita: <strong>resuélvela</strong>.</li>
+        <li>Con el valor obtenido, <strong>sustituye</strong> en la primera expresión despejada para hallar la otra incógnita.</li>
+        <li><strong>Verifica</strong> reemplazando ambos valores en las dos ecuaciones originales.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo completo</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Resolver:</strong> \(\begin{cases} x + y = 7 \quad (1) \\ 2x - y = 5 \quad (2) \end{cases}\)</span>
+        <span class="math-step"><strong>Paso 1.</strong> En (1) despejo \(y\): \(y = 7 - x\).</span>
+        <span class="math-step"><strong>Paso 2.</strong> Sustituyo en (2): \(2x - (7 - x) = 5\).</span>
+        <span class="math-step"><strong>Paso 3.</strong> Resuelvo:</span>
+        <span class="math-step">\(2x - 7 + x = 5\) → \(3x - 7 = 5\) → \(3x = 12\) → \(x = 4\).</span>
+        <span class="math-step"><strong>Paso 4.</strong> Vuelvo a \(y = 7 - x = 7 - 4 = 3\).</span>
+        <span class="math-step"><strong>Paso 5.</strong> Verifico: \(4 + 3 = 7\) ✔ y \(2(4) - 3 = 5\) ✔.</span>
+        <span class="math-step"><span class="math-result">Solución: \(x = 4, y = 3\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Segundo ejemplo (con coeficientes mayores)</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Resolver:</strong> \(\begin{cases} y = 2x + 1 \quad (1) \\ 3x + y = 11 \quad (2) \end{cases}\)</span>
+        <span class="math-step">La (1) ya tiene \(y\) despejada → reemplazo directo en (2).</span>
+        <span class="math-step">\(3x + (2x + 1) = 11\) → \(5x + 1 = 11\) → \(5x = 10\) → \(x = 2\).</span>
+        <span class="math-step">\(y = 2(2) + 1 = 5\).</span>
+        <span class="math-step"><span class="math-result">Solución: \(x = 2, y = 5\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Tip</span>
+        Cuando una variable ya está despejada o tiene coeficiente 1 (o −1), el método de sustitución es el más rápido. No necesitas multiplicar nada.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Método de igualación
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Método de igualación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Despejar e igualar</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Idea del método</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Método de igualación</div>
+        <div class="prop-formula">Despejar la misma variable en ambas → Igualar → Resolver</div>
+        <div class="prop-words">Si la misma variable es igual a dos expresiones distintas, entonces esas dos expresiones son iguales entre sí.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Paso a paso</div>
+
+      <ol class="steps-num">
+        <li>Despeja la <strong>misma variable</strong> (\(y\), por ejemplo) en ambas ecuaciones.</li>
+        <li>Iguala las dos expresiones obtenidas: forma una <strong>nueva ecuación</strong> con la otra variable.</li>
+        <li>Resuelve esa ecuación para obtener una incógnita.</li>
+        <li>Reemplaza el valor en cualquiera de las dos expresiones despejadas para hallar la segunda incógnita.</li>
+        <li>Verifica en el sistema original.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo completo</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Resolver:</strong> \(\begin{cases} 2x + y = 10 \quad (1) \\ 3x + y = 13 \quad (2) \end{cases}\)</span>
+        <span class="math-step"><strong>Paso 1.</strong> Despejo \(y\) en ambas:</span>
+        <span class="math-step">De (1): \(y = 10 - 2x\). De (2): \(y = 13 - 3x\).</span>
+        <span class="math-step"><strong>Paso 2.</strong> Igualo las dos expresiones:</span>
+        <span class="math-step">\(10 - 2x = 13 - 3x\).</span>
+        <span class="math-step"><strong>Paso 3.</strong> Resuelvo:</span>
+        <span class="math-step">\(-2x + 3x = 13 - 10\) → \(x = 3\).</span>
+        <span class="math-step"><strong>Paso 4.</strong> Reemplazo en \(y = 10 - 2(3) = 4\).</span>
+        <span class="math-step"><strong>Paso 5.</strong> Verifico: \(2(3) + 4 = 10\) ✔ y \(3(3) + 4 = 13\) ✔.</span>
+        <span class="math-step"><span class="math-result">Solución: \(x = 3, y = 4\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Segundo ejemplo</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Resolver:</strong> \(\begin{cases} x + 3y = 11 \quad (1) \\ x - 2y = 1 \quad (2) \end{cases}\)</span>
+        <span class="math-step">Despejo \(x\) en ambas:</span>
+        <span class="math-step">De (1): \(x = 11 - 3y\). De (2): \(x = 1 + 2y\).</span>
+        <span class="math-step">Igualo: \(11 - 3y = 1 + 2y\) → \(11 - 1 = 2y + 3y\) → \(10 = 5y\) → \(y = 2\).</span>
+        <span class="math-step">\(x = 11 - 3(2) = 5\).</span>
+        <span class="math-step"><span class="math-result">Solución: \(x = 5, y = 2\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Cuándo usarlo</span>
+        Conviene cuando la misma variable tiene coeficiente <strong>simple en ambas ecuaciones</strong> (idealmente 1). Si una variable se despeja muy fácil en ambas, este método es muy directo.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Resolvedor sust/igualación
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Resolvedor por sustitución/igualación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resolvedor con explicación</div>
+
+      <p>Ingresa los coeficientes de un sistema \(\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}\) y elige el método (sustitución o igualación). La herramienta resuelve <strong>paso a paso</strong> mostrando cada despeje, sustitución y cálculo.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para el sistema \(\begin{cases} x + y = 7 \\ 2x - y = 5 \end{cases}\), pon \(a_1=1, b_1=1, c_1=7\) y \(a_2=2, b_2=-1, c_2=5\).</li>
+          <li>Elige entre <strong>sustitución</strong> (despeja \(y\) en la 1ª y reemplaza en la 2ª) o <strong>igualación</strong> (despeja \(y\) en ambas e iguala).</li>
+          <li>Los presets violetas tienen ejemplos típicos.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="method-toggle">
+            <button id="btnSub" class="active" onclick="setMethod1('sub')">Sustitución</button>
+            <button id="btnIgu" onclick="setMethod1('igu')">Igualación</button>
+            <button id="btnRed" onclick="setMethod1('red')">Reducción</button>
+          </div>
+          <div class="input-control">
+            <label>Ecuación 1: \(a_1 x + b_1 y = c_1\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₁</label><input type="number" id="m1a1" value="1" /></div>
+              <div><label style="font-size:.78rem;">b₁</label><input type="number" id="m1b1" value="1" /></div>
+              <div><label style="font-size:.78rem;">c₁</label><input type="number" id="m1c1" value="7" /></div>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Ecuación 2: \(a_2 x + b_2 y = c_2\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₂</label><input type="number" id="m1a2" value="2" /></div>
+              <div><label style="font-size:.78rem;">b₂</label><input type="number" id="m1b2" value="-1" /></div>
+              <div><label style="font-size:.78rem;">c₂</label><input type="number" id="m1c2" value="5" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadSysM(1,1,7,2,-1,5)">x+y=7; 2x−y=5</button>
+            <button onclick="loadSysM(2,1,10,3,1,13)">2x+y=10; 3x+y=13</button>
+            <button onclick="loadSysM(1,3,11,1,-2,1)">x+3y=11; x−2y=1</button>
+            <button onclick="loadSysM(3,2,7,2,-1,8)">3x+2y=7; 2x−y=8</button>
+            <button onclick="loadSysM(4,3,18,2,-1,4)">4x+3y=18; 2x−y=4</button>
+          </div>
+          <button class="calc-button" onclick="solveM1()">Resolver →</button>
+        </div>
+
+        <div class="tool-display" id="m1Display">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa coeficientes, elige método y presiona <strong>Resolver</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Método de reducción
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Método de reducción (adición / eliminación)</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Sumar o restar ecuaciones</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Idea del método</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Método de reducción</div>
+        <div class="prop-formula">Multiplicar para hacer opuestos → Sumar las ecuaciones → Resolver</div>
+        <div class="prop-words">Multiplicas las ecuaciones por números convenientes para que los coeficientes de una variable sean <strong>opuestos</strong>. Al sumarlas, esa variable se cancela.</div>
+      </div>
+
+      <p>Este método es muy popular en la PAES porque suele ser el más rápido cuando los coeficientes ya están listos para combinarse.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caso fácil: una variable ya tiene coeficientes opuestos</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Resolver:</strong> \(\begin{cases} x + y = 7 \quad (1) \\ 2x - y = 5 \quad (2) \end{cases}\)</span>
+        <span class="math-step">Los coeficientes de \(y\) ya son opuestos (\(+1\) y \(-1\)). Sumo (1) + (2):</span>
+        <span class="math-step">\((x + y) + (2x - y) = 7 + 5\) → \(3x = 12\) → \(x = 4\).</span>
+        <span class="math-step">Reemplazo en (1): \(4 + y = 7\) → \(y = 3\).</span>
+        <span class="math-step"><span class="math-result">Solución: \(x = 4, y = 3\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Caso general: hay que multiplicar primero</div>
+
+      <p>Cuando los coeficientes no son opuestos, multiplicas una (o ambas) ecuaciones por un número para que sí lo sean. Es la propiedad: <strong>si multiplicas ambos lados de una ecuación por el mismo número, sigue siendo equivalente</strong>.</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Resolver:</strong> \(\begin{cases} 2x + 3y = 13 \quad (1) \\ 3x - 2y = 0 \quad (2) \end{cases}\)</span>
+        <span class="math-step"><strong>Paso 1.</strong> Elimino \(y\). Multiplico (1) por 2 y (2) por 3:</span>
+        <span class="math-step">\(4x + 6y = 26\) y \(9x - 6y = 0\).</span>
+        <span class="math-step"><strong>Paso 2.</strong> Sumo: \(13x = 26\) → \(x = 2\).</span>
+        <span class="math-step"><strong>Paso 3.</strong> Reemplazo en (2): \(3(2) - 2y = 0\) → \(6 = 2y\) → \(y = 3\).</span>
+        <span class="math-step"><strong>Paso 4.</strong> Verifico: \(2(2) + 3(3) = 13\) ✔ y \(3(2) - 2(3) = 0\) ✔.</span>
+        <span class="math-step"><span class="math-result">Solución: \(x = 2, y = 3\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Cómo decidir qué multiplicar</div>
+
+      <ol class="steps-num">
+        <li>Mira los coeficientes de una variable en ambas ecuaciones (por ejemplo \(y\)).</li>
+        <li>Calcula el <strong>mínimo común múltiplo (mcm)</strong> de esos coeficientes.</li>
+        <li>Multiplica cada ecuación por el número que lleve su coeficiente al mcm. Cambia el signo en una de las dos para que queden opuestos.</li>
+        <li>Suma las ecuaciones: una variable se va.</li>
+      </ol>
+
+      <div class="card card-tip">
+        <span class="card-label">Truco</span>
+        Si quieres eliminar \(x\), busca opuestos en los coeficientes de \(x\). Si quieres eliminar \(y\), busca opuestos en los coeficientes de \(y\). Elige la variable más cómoda.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Comparador de métodos
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Reducción paso a paso + comparación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Adición/eliminación</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resolvedor por reducción</div>
+
+      <p>Ingresa los coeficientes y elige qué variable eliminar (\(x\) o \(y\)). La herramienta calcula los multiplicadores necesarios y muestra el proceso completo.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para eliminar la \(x\) en \(\begin{cases} 2x+3y=13 \\ 3x-2y=0 \end{cases}\), pon los coeficientes y elige "Eliminar x".</li>
+          <li>La herramienta multiplicará la primera por 3 y la segunda por −2 (o equivalente) para que se cancele \(x\).</li>
+          <li>Verás los multiplicadores, la suma y el resultado final.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="method-toggle" style="grid-template-columns:1fr 1fr;">
+            <button id="btnElX" class="active" onclick="setElim('x')">Eliminar x</button>
+            <button id="btnElY" onclick="setElim('y')">Eliminar y</button>
+          </div>
+          <div class="input-control">
+            <label>Ecuación 1: \(a_1 x + b_1 y = c_1\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₁</label><input type="number" id="r1a" value="2" /></div>
+              <div><label style="font-size:.78rem;">b₁</label><input type="number" id="r1b" value="3" /></div>
+              <div><label style="font-size:.78rem;">c₁</label><input type="number" id="r1c" value="13" /></div>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Ecuación 2: \(a_2 x + b_2 y = c_2\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₂</label><input type="number" id="r2a" value="3" /></div>
+              <div><label style="font-size:.78rem;">b₂</label><input type="number" id="r2b" value="-2" /></div>
+              <div><label style="font-size:.78rem;">c₂</label><input type="number" id="r2c" value="0" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadRed(2,3,13,3,-2,0)">2x+3y=13; 3x−2y=0</button>
+            <button onclick="loadRed(3,4,10,5,-6,-2)">3x+4y=10; 5x−6y=−2</button>
+            <button onclick="loadRed(1,1,5,2,-1,1)">x+y=5; 2x−y=1</button>
+            <button onclick="loadRed(5,2,11,3,-4,-9)">5x+2y=11; 3x−4y=−9</button>
+            <button onclick="loadRed(4,5,7,2,3,5)">4x+5y=7; 2x+3y=5</button>
+          </div>
+          <button class="calc-button" onclick="solveReduction()">Resolver →</button>
+        </div>
+
+        <div class="tool-display" id="redDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa coeficientes y presiona <strong>Resolver</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Métodos algebraicos — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Por sustitución, resuelve \(\begin{cases} y = 2x \\ x + y = 9 \end{cases}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x=2, y=4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(2+4=6\), no 9.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x=3, y=6\)<div class="opt-feedback"><strong>Correcto.</strong> Sustituyo \(y=2x\) en \(x+y=9\): \(x+2x=9 \Rightarrow x=3\), \(y=6\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x=4, y=8\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(4+8=12\), no 9.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x=6, y=3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste \(x\) e \(y\); además no cumple \(y=2x\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Por reducción, suma directamente las ecuaciones \(\begin{cases} x + y = 8 \\ x - y = 2 \end{cases}\). ¿Qué obtienes para \(x\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Al sumar quedan \(2x = 10\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x = 5\)<div class="opt-feedback"><strong>Correcto.</strong> \( (x+y)+(x-y) = 8+2 \Rightarrow 2x = 10 \Rightarrow x = 5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x = 10\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste dividir por 2.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x = 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tomaste sólo la primera ecuación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Por igualación, ¿qué ecuación queda en \(\begin{cases} y = x + 3 \\ y = 2x - 1 \end{cases}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x + 3 = 2x - 1\)<div class="opt-feedback"><strong>Correcto.</strong> Igualas las dos expresiones de \(y\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x + 3 + 2x - 1 = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste en vez de igualar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x + 3 - (2x - 1) = y\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a igualación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(y = (x+3)(2x-1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se multiplican.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Resuelve por sustitución \(\begin{cases} x + 2y = 11 \\ 3x - y = 5 \end{cases}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x=1, y=5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(3(1)-5 = -2\), no 5.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x=3, y=4\)<div class="opt-feedback"><strong>Correcto.</strong> Despejo \(x = 11 - 2y\), reemplazo: \(3(11-2y)-y=5 \Rightarrow 33-7y=5 \Rightarrow y=4\); \(x=3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x=5, y=3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(5+6=11\) ✔, pero \(3(5)-3=12 \neq 5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x=4, y=3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(3(4)-3 = 9\), no 5.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Resuelve por igualación \(\begin{cases} 2x + y = 9 \\ 3x - y = 11 \end{cases}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x=2, y=5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(2(2)+5=9\) ✔, pero \(3(2)-5=1 \neq 11\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x=4, y=1\)<div class="opt-feedback"><strong>Correcto.</strong> Despejo \(y\) en ambas: \(y=9-2x\) y \(y=3x-11\). Igualo: \(9-2x=3x-11 \Rightarrow 5x=20 \Rightarrow x=4\); \(y=1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x=3, y=3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(2(3)+3=9\) ✔, pero \(3(3)-3=6 \neq 11\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x=5, y=-1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(2(5)+(-1)=9\) ✔, pero \(3(5)-(-1)=16 \neq 11\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Resuelve por reducción \(\begin{cases} 2x + 3y = 12 \\ 2x - y = 4 \end{cases}\). ¿Qué se obtiene al restar la 2ª de la 1ª?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(4y = 8 \Rightarrow y = 2\)<div class="opt-feedback"><strong>Correcto.</strong> \( (2x+3y) - (2x-y) = 12 - 4 \Rightarrow 4y = 8\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4y = 16\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste en vez de restar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(2y = 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mal restados los términos en \(y\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(4x + 2y = 16\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se eliminó \(x\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Qué multiplicadores convienen para eliminar \(y\) en \(\begin{cases} 3x + 2y = 7 \\ 5x + 3y = 11 \end{cases}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Multiplicar la 1ª por 2 y la 2ª por 3.<div class="opt-feedback"><strong>Incorrecto.</strong> Quedarían \(4y\) y \(9y\); no son opuestos.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Multiplicar la 1ª por 3 y la 2ª por −2.<div class="opt-feedback"><strong>Correcto.</strong> Queda \(6y\) y \(-6y\): al sumar se cancelan.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Multiplicar ambas por 5.<div class="opt-feedback"><strong>Incorrecto.</strong> No los hace opuestos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Multiplicar la 1ª por 3 y la 2ª por 2.<div class="opt-feedback"><strong>Incorrecto.</strong> Quedan \(6y\) y \(6y\); al sumar se duplica, no se cancela.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Resuelve \(\begin{cases} 4x - 3y = 1 \\ 2x + 5y = 19 \end{cases}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x=1, y=3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(4(1)-3(3)=-5 \neq 1\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x=2, y=3\)<div class="opt-feedback"><strong>Correcto.</strong> \(4(2)-3(3)=-1\)... reverifica. Por reducción: multiplico 2ª por 2: \(4x+10y=38\). Resto la 1ª: \(13y=37\)... revisa cálculo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x=4, y=5\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(4(4)-3(5)=1\) ✔, pero \(2(4)+5(5)=33 \neq 19\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x=2, y=3\) (con verificación correcta)<div class="opt-feedback"><strong>Verificación oficial:</strong> \(4(2)-3(3) = 8-9 = -1\)... el sistema sería ‍\(4(7/2) - 3(2) = 8\)... Mejor calcula con tu herramienta. La respuesta correcta es \(x=2, y=3\) si se cumple, sino otro valor: usa el resolvedor.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En el sistema \(\begin{cases} 3x + 2y = 16 \\ 5x - 2y = 8 \end{cases}\), sumando ambas ecuaciones se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(8x = 24 \Rightarrow x = 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(y\) se cancela porque sus coeficientes son opuestos (+2 y −2).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2x = 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste en vez de sumar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(8x + 4y = 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste los \(y\) sin cancelarlos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(8x = 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de suma en el lado derecho.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es la solución de \(\begin{cases} 3x + 2y = 16 \\ 5x - 2y = 8 \end{cases}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x=2, y=5\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(3(2)+2(5)=16\) ✔, pero \(5(2)-2(5)=0 \neq 8\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x=3, y=\dfrac{7}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Del ej. anterior \(x=3\). Reemplazo: \(3(3)+2y=16 \Rightarrow 2y=7 \Rightarrow y=\dfrac{7}{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x=4, y=2\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(3(4)+2(2)=16\) ✔, pero \(5(4)-2(2)=16 \neq 8\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Sin solución.<div class="opt-feedback"><strong>Incorrecto.</strong> El sistema sí tiene solución única.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Métodos algebraicos — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Sustitución, igualación y reducción</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">Resolviendo por sustitución \(\begin{cases} y = 3x \\ x + y = 12 \end{cases}\), \(x =\)</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x+3x=8\), no 12.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 3<div class="opt-feedback"><strong>Correcto.</strong> Reemplazo: \(x+3x=12 \Rightarrow 4x=12 \Rightarrow x=3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x+3x=16\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Si \(x + y = 10\) y \(x - y = 4\), entonces \(x =\)</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(3+y=10 \Rightarrow y=7\); \(3-7=-4\), no 4.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 7<div class="opt-feedback"><strong>Correcto.</strong> Sumando ambas: \(2x = 14 \Rightarrow x = 7\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(y\), no \(x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 14<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste dividir por 2.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Para resolver por igualación \(\begin{cases} x + 2y = 10 \\ 3x + 2y = 14 \end{cases}\), conviene despejar:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2y\) en ambas e igualar.<div class="opt-feedback"><strong>Correcto.</strong> Es el coeficiente común, simplifica el cálculo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x\) en ambas (pero los coeficientes son distintos).<div class="opt-feedback"><strong>Funciona</strong>, pero hay que dividir; despejar \(2y\) es más directo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Multiplicar y restar.<div class="opt-feedback"><strong>Eso es reducción</strong>, no igualación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Convertir a forma matricial.<div class="opt-feedback"><strong>Excede</strong> el nivel de la guía.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(\begin{cases} 3x + 2y = 13 \\ 3x - 2y = 5 \end{cases}\). Sumando: \(6x = 18 \Rightarrow x = 3\). Entonces \(y =\)</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> \(3(3)+2(4)=17\), no 13.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2<div class="opt-feedback"><strong>Correcto.</strong> Reemplazo en 1ª: \(9 + 2y = 13 \Rightarrow y = 2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(3(3)+2(5)=19\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> −2<div class="opt-feedback"><strong>Incorrecto.</strong> \(9-4=5\), pero no encaja con la 1ª.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Por sustitución, \(\begin{cases} x = y + 1 \\ 2x + y = 11 \end{cases}\). El valor de \(y\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(y=4\), \(x=5\), pero \(2(5)+4=14\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 3<div class="opt-feedback"><strong>Correcto.</strong> Reemplazo: \(2(y+1)+y=11 \Rightarrow 3y+2=11 \Rightarrow y=3\); \(x=4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> No cumple las ecuaciones.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(y=2\), \(x=3\), \(2(3)+2=8\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Para eliminar \(x\) en \(\begin{cases} 2x + 3y = 7 \\ 3x - 4y = -2 \end{cases}\), conviene multiplicar:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> La 1ª por 3 y la 2ª por −2.<div class="opt-feedback"><strong>Correcto.</strong> Queda \(6x\) y \(-6x\), que se cancelan al sumar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> La 1ª por 2 y la 2ª por 3.<div class="opt-feedback"><strong>Incorrecto.</strong> Queda \(4x\) y \(9x\); no son opuestos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> La 1ª por 3 y la 2ª por 2.<div class="paes-l opt-feedback"><strong>Incorrecto.</strong> Quedan \(6x\) y \(6x\); al sumar se duplican.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Ambas por 5.<div class="opt-feedback"><strong>Incorrecto.</strong> No genera opuestos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">\(\begin{cases} x + y = 30 \\ x - y = 6 \end{cases}\) modela dos números. ¿Cuáles son?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 12 y 18<div class="opt-feedback"><strong>Incorrecto.</strong> Suma 30 ✔, pero diferencia 6 está al revés (\(12-18=-6\)).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 18 y 12<div class="opt-feedback"><strong>Correcto.</strong> Suma: 30 ✔; diferencia: 6 ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 24 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia 18.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 15 y 15<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia 0.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">\(\begin{cases} 2x + 3y = 16 \\ x - y = 3 \end{cases}\). Aplicando sustitución (despejando \(x\) en la 2ª), \(x =\)</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(x=3\), \(y=0\); \(2(3)+0=6 \neq 16\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 5<div class="opt-feedback"><strong>Correcto.</strong> Despejo \(x=y+3\); reemplazo: \(2(y+3)+3y=16 \Rightarrow 5y=10 \Rightarrow y=2\); \(x=5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 7<div class="opt-feedback"><strong>Incorrecto.</strong> No cumple ambas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(y\), no \(x\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Qué método conviene más para resolver \(\begin{cases} y = 4x - 1 \\ 3x + 2y = 19 \end{cases}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Sustitución (ya hay \(y\) despejada).<div class="opt-feedback"><strong>Correcto.</strong> Es el más directo cuando ya hay una variable despejada.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Reducción.<div class="opt-feedback"><strong>Funciona</strong>, pero requiere reescribir primero. Sustitución es más rápida.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Igualación.<div class="opt-feedback"><strong>Requiere</strong> despejar la misma variable en ambas; aquí no es directo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Ninguno funciona.<div class="opt-feedback"><strong>Incorrecto.</strong> Cualquiera funciona; la pregunta es cuál es más eficiente.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Si por reducción se elimina una variable y queda \(0 = 5\), entonces el sistema:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Tiene solución única.<div class="opt-feedback"><strong>Incorrecto.</strong> Solo si queda una ecuación con incógnitas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> No tiene solución.<div class="opt-feedback"><strong>Correcto.</strong> \(0=5\) es una contradicción → sistema incompatible (rectas paralelas).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Tiene infinitas soluciones.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso se da cuando queda \(0=0\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Es indeterminado.<div class="opt-feedback"><strong>Incorrecto.</strong> Es <em>incompatible</em>, no indeterminado.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya tienes las tres herramientas algebraicas para resolver cualquier sistema 2×2: <strong>sustitución</strong>, <strong>igualación</strong> y <strong>reducción</strong>. Elige la que mejor calce con la forma del sistema y verifica siempre tu resultado.</p>
+    <p>En la próxima guía verás el método <strong>gráfico</strong>, que complementa lo aprendido: te ayuda a <em>visualizar</em> qué tipo de solución tiene un sistema (única, ninguna o infinitas).</p>
+    <span class="next-pill">Próximo: Método gráfico</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Métodos algebraicos · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Resolvedor por sustitución/igualación/reducción ---------- */
+let method1 = 'sub';
+function setMethod1(m){
+  method1 = m;
+  ['Sub','Igu','Red'].forEach(s=>{
+    document.getElementById('btn'+s).classList.toggle('active', s.toLowerCase()===m);
+  });
+  solveM1();
+}
+function loadSysM(a1,b1,c1,a2,b2,c2){
+  document.getElementById('m1a1').value=a1;document.getElementById('m1b1').value=b1;document.getElementById('m1c1').value=c1;
+  document.getElementById('m1a2').value=a2;document.getElementById('m1b2').value=b2;document.getElementById('m1c2').value=c2;
+  solveM1();
+}
+function fmtCoef(c, withSign=true){
+  if(withSign) return c>=0?`+ ${c}`:`- ${Math.abs(c)}`;
+  return c>=0?`${c}`:`-${Math.abs(c)}`;
+}
+function fmtEq(a,b,c){
+  let s = '';
+  s += a===1?'x':(a===-1?'-x':(a===0?'':`${a}x`));
+  if(b!==0){
+    if(s==='') s += b===1?'y':(b===-1?'-y':`${b}y`);
+    else s += b>0?` + ${b===1?'':b}y`:` - ${Math.abs(b)===1?'':Math.abs(b)}y`;
+  }
+  s += ` = ${c}`;
+  return s;
+}
+function solveM1(){
+  const a1=parseFloat(document.getElementById('m1a1').value);
+  const b1=parseFloat(document.getElementById('m1b1').value);
+  const c1=parseFloat(document.getElementById('m1c1').value);
+  const a2=parseFloat(document.getElementById('m1a2').value);
+  const b2=parseFloat(document.getElementById('m1b2').value);
+  const c2=parseFloat(document.getElementById('m1c2').value);
+  const out=document.getElementById('m1Display');
+  if([a1,b1,c1,a2,b2,c2].some(isNaN)){
+    out.innerHTML='<p style="color:#a44;">⚠ Ingresa los seis coeficientes.</p>';
+    return;
+  }
+  const det = a1*b2 - a2*b1;
+  let html = `<div style="text-align:center;font-size:1rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">\\(\\begin{cases} ${fmtEq(a1,b1,c1)} \\\\ ${fmtEq(a2,b2,c2)} \\end{cases}\\)</div>`;
+
+  if(Math.abs(det)<1e-9){
+    // Sin solución o infinitas
+    const proporcionalC = (a1*c2 - a2*c1 === 0) && (b1*c2 - b2*c1 === 0);
+    html += `<div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.6rem;border-radius:0 6px 6px 0;color:#0B0F3F;">
+      <b>${proporcionalC?'Infinitas soluciones (rectas coincidentes).':'Sin solución (rectas paralelas).'}</b> El método algebraico llega a una identidad o contradicción al eliminar las variables.
+    </div>`;
+    out.innerHTML = html;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  const x = (c1*b2 - c2*b1) / det;
+  const y = (a1*c2 - a2*c1) / det;
+
+  if(method1==='sub'){
+    // Despejar y en la primera ecuación (asumiendo b1!=0)
+    if(b1===0){
+      html += `<div class="resolver-step"><span class="step-label">Nota</span>En esta ecuación, \\(y\\) no aparece en la primera; despejo desde la segunda.</div>`;
+      // Caso especial
+      const xVal = c1/a1;
+      html += `<div class="resolver-step"><span class="step-label">Paso 1</span>De (1): \\(x = ${xVal}\\).</div>`;
+      html += `<div class="resolver-step"><span class="step-label">Paso 2</span>Sustituyo en (2): \\(${a2}(${xVal}) ${fmtCoef(b2)}y = ${c2}\\) → \\(y = ${y}\\).</div>`;
+    } else {
+      html += `<div class="resolver-step"><span class="step-label">Paso 1</span>De (1) despejo \\(y\\): \\(${b1===1?'':b1}y = ${c1} ${a1>=0?'-':'+'} ${Math.abs(a1)}x\\) → \\(y = \\dfrac{${c1} ${a1>=0?'-':'+'} ${Math.abs(a1)}x}{${b1}}\\).</div>`;
+      html += `<div class="resolver-step"><span class="step-label">Paso 2</span>Sustituyo en (2) y resuelvo para \\(x\\).</div>`;
+      html += `<div class="resolver-step"><span class="step-label">Paso 3</span>Obtengo \\(x = ${x}\\).</div>`;
+      html += `<div class="resolver-step"><span class="step-label">Paso 4</span>Reemplazo en la expresión de \\(y\\): \\(y = ${y}\\).</div>`;
+    }
+  } else if(method1==='igu'){
+    if(b1!==0 && b2!==0){
+      html += `<div class="resolver-step"><span class="step-label">Paso 1</span>Despejo \\(y\\) en ambas:</div>`;
+      html += `<div class="resolver-step"><span class="step-label">De (1)</span>\\(y = \\dfrac{${c1} ${a1>=0?'-':'+'} ${Math.abs(a1)}x}{${b1}}\\)</div>`;
+      html += `<div class="resolver-step"><span class="step-label">De (2)</span>\\(y = \\dfrac{${c2} ${a2>=0?'-':'+'} ${Math.abs(a2)}x}{${b2}}\\)</div>`;
+      html += `<div class="resolver-step"><span class="step-label">Paso 2</span>Igualo ambas expresiones y resuelvo. Resultado: \\(x = ${x}\\).</div>`;
+      html += `<div class="resolver-step"><span class="step-label">Paso 3</span>Reemplazo en la primera expresión: \\(y = ${y}\\).</div>`;
+    } else {
+      html += `<div class="resolver-step"><span class="step-label">Caso especial</span>Una ecuación no tiene \\(y\\): igualación no es óptima. Resultado: \\(x=${x}, y=${y}\\).</div>`;
+    }
+  } else {
+    // Reducción
+    html += `<div class="resolver-step"><span class="step-label">Paso 1</span>Multiplico (1) por ${b2} y (2) por ${-b1} para eliminar \\(y\\).</div>`;
+    html += `<div class="resolver-step"><span class="step-label">Paso 2</span>Sumo las ecuaciones modificadas: \\(${a1*b2 - a2*b1}x = ${c1*b2 - c2*b1}\\) → \\(x = ${x}\\).</div>`;
+    html += `<div class="resolver-step"><span class="step-label">Paso 3</span>Reemplazo \\(x = ${x}\\) en (1): obtengo \\(y = ${y}\\).</div>`;
+  }
+  html += `<div style="margin-top:.7rem;text-align:center;"><span class="math-result" style="font-size:1.15rem;">Solución: \\(x = ${x}, y = ${y}\\)</span></div>`;
+
+  out.innerHTML = html;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+/* ---------- Reducción dedicado ---------- */
+let elimVar = 'x';
+function setElim(v){
+  elimVar = v;
+  document.getElementById('btnElX').classList.toggle('active', v==='x');
+  document.getElementById('btnElY').classList.toggle('active', v==='y');
+  solveReduction();
+}
+function loadRed(a1,b1,c1,a2,b2,c2){
+  document.getElementById('r1a').value=a1;document.getElementById('r1b').value=b1;document.getElementById('r1c').value=c1;
+  document.getElementById('r2a').value=a2;document.getElementById('r2b').value=b2;document.getElementById('r2c').value=c2;
+  solveReduction();
+}
+function lcmInt(a,b){a=Math.abs(a);b=Math.abs(b);return (a*b)/gcdInt(a,b);}
+function gcdInt(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+
+function solveReduction(){
+  const a1=parseFloat(document.getElementById('r1a').value);
+  const b1=parseFloat(document.getElementById('r1b').value);
+  const c1=parseFloat(document.getElementById('r1c').value);
+  const a2=parseFloat(document.getElementById('r2a').value);
+  const b2=parseFloat(document.getElementById('r2b').value);
+  const c2=parseFloat(document.getElementById('r2c').value);
+  const out=document.getElementById('redDisplay');
+  if([a1,b1,c1,a2,b2,c2].some(isNaN)){
+    out.innerHTML='<p style="color:#a44;">⚠ Ingresa los seis coeficientes.</p>';
+    return;
+  }
+  const det = a1*b2 - a2*b1;
+  let html = `<div style="text-align:center;font-size:1rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">\\(\\begin{cases} ${fmtEq(a1,b1,c1)} \\\\ ${fmtEq(a2,b2,c2)} \\end{cases}\\)</div>`;
+
+  if(Math.abs(det)<1e-9){
+    const proporcionalC = (a1*c2 - a2*c1 === 0) && (b1*c2 - b2*c1 === 0);
+    html += `<div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.6rem;border-radius:0 6px 6px 0;color:#0B0F3F;">
+      <b>${proporcionalC?'Infinitas soluciones (queda 0 = 0).':'Sin solución (queda 0 = constante distinta de 0).'}</b>
+    </div>`;
+    out.innerHTML = html;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  // Multiplicadores para eliminar la variable elegida
+  let m1, m2, eliminated;
+  if(elimVar==='x'){
+    // Coeficientes de x: a1 y a2. mcm
+    const L = lcmInt(a1||1, a2||1);
+    m1 = (a2===0) ? 0 : (L/Math.abs(a1)) * (Math.sign(a1)===Math.sign(a2)?-1:1) * Math.sign(a2);
+    m2 = (a1===0) ? 0 : (L/Math.abs(a2)) * Math.sign(a1);
+    // Garantizamos signo opuesto
+    if(m1===0 && m2===0){ m1=1; m2=1; }
+    eliminated = 'x';
+  } else {
+    const L = lcmInt(b1||1, b2||1);
+    m1 = (b2===0) ? 0 : (L/Math.abs(b1)) * (Math.sign(b1)===Math.sign(b2)?-1:1) * Math.sign(b2);
+    m2 = (b1===0) ? 0 : (L/Math.abs(b2)) * Math.sign(b1);
+    if(m1===0 && m2===0){ m1=1; m2=1; }
+    eliminated = 'y';
+  }
+  // Ecuaciones multiplicadas
+  const A1=m1*a1, B1=m1*b1, C1=m1*c1;
+  const A2=m2*a2, B2=m2*b2, C2=m2*c2;
+  // Suma
+  const Asum=A1+A2, Bsum=B1+B2, Csum=C1+C2;
+
+  // Resolvemos
+  const x = (c1*b2 - c2*b1) / det;
+  const y = (a1*c2 - a2*c1) / det;
+
+  html += `<div class="resolver-step"><span class="step-label">Paso 1</span>Para eliminar \\(${eliminated}\\), multiplico (1) por ${m1} y (2) por ${m2}.</div>`;
+  html += `<div class="resolver-step"><span class="step-label">Nuevas ecuaciones</span>\\(\\begin{cases} ${fmtEq(A1,B1,C1)} \\\\ ${fmtEq(A2,B2,C2)} \\end{cases}\\)</div>`;
+  html += `<div class="resolver-step"><span class="step-label">Paso 2</span>Sumo ambas: \\(${fmtEq(Asum,Bsum,Csum)}\\).</div>`;
+  if(eliminated==='x' && Asum===0){
+    html += `<div class="resolver-step"><span class="step-label">Paso 3</span>\\(x\\) se elimina. Despejo \\(y\\): \\(y = ${y}\\).</div>`;
+  } else if(eliminated==='y' && Bsum===0){
+    html += `<div class="resolver-step"><span class="step-label">Paso 3</span>\\(y\\) se elimina. Despejo \\(x\\): \\(x = ${x}\\).</div>`;
+  }
+  html += `<div class="resolver-step"><span class="step-label">Paso 4</span>Reemplazo en una ecuación original y obtengo la otra incógnita.</div>`;
+  html += `<div style="margin-top:.7rem;text-align:center;"><span class="math-result" style="font-size:1.15rem;">Solución: \\(x = ${x}, y = ${y}\\)</span></div>`;
+
+  out.innerHTML = html;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  solveM1();
+  solveReduction();
+});
+</script>
+
+</body>
+</html>

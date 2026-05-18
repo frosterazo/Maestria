@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lenguaje natural ↔ matemático — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .dict-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.92rem;}
+    .dict-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .dict-table td{padding:.55rem;border:1px solid #ddd;vertical-align:top;}
+    .dict-table tr:nth-child(even){background:#f8f4e9;}
+    .dict-table td.op{font-weight:700;color:#6A2C91;text-align:center;font-size:1.15rem;width:60px;}
+    .word-chip{display:inline-block;background:#fff;border:1px solid #D4AF37;border-radius:14px;padding:.15rem .55rem;margin:.1rem .15rem;font-size:.82rem;color:#0B0F3F;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text]{width:100%;padding:.55rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;text-align:left;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .translator-result{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:.5rem 0;font-size:.95rem;}
+    .translator-result .hl{background:#FFF8E1;padding:.05rem .3rem;border-radius:3px;border:1px dashed #D4AF37;}
+    .translator-result .out-expr{display:block;margin-top:.5rem;font-size:1.15rem;color:#0B0F3F;text-align:center;font-weight:700;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Del lenguaje cotidiano al matemático
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Lenguaje natural ↔ matemático</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Traducción</span>
+    <span class="chip">Problemas verbales</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Traducir enunciados verbales con números racionales (fracciones, decimales, porcentajes) a expresiones matemáticas y resolver problemas de la vida real aplicando operatoria.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué necesitamos traducir?</div>
+
+      <p>Los problemas reales nunca llegan en lenguaje matemático puro. Llegan en <strong>palabras</strong>: "Sofía compró tres cuartos de kilo…", "se descontó el 15 %…", "el doble del precio menos cinco mil…". El primer paso para resolverlos es <strong>traducir</strong> esas frases a símbolos.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Diccionario básico palabras → símbolos</div>
+
+      <table class="dict-table">
+        <thead>
+          <tr><th style="width:60px;">Op.</th><th>Palabras clave</th><th>Ejemplo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="op">+</td>
+            <td>
+              <span class="word-chip">suma de</span><span class="word-chip">más</span>
+              <span class="word-chip">aumentado en</span><span class="word-chip">adición</span>
+              <span class="word-chip">añadir</span><span class="word-chip">incrementar</span>
+              <span class="word-chip">total</span>
+            </td>
+            <td>"La suma de <strong>5</strong> y <strong>3</strong>" → \(5+3\)</td>
+          </tr>
+          <tr>
+            <td class="op">−</td>
+            <td>
+              <span class="word-chip">diferencia</span><span class="word-chip">menos</span>
+              <span class="word-chip">disminuido en</span><span class="word-chip">resta</span>
+              <span class="word-chip">descuento</span><span class="word-chip">quitar</span>
+            </td>
+            <td>"<strong>10</strong> disminuido en <strong>4</strong>" → \(10-4\)</td>
+          </tr>
+          <tr>
+            <td class="op">·</td>
+            <td>
+              <span class="word-chip">producto</span><span class="word-chip">por</span>
+              <span class="word-chip">doble (·2)</span><span class="word-chip">triple (·3)</span>
+              <span class="word-chip">veces</span><span class="word-chip">multiplicado por</span>
+              <span class="word-chip">de</span>
+            </td>
+            <td>"El triple de <strong>x</strong>" → \(3 \cdot x\)<br>"La mitad <strong>de 8</strong>" → \(\dfrac{1}{2}\cdot 8\)</td>
+          </tr>
+          <tr>
+            <td class="op">÷</td>
+            <td>
+              <span class="word-chip">cociente</span><span class="word-chip">dividido por</span>
+              <span class="word-chip">razón</span><span class="word-chip">repartir</span>
+              <span class="word-chip">la mitad (÷2)</span><span class="word-chip">el tercio (÷3)</span>
+            </td>
+            <td>"<strong>15</strong> repartido entre <strong>3</strong>" → \(15 \div 3\)</td>
+          </tr>
+          <tr>
+            <td class="op">=</td>
+            <td>
+              <span class="word-chip">es</span><span class="word-chip">resulta</span>
+              <span class="word-chip">equivale a</span><span class="word-chip">da</span>
+              <span class="word-chip">corresponde a</span>
+            </td>
+            <td>"El doble de <strong>x</strong> es <strong>14</strong>" → \(2x = 14\)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Fracciones y porcentajes en palabras
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Fracciones y porcentajes en palabras</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">La palabra "de"</span>
+    <span class="chip">Atajos %</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Cómo se nombran las fracciones</div>
+
+      <table class="dict-table">
+        <thead><tr><th style="width:90px;">Fracción</th><th>Se lee</th><th>Equivalente decimal</th></tr></thead>
+        <tbody>
+          <tr><td>\(\dfrac{1}{2}\)</td><td>"un medio" / "la mitad"</td><td>0,5 = 50 %</td></tr>
+          <tr><td>\(\dfrac{1}{3}\)</td><td>"un tercio" / "la tercera parte"</td><td>\(0,\overline{3}\) ≈ 33,3 %</td></tr>
+          <tr><td>\(\dfrac{1}{4}\)</td><td>"un cuarto" / "la cuarta parte"</td><td>0,25 = 25 %</td></tr>
+          <tr><td>\(\dfrac{3}{4}\)</td><td>"tres cuartos"</td><td>0,75 = 75 %</td></tr>
+          <tr><td>\(\dfrac{1}{5}\)</td><td>"un quinto" / "la quinta parte"</td><td>0,2 = 20 %</td></tr>
+          <tr><td>\(\dfrac{1}{10}\)</td><td>"un décimo"</td><td>0,1 = 10 %</td></tr>
+          <tr><td>\(\dfrac{2}{3}\)</td><td>"dos tercios"</td><td>\(0,\overline{6}\) ≈ 66,7 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La palabra clave "de"</div>
+
+      <p>Cuando una fracción o un porcentaje aparece con "de", significa <strong>multiplicación</strong>.</p>
+      <div class="math-block">
+        <span class="math-step">"<strong>La mitad de 20</strong>" → \(\dfrac{1}{2} \cdot 20 = 10\).</span>
+        <span class="math-step">"<strong>Dos tercios de 90</strong>" → \(\dfrac{2}{3} \cdot 90 = 60\).</span>
+        <span class="math-step">"<strong>El 30 % de 250</strong>" → \(\dfrac{30}{100} \cdot 250 = 75\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Cálculo rápido de porcentajes</div>
+
+      <p>Convertir el porcentaje a fracción simple ayuda mucho:</p>
+      <table class="dict-table">
+        <thead><tr><th>%</th><th>Fracción</th><th>Atajo mental</th></tr></thead>
+        <tbody>
+          <tr><td>10 %</td><td>\(\dfrac{1}{10}\)</td><td>Divide entre 10</td></tr>
+          <tr><td>25 %</td><td>\(\dfrac{1}{4}\)</td><td>Divide entre 4</td></tr>
+          <tr><td>50 %</td><td>\(\dfrac{1}{2}\)</td><td>Divide entre 2</td></tr>
+          <tr><td>20 %</td><td>\(\dfrac{1}{5}\)</td><td>Divide entre 5</td></tr>
+          <tr><td>75 %</td><td>\(\dfrac{3}{4}\)</td><td>3 veces el 25 %</td></tr>
+          <tr><td>33,\(\overline{3}\) %</td><td>\(\dfrac{1}{3}\)</td><td>Divide entre 3</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <span class="card-label">Truco</span>
+        Para "aumentar en X %" multiplica por \((1 + \dfrac{X}{100})\). Para "rebajar en X %" multiplica por \((1 - \dfrac{X}{100})\). Ej.: 20 % de descuento → multiplicar por 0,8.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Estrategia para resolver problemas
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Estrategia para resolver problemas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Método de Polya</span>
+    <span class="chip">Ejemplo guiado</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Los 4 pasos de Polya</div>
+
+      <p>Cualquier problema matemático se puede resolver con este esquema clásico (Polya, 1945):</p>
+      <ol class="steps-num">
+        <li><strong>Comprender:</strong> ¿Qué dato me dan? ¿Qué me preguntan? Subraya datos y pregunta.</li>
+        <li><strong>Planificar:</strong> ¿Qué operaciones necesito? Traduce la situación a una expresión.</li>
+        <li><strong>Ejecutar:</strong> Resuelve las operaciones aplicando jerarquía y propiedades.</li>
+        <li><strong>Verificar:</strong> ¿Tiene sentido el resultado? ¿Las unidades son correctas?</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo resuelto paso a paso</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Sofía recibió \$80.000 de mesada. Gastó \(\dfrac{2}{5}\) en libros y la mitad de lo que le quedó en transporte. ¿Cuánto dinero le sobró?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>1. Comprender:</strong> tiene \$80.000; gasta \(\dfrac{2}{5}\) en libros, después la mitad del resto en transporte. Quiero saber cuánto sobra.</span>
+        <span class="math-step"><strong>2. Planificar:</strong> calcular libros, restar; luego calcular transporte, restar.</span>
+        <span class="math-step"><strong>3. Ejecutar:</strong></span>
+        <span class="math-step">• Libros: \(\dfrac{2}{5} \cdot 80.000 = 32.000\).</span>
+        <span class="math-step">• Resto: \(80.000 - 32.000 = 48.000\).</span>
+        <span class="math-step">• Transporte: \(\dfrac{1}{2} \cdot 48.000 = 24.000\).</span>
+        <span class="math-step">• Sobra: \(48.000 - 24.000 = 24.000\).</span>
+        <span class="math-step"><strong>4. Verificar:</strong> \(32.000 + 24.000 + 24.000 = 80.000\) ✔</span>
+        <span class="math-step"><span class="math-result">A Sofía le sobraron \$24.000.</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Traductor
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Traductor de frases</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Frases comunes</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Traductor de frases comunes</div>
+
+      <p>Elige una frase del listado y la herramienta te mostrará la <strong>traducción</strong> al lenguaje matemático y el <strong>valor</strong> calculado.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Frases (haz clic para traducir):</label>
+            <div class="preset-buttons" style="flex-direction:column;align-items:stretch;">
+              <button onclick="translatePhrase(0)">La mitad de 80</button>
+              <button onclick="translatePhrase(1)">Dos tercios de 90</button>
+              <button onclick="translatePhrase(2)">El 25 % de 200</button>
+              <button onclick="translatePhrase(3)">El doble de 17 más 5</button>
+              <button onclick="translatePhrase(4)">El triple de 2/3</button>
+              <button onclick="translatePhrase(5)">120 disminuido en su 15 %</button>
+              <button onclick="translatePhrase(6)">La cuarta parte de la suma de 12 y 8</button>
+              <button onclick="translatePhrase(7)">El 60 % de 5/6 de 90</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-display" id="translateDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Elige una frase del menú izquierdo.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Recuerda</span>
+        "<strong>de</strong>" entre fracción/porcentaje y un número significa <strong>multiplicar</strong>. "<strong>aumentado en</strong>" suma; "<strong>disminuido en</strong>" resta.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Más ejemplos de problemas verbales
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Más ejemplos de problemas verbales</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">5 contextos reales</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Problema con porcentaje (descuento)</div>
+
+      <p>Una camisa cuesta \$24.990. En oferta tiene 30 % de descuento. ¿Cuánto se paga?</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Camino 1 (calcula descuento y resta):</strong></span>
+        <span class="math-step">Descuento: \(\dfrac{30}{100} \cdot 24.990 = 7.497\).</span>
+        <span class="math-step">Precio final: \(24.990 - 7.497 = 17.493\).</span>
+        <span class="math-step"><strong>Camino 2 (multiplica por 0,70):</strong></span>
+        <span class="math-step">\(24.990 \cdot 0,70 = 17.493\).</span>
+        <span class="math-step"><span class="math-result">Se paga \$17.493.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Problema con fracciones (consumo)</div>
+
+      <p>Un estanque tiene 600 L. Si en el primer día se usa \(\dfrac{1}{4}\) del estanque y al día siguiente \(\dfrac{1}{3}\) de lo que queda, ¿cuántos litros quedan al final?</p>
+      <div class="math-block">
+        <span class="math-step">Día 1: \(\dfrac{1}{4} \cdot 600 = 150\) L. Queda: \(600 - 150 = 450\) L.</span>
+        <span class="math-step">Día 2: \(\dfrac{1}{3} \cdot 450 = 150\) L. Queda: \(450 - 150 = 300\) L.</span>
+        <span class="math-step"><span class="math-result">Quedan 300 L al final.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Problema con razón (ingredientes)</div>
+
+      <p>Una receta usa harina y azúcar en razón \(3:1\). Si se ocupan 600 g de harina, ¿cuánta azúcar se necesita?</p>
+      <div class="math-block">
+        <span class="math-step">La razón \(3:1\) significa que por cada 3 g de harina hay 1 g de azúcar.</span>
+        <span class="math-step">Si harina = 600 g, entonces azúcar = \(\dfrac{600}{3} = 200\) g.</span>
+        <span class="math-step"><span class="math-result">Se necesitan 200 g de azúcar.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Problema con decimales (precios)</div>
+
+      <p>Un kilo de paltas vale \$3.490. Si compras 1,75 kg, ¿cuánto pagas?</p>
+      <div class="math-block">
+        <span class="math-step">Multiplicación directa: \(1,75 \cdot 3.490 = 6.107,5\).</span>
+        <span class="math-step">Como los precios se redondean al peso, se paga \$6.108.</span>
+        <span class="math-step"><span class="math-result">Pagas aproximadamente \$6.108.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>Problema con aumentos (sueldo)</div>
+
+      <p>El sueldo de Andrea es \$520.000. Si recibe un aumento del 12 %, ¿cuál será su nuevo sueldo?</p>
+      <div class="math-block">
+        <span class="math-step">Nuevo sueldo = \(520.000 \cdot (1 + 0,12) = 520.000 \cdot 1,12\).</span>
+        <span class="math-step">\(520.000 \cdot 1,12 = 582.400\).</span>
+        <span class="math-step"><span class="math-result">Nuevo sueldo: \$582.400.</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Calculadora de %
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Calculadora de porcentajes</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Descuentos y aumentos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Calculadora de porcentajes, aumentos y descuentos</div>
+
+      <p>Ingresa una cantidad y un porcentaje. La herramienta te muestra cuánto es ese porcentaje, cuánto sería con aumento y cuánto con descuento.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label for="pctCant">Cantidad:</label>
+            <input type="text" id="pctCant" value="80000" />
+          </div>
+          <div class="input-control">
+            <label for="pctVal">Porcentaje (%):</label>
+            <input type="text" id="pctVal" value="15" />
+          </div>
+          <div class="preset-buttons">
+            <button onclick="setPct(10000, 10)">10 % de 10.000</button>
+            <button onclick="setPct(80000, 15)">15 % de 80.000</button>
+            <button onclick="setPct(24990, 30)">30 % de 24.990</button>
+            <button onclick="setPct(520000, 12)">12 % de 520.000</button>
+            <button onclick="setPct(250, 25)">25 % de 250</button>
+          </div>
+          <button class="calc-button" onclick="calcPct()">Calcular →</button>
+        </div>
+
+        <div class="tool-display" id="pctDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa cantidad y % y presiona <strong>Calcular</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Atajos</span>
+        Aumento del X % → multiplicar por \(1 + \dfrac{X}{100}\). Descuento del X % → multiplicar por \(1 - \dfrac{X}{100}\).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Lenguaje matemático — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">La traducción matemática de "el triple de \(x\) disminuido en 4" es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3(x-4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es "el triple de la diferencia entre x y 4".</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3x - 4\)<div class="opt-feedback"><strong>Correcto.</strong> Primero el triple, luego se le resta 4.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x \cdot 3 - x \cdot 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Aplicaste distributiva donde no hay paréntesis.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(4 - 3x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el orden de la resta.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuánto es el 40 % de 150?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 90<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste 60 % de 150.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 60<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{40}{100} \cdot 150 = 60\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste cantidad con porcentaje.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 4,5<div class="opt-feedback"><strong>Incorrecto.</strong> Error de coma decimal.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(\dfrac{1}{4}\) de un terreno son 250 m², ¿cuánto mide el terreno completo?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 62,5 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Dividiste por 4 en vez de multiplicar.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1.000 m²<div class="opt-feedback"><strong>Correcto.</strong> Si \(\dfrac{1}{4}\) son 250, el total es \(250 \cdot 4 = 1.000\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 500 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste sólo por 2.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 750 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste \(\dfrac{3}{4}\), no el total.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Marcela tiene \$15.000 y quiere comprar 3,5 kg de tomate a \$1.890 el kilo. ¿Le alcanza? ¿Cuánto le sobra (o falta)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Le alcanza; le sobran \$8.385.<div class="opt-feedback"><strong>Correcto.</strong> Costo: \(3,5 \cdot 1.890 = 6.615\); sobra: \(15.000-6.615=8.385\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> No le alcanza; faltan \$8.385.<div class="opt-feedback"><strong>Incorrecto.</strong> El costo es menor que lo que tiene.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Le sobran \$1.890.<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Le sobran exactamente \$0.<div class="opt-feedback"><strong>Incorrecto.</strong> Hay diferencia.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si los \(\dfrac{2}{3}\) de un curso son hombres y hay 24 hombres, ¿cuántos estudiantes hay en total?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(\dfrac{2}{3}\cdot 24\), pero el dato es al revés.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 36<div class="opt-feedback"><strong>Correcto.</strong> Total = \(24 \div \dfrac{2}{3} = 24 \cdot \dfrac{3}{2} = 36\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 48<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 2 directamente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Dividiste por 2.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un televisor cuesta \$320.000. Si lo pagas en 3 cuotas iguales con un recargo del 6 %, ¿cuánto paga cada cuota (aprox.)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \$106.667<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el recargo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \$113.067<div class="opt-feedback"><strong>Correcto.</strong> Con recargo: \(320.000 \cdot 1,06 = 339.200\). Cada cuota: \(\div 3 ≈ 113.067\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \$96.000<div class="opt-feedback"><strong>Incorrecto.</strong> Aplicaste descuento en lugar de recargo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \$339.200<div class="opt-feedback"><strong>Incorrecto.</strong> Ese es el total, no la cuota.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Traduce: "el doble de la suma de \(x\) y 3".</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2x + 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es "el doble de x, más 3".</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2(x+3)\)<div class="opt-feedback"><strong>Correcto.</strong> Primero la suma (paréntesis), luego el doble.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x + 2 \cdot 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a la frase.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2 + x + 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste en vez de multiplicar.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si un libro tiene 240 páginas y ya leíste el 35 %, ¿cuántas páginas te faltan por leer?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 84<div class="opt-feedback"><strong>Incorrecto.</strong> Esas son las leídas, no las que faltan.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 156<div class="opt-feedback"><strong>Correcto.</strong> Faltan el 65 %: \(0,65 \cdot 240 = 156\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 168<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste el 70 %.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 120<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la mitad.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">"La mitad del triple de \(n\)" equivale a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{n}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste con "la mitad de un tercio".</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{3n}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Triple: \(3n\); mitad de \(3n\): \(\dfrac{3n}{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{n}{2} \cdot 3\) sin simplificar<div class="opt-feedback"><strong>Resultado equivalente</strong>, pero sería \(\dfrac{3n}{2}\) ya simplificado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(6n\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste cuando debías dividir.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">El 20 % de un número es 50. ¿Cuál es el número?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el 20 % de 50.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 250<div class="opt-feedback"><strong>Correcto.</strong> \(50 \div 0,20 = 250\) (o \(50 \cdot 5\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería el 50 %.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 25<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Lenguaje matemático — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Lenguaje y problemas verbales</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">"La suma de \(x\) y su doble" se escribe:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x \cdot 2x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es producto, no suma.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x + 2x = 3x\)<div class="opt-feedback"><strong>Correcto.</strong> La suma da \(3x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es "x al cuadrado".</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta sumar el primer \(x\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Un litro de jugo cuesta \$1.250. ¿Cuánto cuestan 2,5 L?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \$2.500<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es solo 2 L.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \$3.125<div class="opt-feedback"><strong>Correcto.</strong> \(1.250 \cdot 2,5 = 3.125\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \$3.750<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería 3 L.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \$1.875<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería 1,5 L.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">"La mitad del triple de \(n\)" equivale a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{n}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste mitad de \(\dfrac{1}{3}\) con mitad del triple.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3n}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Triple: \(3n\); mitad de \(3n\): \(\dfrac{3n}{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(3n^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es cuadrado, es mitad.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(6n\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste cuando debías dividir.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">El 20 % de un número es 50. ¿Cuál es el número?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el 20 % de 50.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 250<div class="opt-feedback"><strong>Correcto.</strong> \(50 \div 0,20 = 250\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería el 50 %.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 25<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Una camisa marcada en \$28.000 tiene 25 % de descuento. ¿Cuál es el precio final?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \$7.000<div class="opt-feedback"><strong>Incorrecto.</strong> Ese es el descuento, no el precio final.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \$21.000<div class="opt-feedback"><strong>Correcto.</strong> \(28.000 \cdot 0,75 = 21.000\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \$25.000<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste 3.000 sin razón.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \$35.000<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste un 25 % en vez de restarlo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Si Pedro tiene \(\dfrac{3}{5}\) de \$50.000, ¿cuánto dinero tiene?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \$20.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso son \(\dfrac{2}{5}\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \$30.000<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{3}{5} \cdot 50.000 = 30.000\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \$15.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso son \(\dfrac{3}{10}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \$10.000<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste \(\dfrac{1}{5}\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Un terreno se divide en partes iguales entre 4 hermanos. Si cada uno recibe 75 m², ¿cuántos m² mide el terreno?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 18,75 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Dividiste en vez de multiplicar.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 300 m²<div class="opt-feedback"><strong>Correcto.</strong> \(75 \cdot 4 = 300\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 79 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste 4 en vez de multiplicar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 150 m²<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste solo por 2.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">El precio de un curso aumentó de \$80.000 a \$92.000. ¿Cuál fue el aumento porcentual?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 12 %<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste \$12.000 con %.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 15 %<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{12.000}{80.000} = 0,15 = 15\%\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 20 %<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste sobre el precio nuevo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 10 %<div class="opt-feedback"><strong>Incorrecto.</strong> 10 % de 80.000 es 8.000.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Sebastián tomó \(\dfrac{1}{3}\) de litro en la mañana y \(\dfrac{1}{4}\) en la tarde. ¿Cuántos litros tomó en total?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{7}\) L<div class="opt-feedback"><strong>Incorrecto.</strong> No se suman numeradores y denominadores por separado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{7}{12}\) L<div class="opt-feedback"><strong>Correcto.</strong> Común denominador 12: \(\dfrac{4}{12} + \dfrac{3}{12} = \dfrac{7}{12}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{2}{7}\) L<div class="opt-feedback"><strong>Incorrecto.</strong> Mal aplicada la suma.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{12}\) L<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería la diferencia.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Si un libro tiene 240 páginas y ya leíste el 35 %, ¿cuántas páginas te faltan?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 84<div class="opt-feedback"><strong>Incorrecto.</strong> Esas son las leídas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 156<div class="opt-feedback"><strong>Correcto.</strong> Faltan el 65 %: \(0,65 \cdot 240 = 156\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 168<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste el 70 %.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 120<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la mitad.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Has cerrado el OA 1. Ya sabes <strong>traducir</strong> problemas verbales, identificar palabras clave y aplicar fracciones, decimales y porcentajes para resolver situaciones reales.</p>
+    <p>Esta habilidad será tu salvavidas en toda la PAES: la mayoría de los problemas matemáticos del examen vienen en formato verbal. Si sabes traducir, ya tienes la mitad de la prueba ganada.</p>
+    <span class="next-pill">Próximo: OA 2 — Potencias</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Lenguaje matemático · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Traductor de frases ---------- */
+const phrases = [
+  {
+    text:'La mitad de 80',
+    breakdown:'"<span class=\\'hl\\'>la mitad</span>" → \\(\\dfrac{1}{2}\\). "<span class=\\'hl\\'>de 80</span>" → multiplicar por 80.',
+    expr: '\\(\\dfrac{1}{2} \\cdot 80 = 40\\)'
+  },
+  {
+    text:'Dos tercios de 90',
+    breakdown:'"<span class=\\'hl\\'>dos tercios</span>" → \\(\\dfrac{2}{3}\\). "<span class=\\'hl\\'>de 90</span>" → multiplicar por 90.',
+    expr: '\\(\\dfrac{2}{3} \\cdot 90 = 60\\)'
+  },
+  {
+    text:'El 25 % de 200',
+    breakdown:'"<span class=\\'hl\\'>25 %</span>" → \\(\\dfrac{25}{100}=\\dfrac{1}{4}\\). "<span class=\\'hl\\'>de 200</span>" → multiplicar por 200.',
+    expr: '\\(\\dfrac{1}{4} \\cdot 200 = 50\\)'
+  },
+  {
+    text:'El doble de 17 más 5',
+    breakdown:'"<span class=\\'hl\\'>doble de 17</span>" → \\(2 \\cdot 17 = 34\\). "<span class=\\'hl\\'>más 5</span>" → sumar 5.',
+    expr: '\\(2 \\cdot 17 + 5 = 39\\)'
+  },
+  {
+    text:'El triple de 2/3',
+    breakdown:'"<span class=\\'hl\\'>triple</span>" → \\(3 \\cdot\\). "<span class=\\'hl\\'>de 2/3</span>" → multiplicar por \\(\\dfrac{2}{3}\\).',
+    expr: '\\(3 \\cdot \\dfrac{2}{3} = \\dfrac{6}{3} = 2\\)'
+  },
+  {
+    text:'120 disminuido en su 15 %',
+    breakdown:'"<span class=\\'hl\\'>120</span>" cantidad base. "<span class=\\'hl\\'>disminuido en 15 %</span>" → multiplicar por \\(1-0,15=0,85\\).',
+    expr: '\\(120 \\cdot 0,85 = 102\\)'
+  },
+  {
+    text:'La cuarta parte de la suma de 12 y 8',
+    breakdown:'"<span class=\\'hl\\'>suma de 12 y 8</span>" → \\(12+8=20\\). "<span class=\\'hl\\'>cuarta parte</span>" → dividir por 4.',
+    expr: '\\(\\dfrac{1}{4} \\cdot (12+8) = \\dfrac{20}{4} = 5\\)'
+  },
+  {
+    text:'El 60 % de 5/6 de 90',
+    breakdown:'"<span class=\\'hl\\'>5/6 de 90</span>" → \\(\\dfrac{5}{6} \\cdot 90 = 75\\). "<span class=\\'hl\\'>60 % de 75</span>" → \\(\\dfrac{60}{100} \\cdot 75 = 45\\).',
+    expr: '\\(\\dfrac{60}{100} \\cdot \\dfrac{5}{6} \\cdot 90 = 45\\)'
+  }
+];
+function translatePhrase(i){
+  const p = phrases[i];
+  const out = document.getElementById('translateDisplay');
+  out.innerHTML = `
+    <div class="translator-result">
+      <b style="color:#6A2C91;">Frase:</b> <em>"${p.text}"</em>
+      <hr style="border:none;border-top:1px dashed #D4AF37;margin:.5rem 0;">
+      <b style="color:#6A2C91;">Análisis:</b><br>${p.breakdown}
+      <span class="out-expr">${p.expr}</span>
+    </div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+/* ---------- Calculadora de porcentajes ---------- */
+function setPct(c, p){
+  document.getElementById('pctCant').value = c;
+  document.getElementById('pctVal').value = p;
+  calcPct();
+}
+function calcPct(){
+  const c = parseFloat(document.getElementById('pctCant').value);
+  const p = parseFloat(document.getElementById('pctVal').value);
+  const out = document.getElementById('pctDisplay');
+  if(isNaN(c)||isNaN(p)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa cantidad y % numéricos.</p>'; return; }
+  const valor = c * p/100;
+  const aumento = c * (1 + p/100);
+  const descuento = c * (1 - p/100);
+  const fmt = n => n.toLocaleString('es-CL', {maximumFractionDigits:2});
+  out.innerHTML = `
+    <div class="translator-result">
+      <b style="color:#6A2C91;">Cantidad:</b> ${fmt(c)} &nbsp;|&nbsp; <b style="color:#6A2C91;">Porcentaje:</b> ${p} %
+      <hr style="border:none;border-top:1px dashed #D4AF37;margin:.5rem 0;">
+      <p><b>${p} % de ${fmt(c)}</b> = \\(\\dfrac{${p}}{100} \\cdot ${c} = \\) <span class="math-result">${fmt(valor)}</span></p>
+      <p><b>${fmt(c)} aumentado en ${p} %</b> = \\(${c} \\cdot ${(1+p/100).toFixed(2)} =\\) <span class="math-result">${fmt(aumento)}</span></p>
+      <p><b>${fmt(c)} disminuido en ${p} %</b> = \\(${c} \\cdot ${(1-p/100).toFixed(2)} =\\) <span class="math-result">${fmt(descuento)}</span></p>
+    </div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  translatePhrase(0);
+  calcPct();
+});
+</script>
+
+</body>
+</html>

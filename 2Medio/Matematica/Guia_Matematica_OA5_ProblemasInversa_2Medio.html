@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problemas con función inversa — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* Fases del modelamiento */
+    .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.8rem 0;}
+    @media (max-width:600px){.phases{grid-template-columns:repeat(2,1fr);}}
+    .phase-card{background:#fff;border:2px solid #D4AF37;border-radius:8px;padding:.6rem;text-align:center;}
+    .phase-card .phase-num{display:inline-block;background:#6A2C91;color:#fff;width:24px;height:24px;border-radius:50%;line-height:24px;font-weight:700;font-size:.85rem;margin-bottom:.3rem;}
+    .phase-card h5{margin:.2rem 0;color:#0B0F3F;font-size:.88rem;}
+    .phase-card p{margin:.2rem 0;font-size:.75rem;color:#555;line-height:1.4;}
+
+    /* HERRAMIENTA 1: Convertidor bidireccional */
+    .conv-wrap{background:#F8F4E9;border:2px solid #D4AF37;border-radius:8px;padding:1rem;margin:1rem 0;}
+    .conv-selector{display:grid;grid-template-columns:repeat(2,1fr);gap:.4rem;margin-bottom:1rem;}
+    @media (min-width:600px){.conv-selector{grid-template-columns:repeat(4,1fr);}}
+    .conv-selector button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:6px;padding:.55rem;cursor:pointer;font-weight:600;font-size:.85rem;font-family:'Inter',sans-serif;transition:all .2s;}
+    .conv-selector button.active{background:#6A2C91;color:#fff;}
+    .conv-selector button:hover{background:#552072;color:#fff;}
+    .conv-inputs{display:grid;grid-template-columns:1fr auto 1fr;gap:.6rem;align-items:end;margin:.8rem 0;}
+    @media (max-width:600px){.conv-inputs{grid-template-columns:1fr;}}
+    .conv-side{background:#fff;border:1.5px solid #6A2C91;border-radius:8px;padding:.7rem;}
+    .conv-side label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.85rem;}
+    .conv-side input{width:100%;padding:.55rem;border:1px solid #D9D9D9;border-radius:6px;font-size:1.05rem;font-family:'Inter',sans-serif;color:#0B0F3F;font-weight:600;}
+    .conv-arrow{display:flex;align-items:center;justify-content:center;color:#6A2C91;font-size:1.6rem;padding:0 .5rem;}
+    @media (max-width:600px){.conv-arrow{display:none;}}
+    .conv-formulas{background:#fff;border:1px dashed #6A2C91;border-radius:8px;padding:.7rem 1rem;margin-top:.7rem;font-size:.9rem;color:#0B0F3F;line-height:1.7;}
+    .conv-formulas div{margin:.2rem 0;}
+    .conv-formulas strong{color:#6A2C91;}
+
+    /* HERRAMIENTA 2: Resolutor de problemas */
+    .prob-wrap{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;margin:1rem 0;}
+    .prob-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;gap:.5rem;flex-wrap:wrap;}
+    .prob-nav button{background:#6A2C91;color:#fff;border:0;border-radius:18px;padding:.5rem 1.1rem;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:600;}
+    .prob-nav button:hover{background:#552072;}
+    .prob-counter{font-size:.9rem;color:#6A2C91;font-weight:700;}
+    .prob-body{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:1rem;margin:.6rem 0;}
+    .prob-title{color:#6A2C91;font-weight:700;font-size:1rem;margin-bottom:.5rem;}
+    .prob-text{font-size:.92rem;color:#0B0F3F;line-height:1.6;margin-bottom:.6rem;}
+    .prob-input-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.7rem 0;}
+    .prob-input-row label{font-weight:600;color:#6A2C91;font-size:.92rem;}
+    .prob-input-row input{flex:1;min-width:80px;padding:.55rem;border:1px solid #D9D9D9;border-radius:6px;font-size:1rem;font-family:'Inter',sans-serif;color:#0B0F3F;font-weight:600;}
+    .prob-input-row .unit{color:#555;font-size:.9rem;font-weight:600;}
+    .prob-input-row button{background:#D4AF37;color:#0B0F3F;border:0;border-radius:18px;padding:.55rem 1.2rem;cursor:pointer;font-size:.9rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .prob-input-row button:hover{background:#b39028;}
+    .prob-solution{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.8rem 1rem;border-radius:0 8px 8px 0;margin-top:.6rem;font-size:.9rem;line-height:1.7;color:#0B0F3F;display:none;}
+    .prob-solution.show{display:block;}
+    .prob-solution .step{display:block;margin:.3rem 0;}
+    .prob-solution .answer{background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.4rem .8rem;display:inline-block;margin-top:.5rem;font-weight:700;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .conv-selector,.prob-nav,.prob-input-row button{display:none !important;}
+      .prob-solution{display:block !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — La inversa en la vida real
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Problemas reales con función inversa</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Vida cotidiana</span>
+    <span class="chip">Aplicaciones</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 5</span>
+    <span class="oa-text">Resolver problemas de la vida cotidiana y de otras ciencias que involucran el concepto de función inversa.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Cuándo se usa la inversa en la vida real?</div>
+
+      <p>En las dos guías anteriores aprendiste a calcular y reconocer funciones inversas. Esta guía es la más importante en términos prácticos: te enseña <strong>cuándo y cómo aplicar</strong> el concepto para resolver problemas reales.</p>
+
+      <p>La inversa se usa siempre que necesitas <em>ir hacia atrás</em>: conocer la entrada que produjo cierta salida. Algunos ejemplos cotidianos:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Conversión de unidades:</strong> tienes un valor en una unidad y quieres convertirlo a otra. La conversión y su inversa son inversas funcionales.</li>
+        <li><strong>Despejar el tiempo:</strong> dado que un objeto ha caído cierta distancia, ¿cuánto tiempo ha pasado?</li>
+        <li><strong>Calcular cantidades a partir de costos:</strong> dado un presupuesto, ¿cuántas unidades puedo comprar?</li>
+        <li><strong>Encontrar dimensiones a partir de áreas:</strong> conocida el área de un terreno, ¿cuál es su lado?</li>
+        <li><strong>Volver de un resultado a su entrada original:</strong> presa decodificar, descifrar, traducir.</li>
+      </ul>
+
+      <div class="card card-tip">
+        <strong>Patrón universal:</strong> en todos estos casos, hay una función natural \(f\) (de entrada conocida a salida desconocida) y su inversa \(f^{-1}\) (de salida conocida a entrada desconocida). Saber identificar cuál usar es la clave de la resolución.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Las 4 fases del modelamiento</div>
+
+      <p>Para resolver un problema con función inversa, sigue las mismas 4 fases que aprendiste en modelamiento general, pero con énfasis en la fase 3 (despejar usando inversa):</p>
+
+      <div class="phases">
+        <div class="phase-card">
+          <span class="phase-num">1</span>
+          <h5>Entender</h5>
+          <p>Identifica qué te dan y qué te piden. Reconoce la dirección del problema.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">2</span>
+          <h5>Plantear</h5>
+          <p>Escribe la función \(f\) directa. Determina si la incógnita es entrada o salida.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">3</span>
+          <h5>Resolver</h5>
+          <p>Si la incógnita es la entrada, aplica \(f^{-1}\). Si es la salida, evalúa \(f\) directamente.</p>
+        </div>
+        <div class="phase-card">
+          <span class="phase-num">4</span>
+          <h5>Interpretar</h5>
+          <p>Devuelve la respuesta a su contexto original con las unidades correctas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo introductorio</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una empresa de delivery cobra \(C(x) = 800 + 250x\) pesos por enviar un paquete a \(x\) kilómetros. Si pagaste \$3300 por un envío, ¿cuál es la distancia recorrida?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Fase 1 — Entender:</strong> conocemos el costo (\$3300) y queremos saber la distancia (\(x\)). La incógnita es la ENTRADA de la función.</span>
+        <span class="math-step"><strong>Fase 2 — Plantear:</strong> función directa: \(C(x) = 800 + 250x\). Necesitamos invertirla para despejar \(x\) en función de \(C\).</span>
+        <span class="math-step"><strong>Fase 3 — Resolver:</strong></span>
+        <span class="math-step">\(3300 = 800 + 250x\)</span>
+        <span class="math-step">\(2500 = 250x\)</span>
+        <span class="math-step">\(x = 10\)</span>
+        <span class="math-step"><strong>Fase 4 — Interpretar:</strong> el paquete fue enviado a 10 km de distancia.</span>
+        <span class="math-step"><span class="math-result">Distancia = 10 km.</span></span>
+      </div>
+
+      <p>Observa que en este problema NO necesitábamos escribir \(C^{-1}(y)\) explícitamente; simplemente despejamos \(x\) en la ecuación. <em>Eso es aplicar la inversa</em>: en cada paso del despeje estamos "deshaciendo" lo que \(C\) hace.</p>
+
+      <div class="card card-tip">
+        <strong>Atajo mental:</strong> en cada problema, pregúntate "¿qué hice para obtener la salida?" y luego "¿cómo lo deshago?". Eso es la inversa en acción.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Conversión de unidades
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicación 1: Conversión de unidades</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Temperatura · distancia · moneda</span>
+    <span class="chip">Fórmula directa e inversa</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Temperatura: Celsius ↔ Fahrenheit</div>
+
+      <p>La conversión entre las dos escalas más comunes de temperatura es una aplicación clásica de inversas:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Fórmula directa (°C → °F)</span>
+          <span class="prop-eq">\(F(C) = \dfrac{9}{5}C + 32\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Fórmula inversa (°F → °C)</span>
+          <span class="prop-eq">\(C(F) = \dfrac{5}{9}(F - 32)\)</span>
+        </div>
+      </div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una receta indica hornear a 350°F. Si tu horno marca en grados Celsius, ¿a qué temperatura debes ponerlo?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Plantear:</strong> usamos la fórmula inversa \(C(F) = \dfrac{5}{9}(F - 32)\).</span>
+        <span class="math-step"><strong>Resolver:</strong> \(C = \dfrac{5}{9}(350 - 32) = \dfrac{5}{9} \cdot 318 = \dfrac{1590}{9} \approx 176{,}67\) °C.</span>
+        <span class="math-step"><strong>Interpretar:</strong> el horno debe estar aproximadamente a 177 °C.</span>
+        <span class="math-step"><span class="math-result">350 °F ≈ 177 °C.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="320"></canvas>
+        <div class="embed-caption">La relación °C → °F es una función lineal. Su inversa también lo es, simétrica respecto a \(y = x\).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Otras conversiones lineales típicas</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Conversión</th><th>Fórmula directa</th><th>Fórmula inversa</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>km → millas</td><td>\(M(k) = 0{,}621 \cdot k\)</td><td>\(k(M) = M / 0{,}621 \approx 1{,}61 M\)</td></tr>
+          <tr><td>km/h → m/s</td><td>\(s(v) = v / 3{,}6\)</td><td>\(v(s) = 3{,}6 s\)</td></tr>
+          <tr><td>USD → CLP (ej: 950)</td><td>\(CLP(u) = 950 u\)</td><td>\(u(CLP) = CLP / 950\)</td></tr>
+          <tr><td>Precio neto → con IVA 19%</td><td>\(P(x) = 1{,}19 x\)</td><td>\(x(P) = P / 1{,}19\)</td></tr>
+          <tr><td>Pulgadas → cm</td><td>\(cm(p) = 2{,}54 p\)</td><td>\(p(cm) = cm / 2{,}54\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Patrón:</strong> casi todas las conversiones de unidades son <em>lineales</em>: \(f(x) = mx\) o \(f(x) = mx + n\). Su inversa también es lineal. La excepción notable es Celsius-Fahrenheit, que tiene tanto pendiente como intercepto distinto de 0.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo con moneda</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Si la tasa de cambio es 1 USD = 950 CLP, ¿cuántos USD equivalen a \$285.000 CLP?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Función directa: \(CLP(u) = 950 u\) (USD a CLP).</span>
+        <span class="math-step">Función inversa: \(u(CLP) = \dfrac{CLP}{950}\) (CLP a USD).</span>
+        <span class="math-step">Calculamos: \(u = 285000 / 950 = 300\).</span>
+        <span class="math-step"><span class="math-result">\$285.000 CLP ≈ 300 USD.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cada vez que veas un problema de "convertir entre unidades", la pregunta clave es: ¿en qué dirección estoy yendo? Si voy del "1" al "muchos", uso la fórmula directa. Si voy del "muchos" al "1", uso la inversa. Identificar la dirección te ahorra errores.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Aplicaciones científicas
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicación 2: Problemas físicos y geométricos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Física · Geometría</span>
+    <span class="chip">Cuadráticas en contexto</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Movimiento: distancia, velocidad y tiempo</div>
+
+      <p>La fórmula básica \(d = v \cdot t\) tiene tres variables. Si conoces dos, puedes despejar la tercera. Cada despeje es una "inversa" respecto a otra variable.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Lo que sabes</th><th>Lo que buscas</th><th>Fórmula</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>velocidad y tiempo</td><td>distancia</td><td>\(d = v \cdot t\)</td></tr>
+          <tr><td>distancia y velocidad</td><td>tiempo</td><td>\(t = d / v\)</td></tr>
+          <tr><td>distancia y tiempo</td><td>velocidad</td><td>\(v = d / t\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un auto viaja a 80 km/h. ¿Cuánto tiempo le toma recorrer 240 km?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Plantear: \(d(t) = 80t\) (función directa). Necesitamos invertirla para encontrar \(t\) en función de \(d\).</span>
+        <span class="math-step">\(t(d) = d / 80\).</span>
+        <span class="math-step">Evaluamos: \(t = 240 / 80 = 3\) horas.</span>
+        <span class="math-step"><span class="math-result">3 horas.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caída libre: despejar el tiempo</div>
+
+      <p>La altura de un objeto en caída libre (sin velocidad inicial) desde una altura \(h_{0}\) es \(h(t) = h_{0} - 5t^{2}\). Esta es una función cuadrática del tiempo. Si conoces la altura actual y quieres saber el tiempo transcurrido, debes invertirla.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una piedra cae desde una altura de 80 m. ¿Cuántos segundos tarda en tocar el suelo?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Modelo: \(h(t) = 80 - 5t^{2}\). Cuando la piedra toca el suelo, \(h = 0\).</span>
+        <span class="math-step">Resolver: \(0 = 80 - 5t^{2} \Rightarrow 5t^{2} = 80 \Rightarrow t^{2} = 16 \Rightarrow t = 4\) (descartamos \(t = -4\)).</span>
+        <span class="math-step"><span class="math-result">La piedra tarda 4 segundos en tocar el suelo.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Inversa cuadrática en contexto:</strong> al despejar \(t\) en una ecuación cuadrática, descartamos las soluciones negativas porque el tiempo físico no puede ser negativo. Esto es la restricción de dominio que vimos en la guía 1.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Geometría: dimensiones a partir de áreas</div>
+
+      <p>Conocer un área y querer encontrar la dimensión que la generó es un problema de inversa cuadrática.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El área de un círculo es \(A = \pi r^{2}\). Si una pizza tiene área de \(64\pi\) cm², ¿cuál es su radio?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Despejamos \(r\): \(r^{2} = A/\pi \Rightarrow r = \sqrt{A/\pi}\) (descartamos \(r\) negativo).</span>
+        <span class="math-step">Evaluamos: \(r = \sqrt{64\pi/\pi} = \sqrt{64} = 8\) cm.</span>
+        <span class="math-step"><span class="math-result">El radio es 8 cm.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cada vez que tengas "dado \(A\), encontrar \(r\)" (o "dado el área, encontrar el lado"), estás usando la <em>inversa de la función de área</em>. Lineal en el caso de perímetros, cuadrática en el caso de áreas.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — HERRAMIENTA 1: Convertidor universal
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Convertidor universal bidireccional</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Función e inversa en acción</span>
+    <span class="chip">4 conversiones</span>
+  </div>
+
+  <div class="content">
+
+    <p>Esta herramienta te permite convertir entre <strong>cualquier dirección</strong> de 4 pares de unidades comunes. Elige el tipo de conversión, escribe un valor en cualquiera de los dos lados, y el otro se actualiza automáticamente usando la <em>función directa</em> o su <em>inversa</em>.</p>
+
+    <div class="conv-wrap">
+      <div class="conv-selector" id="conv-selector">
+        <button data-conv="temp" class="active">🌡️ Temperatura<br><small>°C ↔ °F</small></button>
+        <button data-conv="dist">📏 Distancia<br><small>km ↔ millas</small></button>
+        <button data-conv="money">💵 Moneda<br><small>USD ↔ CLP</small></button>
+        <button data-conv="speed">🚗 Velocidad<br><small>km/h ↔ m/s</small></button>
+      </div>
+
+      <div class="conv-inputs">
+        <div class="conv-side">
+          <label id="conv-label-a">Celsius (°C)</label>
+          <input id="conv-a" type="number" step="0.1" value="100" />
+        </div>
+        <div class="conv-arrow">⇄</div>
+        <div class="conv-side">
+          <label id="conv-label-b">Fahrenheit (°F)</label>
+          <input id="conv-b" type="number" step="0.1" value="212" />
+        </div>
+      </div>
+
+      <div class="conv-formulas" id="conv-formulas">
+        Cargando…
+      </div>
+    </div>
+
+    <div class="embed-graph-wrap">
+      <canvas id="conv-canvas" width="500" height="320"></canvas>
+      <div class="embed-caption">Función directa (púrpura) y su inversa (dorado), reflejadas en la recta \(y = x\) (gris).</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Aplicaciones económicas
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicación 3: Problemas económicos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Costo · ingreso · producción</span>
+    <span class="chip">Despejar variables</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Costo total: dado el presupuesto, encontrar la cantidad</div>
+
+      <p>Las funciones de costo son típicamente <strong>lineales</strong>: un cargo fijo más un cargo variable por unidad. Cuando conoces tu presupuesto y quieres saber cuántas unidades puedes comprar, usas la inversa.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una imprenta cobra \$5.000 fijos por la preparación más \$200 por cada copia. ¿Cuántas copias puedes hacer con \$25.000?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Plantear:</strong> función de costo \(C(x) = 200x + 5000\) (donde \(x\) son las copias).</span>
+        <span class="math-step"><strong>Resolver (despejar \(x\)):</strong> queremos \(C(x) = 25000\).</span>
+        <span class="math-step">\(25000 = 200x + 5000 \Rightarrow 20000 = 200x \Rightarrow x = 100\).</span>
+        <span class="math-step"><strong>Interpretar:</strong> con \$25.000 puedes hacer 100 copias.</span>
+        <span class="math-step"><span class="math-result">100 copias.</span></span>
+      </div>
+
+      <p>Equivalentemente, podríamos haber escrito la inversa explícitamente: \(C^{-1}(y) = \dfrac{y - 5000}{200}\). Luego \(C^{-1}(25000) = \dfrac{20000}{200} = 100\).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Precio neto, IVA y precio final</div>
+
+      <p>El precio final con IVA del 19% se calcula como \(P(x) = 1{,}19x\). Si conoces el precio final y quieres saber el precio neto (antes de impuestos), usas la inversa.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Compraste un producto por \$59.500 con IVA incluido. ¿Cuál era el precio neto?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Inversa: \(x(P) = \dfrac{P}{1{,}19}\).</span>
+        <span class="math-step">Calculamos: \(x = 59500 / 1{,}19 = 50000\).</span>
+        <span class="math-step"><span class="math-result">Precio neto: \$50.000.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Tarifa de servicios con cargo fijo y variable</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El servicio eléctrico cobra \$15 por cada kWh consumido más un cargo fijo de \$3.000. Si una familia pagó \$24.000 el mes pasado, ¿cuántos kWh consumió?
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Plantear:</strong> \(C(x) = 15x + 3000\) donde \(x\) son los kWh.</span>
+        <span class="math-step"><strong>Resolver:</strong> \(24000 = 15x + 3000 \Rightarrow 21000 = 15x \Rightarrow x = 1400\) kWh.</span>
+        <span class="math-step"><span class="math-result">Consumieron 1.400 kWh.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En problemas económicos, la pregunta "¿cuánto?" puede referirse a "cuánto pago" (usar \(f\) directa) o "cuántas unidades obtengo" (usar \(f^{-1}\)). Antes de calcular, identifica claramente qué es la variable independiente y cuál la dependiente en el contexto.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — HERRAMIENTA 2: Resolutor de problemas
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Resolutor interactivo de problemas reales</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">5 escenarios</span>
+    <span class="chip">Resolución paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <p>Practica resolver problemas reales aplicando la función inversa. Selecciona un escenario, ingresa el valor conocido (puedes cambiarlo para ver cómo varía la respuesta) y presiona <strong>"Resolver"</strong> para ver la solución paso a paso.</p>
+
+    <div class="prob-wrap">
+      <div class="prob-nav">
+        <button id="prob-prev">◀ Anterior</button>
+        <span class="prob-counter" id="prob-counter">Problema 1 de 5</span>
+        <button id="prob-next">Siguiente ▶</button>
+      </div>
+
+      <div class="prob-body" id="prob-body">Cargando…</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas con inversa — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">La fórmula para convertir °C a °F es \(F = \dfrac{9}{5}C + 32\). ¿Cuál es la fórmula inversa (de °F a °C)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(C = \dfrac{5}{9}(F - 32)\)<div class="opt-feedback"><strong>Correcto.</strong> Despeja: \(F = \tfrac{9}{5}C + 32 \Rightarrow C = \tfrac{5}{9}(F - 32)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(C = \dfrac{9}{5}(F - 32)\)<div class="opt-feedback"><strong>Incorrecto.</strong> El coeficiente debe ser \(5/9\) (recíproco de \(9/5\)), no \(9/5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(C = \dfrac{5}{9}F - 32\)<div class="opt-feedback"><strong>Incorrecto.</strong> La resta de 32 debe estar DENTRO del paréntesis, antes de multiplicar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(C = \dfrac{5}{9}F + 32\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo: debe restarse 32, no sumarse.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Una empresa de transporte cobra \(C(x) = 100x + 500\) pesos por viaje de \(x\) km. Si pagaste \$1.500, ¿cuántos km viajaste?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 km<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida restar el cargo fijo o divide mal.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 km<div class="opt-feedback"><strong>Correcto.</strong> \(1500 - 500 = 1000\); \(1000 / 100 = 10\) km.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 15 km<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho más que la respuesta correcta; revisa la división.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 20 km<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida restar el cargo fijo de 500.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(f(x) = 2x + 6\) es el costo de \(x\) artículos, ¿cuál fórmula nos dice cuántos artículos compraste si gastaste \(y\) pesos?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(y = 2x + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la fórmula directa, no la inversa.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x = \dfrac{y - 6}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Despeja \(x\) en función de \(y\): \(y = 2x + 6 \Rightarrow x = (y-6)/2\). Esa es \(f^{-1}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x = 2y + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia las variables sin despejar correctamente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x = y/2 - 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el paréntesis al dividir: solo divide y, no \(y - 6\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">La altura de una pelota en caída libre es \(h(t) = 100 - 5t^{2}\) (en metros). Si está a 80 m, ¿cuánto tiempo ha caído?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 1 s<div class="opt-feedback"><strong>Incorrecto.</strong> \(h(1) = 100 - 5 = 95\), no 80.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 2 s<div class="opt-feedback"><strong>Correcto.</strong> \(100 - 5t^{2} = 80 \Rightarrow 5t^{2} = 20 \Rightarrow t^{2} = 4 \Rightarrow t = 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 4 s<div class="opt-feedback"><strong>Incorrecto.</strong> \(h(4) = 100 - 80 = 20\), no 80. Es el tiempo para llegar al suelo, no a 80m.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5 s<div class="opt-feedback"><strong>Incorrecto.</strong> En 5 s la altura sería negativa (imposible físicamente).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Convertir 50 millas a km, si 1 milla = 1,6 km:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 31,25 km<div class="opt-feedback"><strong>Incorrecto.</strong> Divide en vez de multiplicar; sería para convertir km → millas.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 80 km<div class="opt-feedback"><strong>Correcto.</strong> Función directa: 1 milla = 1,6 km, así que 50 millas = 50 × 1,6 = 80 km.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100 km<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica por 2 sin justificación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 50 km<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde unidades.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">La función para calcular el precio con IVA es \(P(x) = 1{,}19x\) (\(x\) = precio neto). Si pagaste \$59.500 con IVA, ¿cuál era el precio neto?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \$50.000<div class="opt-feedback"><strong>Correcto.</strong> Inversa: \(x = P / 1{,}19 = 59500 / 1{,}19 = 50000\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \$40.000<div class="opt-feedback"><strong>Incorrecto.</strong> Aplica un descuento incorrecto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \$70.805<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica por 1,19 en lugar de dividir.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \$11.900<div class="opt-feedback"><strong>Incorrecto.</strong> Calcula solo el monto del IVA, no el neto.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El radio \(r\) de un círculo con área \(A\) está dado por \(r(A) = \sqrt{A/\pi}\). ¿Cuál fórmula nos da \(A\) en función de \(r\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(A = \pi r\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta elevar \(r\) al cuadrado.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(A = \pi r^{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Es la fórmula directa del área; \(r(A) = \sqrt{A/\pi}\) es su inversa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(A = r^{2}/\pi\)<div class="opt-feedback"><strong>Incorrecto.</strong> Pone \(\pi\) en el denominador en vez de multiplicar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(A = 2\pi r\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la fórmula del perímetro (circunferencia), no del área.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una empresa modela ingreso \(I(p) = 100p - 2p^{2}\) (con \(p\) en miles). Si quiere ingresar \$1.200, ¿qué precios funcionan?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(p = 20\) únicamente<div class="opt-feedback"><strong>Incorrecto.</strong> Cumple, pero no es el único.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(p = 30\) únicamente<div class="opt-feedback"><strong>Incorrecto.</strong> También cumple, pero no es el único.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(p = 20\) o \(p = 30\)<div class="opt-feedback"><strong>Correcto.</strong> Resolver \(100p - 2p^{2} = 1200 \Rightarrow 2p^{2} - 100p + 1200 = 0 \Rightarrow p^{2} - 50p + 600 = 0\). Discriminante: \(2500 - 2400 = 100\). \(p = (50 \pm 10)/2 = 20\) o \(30\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Sin solución<div class="opt-feedback"><strong>Incorrecto.</strong> Hay solución; el discriminante es positivo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un Uber cobra \(C(x) = 600 + 400x\). Si presupuestas \$5.000, ¿cuántos km puedes viajar (máximo entero)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 9 km<div class="opt-feedback"><strong>Incorrecto.</strong> Te quedaría dinero sin usar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 km<div class="opt-feedback"><strong>Incorrecto.</strong> Costaría 4.600, te quedan 400 sin usar.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 11 km<div class="opt-feedback"><strong>Correcto.</strong> \(5000 = 600 + 400x \Rightarrow x = 4400/400 = 11\) km exactos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12 km<div class="opt-feedback"><strong>Incorrecto.</strong> Costaría 5.400, excede el presupuesto.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(T(C) = 1{,}8C + 32\) convierte °C a °F, y \(T(C) = 100\), ¿cuántos °C es esto?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> ≈ 37,78 °C<div class="opt-feedback"><strong>Correcto.</strong> Inversa: \(C = (F - 32)/1{,}8 = (100 - 32)/1{,}8 = 68/1{,}8 \approx 37{,}78\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 50 °C<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con la mitad.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 68 °C<div class="opt-feedback"><strong>Incorrecto.</strong> Es el resultado de \(F - 32\), pero falta dividir por 1,8.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 100 °C<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la temperatura en una escala con la otra.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas con inversa — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Aplicaciones de la función inversa</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">La fórmula \(d(t) = 80t\) representa la distancia (km) recorrida en \(t\) horas a 80 km/h. Si has recorrido 200 km, ¿cuántas horas pasaron?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1,5 h<div class="opt-feedback"><strong>Incorrecto.</strong> \(80 \cdot 1{,}5 = 120\) km, insuficiente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2 h<div class="opt-feedback"><strong>Incorrecto.</strong> \(80 \cdot 2 = 160\) km, no alcanza 200.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 2,5 h<div class="opt-feedback"><strong>Correcto.</strong> \(t = d/v = 200/80 = 2{,}5\) h. Inversa de \(d(t) = 80t\) es \(t(d) = d/80\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 4 h<div class="opt-feedback"><strong>Incorrecto.</strong> \(80 \cdot 4 = 320\) km, mucho más.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Si \(v(t) = 20 + 5t\) es la velocidad de un objeto en m/s, ¿cuánto tiempo demora en alcanzar 50 m/s?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4 s<div class="opt-feedback"><strong>Incorrecto.</strong> \(v(4) = 20 + 20 = 40\), insuficiente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 5 s<div class="opt-feedback"><strong>Incorrecto.</strong> \(v(5) = 20 + 25 = 45\), insuficiente.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 6 s<div class="opt-feedback"><strong>Correcto.</strong> \(50 = 20 + 5t \Rightarrow 30 = 5t \Rightarrow t = 6\) s.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 10 s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el cálculo de despeje.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Una empresa fija el precio según \(P(q) = 100 - 2q\) (en miles, donde \(q\) son las unidades fabricadas). Si el precio es \$40 (en miles), ¿cuántas unidades fabricó?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 30<div class="opt-feedback"><strong>Correcto.</strong> \(40 = 100 - 2q \Rightarrow 2q = 60 \Rightarrow q = 30\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 20<div class="opt-feedback"><strong>Incorrecto.</strong> Error de despeje; verifica: \(100 - 40 = 60\), luego \(60/2 = 30\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el precio con la cantidad.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 60<div class="opt-feedback"><strong>Incorrecto.</strong> No divide por 2.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">La fórmula del área de un cuadrado de lado \(L\) es \(A = L^{2}\). ¿Cuál es la fórmula para \(L\) en función de \(A\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(L = \sqrt{A}\)<div class="opt-feedback"><strong>Correcto.</strong> Inversa de \(A = L^{2}\) con \(L \geq 0\) es \(L = \sqrt{A}\). El lado siempre es positivo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(L = A/2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Divide entre 2 sin justificación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(L = A^{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eleva al cuadrado en lugar de extraer raíz.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(L = 2A\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica por 2 sin justificación.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Conducir un viaje cobra \$1.000 fijos más \$200 por kilómetro. Si pagaste \$5.000, ¿cuántos km recorriste?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 15 km<div class="opt-feedback"><strong>Incorrecto.</strong> Costaría 1000 + 200·15 = 4.000, no 5.000.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 20 km<div class="opt-feedback"><strong>Correcto.</strong> \(5000 - 1000 = 4000\); \(4000/200 = 20\) km.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 25 km<div class="opt-feedback"><strong>Incorrecto.</strong> Costaría 6.000.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 30 km<div class="opt-feedback"><strong>Incorrecto.</strong> Costaría 7.000.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Si \(C(x) = 3x + 12\) representa el costo total (\$) de \(x\) almuerzos, ¿cuántos almuerzos compraste si pagaste \$42?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> \(C(8) = 24 + 12 = 36\), insuficiente.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 10<div class="opt-feedback"><strong>Correcto.</strong> \(42 = 3x + 12 \Rightarrow 30 = 3x \Rightarrow x = 10\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> \(C(12) = 36 + 12 = 48\), excede.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 14<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor al valor correcto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">La temperatura en °F se calcula como \(F = \dfrac{9}{5}C + 32\). Si la temperatura es 86°F, ¿cuál es en °C?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 25°C<div class="opt-feedback"><strong>Incorrecto.</strong> \(F(25) = 45 + 32 = 77\), no 86.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 30°C<div class="opt-feedback"><strong>Correcto.</strong> Inversa: \(C = \tfrac{5}{9}(F - 32) = \tfrac{5}{9} \cdot 54 = 30\). Verifica: \(F(30) = 54 + 32 = 86\) ✓.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 35°C<div class="opt-feedback"><strong>Incorrecto.</strong> \(F(35) = 63 + 32 = 95\), excede.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 40°C<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho mayor.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">El precio de venta incluye IVA del 19%: \(P(x) = 1{,}19x\). Si el precio final es \$35.700, el precio neto es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \$25.000<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho menor; \(P(25000) = 29750\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \$28.500<div class="opt-feedback"><strong>Incorrecto.</strong> \(P(28500) = 33915\), no llega a 35.700.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \$30.000<div class="opt-feedback"><strong>Correcto.</strong> Inversa: \(x = P/1{,}19 = 35700/1{,}19 = 30000\). Verifica: \(P(30000) = 35700\) ✓.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \$42.500<div class="opt-feedback"><strong>Incorrecto.</strong> Mayor que el precio final, lo cual es imposible.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Un objeto cae desde una altura \(h_{0}\) según \(h(t) = h_{0} - 5t^{2}\). Si \(h_{0} = 80\) m, ¿cuántos segundos demora en tocar el suelo?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 2 s<div class="opt-feedback"><strong>Incorrecto.</strong> En 2 s, \(h(2) = 80 - 20 = 60\) m, todavía no toca el suelo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4 s<div class="opt-feedback"><strong>Correcto.</strong> Toca el suelo cuando \(h = 0\): \(80 - 5t^{2} = 0 \Rightarrow t^{2} = 16 \Rightarrow t = 4\). Inversa cuadrática con dominio positivo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 8 s<div class="opt-feedback"><strong>Incorrecto.</strong> En 8 s, la altura sería negativa (imposible).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 16 s<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(t^{2}\) con \(t\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Para producir \(x\) camisetas, una empresa tiene costo total \(C(x) = 200x + 1500\). Si su presupuesto es \$15.500, ¿cuántas camisetas puede producir?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 50<div class="opt-feedback"><strong>Incorrecto.</strong> \(C(50) = 10000 + 1500 = 11500\), no usa todo el presupuesto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 70<div class="opt-feedback"><strong>Correcto.</strong> \(15500 = 200x + 1500 \Rightarrow 14000 = 200x \Rightarrow x = 70\). Inversa de costo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 80<div class="opt-feedback"><strong>Incorrecto.</strong> \(C(80) = 16000 + 1500 = 17500\), excede.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> \(C(100) = 21500\), muy por encima.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Has completado las 3 guías del OA 5. La función inversa es una de las herramientas más útiles en la vida real: convertir unidades, calcular tiempos, despejar precios, encontrar dimensiones. Cada vez que necesites "ir hacia atrás" en una relación funcional, estás usando una inversa. Ahora sabes calcularla, reconocerla y aplicarla.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">¡OA 5 completo!</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Problemas inversa · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  function makePlotter(canvas, cfg){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var xmin = cfg.xRange[0], xmax = cfg.xRange[1];
+    var ymin = cfg.yRange[0], ymax = cfg.yRange[1];
+    var ppuX = W / (xmax - xmin);
+    var ppuY = H / (ymax - ymin);
+
+    function wx(x){ return (x - xmin) * ppuX; }
+    function wy(y){ return H - (y - ymin) * ppuY; }
+
+    function clear(){ ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H); }
+
+    function drawGrid(){
+      ctx.strokeStyle = 'rgba(106,44,145,.1)';
+      ctx.lineWidth = 1;
+      var stepGridX = Math.max(1, Math.round((xmax - xmin) / 20));
+      var stepGridY = Math.max(1, Math.round((ymax - ymin) / 14));
+      for(var i = Math.ceil(xmin); i <= xmax; i++){
+        if(i % stepGridX !== 0) continue;
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+      }
+      for(var j = Math.ceil(ymin); j <= ymax; j++){
+        if(j % stepGridY !== 0) continue;
+        ctx.beginPath(); ctx.moveTo(0, wy(j)); ctx.lineTo(W, wy(j)); ctx.stroke();
+      }
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      if(xmin <= 0 && xmax >= 0){
+        ctx.beginPath(); ctx.moveTo(wx(0), 0); ctx.lineTo(wx(0), H); ctx.stroke();
+      }
+      if(ymin <= 0 && ymax >= 0){
+        ctx.beginPath(); ctx.moveTo(0, wy(0)); ctx.lineTo(W, wy(0)); ctx.stroke();
+      }
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '9px Inter, sans-serif';
+      var yLab = (ymin <= 0 && ymax >= 0) ? wy(0) + 10 : H - 2;
+      var xLab = (xmin <= 0 && xmax >= 0) ? wx(0) + 3 : 3;
+      for(var k = Math.ceil(xmin); k <= xmax; k++){
+        if(k === 0 || k % stepGridX !== 0) continue;
+        ctx.fillText(k.toString(), wx(k) - 4, yLab);
+      }
+      for(var m = Math.ceil(ymin); m <= ymax; m++){
+        if(m === 0 || m % stepGridY !== 0) continue;
+        ctx.fillText(m.toString(), xLab, wy(m) + 3);
+      }
+    }
+
+    function drawLine(slope, intercept, color, lineWidth, dashed){
+      ctx.strokeStyle = color || '#6A2C91';
+      ctx.lineWidth = lineWidth || 2.5;
+      if(dashed) ctx.setLineDash([6, 4]); else ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(wx(xmin), wy(slope * xmin + intercept));
+      ctx.lineTo(wx(xmax), wy(slope * xmax + intercept));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawPoint(x, y, color, label){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(wx(x), wy(y), 5, 0, 2*Math.PI);
+      ctx.fill(); ctx.stroke();
+      if(label){
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = 'bold 10px Inter, sans-serif';
+        ctx.fillText(label, wx(x) + 8, wy(y) - 6);
+      }
+    }
+
+    return { ctx: ctx, wx: wx, wy: wy, W: W, H: H, clear: clear, drawGrid: drawGrid, drawLine: drawLine, drawPoint: drawPoint };
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var p = makePlotter(c2a, {xRange:[-20, 60], yRange:[-20, 140]});
+      p.clear(); p.drawGrid();
+      // y = x (gris)
+      p.drawLine(1, 0, '#888', 1.5, true);
+      // F = (9/5)C + 32
+      p.drawLine(9/5, 32, '#6A2C91', 3);
+      // C = (5/9)(F - 32)
+      p.drawLine(5/9, -160/9, '#D4AF37', 3);
+      // Punto 100°C -> 212°F
+      p.drawPoint(100, 212, '#6A2C91', '100°C ↔ 212°F');
+    }
+  }
+
+  /* ====== TOOL 1: Convertidor universal ====== */
+  var convs = {
+    temp: {
+      labelA: 'Celsius (°C)', labelB: 'Fahrenheit (°F)',
+      fwd: function(c){ return c * 9/5 + 32; },
+      inv: function(f){ return (f - 32) * 5/9; },
+      fwdStr: 'F = (9/5)·C + 32',
+      invStr: 'C = (5/9)·(F − 32)',
+      example: 'Ejemplo: 100°C = 212°F (agua hirviendo)',
+      graphRange: {x:[-20, 50], y:[-20, 130]},
+      slope: 9/5, intercept: 32
+    },
+    dist: {
+      labelA: 'Kilómetros (km)', labelB: 'Millas (mi)',
+      fwd: function(k){ return k * 0.621; },
+      inv: function(m){ return m / 0.621; },
+      fwdStr: 'Millas = 0,621 · km',
+      invStr: 'km = Millas / 0,621',
+      example: 'Ejemplo: 100 km ≈ 62,1 millas',
+      graphRange: {x:[0, 100], y:[0, 70]},
+      slope: 0.621, intercept: 0
+    },
+    money: {
+      labelA: 'Dólares (USD)', labelB: 'Pesos chilenos (CLP)',
+      fwd: function(u){ return u * 950; },
+      inv: function(c){ return c / 950; },
+      fwdStr: 'CLP = 950 · USD',
+      invStr: 'USD = CLP / 950',
+      example: 'Ejemplo: 100 USD = 95.000 CLP (tasa referencial)',
+      graphRange: {x:[0, 200], y:[0, 200000]},
+      slope: 950, intercept: 0
+    },
+    speed: {
+      labelA: 'Velocidad (km/h)', labelB: 'Velocidad (m/s)',
+      fwd: function(v){ return v / 3.6; },
+      inv: function(s){ return s * 3.6; },
+      fwdStr: 'm/s = km/h / 3,6',
+      invStr: 'km/h = m/s · 3,6',
+      example: 'Ejemplo: 36 km/h = 10 m/s',
+      graphRange: {x:[0, 120], y:[0, 35]},
+      slope: 1/3.6, intercept: 0
+    }
+  };
+  var currentConv = 'temp';
+
+  function setupConverter(){
+    var btns = document.querySelectorAll('#conv-selector button');
+    var aInp = document.getElementById('conv-a');
+    var bInp = document.getElementById('conv-b');
+    var labelA = document.getElementById('conv-label-a');
+    var labelB = document.getElementById('conv-label-b');
+    var formulasEl = document.getElementById('conv-formulas');
+    var canvas = document.getElementById('conv-canvas');
+    if(!btns.length) return;
+
+    function updateFromA(){
+      var v = parseFloat(aInp.value);
+      if(isNaN(v)) return;
+      var c = convs[currentConv];
+      bInp.value = parseFloat(c.fwd(v).toFixed(2));
+    }
+    function updateFromB(){
+      var v = parseFloat(bInp.value);
+      if(isNaN(v)) return;
+      var c = convs[currentConv];
+      aInp.value = parseFloat(c.inv(v).toFixed(2));
+    }
+
+    function updateAll(){
+      var c = convs[currentConv];
+      labelA.textContent = c.labelA;
+      labelB.textContent = c.labelB;
+      formulasEl.innerHTML =
+        '<div><strong>Fórmula directa:</strong> ' + c.fwdStr + '</div>' +
+        '<div><strong>Fórmula inversa:</strong> ' + c.invStr + '</div>' +
+        '<div style="margin-top:.4rem;color:#555;font-style:italic;">' + c.example + '</div>';
+
+      // Dibuja gráfico
+      if(canvas){
+        var gr = c.graphRange;
+        var p = makePlotter(canvas, {xRange:gr.x, yRange:gr.y});
+        p.clear(); p.drawGrid();
+        // y = x (referencia)
+        var maxAxis = Math.max(gr.x[1], gr.y[1]);
+        p.drawLine(1, 0, '#888', 1.2, true);
+        // Función directa
+        p.drawLine(c.slope, c.intercept, '#6A2C91', 3);
+        // Función inversa: x = (y - intercept)/slope, es decir y = slope_inv·x + (-intercept/slope)
+        var slopeInv = 1 / c.slope;
+        var interceptInv = -c.intercept / c.slope;
+        p.drawLine(slopeInv, interceptInv, '#D4AF37', 3);
+        // Marcar punto actual
+        var v = parseFloat(aInp.value);
+        if(!isNaN(v)){
+          var vb = c.fwd(v);
+          p.drawPoint(v, vb, '#6A2C91');
+        }
+      }
+
+      // Recalcula valor de B
+      updateFromA();
+    }
+
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        currentConv = btn.dataset.conv;
+        // Resetea valores
+        var defaults = {temp:100, dist:100, money:100, speed:36};
+        aInp.value = defaults[currentConv];
+        updateAll();
+      });
+    });
+
+    aInp.addEventListener('input', function(){
+      updateFromA();
+      if(canvas){
+        var c = convs[currentConv];
+        var gr = c.graphRange;
+        var p = makePlotter(canvas, {xRange:gr.x, yRange:gr.y});
+        p.clear(); p.drawGrid();
+        p.drawLine(1, 0, '#888', 1.2, true);
+        p.drawLine(c.slope, c.intercept, '#6A2C91', 3);
+        p.drawLine(1/c.slope, -c.intercept/c.slope, '#D4AF37', 3);
+        var v = parseFloat(aInp.value);
+        if(!isNaN(v)) p.drawPoint(v, c.fwd(v), '#6A2C91');
+      }
+    });
+    bInp.addEventListener('input', updateFromB);
+
+    updateAll();
+  }
+
+  /* ====== TOOL 2: Resolutor de problemas ====== */
+  var problems = [
+    {
+      title: 'Costo de delivery',
+      text: 'Una empresa de delivery cobra \\(C(x) = 800 + 250x\\) pesos por enviar un paquete a \\(x\\) km. Si pagaste cierto monto, ¿a cuántos km lo enviaste?',
+      inputLabel: 'Monto pagado (\\$):',
+      defaultValue: 3300,
+      unit: '$',
+      solve: function(c){
+        var x = (c - 800) / 250;
+        return {
+          answer: x,
+          unit: 'km',
+          steps: [
+            'Plantear: ' + c + ' = 800 + 250x',
+            'Restar el cargo fijo: ' + c + ' − 800 = ' + (c - 800),
+            'Dividir por 250: x = ' + (c - 800) + ' / 250 = ' + x,
+            'Respuesta: ' + x + ' km'
+          ]
+        };
+      }
+    },
+    {
+      title: 'Conversión de temperatura',
+      text: 'Una receta en EE.UU. indica hornear a cierta temperatura en °F. Tu horno marca en °C. ¿A cuántos °C debes ponerlo?',
+      inputLabel: 'Temperatura (°F):',
+      defaultValue: 350,
+      unit: '°F',
+      solve: function(f){
+        var c = (f - 32) * 5/9;
+        return {
+          answer: parseFloat(c.toFixed(2)),
+          unit: '°C',
+          steps: [
+            'Fórmula inversa: C = (5/9)(F − 32)',
+            'Restar 32: ' + f + ' − 32 = ' + (f - 32),
+            'Multiplicar por 5/9: (5/9) · ' + (f - 32) + ' = ' + c.toFixed(2),
+            'Respuesta: ≈ ' + c.toFixed(2) + ' °C'
+          ]
+        };
+      }
+    },
+    {
+      title: 'Precio neto a partir del precio con IVA',
+      text: 'El precio final de un producto con IVA del 19% es \\(P(x) = 1{,}19x\\). Si pagaste cierto monto, ¿cuál era el precio neto (sin IVA)?',
+      inputLabel: 'Precio con IVA (\\$):',
+      defaultValue: 59500,
+      unit: '$',
+      solve: function(p){
+        var x = p / 1.19;
+        return {
+          answer: parseFloat(x.toFixed(2)),
+          unit: '$',
+          steps: [
+            'Inversa: x = P / 1,19',
+            'Dividir por 1,19: ' + p + ' / 1,19 = ' + x.toFixed(2),
+            'Respuesta: \\$' + x.toFixed(2) + ' (precio neto)'
+          ]
+        };
+      }
+    },
+    {
+      title: 'Caída libre',
+      text: 'Una piedra cae desde una altura inicial \\(h_{0}\\) según \\(h(t) = h_{0} - 5t^{2}\\). ¿Cuántos segundos tarda en tocar el suelo?',
+      inputLabel: 'Altura inicial (m):',
+      defaultValue: 80,
+      unit: 'm',
+      solve: function(h0){
+        if(h0 <= 0) return {answer: 0, unit: 's', steps: ['Altura debe ser positiva.']};
+        var t = Math.sqrt(h0 / 5);
+        return {
+          answer: parseFloat(t.toFixed(2)),
+          unit: 's',
+          steps: [
+            'Toca el suelo cuando h(t) = 0',
+            'Plantear: 0 = ' + h0 + ' − 5t²',
+            'Despejar t²: t² = ' + h0 + ' / 5 = ' + (h0/5),
+            'Sacar raíz: t = √' + (h0/5) + ' = ' + t.toFixed(2),
+            'Respuesta: ≈ ' + t.toFixed(2) + ' s'
+          ]
+        };
+      }
+    },
+    {
+      title: 'Producción con presupuesto',
+      text: 'Una empresa tiene costo \\(C(x) = 200x + 1500\\) por producir x camisetas. Con un presupuesto, ¿cuántas camisetas puede producir?',
+      inputLabel: 'Presupuesto (\\$):',
+      defaultValue: 15500,
+      unit: '$',
+      solve: function(b){
+        var x = (b - 1500) / 200;
+        return {
+          answer: Math.floor(x),
+          unit: 'camisetas',
+          steps: [
+            'Plantear: ' + b + ' = 200x + 1500',
+            'Restar el costo fijo: ' + b + ' − 1500 = ' + (b - 1500),
+            'Dividir por 200: x = ' + (b - 1500) + ' / 200 = ' + x,
+            'Como deben ser enteras, máximo: ' + Math.floor(x) + ' camisetas'
+          ]
+        };
+      }
+    }
+  ];
+
+  var probIndex = 0;
+
+  function renderProblem(){
+    var p = problems[probIndex];
+    var body = document.getElementById('prob-body');
+    if(!body) return;
+    body.innerHTML =
+      '<div class="prob-title">📋 ' + p.title + '</div>' +
+      '<div class="prob-text">' + p.text + '</div>' +
+      '<div class="prob-input-row">' +
+        '<label>' + p.inputLabel + '</label>' +
+        '<input id="prob-input" type="number" step="0.01" value="' + p.defaultValue + '" />' +
+        '<span class="unit">' + p.unit + '</span>' +
+        '<button id="prob-solve">Resolver</button>' +
+      '</div>' +
+      '<div class="prob-solution" id="prob-solution"></div>';
+
+    document.getElementById('prob-counter').textContent = 'Problema ' + (probIndex + 1) + ' de ' + problems.length;
+
+    document.getElementById('prob-solve').addEventListener('click', function(){
+      var val = parseFloat(document.getElementById('prob-input').value);
+      if(isNaN(val)){ alert('Ingresa un número válido.'); return; }
+      var result = p.solve(val);
+      var sol = document.getElementById('prob-solution');
+      var stepsHtml = '';
+      for(var i = 0; i < result.steps.length; i++){
+        stepsHtml += '<span class="step">▸ ' + result.steps[i] + '</span>';
+      }
+      sol.innerHTML = stepsHtml + '<div class="answer">Respuesta: ' + result.answer + ' ' + result.unit + '</div>';
+      sol.classList.add('show');
+      if(window.renderMathInElement) window.renderMathInElement(sol);
+    });
+
+    if(window.renderMathInElement) window.renderMathInElement(body);
+  }
+
+  function setupProblemSolver(){
+    var prevBtn = document.getElementById('prob-prev');
+    var nextBtn = document.getElementById('prob-next');
+    if(!prevBtn) return;
+    prevBtn.addEventListener('click', function(){
+      probIndex = (probIndex - 1 + problems.length) % problems.length;
+      renderProblem();
+    });
+    nextBtn.addEventListener('click', function(){
+      probIndex = (probIndex + 1) % problems.length;
+      renderProblem();
+    });
+    renderProblem();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupConverter();
+    setupProblemSolver();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

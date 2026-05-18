@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Concepto de potencias — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    /* Diagrama de partes de una potencia */
+    .pot-diagram{display:flex;justify-content:center;align-items:flex-start;gap:2.5rem;margin:1.2rem 0;padding:1.5rem 1rem;background:#f8f9ff;border:2px solid #D4AF37;border-radius:12px;flex-wrap:wrap;}
+    .pot-piece{text-align:center;}
+    .pot-piece .pot-label{display:block;color:#6A2C91;font-weight:800;font-size:.85rem;margin-bottom:.4rem;font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;letter-spacing:1px;}
+    .pot-piece .pot-symbol{font-size:2.5rem;font-weight:800;color:#0B0F3F;font-family:'Plus Jakarta Sans',sans-serif;}
+    .pot-piece.exp .pot-symbol{font-size:1.8rem;color:#6A2C91;}
+    .pot-piece .pot-explain{display:block;font-size:.78rem;color:#555;margin-top:.4rem;max-width:140px;}
+
+    /* Tabla de potencias */
+    .pow-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .pow-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:center;font-weight:700;}
+    .pow-table td{padding:.5rem;border:1px solid #ddd;text-align:center;}
+    .pow-table tr:nth-child(even){background:#f8f4e9;}
+
+    /* Herramienta calculadora */
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:300px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .pot-input-row{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;}
+    .pot-input-row input{width:60px;padding:.45rem;text-align:center;border:2px solid #6A2C91;border-radius:6px;font-size:1.1rem;font-weight:700;color:#0B0F3F;font-family:'Inter',sans-serif;}
+    .frac-input{display:flex;flex-direction:column;align-items:center;gap:.2rem;}
+    .frac-input input{width:55px;}
+    .frac-bar{width:55px;height:2.5px;background:#6A2C91;border-radius:2px;}
+    .base-type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    .base-type-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;}
+    .base-type-toggle button.active{background:#6A2C91;color:#fff;}
+    .base-type-toggle button:hover{background:#552072;color:#fff;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+
+    /* Comparador visual */
+    canvas.grow-canvas{width:100%;height:280px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button,.base-type-toggle{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué es una potencia?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Concepto y notación de potencias</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Base y exponente</span>
+    <span class="chip">Exponente entero</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Comprender el concepto de <strong>potencia</strong> de base racional y exponente entero, reconociendo sus partes (base, exponente, valor) y calculando casos con base entera, fraccionaria, positiva y negativa.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es una potencia?</div>
+
+      <p>Una <strong>potencia</strong> es una forma <em>abreviada</em> de escribir una multiplicación repetida del mismo número. En lugar de escribir \(2 \cdot 2 \cdot 2 \cdot 2 \cdot 2\), escribimos \(2^5\) (que se lee "dos elevado a cinco").</p>
+
+      <div class="math-box">\(a^n = \underbrace{a \cdot a \cdot a \cdot \ldots \cdot a}_{n \text{ veces}}\)</div>
+
+      <p>Las potencias aparecen en muchísimas situaciones: cuando algo se duplica varias veces (bacterias, dinero al interés compuesto), cuando se calcula el volumen de un cubo, o cuando aparecen unidades como km², m³, etc.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Partes de una potencia</div>
+
+      <p>Toda potencia tiene tres partes que debes identificar siempre:</p>
+
+      <div class="pot-diagram">
+        <div class="pot-piece">
+          <span class="pot-label">Base</span>
+          <span class="pot-symbol">2</span>
+          <span class="pot-explain">El número que se multiplica.</span>
+        </div>
+        <div class="pot-piece exp">
+          <span class="pot-label">Exponente</span>
+          <span class="pot-symbol" style="font-size:2.5rem;color:#0B0F3F;">2<sup style="font-size:1.6rem;color:#6A2C91;">5</sup></span>
+          <span class="pot-explain">Cuántas veces se multiplica la base.</span>
+        </div>
+        <div class="pot-piece">
+          <span class="pot-label">Valor</span>
+          <span class="pot-symbol">32</span>
+          <span class="pot-explain">El resultado del cálculo: \(2 \cdot 2 \cdot 2 \cdot 2 \cdot 2\).</span>
+        </div>
+      </div>
+
+      <div class="card card-def">
+        <strong>Lectura:</strong> \(a^n\) se lee "\(a\) elevado a \(n\)" o "\(a\) a la \(n\)". Casos especiales:
+        <ul style="margin-top:.4rem;">
+          <li>\(a^2\) → "\(a\) <em>al cuadrado</em>".</li>
+          <li>\(a^3\) → "\(a\) <em>al cubo</em>".</li>
+          <li>\(a^4\), \(a^5\), … → "\(a\) elevado a la cuarta", "quinta", etc.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Primeros ejemplos</div>
+
+      <div class="math-block">
+        <span class="math-step">\(3^2 = 3 \cdot 3 = 9\) → "tres al cuadrado es nueve".</span>
+        <span class="math-step">\(5^3 = 5 \cdot 5 \cdot 5 = 125\) → "cinco al cubo es ciento veinticinco".</span>
+        <span class="math-step">\(2^4 = 2 \cdot 2 \cdot 2 \cdot 2 = 16\) → "dos elevado a la cuarta es dieciséis".</span>
+        <span class="math-step">\(10^5 = 100.000\) → "diez elevado a la quinta es cien mil".</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Base racional
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Potencias con base racional</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Fracciones elevadas</span>
+    <span class="chip">Decimales elevados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Cuando la base es una fracción</div>
+
+      <p>Si la base es una fracción, el exponente se aplica <strong>tanto al numerador como al denominador</strong>:</p>
+      <div class="math-box">\(\left(\dfrac{a}{b}\right)^n = \dfrac{a^n}{b^n}\)</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(\left(\dfrac{2}{3}\right)^2 = \dfrac{2^2}{3^2} = \dfrac{4}{9}\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(\left(\dfrac{1}{5}\right)^3 = \dfrac{1^3}{5^3} = \dfrac{1}{125}\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(\left(\dfrac{3}{4}\right)^2 = \dfrac{9}{16}\).</span>
+      </div>
+
+      <div class="card card-warn">
+        <span class="card-label">Atención</span>
+        Una fracción <strong>siempre</strong> debe ir entre paréntesis cuando se eleva. \(\left(\dfrac{2}{3}\right)^2 \neq \dfrac{2}{3^2}\). El primero da \(\dfrac{4}{9}\); el segundo daría \(\dfrac{2}{9}\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cuando la base es decimal</div>
+
+      <p>Funciona igual. Multiplica el decimal por sí mismo tantas veces como indique el exponente.</p>
+      <div class="math-block">
+        <span class="math-step">\((0,5)^2 = 0,5 \cdot 0,5 = 0,25\).</span>
+        <span class="math-step">\((0,1)^3 = 0,1 \cdot 0,1 \cdot 0,1 = 0,001\).</span>
+        <span class="math-step">\((1,5)^2 = 1,5 \cdot 1,5 = 2,25\).</span>
+      </div>
+
+      <p>A veces es más cómodo convertir el decimal a fracción primero:</p>
+      <div class="math-block">
+        <span class="math-step">\((0,5)^2 = \left(\dfrac{1}{2}\right)^2 = \dfrac{1}{4} = 0,25\). ✔ Mismo resultado.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Observación clave: \(0 < |a| < 1\)</div>
+
+      <p>Si la <strong>base</strong> es una fracción o decimal entre 0 y 1 (en valor absoluto), al elevarla a una potencia <strong>positiva</strong> el resultado <em>disminuye</em>:</p>
+      <div class="math-block">
+        <span class="math-step">\(\left(\dfrac{1}{2}\right)^1 = \dfrac{1}{2}\), \(\left(\dfrac{1}{2}\right)^2 = \dfrac{1}{4}\), \(\left(\dfrac{1}{2}\right)^3 = \dfrac{1}{8}\), \(\left(\dfrac{1}{2}\right)^4 = \dfrac{1}{16}\)…</span>
+        <span class="math-step">Cuanto mayor el exponente, <strong>más pequeño</strong> el resultado.</span>
+      </div>
+
+      <p>En cambio, si la base es mayor que 1, al subir el exponente el resultado <em>crece</em> rápidamente:</p>
+      <div class="math-block">
+        <span class="math-step">\(2^1 = 2\), \(2^2 = 4\), \(2^3 = 8\), \(2^4 = 16\), \(2^{10} = 1.024\), \(2^{20} = 1.048.576\)…</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Signo de la base y exponente
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Signos en las potencias</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Base negativa</span>
+    <span class="chip">Exponente par/impar</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Base negativa: ¿cuándo el resultado es positivo?</div>
+
+      <p>Cuando la base es <strong>negativa</strong>, el signo del resultado depende del <strong>exponente</strong>:</p>
+
+      <table class="pow-table">
+        <thead><tr><th>Base</th><th>Exponente</th><th>Signo del resultado</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>positiva</td><td>cualquiera</td><td><strong>+</strong></td><td>\(3^2=9\), \(3^3=27\)</td></tr>
+          <tr><td>negativa</td><td><strong>par</strong></td><td><strong>+</strong></td><td>\((-3)^2 = 9\), \((-2)^4=16\)</td></tr>
+          <tr><td>negativa</td><td><strong>impar</strong></td><td><strong>−</strong></td><td>\((-3)^3 = -27\), \((-2)^5=-32\)</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>¿Por qué?</strong> Porque al multiplicar un número negativo por sí mismo un número par de veces, los signos negativos se "cancelan" de a pares. Si el exponente es impar, sobra un signo negativo sin pareja.</p>
+
+      <div class="math-block">
+        <span class="math-step">\((-2)^4 = (-2)\cdot(-2)\cdot(-2)\cdot(-2)\)</span>
+        <span class="math-step">\(\quad = \underbrace{(-2)(-2)}_{=4} \cdot \underbrace{(-2)(-2)}_{=4} = 4 \cdot 4 = 16\). ✔ Positivo.</span>
+        <span class="math-step">\((-2)^5 = (-2)^4 \cdot (-2) = 16 \cdot (-2) = -32\). ✔ Negativo.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¡Ojo con el paréntesis!</div>
+
+      <p>El paréntesis cambia todo. Compara:</p>
+
+      <div class="math-block">
+        <span class="math-step">\((-3)^2 = (-3) \cdot (-3) = 9\) → con paréntesis: base es \(-3\).</span>
+        <span class="math-step">\(-3^2 = -(3^2) = -(3 \cdot 3) = -9\) → sin paréntesis: el "−" no entra al cuadrado.</span>
+      </div>
+
+      <div class="card card-warn">
+        <span class="card-label">Regla práctica</span>
+        Si quieres que el signo negativo forme parte de la base, <strong>siempre</strong> escribe paréntesis: \((-a)^n\). Sin paréntesis, el signo se aplica <em>después</em> del cálculo de la potencia.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Casos especiales con base 0 y 1</div>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li><strong>0 elevado a cualquier número positivo</strong>: \(0^n = 0\) (siempre). Ej.: \(0^5 = 0\).</li>
+        <li><strong>1 elevado a cualquier cosa</strong>: \(1^n = 1\) (siempre). Ej.: \(1^{100} = 1\).</li>
+        <li><strong>(-1) elevado</strong>: \((-1)^n = 1\) si \(n\) es par; \((-1)^n = -1\) si \(n\) es impar.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Calculadora
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Calculadora de potencias</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Calculadora de potencias con desarrollo</div>
+
+      <p>Elige el tipo de base (entera o fraccionaria), ingresa los valores y el exponente. La herramienta te muestra el <strong>desarrollo completo</strong> de la multiplicación y el resultado.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="base-type-toggle">
+            <button id="btnBaseInt" class="active" onclick="setBaseType('int')">Base entera</button>
+            <button id="btnBaseFrac" onclick="setBaseType('frac')">Base fracción</button>
+          </div>
+
+          <div class="input-control" id="intControls">
+            <label>Base entera y exponente:</label>
+            <div class="pot-input-row">
+              <input type="number" id="intBase" value="2" />
+              <span style="font-size:1.5rem;color:#6A2C91;font-weight:700;">^</span>
+              <input type="number" id="intExp" value="5" />
+            </div>
+          </div>
+
+          <div class="input-control" id="fracControls" style="display:none;">
+            <label>Base fraccionaria y exponente:</label>
+            <div class="pot-input-row">
+              <div class="frac-input">
+                <input type="number" id="fracNum" value="2" />
+                <div class="frac-bar"></div>
+                <input type="number" id="fracDen" value="3" />
+              </div>
+              <span style="font-size:1.5rem;color:#6A2C91;font-weight:700;">^</span>
+              <input type="number" id="fracExp" value="3" />
+            </div>
+          </div>
+
+          <div class="preset-buttons">
+            <button onclick="loadPreset('2','5')">2⁵</button>
+            <button onclick="loadPreset('-3','2')">(−3)²</button>
+            <button onclick="loadPreset('-3','3')">(−3)³</button>
+            <button onclick="loadPreset('10','4')">10⁴</button>
+            <button onclick="loadFracPreset('2','3','2')">(2/3)²</button>
+            <button onclick="loadFracPreset('1','2','4')">(1/2)⁴</button>
+            <button onclick="loadFracPreset('-3','5','3')">(−3/5)³</button>
+          </div>
+
+          <button class="calc-button" onclick="computePower()">Calcular →</button>
+        </div>
+
+        <div class="tool-display" id="powerDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa una base y un exponente, y presiona <strong>Calcular</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Tip</span>
+        Para bases negativas escribe el signo en el número (ej.: \(-3\)). Para fracciones negativas, pon el signo en el numerador.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Exponente cero y exponente negativo
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Exponente cero y exponente negativo</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Exponente entero</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Exponente cero: \(a^0\)</div>
+
+      <div class="math-box">\(a^0 = 1\), &nbsp; para todo \(a \neq 0\).</div>
+
+      <p>Cualquier número (excepto el cero) elevado a cero da <strong>1</strong>. Es un resultado que sorprende, pero tiene sentido si miramos el patrón:</p>
+
+      <table class="pow-table">
+        <thead><tr><th>Potencia</th><th>Valor</th><th>Patrón al bajar el exponente</th></tr></thead>
+        <tbody>
+          <tr><td>\(2^4\)</td><td>16</td><td>—</td></tr>
+          <tr><td>\(2^3\)</td><td>8</td><td>16 ÷ 2 = 8</td></tr>
+          <tr><td>\(2^2\)</td><td>4</td><td>8 ÷ 2 = 4</td></tr>
+          <tr><td>\(2^1\)</td><td>2</td><td>4 ÷ 2 = 2</td></tr>
+          <tr><td>\(2^0\)</td><td><strong>1</strong></td><td>2 ÷ 2 = <strong>1</strong></td></tr>
+        </tbody>
+      </table>
+
+      <p>Para mantener el patrón "cada vez que bajo el exponente en 1, divido por la base", \(2^0\) debe ser \(1\).</p>
+
+      <div class="card card-warn">
+        <span class="card-label">Cuidado</span>
+        \(0^0\) <strong>no está definido</strong>. Si te aparece, hay un error en el problema o en el desarrollo.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Exponente negativo: \(a^{-n}\)</div>
+
+      <div class="math-box">\(a^{-n} = \dfrac{1}{a^n}\), &nbsp; para todo \(a \neq 0\).</div>
+
+      <p>Un exponente negativo significa <strong>recíproco</strong>. La potencia se "da vuelta": baja al denominador y el exponente se vuelve positivo.</p>
+
+      <div class="math-block">
+        <span class="math-step">\(2^{-3} = \dfrac{1}{2^3} = \dfrac{1}{8}\).</span>
+        <span class="math-step">\(5^{-2} = \dfrac{1}{5^2} = \dfrac{1}{25}\).</span>
+        <span class="math-step">\(10^{-1} = \dfrac{1}{10} = 0,1\).</span>
+        <span class="math-step">\(10^{-4} = \dfrac{1}{10.000} = 0,0001\).</span>
+      </div>
+
+      <p>Si la base es una <strong>fracción</strong>, el exponente negativo equivale a <strong>invertir</strong> la fracción:</p>
+      <div class="math-block">
+        <span class="math-step">\(\left(\dfrac{2}{3}\right)^{-2} = \left(\dfrac{3}{2}\right)^{2} = \dfrac{9}{4}\).</span>
+        <span class="math-step">\(\left(\dfrac{1}{5}\right)^{-3} = 5^3 = 125\).</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Truco rápido para fracciones</span>
+        \(\left(\dfrac{a}{b}\right)^{-n} = \left(\dfrac{b}{a}\right)^{n}\). Cambia el signo del exponente y "da vuelta" la fracción al mismo tiempo.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Comparador de crecimiento
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Comparador de crecimiento</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Crecer vs. decrecer</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Crece o decrece?</div>
+
+      <p>Elige una base y la herramienta grafica los valores \(a^1, a^2, \ldots, a^8\). Verás de inmediato si la potencia <strong>crece</strong> (base &gt; 1) o <strong>decrece</strong> (base entre 0 y 1).</p>
+
+      <div class="tool-controls" style="margin-bottom:.8rem;">
+        <div class="input-control">
+          <label for="growBase">Base (puede ser decimal o fracción):</label>
+          <div class="pot-input-row">
+            <input type="text" id="growBase" value="2" style="width:120px;" />
+          </div>
+        </div>
+        <div class="preset-buttons">
+          <button onclick="setGrow('2')">2 (crece)</button>
+          <button onclick="setGrow('3')">3 (crece rápido)</button>
+          <button onclick="setGrow('1.5')">1,5 (crece lento)</button>
+          <button onclick="setGrow('1/2')">1/2 (decrece)</button>
+          <button onclick="setGrow('1/3')">1/3 (decrece rápido)</button>
+          <button onclick="setGrow('0.9')">0,9 (decrece lento)</button>
+        </div>
+        <button class="calc-button" onclick="drawGrow()">Graficar →</button>
+      </div>
+
+      <canvas id="growCanvas" class="grow-canvas" width="900" height="280"></canvas>
+
+      <div id="growLabel" style="margin-top:.7rem;font-size:.95rem;color:#0B0F3F;"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Interpretación</div>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Si la base es <strong>&gt; 1</strong>: la potencia <strong>crece</strong>. Cuanto mayor la base, más rápido crece.</li>
+        <li>Si la base está entre <strong>0 y 1</strong>: la potencia <strong>decrece</strong>. Cuanto más cerca de 0, más rápido decrece.</li>
+        <li>Si la base es <strong>1</strong>: la potencia es siempre 1 (constante).</li>
+      </ul>
+
+      <p>Este comportamiento es la base del <strong>crecimiento exponencial</strong> (bacterias, intereses, virus) y del <strong>decrecimiento exponencial</strong> (desintegración radiactiva, depreciación, enfriamiento).</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Concepto de potencias — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El valor de \(4^3\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente (\(4 \cdot 3\)).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 64<div class="opt-feedback"><strong>Correcto.</strong> \(4^3 = 4 \cdot 4 \cdot 4 = 64\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(4^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 256<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(4^4\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\(\left(\dfrac{1}{3}\right)^2\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se multiplica solo el denominador.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{9}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{1^2}{3^2} = \dfrac{1}{9}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\left(\dfrac{1}{3}\right)^1\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\((-2)^4\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> −16<div class="opt-feedback"><strong>Incorrecto.</strong> Exponente par y base negativa → resultado positivo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 16<div class="opt-feedback"><strong>Correcto.</strong> \((-2)^4 = 16\) (exponente par anula el signo).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> −8<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \((-2)^3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> \((-2)^3 = -8\) y \((-2)^4 = 16\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(7^0\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 0<div class="opt-feedback"><strong>Incorrecto.</strong> Todo número (≠ 0) elevado a 0 es 1.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1<div class="opt-feedback"><strong>Correcto.</strong> \(a^0 = 1\) para todo \(a \neq 0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 7<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(7^1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No está definido.<div class="opt-feedback"><strong>Incorrecto.</strong> Sí está definido. \(0^0\) sí es indefinido, pero no \(7^0\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(2^{-3}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> −8<div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo no significa "negativo del resultado".</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> −6<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> \(2^{-3} = \dfrac{1}{2^3} = \dfrac{1}{8}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente en lugar de calcular la potencia.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\(\left(\dfrac{2}{5}\right)^{-2}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(-\dfrac{4}{25}\)<div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo no cambia signos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{4}{25}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(\left(\dfrac{2}{5}\right)^{2}\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{25}{4}\)<div class="opt-feedback"><strong>Correcto.</strong> Inviertes la fracción: \(\left(\dfrac{5}{2}\right)^2 = \dfrac{25}{4}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{5}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste aplicar el exponente al invertir.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\((-3)^2 \neq -3^2\). ¿Cuáles son los valores correctos?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((-3)^2 = 9\) y \(-3^2 = -9\).<div class="opt-feedback"><strong>Correcto.</strong> Con paréntesis, el \(-\) entra; sin paréntesis, queda fuera.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((-3)^2 = -9\) y \(-3^2 = 9\).<div class="opt-feedback"><strong>Incorrecto.</strong> Invertiste los valores.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Ambos valen 9.<div class="opt-feedback"><strong>Incorrecto.</strong> El sin paréntesis vale \(-9\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Ambos valen \(-9\).<div class="opt-feedback"><strong>Incorrecto.</strong> El con paréntesis vale 9.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(\left(-\dfrac{2}{3}\right)^3\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{8}{27}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Base negativa con exponente impar → resultado negativo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(-\dfrac{8}{27}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\left(-\dfrac{2}{3}\right)^3 = \dfrac{(-2)^3}{3^3} = \dfrac{-8}{27}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(-\dfrac{6}{9}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{6}{9}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Doble error: signo y operación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál de las siguientes potencias es la <strong>menor</strong>?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\left(\dfrac{1}{2}\right)^3 = \dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es la más pequeña.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\left(\dfrac{1}{2}\right)^5 = \dfrac{1}{32}\)<div class="opt-feedback"><strong>Correcto.</strong> Con base entre 0 y 1, a mayor exponente, menor resultado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\left(\dfrac{1}{2}\right)^2 = \dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la mayor de las cuatro.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\left(\dfrac{1}{2}\right)^4 = \dfrac{1}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Menor que A y C, pero mayor que B.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Escribe \(0,0001\) como potencia de 10 con exponente entero.</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(10^4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 10.000.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(10^{-3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\dfrac{1}{1.000} = 0,001\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(10^{-4}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{1}{10^4} = \dfrac{1}{10.000} = 0,0001\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(10^{-5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(0,00001\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Concepto de potencias — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Potencias de base racional</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">El valor de \(5^3\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 15<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(5 \cdot 3\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 125<div class="opt-feedback"><strong>Correcto.</strong> \(5 \cdot 5 \cdot 5 = 125\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 25<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(5^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 35<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(\left(\dfrac{3}{4}\right)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{6}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{9}{16}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{3^2}{4^2} = \dfrac{9}{16}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{3}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> El exponente también va al numerador.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{9}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No elevaste el denominador.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">\((-3)^3\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 27<div class="opt-feedback"><strong>Incorrecto.</strong> Base negativa con exponente impar → resultado negativo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> −27<div class="opt-feedback"><strong>Correcto.</strong> \((-3)\cdot(-3)\cdot(-3) = 9 \cdot (-3) = -27\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 9<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((-3)^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> −9<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(-3^2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuál de las siguientes potencias es igual a 1?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(0^0\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(0^0\) no está definido.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(0^7\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(0^7 = 0\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(7^0\)<div class="opt-feedback"><strong>Correcto.</strong> \(a^0 = 1\) para todo \(a \neq 0\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(7^1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 7.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">\(10^{-2}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-100\)<div class="opt-feedback"><strong>Incorrecto.</strong> El exponente negativo no genera resultado negativo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-20\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0,01<div class="opt-feedback"><strong>Correcto.</strong> \(10^{-2} = \dfrac{1}{100} = 0,01\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 0,001<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(10^{-3}\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuál es el resultado de \(\left(\dfrac{1}{4}\right)^{-1}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Exponente negativo no genera signo negativo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\left(\dfrac{1}{4}\right)^1\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 4<div class="opt-feedback"><strong>Correcto.</strong> Inviertes la fracción: \(\left(\dfrac{4}{1}\right)^1 = 4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(\left(\dfrac{1}{4}\right)^{-2}\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuál es el valor de \(-2^4\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \((-2)^4\). Sin paréntesis, el signo queda fuera.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> −16<div class="opt-feedback"><strong>Correcto.</strong> \(-2^4 = -(2^4) = -16\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> −8<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste \(-2^3\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">\(\left(\dfrac{2}{3}\right)^{-3}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{8}{27}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\left(\dfrac{2}{3}\right)^3\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{27}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> Inviertes: \(\left(\dfrac{3}{2}\right)^3 = \dfrac{27}{8}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(-\dfrac{8}{27}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sin signo negativo en la base.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{3}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el exponente.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Si \(a = \left(\dfrac{1}{3}\right)^2\) y \(b = \left(\dfrac{1}{3}\right)^4\), ¿cuál afirmación es correcta?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a > b\)<div class="opt-feedback"><strong>Correcto.</strong> \(a = \dfrac{1}{9}\), \(b = \dfrac{1}{81}\). Con base entre 0 y 1, mayor exponente → menor valor.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(a < b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Te confundiste con el comportamiento de bases &gt; 1.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(a = b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Tienen distintos exponentes.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Faltan datos.<div class="opt-feedback"><strong>Incorrecto.</strong> Hay suficiente información.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Escribe \(\dfrac{1}{1.000}\) como potencia de 10:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(10^3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 1.000, no \(\dfrac{1}{1.000}\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(10^{-3}\)<div class="opt-feedback"><strong>Correcto.</strong> \(10^{-3} = \dfrac{1}{10^3} = \dfrac{1}{1.000}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(10^{-2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\dfrac{1}{100}=0,01\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(10^{1/3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la raíz cúbica de 10.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya sabes leer, escribir y calcular potencias con base racional y exponente entero. Tienes claro qué pasa con el signo según la paridad del exponente, qué significan \(a^0\) y \(a^{-n}\), y cuándo una potencia crece o decrece.</p>
+    <p>En las próximas guías aprovecharemos estas bases para descubrir las <strong>propiedades</strong> que permiten multiplicar, dividir y elevar potencias entre sí sin tener que expandirlas.</p>
+    <span class="next-pill">Próximo: Multiplicación y división de potencias</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Concepto de potencias · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Utilidades ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+function simplifyFrac(n,d){const g=gcd(n,d);n/=g;d/=g;if(d<0){n=-n;d=-d;}return [n,d];}
+function powInt(b,e){return Math.pow(b,e);}
+
+/* ---------- Calculadora de potencias ---------- */
+let baseType='int';
+function setBaseType(t){
+  baseType=t;
+  document.getElementById('btnBaseInt').classList.toggle('active',t==='int');
+  document.getElementById('btnBaseFrac').classList.toggle('active',t==='frac');
+  document.getElementById('intControls').style.display = t==='int'?'block':'none';
+  document.getElementById('fracControls').style.display = t==='frac'?'block':'none';
+  computePower();
+}
+function loadPreset(b,e){
+  setBaseType('int');
+  document.getElementById('intBase').value=b;
+  document.getElementById('intExp').value=e;
+  computePower();
+}
+function loadFracPreset(n,d,e){
+  setBaseType('frac');
+  document.getElementById('fracNum').value=n;
+  document.getElementById('fracDen').value=d;
+  document.getElementById('fracExp').value=e;
+  computePower();
+}
+
+function computePower(){
+  const out = document.getElementById('powerDisplay');
+  if(baseType==='int'){
+    const b = parseInt(document.getElementById('intBase').value);
+    const e = parseInt(document.getElementById('intExp').value);
+    if(isNaN(b)||isNaN(e)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa base y exponente.</p>'; return; }
+
+    let expression, devel, result;
+    const bStr = b<0?`(${b})`:`${b}`;
+    if(e===0){
+      expression = `\\(${bStr}^{0}\\)`;
+      devel = `Cualquier número (≠ 0) elevado a 0 es 1.`;
+      result = (b===0)?'no definido':1;
+    } else if(e>0){
+      expression = `\\(${bStr}^{${e}}\\)`;
+      const parts = Array(e).fill(bStr).join(' \\cdot ');
+      devel = `\\(= ${parts}\\)`;
+      result = powInt(b,e);
+    } else {
+      const ePos = -e;
+      expression = `\\(${bStr}^{${e}}\\)`;
+      devel = `\\(= \\dfrac{1}{${bStr}^{${ePos}}} = \\dfrac{1}{${powInt(b,ePos)}}\\)`;
+      const v = powInt(b,ePos);
+      result = `\\(\\dfrac{1}{${v}}\\) ≈ ${(1/v).toExponential(3)}`;
+    }
+
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.5rem;color:#0B0F3F;font-weight:700;margin-bottom:.7rem;">${expression}</div>
+      <div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.7rem;border-radius:0 6px 6px 0;margin-bottom:.7rem;font-size:.95rem;">${devel}</div>
+      <div style="text-align:center;"><span class="math-result" style="font-size:1.2rem;">Resultado: ${result}</span></div>
+    `;
+  } else {
+    const n = parseInt(document.getElementById('fracNum').value);
+    const d = parseInt(document.getElementById('fracDen').value);
+    const e = parseInt(document.getElementById('fracExp').value);
+    if(isNaN(n)||isNaN(d)||isNaN(e)||d===0){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa numerador, denominador (≠ 0) y exponente.</p>'; return; }
+
+    let expression, devel, result;
+    const fracStr = `\\dfrac{${n}}{${d}}`;
+    expression = `\\(\\left(${fracStr}\\right)^{${e}}\\)`;
+
+    if(e===0){
+      devel = `Cualquier base (≠ 0) elevada a 0 es 1.`;
+      result = 1;
+    } else if(e>0){
+      const numP = powInt(n,e);
+      const denP = powInt(d,e);
+      devel = `\\(= \\dfrac{${n}^{${e}}}{${d}^{${e}}} = \\dfrac{${numP}}{${denP}}\\)`;
+      const [sn,sd] = simplifyFrac(numP, denP);
+      result = `\\(\\dfrac{${numP}}{${denP}}\\)` + (sn!==numP||sd!==denP?` = \\(\\dfrac{${sn}}{${sd}}\\)`:'') + ` ≈ ${(numP/denP).toFixed(6)}`;
+    } else {
+      const ePos = -e;
+      const numP = powInt(d,ePos);
+      const denP = powInt(n,ePos);
+      devel = `\\(= \\left(\\dfrac{${d}}{${n}}\\right)^{${ePos}} = \\dfrac{${numP}}{${denP}}\\)`;
+      const [sn,sd] = simplifyFrac(numP, denP);
+      result = `\\(\\dfrac{${numP}}{${denP}}\\)` + (sn!==numP||sd!==denP?` = \\(\\dfrac{${sn}}{${sd}}\\)`:'') + ` ≈ ${(numP/denP).toFixed(6)}`;
+    }
+
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.5rem;color:#0B0F3F;font-weight:700;margin-bottom:.7rem;">${expression}</div>
+      <div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.7rem;border-radius:0 6px 6px 0;margin-bottom:.7rem;font-size:.95rem;">${devel}</div>
+      <div style="text-align:center;"><span class="math-result" style="font-size:1.05rem;">Resultado: ${result}</span></div>
+    `;
+  }
+
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true}]});
+  }
+}
+
+/* ---------- Comparador de crecimiento ---------- */
+function parseBase(str){
+  str = str.trim().replace(',','.');
+  if(str.includes('/')){
+    const [a,b] = str.split('/').map(s=>parseFloat(s));
+    if(b===0) return null;
+    return a/b;
+  }
+  const v = parseFloat(str);
+  return isNaN(v)?null:v;
+}
+function setGrow(s){ document.getElementById('growBase').value=s; drawGrow(); }
+
+function drawGrow(){
+  const raw = document.getElementById('growBase').value;
+  const base = parseBase(raw);
+  const cv = document.getElementById('growCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const lbl = document.getElementById('growLabel');
+  ctx.clearRect(0,0,W,H);
+  if(base===null || base<=0){ lbl.innerHTML='<span style="color:#a44;">⚠ Ingresa una base positiva (puede ser fracción o decimal).</span>'; return; }
+
+  // Valores de a^1 .. a^8
+  const N = 8;
+  const vals = [];
+  for(let i=1;i<=N;i++) vals.push(Math.pow(base,i));
+
+  const maxV = Math.max(...vals, 1);
+  const minV = 0;
+
+  // Ejes
+  const padL=60, padR=20, padT=20, padB=40;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  ctx.strokeStyle = '#999';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT); ctx.lineTo(padL, padT+plotH); ctx.lineTo(padL+plotW, padT+plotH);
+  ctx.stroke();
+
+  // Etiquetas eje X
+  ctx.fillStyle = '#444';
+  ctx.font = '11px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  for(let i=1;i<=N;i++){
+    const x = padL + (i-0.5)*(plotW/N);
+    ctx.fillText(`n=${i}`, x, padT+plotH+18);
+  }
+
+  // Etiquetas eje Y
+  ctx.textAlign = 'right';
+  const yTicks = 5;
+  for(let i=0;i<=yTicks;i++){
+    const v = minV + (maxV-minV)*i/yTicks;
+    const y = padT+plotH - (i/yTicks)*plotH;
+    ctx.strokeStyle = '#eee';
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL+plotW, y); ctx.stroke();
+    ctx.fillStyle = '#444';
+    ctx.fillText(v.toFixed(maxV<2?3:0), padL-5, y+4);
+  }
+
+  // Barras
+  const barW = plotW/N * 0.6;
+  for(let i=0;i<N;i++){
+    const v = vals[i];
+    const x = padL + (i+0.5)*(plotW/N) - barW/2;
+    const h = (v-minV)/(maxV-minV)*plotH;
+    const y = padT+plotH - h;
+    ctx.fillStyle = base>=1? '#6A2C91':'#D4AF37';
+    ctx.fillRect(x, y, barW, h);
+    ctx.strokeStyle = '#0B0F3F';
+    ctx.lineWidth=1;
+    ctx.strokeRect(x, y, barW, h);
+    // Valor encima
+    ctx.fillStyle = '#0B0F3F';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.textAlign='center';
+    const lblTxt = v<1?v.toFixed(4):(v>1000?v.toExponential(1):v.toFixed(2));
+    ctx.fillText(lblTxt, x+barW/2, y-5);
+  }
+
+  // Texto interpretativo
+  let interpret;
+  if(base>1) interpret = `Base = ${raw} (>1): la potencia <b>crece</b>.`;
+  else if(base<1 && base>0) interpret = `Base = ${raw} (entre 0 y 1): la potencia <b>decrece</b>.`;
+  else interpret = `Base = 1: la potencia es <b>constante</b>.`;
+  lbl.innerHTML = `<span style="color:#6A2C91;font-weight:700;">${interpret}</span>`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  computePower();
+  drawGrow();
+});
+</script>
+
+</body>
+</html>

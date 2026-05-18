@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Producto con término común — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.2rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .compare-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .compare-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .compare-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .compare-table tr:nth-child(even){background:#f8f4e9;}
+    .compare-table td.center{text-align:center;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+    .input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.55rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .5rem;font-size:.72rem;margin-right:.5rem;font-weight:700;letter-spacing:.5px;}
+
+    canvas.area-canvas{width:100%;height:300px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Tercer producto notable
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Producto de binomios con término común</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Producto notable</span>
+    <span class="chip">(x+a)(x+b)</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Desarrollar y reconocer el producto notable de <strong>binomios con término común</strong>: \((x+a)(x+b) = x^2 + (a+b)\,x + ab\), aplicándolo tanto para multiplicar rápido como para <strong>factorizar trinomios</strong>.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El tercer producto notable</div>
+
+      <p>Cuando multiplicas dos binomios que comparten el <strong>mismo primer término</strong> (por ejemplo, \(x\)) pero tienen diferentes constantes, hay un patrón muy útil:</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Producto con término común</div>
+        <div class="prop-formula">\((x + a)(x + b) = x^2 + (a + b)\,x + ab\)</div>
+        <div class="prop-words">Cuadrado del término común, más suma de constantes por el término común, más producto de constantes.</div>
+      </div>
+
+      <p>El "término común" es la <strong>variable que se repite</strong> en ambos binomios (aquí, \(x\)). Las constantes pueden ser distintas (\(a\) y \(b\)) y también pueden ser negativas.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Comparación con los otros productos notables</div>
+
+      <table class="compare-table">
+        <thead><tr><th>Producto notable</th><th>Fórmula</th><th>Cuándo se usa</th></tr></thead>
+        <tbody>
+          <tr><td>Cuadrado del binomio</td><td class="center">\((a \pm b)^2 = a^2 \pm 2ab + b^2\)</td><td>Binomio elevado al cuadrado</td></tr>
+          <tr><td>Suma por diferencia</td><td class="center">\((a+b)(a-b) = a^2 - b^2\)</td><td>Dos binomios iguales con signos opuestos</td></tr>
+          <tr><td><strong>Término común</strong></td><td class="center">\((x+a)(x+b) = x^2 + (a+b)x + ab\)</td><td>Dos binomios con un término común y constantes distintas</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <span class="card-label">Observación</span>
+        El cuadrado del binomio es un caso especial del término común (cuando \(a = b\)). La suma por diferencia es otro caso especial (cuando \(b = -a\), las constantes se cancelan).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Demostración y ejemplos
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Demostración y ejemplos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">FOIL aplicado</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Demostración con FOIL</div>
+
+      <p>Aplicamos FOIL a \((x+a)(x+b)\):</p>
+      <div class="math-block">
+        <span class="math-step"><strong>F</strong>irst: \(x \cdot x = x^2\)</span>
+        <span class="math-step"><strong>O</strong>utside: \(x \cdot b = bx\)</span>
+        <span class="math-step"><strong>I</strong>nside: \(a \cdot x = ax\)</span>
+        <span class="math-step"><strong>L</strong>ast: \(a \cdot b = ab\)</span>
+        <span class="math-step">Suma: \(x^2 + bx + ax + ab\).</span>
+        <span class="math-step">Términos semejantes (sacando \(x\) como factor común): \(bx + ax = (a+b)x\).</span>
+        <span class="math-step"><span class="math-result">\((x+a)(x+b) = x^2 + (a+b)x + ab\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplos con ambas constantes positivas</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> \((x+2)(x+5) = x^2 + (2+5)x + 2 \cdot 5 = x^2 + 7x + 10\).</span>
+        <span class="math-step"><strong>Ej. 2:</strong> \((x+3)(x+4) = x^2 + 7x + 12\).</span>
+        <span class="math-step"><strong>Ej. 3:</strong> \((x+1)(x+9) = x^2 + 10x + 9\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplos con constantes negativas</div>
+
+      <p>La fórmula <strong>también funciona</strong> con constantes negativas. Solo respeta los signos al sumar y multiplicar:</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 4:</strong> \((x+3)(x-5)\). Aquí \(a=3\), \(b=-5\).</span>
+        <span class="math-step">\(a+b = 3 + (-5) = -2\); \(ab = 3 \cdot (-5) = -15\).</span>
+        <span class="math-step">Resultado: \(x^2 - 2x - 15\).</span>
+        <span class="math-step"><strong>Ej. 5:</strong> \((x-4)(x-6) = x^2 - 10x + 24\). (Negativo + negativo = negativo en el lineal; negativo × negativo = positivo en el constante.)</span>
+        <span class="math-step"><strong>Ej. 6:</strong> \((x-8)(x+3) = x^2 - 5x - 24\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Tabla de signos</div>
+
+      <table class="compare-table">
+        <thead><tr><th>Caso</th><th>Signo del coef. lineal</th><th>Signo del término constante</th></tr></thead>
+        <tbody>
+          <tr><td>\((x+a)(x+b)\), \(a,b>0\)</td><td class="center"><strong>+</strong></td><td class="center"><strong>+</strong></td></tr>
+          <tr><td>\((x-a)(x-b)\), \(a,b>0\)</td><td class="center"><strong>−</strong></td><td class="center"><strong>+</strong></td></tr>
+          <tr><td>\((x+a)(x-b)\), \(a>b>0\)</td><td class="center"><strong>+</strong> (porque \(a-b>0\))</td><td class="center"><strong>−</strong></td></tr>
+          <tr><td>\((x+a)(x-b)\), \(b>a>0\)</td><td class="center"><strong>−</strong> (porque \(a-b<0\))</td><td class="center"><strong>−</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Visualización geométrica
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Demostración geométrica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Visual</span>
+    <span class="chip">Rectángulo de áreas</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Áreas que justifican la fórmula</div>
+
+      <p>El producto \((x+a)(x+b)\) es el <strong>área de un rectángulo</strong> de lados \(x+a\) y \(x+b\). Lo dividimos en 4 partes:</p>
+
+      <canvas id="tcCanvas" class="area-canvas" width="900" height="300"></canvas>
+
+      <ul>
+        <li>Cuadrado morado: \(x \cdot x = x^2\).</li>
+        <li>Rectángulo dorado: \(x \cdot b = bx\).</li>
+        <li>Rectángulo navy: \(a \cdot x = ax\).</li>
+        <li>Cuadradito amarillo claro: \(a \cdot b = ab\).</li>
+      </ul>
+
+      <p>Sumando: \(x^2 + ax + bx + ab = x^2 + (a+b)x + ab\). De ahí la fórmula.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo numérico que se ve en la imagen</div>
+
+      <p>En el dibujo, \(x = 4\), \(a = 2\), \(b = 3\). El rectángulo total mide \(6 \times 7\):</p>
+      <div class="math-block">
+        <span class="math-step">Área total: \(6 \cdot 7 = 42\).</span>
+        <span class="math-step">Por fórmula: \((4+2)(4+3) = 4^2 + (2+3) \cdot 4 + 2 \cdot 3 = 16 + 20 + 6 = 42\). ✔</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Expansor
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Expansor (x+a)(x+b)</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Expansor con constantes</div>
+
+      <p>Ingresa las constantes \(a\) y \(b\) del producto \((x+a)(x+b)\). Pueden ser positivas o negativas. La herramienta aplica la fórmula y desarrolla paso a paso.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para \((x+2)(x+5)\), pon \(a = 2\), \(b = 5\).</li>
+          <li>Para \((x-3)(x+8)\), pon \(a = -3\), \(b = 8\).</li>
+          <li>Para \((x-4)(x-7)\), pon ambos negativos.</li>
+          <li>Los presets violetas tienen casos típicos.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Constantes \((x+a)(x+b)\):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">a</label><input type="number" id="tcA" value="2" /></div>
+              <div><label style="font-size:.78rem;">b</label><input type="number" id="tcB" value="5" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadTC(2,5)">(x+2)(x+5)</button>
+            <button onclick="loadTC(3,4)">(x+3)(x+4)</button>
+            <button onclick="loadTC(-3,8)">(x−3)(x+8)</button>
+            <button onclick="loadTC(-4,-7)">(x−4)(x−7)</button>
+            <button onclick="loadTC(5,-2)">(x+5)(x−2)</button>
+            <button onclick="loadTC(-6,1)">(x−6)(x+1)</button>
+          </div>
+          <button class="calc-button" onclick="expandTC()">Expandir →</button>
+        </div>
+
+        <div class="tool-display" id="tcDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa a y b y presiona <strong>Expandir</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Factorización: el camino inverso
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Factorizar trinomios x² + Sx + P</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">El truco de dos números</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Leer la fórmula al revés</div>
+
+      <p>La fórmula también funciona de derecha a izquierda. Si tienes un trinomio del tipo \(x^2 + Sx + P\), puedes <strong>factorizarlo</strong> como \((x+a)(x+b)\) si encuentras dos números \(a\) y \(b\) tales que:</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Factorizar \(x^2 + Sx + P\)</div>
+        <div class="prop-formula">Necesitas \(a + b = S\) &nbsp;y&nbsp; \(a \cdot b = P\)</div>
+        <div class="prop-words">Dos números que <strong>sumados den el coeficiente lineal</strong> y <strong>multiplicados den la constante</strong>.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Estrategia paso a paso</div>
+
+      <ol class="steps-num">
+        <li>Mira el <strong>término constante \(P\)</strong>: lista todas las parejas de números enteros que se multiplican y dan \(P\).</li>
+        <li>De esas parejas, elige la que <strong>sumada</strong> da \(S\) (coeficiente lineal).</li>
+        <li>Escribe \((x + a)(x + b)\) con esos números.</li>
+        <li>Verifica multiplicando: debe darte el trinomio original.</li>
+      </ol>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Factoriza \(x^2 + 7x + 12\).</span>
+        <span class="math-step">Parejas de \(12\): \(1 \cdot 12\), \(2 \cdot 6\), \(3 \cdot 4\).</span>
+        <span class="math-step">¿Cuál suma \(7\)? \(3 + 4 = 7\). ✔</span>
+        <span class="math-step"><span class="math-result">\(x^2 + 7x + 12 = (x+3)(x+4)\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Con signos negativos</div>
+
+      <p>Mismo método, solo respeta los signos al elegir las parejas:</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Factoriza \(x^2 - 5x + 6\).</span>
+        <span class="math-step">\(P = 6 > 0\) y \(S = -5 < 0\) → ambos números son <strong>negativos</strong>.</span>
+        <span class="math-step">Parejas: \((-1)(-6)\), \((-2)(-3)\). La que suma \(-5\): \(-2 + (-3) = -5\). ✔</span>
+        <span class="math-step"><span class="math-result">\(x^2 - 5x + 6 = (x-2)(x-3)\)</span></span>
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Factoriza \(x^2 + 2x - 15\).</span>
+        <span class="math-step">\(P = -15 < 0\) → los dos números tienen <strong>signos distintos</strong>.</span>
+        <span class="math-step">Parejas: \((1, -15), (-1, 15), (3, -5), (-3, 5)\). La que suma \(2\): \(-3 + 5 = 2\). ✔</span>
+        <span class="math-step"><span class="math-result">\(x^2 + 2x - 15 = (x-3)(x+5)\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Tabla rápida de signos al factorizar</div>
+
+      <table class="compare-table">
+        <thead><tr><th>Si en \(x^2+Sx+P\):</th><th>Entonces \(a\) y \(b\):</th></tr></thead>
+        <tbody>
+          <tr><td>\(P > 0\) y \(S > 0\)</td><td>Ambos <strong>positivos</strong>.</td></tr>
+          <tr><td>\(P > 0\) y \(S < 0\)</td><td>Ambos <strong>negativos</strong>.</td></tr>
+          <tr><td>\(P < 0\)</td><td>Signos <strong>distintos</strong>. Si \(S > 0\), el de mayor valor absoluto es positivo; si \(S < 0\), es negativo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Factorizador de trinomios
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Factorizador de trinomios</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">x² + Sx + P</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Factorizador de \(x^2 + Sx + P\)</div>
+
+      <p>Ingresa los coeficientes \(S\) (lineal) y \(P\) (constante) de un trinomio del tipo \(x^2 + Sx + P\). La herramienta busca los dos números que cumplen las condiciones y te muestra la factorización (o te indica si no es factorizable con enteros).</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para \(x^2 + 7x + 12\), pon \(S = 7\), \(P = 12\).</li>
+          <li>Para \(x^2 - 5x + 6\), pon \(S = -5\), \(P = 6\).</li>
+          <li>Para \(x^2 + 2x - 15\), pon \(S = 2\), \(P = -15\).</li>
+          <li>Si pones algo no factorizable con enteros (ej. \(S=1, P=1\)), te lo dice.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Coeficientes del trinomio \(x^2 + Sx + P\):</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">S (lineal)</label><input type="number" id="trinS" value="7" /></div>
+              <div><label style="font-size:.78rem;">P (constante)</label><input type="number" id="trinP" value="12" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadTrin(7,12)">x²+7x+12</button>
+            <button onclick="loadTrin(8,15)">x²+8x+15</button>
+            <button onclick="loadTrin(-5,6)">x²−5x+6</button>
+            <button onclick="loadTrin(2,-15)">x²+2x−15</button>
+            <button onclick="loadTrin(-3,-10)">x²−3x−10</button>
+            <button onclick="loadTrin(-7,12)">x²−7x+12</button>
+            <button onclick="loadTrin(1,1)">x²+x+1 (no factoriza)</button>
+          </div>
+          <button class="calc-button" onclick="factorTrin()">Factorizar →</button>
+        </div>
+
+        <div class="tool-display" id="trinDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa S y P y presiona <strong>Factorizar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Término común — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\((x+2)(x+5)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 10\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el término lineal.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 + 7x + 10\)<div class="opt-feedback"><strong>Correcto.</strong> \(2+5=7\), \(2 \cdot 5 = 10\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 10x + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste lineal y constante.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2x^2 + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se suma \(x^2\) consigo mismo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Factoriza \(x^2 + 5x + 6\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x+1)(x+6)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 + 7x + 6\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+2)(x+3)\)<div class="opt-feedback"><strong>Correcto.</strong> \(2+3=5\) y \(2 \cdot 3 = 6\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x+5)(x+6)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste los datos con los buscados.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x-2)(x-3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 - 5x + 6\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">\((x+3)(x-4)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + x - 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma de constantes: \(3 + (-4) = -1\), no \(+1\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - x - 12\)<div class="opt-feedback"><strong>Correcto.</strong> \(3 + (-4) = -1\) y \(3 \cdot (-4) = -12\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + x + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Doble error de signo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 - 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es suma por diferencia; falta el término lineal.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\((x-3)(x-8)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 - 11x - 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> \((-3)(-8) = 24 > 0\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - 11x + 24\)<div class="opt-feedback"><strong>Correcto.</strong> \(-3 + (-8) = -11\), \((-3)(-8) = 24\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 11x + 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> La suma da \(-11\), no \(+11\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 + 24\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el término lineal.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza \(x^2 - 7x + 12\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x-1)(x-12)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-13\), no \(-7\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x-3)(x-4)\)<div class="opt-feedback"><strong>Correcto.</strong> \(-3 \cdot -4 = 12\) y \(-3 + -4 = -7\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x+3)(x+4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+7x\) en el lineal.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x-2)(x-6)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-8\), no \(-7\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza \(x^2 + 3x - 10\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x+5)(x+2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+10\) en la constante, no \(-10\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+5)(x-2)\)<div class="opt-feedback"><strong>Correcto.</strong> \(5 \cdot (-2) = -10\) y \(5 + (-2) = 3\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x-5)(x+2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-3\), no \(+3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x-5)(x-2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+10\) en la constante.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuáles son los dos números que multiplicados dan \(-24\) y sumados dan \(-2\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 4 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> Su producto es 24, no \(-24\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 4 y −6<div class="opt-feedback"><strong>Correcto.</strong> \(4 \cdot (-6) = -24\) y \(4 + (-6) = -2\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> −4 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(+2\), no \(-2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> −2 y 12<div class="opt-feedback"><strong>Incorrecto.</strong> Suma da \(+10\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \((x+a)(x+b) = x^2 + 9x + 20\), ¿cuánto vale \(a+b\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 20<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(a \cdot b\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 9<div class="opt-feedback"><strong>Correcto.</strong> El coeficiente lineal es \(a+b\) directamente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 4 y 5<div class="opt-feedback"><strong>Incorrecto en formato.</strong> La pregunta pide la <em>suma</em>.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 11<div class="opt-feedback"><strong>Incorrecto.</strong> No es la suma del 20 y el 9.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una sala rectangular mide \((x+4)\) m de largo y \((x-2)\) m de ancho. ¿Cuál es su área en forma simplificada?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 - 8\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el término lineal.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 + 2x - 8\) m²<div class="opt-feedback"><strong>Correcto.</strong> \(4 + (-2) = 2\) y \(4 \cdot (-2) = -8\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 - 2x - 8\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en el lineal.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2x + 2\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el perímetro/4.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál de los siguientes trinomios NO se puede factorizar como \((x+a)(x+b)\) con \(a, b\) enteros?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 7x + 10\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x+2)(x+5)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - 5x + 6\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x-2)(x-3)\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 3x + 1\)<div class="opt-feedback"><strong>Correcto: no factoriza.</strong> No hay enteros que multiplicados den 1 y sumados den 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 - x - 6\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x-3)(x+2)\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Término común — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Producto con término común</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">\((x+4)(x+3)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el término lineal.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 7x + 12\)<div class="opt-feedback"><strong>Correcto.</strong> \(4+3=7\), \(4 \cdot 3 = 12\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 12x + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste lineal y constante.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2x^2 + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> El término común sale al cuadrado, no se duplica.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\((x+5)(x-3)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 - 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el término lineal.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 2x - 15\)<div class="opt-feedback"><strong>Correcto.</strong> \(5 + (-3) = 2\), \(5 \cdot (-3) = -15\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 - 2x - 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en el signo del lineal.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 + 8x - 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste valores absolutos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Factoriza \(x^2 + 9x + 20\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x+2)(x+10)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma da 12, no 9.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x+4)(x+5)\)<div class="opt-feedback"><strong>Correcto.</strong> \(4+5=9\) y \(4 \cdot 5 = 20\) ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x+1)(x+20)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma da 21.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x+9)(x+20)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste los datos con los buscados.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Factoriza \(x^2 - 11x + 30\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x-5)(x-6)\)<div class="opt-feedback"><strong>Correcto.</strong> \(-5 + -6 = -11\) y \(-5 \cdot -6 = 30\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x+5)(x+6)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+11x\), no \(-11x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x-3)(x-10)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-13\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x-2)(x-15)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(-17\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Factoriza \(x^2 - 2x - 8\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x-2)(x-4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+8\) en la constante.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x-4)(x+2)\)<div class="opt-feedback"><strong>Correcto.</strong> \(-4 + 2 = -2\) y \(-4 \cdot 2 = -8\) ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x+4)(x-2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(+2\), no \(-2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((x+8)(x-1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría \(+7\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuáles dos números multiplicados dan \(36\) y sumados dan \(13\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 6 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> Suman 12.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4 y 9<div class="opt-feedback"><strong>Correcto.</strong> \(4 \cdot 9 = 36\) y \(4 + 9 = 13\) ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 3 y 12<div class="opt-feedback"><strong>Incorrecto.</strong> Suman 15.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2 y 18<div class="opt-feedback"><strong>Incorrecto.</strong> Suman 20.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">El área de un rectángulo es \(x^2 + 8x + 15\) m². Sus lados podrían medir:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((x+8)\) y \((x+15)\)<div class="paes-l opt-feedback"><strong>Incorrecto.</strong> Eso daría área \(x^2 + 23x + 120\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((x+3)\) y \((x+5)\)<div class="opt-feedback"><strong>Correcto.</strong> \(3 \cdot 5 = 15\) y \(3 + 5 = 8\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((x+1)\) y \((x+15)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Suma daría 16.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x\) y \((x+15)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 + 15x\), sin término constante.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si \(x^2 + Sx - 12 = (x+6)(x-2)\), ¿cuánto vale \(S\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste con signo cambiado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4<div class="opt-feedback"><strong>Correcto.</strong> \(6 + (-2) = 4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> No es la diferencia.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(-12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Simplifica \(\dfrac{x^2 + 5x + 6}{x + 2}\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x + 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cancelaste el factor equivocado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x + 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2+5x+6 = (x+2)(x+3)\). Cancela \((x+2)\) y queda \(x+3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste mal los factores.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 + 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> No se simplifica así.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál trinomio NO es factorizable con enteros como \((x+a)(x+b)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 5x + 4\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x+1)(x+4)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 - 6x + 8\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x-2)(x-4)\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 4x + 2\)<div class="opt-feedback"><strong>Correcto: no factoriza.</strong> No hay enteros que multiplicados den 2 y sumados den 4.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 - 2x - 8\)<div class="opt-feedback"><strong>Sí factoriza.</strong> \((x-4)(x+2)\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Tienes los tres productos notables completos: cuadrado del binomio, suma por diferencia y término común. Y ya sabes <strong>factorizar</strong> trinomios buscando dos números que sumados den \(S\) y multiplicados den \(P\).</p>
+    <p>En la última guía del OA 3 verás cómo aplicar estos productos para <strong>resolver problemas reales</strong> y para <strong>completar el cuadrado</strong>, una técnica clave para ecuaciones cuadráticas.</p>
+    <span class="next-pill">Próximo: Factorización y aplicaciones</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Término común · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Expansor (x+a)(x+b) ---------- */
+function loadTC(a,b){
+  document.getElementById('tcA').value = a;
+  document.getElementById('tcB').value = b;
+  expandTC();
+}
+function fmtSigned(n){
+  if(n >= 0) return '+ ' + n;
+  return '- ' + Math.abs(n);
+}
+function fmtBin(c){
+  return c >= 0 ? `(x+${c})` : `(x-${Math.abs(c)})`;
+}
+function expandTC(){
+  const a = parseFloat(document.getElementById('tcA').value);
+  const b = parseFloat(document.getElementById('tcB').value);
+  const out = document.getElementById('tcDisplay');
+  if(isNaN(a)||isNaN(b)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa a y b.</p>'; return; }
+
+  const expr = `\\(${fmtBin(a)}${fmtBin(b)}\\)`;
+  const sum = a + b;
+  const prod = a * b;
+
+  // Resultado en LaTeX
+  let resPart = 'x^2';
+  if(sum !== 0){
+    resPart += ' ' + (sum < 0 ? '-' : '+') + ' ' + (Math.abs(sum) === 1 ? '' : Math.abs(sum)) + 'x';
+  }
+  if(prod !== 0){
+    resPart += ' ' + (prod < 0 ? '-' : '+') + ' ' + Math.abs(prod);
+  }
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.2rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div class="resolver-step"><span class="step-label">Paso 1</span>Identifico término común = \\(x\\), constantes \\(a = ${a}\\), \\(b = ${b}\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 2</span>Aplico fórmula: \\((x+a)(x+b) = x^2 + (a+b)x + ab\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 3</span>Cuadrado del término común: \\(x \\cdot x = x^2\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 4</span>Suma de constantes: \\(${a} + (${b}) = ${sum}\\) → coeficiente lineal.</div>
+    <div class="resolver-step"><span class="step-label">Paso 5</span>Producto de constantes: \\(${a} \\cdot ${b} = ${prod}\\) → término constante.</div>
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${resPart}\\)</span></div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+/* ---------- Factorizador trinomios x^2 + Sx + P ---------- */
+function loadTrin(S,P){
+  document.getElementById('trinS').value = S;
+  document.getElementById('trinP').value = P;
+  factorTrin();
+}
+function factorTrin(){
+  const S = parseFloat(document.getElementById('trinS').value);
+  const P = parseFloat(document.getElementById('trinP').value);
+  const out = document.getElementById('trinDisplay');
+  if(isNaN(S)||isNaN(P)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa S y P.</p>'; return; }
+
+  const trinLatex = `x^2 ${S>=0?'+':'-'} ${Math.abs(S)===1?'':Math.abs(S)}x ${P>=0?'+':'-'} ${Math.abs(P)}`;
+  const expr = `\\(${trinLatex}\\)`;
+
+  // Buscar dos enteros a,b con a+b=S y a*b=P
+  // Iterar sobre divisores de |P|
+  const absP = Math.abs(P);
+  let found = null;
+  if(P === 0){
+    // x^2 + Sx = x(x+S)
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+      <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.7rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;">
+        <b style="color:#6A2C91;">Caso especial:</b> al ser P = 0, factor común x.
+      </div>
+      <div style="text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(x(x ${S>=0?'+':'-'} ${Math.abs(S)})\\)</span></div>
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+  for(let i = 1; i <= absP; i++){
+    if(absP % i === 0){
+      const j = absP / i;
+      // Probar combinaciones de signos
+      const combos = P > 0 ? [[i,j],[-i,-j]] : [[i,-j],[-i,j]];
+      for(const [a, b] of combos){
+        if(a + b === S){
+          found = [a, b];
+          break;
+        }
+      }
+      if(found) break;
+    }
+  }
+
+  if(!found){
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.7rem;border-radius:0 8px 8px 0;color:#0B0F3F;">
+        <b style="color:#6A2C91;">No es factorizable con enteros.</b> No existen dos enteros que multiplicados den ${P} y sumados den ${S}.
+      </div>
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  const [a, b] = found;
+  // Construir parejas exploradas (las parejas de divisores de |P|)
+  let pairsHtml = '';
+  for(let i = 1; i <= Math.sqrt(absP); i++){
+    if(absP % i === 0){
+      const j = absP / i;
+      if(P > 0) pairsHtml += `<li>(${i})(${j}) = ${absP}; suma ${i+j} ${i+j===S?'✔':''}. (${-i})(${-j}) = ${absP}; suma ${-i-j} ${-i-j===S?'✔':''}.</li>`;
+      else pairsHtml += `<li>(${i})(${-j}) = ${-absP}; suma ${i-j} ${i-j===S?'✔':''}. (${-i})(${j}) = ${-absP}; suma ${-i+j} ${-i+j===S?'✔':''}.</li>`;
+    }
+  }
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.15rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.7rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;">
+      <b style="color:#6A2C91;">¡Sí factoriza!</b>
+    </div>
+    <div class="resolver-step"><span class="step-label">Paso 1</span>Busco dos números cuyo producto sea ${P} y suma sea ${S}.</div>
+    <div class="resolver-step"><span class="step-label">Paso 2</span>Pruebo parejas de divisores de ${absP}:<ul style="margin:.3rem 0 0 0;padding-left:1.4rem;font-size:.85rem;">${pairsHtml}</ul></div>
+    <div class="resolver-step"><span class="step-label">Paso 3</span>Los números son <b>${a}</b> y <b>${b}</b>: \\(${a}+${b}=${a+b}\\) ✔ y \\(${a} \\cdot ${b} = ${a*b}\\) ✔.</div>
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\(${fmtBin(a).replace('(','').replace(')','')})(${fmtBin(b).replace('(','').replace(')','')}\\)</span></div>
+  `;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+/* ---------- Canvas término común ---------- */
+function drawTC(){
+  const cv = document.getElementById('tcCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  const x = 4, a = 2, b = 3;
+  const unit = 28;
+  const x0 = 70, y0 = 30;
+  const xPx = x*unit, aPx = a*unit, bPx = b*unit;
+
+  // Cuadrado x*x morado
+  ctx.fillStyle = 'rgba(106,44,145,.28)';
+  ctx.fillRect(x0, y0, xPx, xPx);
+  ctx.strokeStyle = '#6A2C91'; ctx.lineWidth = 2;
+  ctx.strokeRect(x0, y0, xPx, xPx);
+
+  // Rectángulo x*b (a la derecha) dorado
+  ctx.fillStyle = 'rgba(212,175,55,.40)';
+  ctx.fillRect(x0+xPx, y0, bPx, xPx);
+  ctx.strokeStyle = '#D4AF37';
+  ctx.strokeRect(x0+xPx, y0, bPx, xPx);
+
+  // Rectángulo a*x (abajo) navy
+  ctx.fillStyle = 'rgba(11,15,63,.25)';
+  ctx.fillRect(x0, y0+xPx, xPx, aPx);
+  ctx.strokeStyle = '#0B0F3F';
+  ctx.strokeRect(x0, y0+xPx, xPx, aPx);
+
+  // Cuadradito a*b (esquina) claro
+  ctx.fillStyle = 'rgba(248,244,233,.95)';
+  ctx.fillRect(x0+xPx, y0+xPx, bPx, aPx);
+  ctx.strokeStyle = '#8a7426';
+  ctx.strokeRect(x0+xPx, y0+xPx, bPx, aPx);
+
+  // Etiquetas internas
+  ctx.fillStyle = '#0B0F3F'; ctx.font = 'bold 22px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('x²', x0+xPx/2, y0+xPx/2);
+  ctx.font = 'bold 15px Inter, sans-serif';
+  ctx.fillText('b·x', x0+xPx+bPx/2, y0+xPx/2);
+  ctx.fillText('a·x', x0+xPx/2, y0+xPx+aPx/2);
+  ctx.font = 'bold 13px Inter, sans-serif';
+  ctx.fillText('a·b', x0+xPx+bPx/2, y0+xPx+aPx/2);
+
+  // Etiquetas externas
+  ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillStyle = '#6A2C91';
+  ctx.fillText('x', x0+xPx/2, y0-15);
+  ctx.fillStyle = '#9b7c1c';
+  ctx.fillText('b', x0+xPx+bPx/2, y0-15);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#6A2C91';
+  ctx.fillText('x', x0-10, y0+xPx/2);
+  ctx.fillStyle = '#0B0F3F';
+  ctx.fillText('a', x0-10, y0+xPx+aPx/2);
+
+  // Texto a la derecha
+  const tx = x0 + xPx + bPx + 50;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#6A2C91'; ctx.font = 'bold 17px Inter, sans-serif';
+  ctx.fillText('(x + a)(x + b)', tx, y0+25);
+  ctx.fillStyle = '#0B0F3F'; ctx.font = '15px Inter, sans-serif';
+  ctx.fillText('= x² + (a+b)x + ab', tx, y0+50);
+
+  ctx.fillStyle = '#9b7c1c'; ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillText('Ej.: x=4, a=2, b=3', tx, y0+90);
+  ctx.fillStyle = '#0B0F3F'; ctx.font = '14px Inter, sans-serif';
+  ctx.fillText('= 16 + 20 + 6 = 42', tx, y0+110);
+  ctx.fillStyle = '#D4AF37'; ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillText('Y 6·7 = 42 ✔', tx, y0+140);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  expandTC();
+  factorTrin();
+  drawTC();
+});
+</script>
+
+</body>
+</html>

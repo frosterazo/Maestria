@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Función cuadrática: gráficos — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    /* Gráfico embebido auto-dibujado */
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* GRAFICADOR INTERACTIVO de parábolas */
+    .plotter-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:700px){.plotter-wrap{grid-template-columns:1fr;}}
+    .plotter-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    #parabola-canvas{width:100%;height:auto;display:block;}
+    .plotter-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .slider-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .slider-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .slider-control input[type=range]{width:100%;accent-color:#6A2C91;}
+    .slider-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .info-panel{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .info-panel .alert{color:#6A2C91;font-weight:700;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;transition:background .2s;}
+    .preset-buttons button:hover{background:#552072;}
+    .exploration-tasks{background:#FFF8E1;border:2px solid #D4AF37;border-radius:8px;padding:.9rem 1.3rem;margin:1rem 0;}
+    .exploration-tasks h3{margin:0 0 .5rem;color:#0B0F3F;font-size:1.05rem;}
+    .exploration-tasks ol{margin:.4rem 0;padding-left:1.2rem;}
+    .exploration-tasks li{margin:.4rem 0;line-height:1.5;}
+    .leyenda{display:flex;flex-wrap:wrap;gap:1rem;margin:.6rem 0;font-size:.82rem;}
+    .leyenda span{display:inline-flex;align-items:center;gap:.3rem;}
+    .leyenda .dot{display:inline-block;width:14px;height:14px;border-radius:50%;}
+    .leyenda .dot-vertex{background:#D4AF37;border:2px solid #0B0F3F;}
+    .leyenda .dot-int{background:#6A2C91;}
+    .leyenda .line-axis{display:inline-block;width:20px;height:2px;background:#D4AF37;border-top:1px dashed #D4AF37;}
+
+    /* GRAFICADOR GENERAL */
+    .tool-wrap{display:grid;grid-template-columns:1.6fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    #tool-canvas{width:100%;height:auto;display:block;}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-section{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .tool-section h4{margin:0 0 .5rem;color:#6A2C91;font-size:.92rem;}
+    .tool-row{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;}
+    .tool-row input[type=number]{width:60px;padding:.3rem .5rem;border:1px solid #D9D9D9;border-radius:5px;font-size:.85rem;}
+    .tool-row input[type=color]{width:32px;height:32px;border:1px solid #D9D9D9;border-radius:5px;padding:0;cursor:pointer;}
+    .tool-row button{background:#6A2C91;color:#fff;border:0;border-radius:18px;padding:.4rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;font-weight:600;}
+    .tool-row button:hover{background:#552072;}
+    .tool-row label{font-size:.78rem;color:#0B0F3F;font-weight:600;}
+    .tool-list{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem;margin-top:.4rem;max-height:280px;overflow-y:auto;font-size:.82rem;}
+    .tool-list-item{display:flex;justify-content:space-between;align-items:center;padding:.3rem .5rem;border-bottom:1px solid #eee;}
+    .tool-list-item:last-child{border-bottom:0;}
+    .tool-list-item span{display:flex;align-items:center;gap:.5rem;}
+    .tool-list-item .swatch{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid #999;}
+    .tool-list-item button{background:transparent;color:#6A2C91;border:0;cursor:pointer;font-size:1rem;padding:0 .3rem;}
+    .tool-list-item button:hover{color:#0B0F3F;}
+    .tool-empty{color:#888;font-style:italic;text-align:center;padding:.5rem;}
+    .btn-clear-all{background:#0B0F3F;color:#fff;border:0;border-radius:18px;padding:.5rem 1rem;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:600;margin-top:.4rem;}
+    .btn-clear-all:hover{background:#252b6b;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.slider-control input[type=range],.tool-controls,.btn-clear-all{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Introducción
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Función cuadrática: gráficos y elementos</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Forma general</span>
+    <span class="chip">Parábola</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Mostrar que comprenden la función cuadrática \(f(x)=ax^{2}+bx+c\), con \(a \neq 0\), elaborando gráficos al variar los coeficientes a, b y c.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es una función cuadrática?</div>
+
+      <div class="card card-def">
+        <strong>Función cuadrática:</strong> es una función de la forma
+        \[f(x) = a x^{2} + b x + c\]
+        donde \(a, b, c\) son números reales y \(a \neq 0\). El gráfico de toda función cuadrática es una <em>parábola</em>.
+      </div>
+
+      <p>La condición \(a \neq 0\) es esencial. Si \(a=0\), la función se transforma en \(f(x) = bx + c\), que es lineal (su gráfico es una recta, no una parábola). El término que "vuelve cuadrática" a la función es el \(ax^{2}\).</p>
+
+      <div class="card card-tip">
+        <strong>Identifica los coeficientes:</strong> antes de hacer cualquier cálculo, mira la función y reconoce \(a\), \(b\) y \(c\). Confundirlos es el error más frecuente al graficar.
+      </div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Función</th><th>\(a\)</th><th>\(b\)</th><th>\(c\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(f(x) = 2x^{2} + 3x - 5\)</td><td>\(2\)</td><td>\(3\)</td><td>\(-5\)</td></tr>
+          <tr><td>\(f(x) = -x^{2} + 4\)</td><td>\(-1\)</td><td>\(0\)</td><td>\(4\)</td></tr>
+          <tr><td>\(f(x) = x^{2}\)</td><td>\(1\)</td><td>\(0\)</td><td>\(0\)</td></tr>
+          <tr><td>\(f(x) = -3x^{2} - 7x\)</td><td>\(-3\)</td><td>\(-7\)</td><td>\(0\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¿Dónde aparece en la vida real?</div>
+
+      <p>La función cuadrática modela una enorme cantidad de fenómenos:</p>
+
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li><strong>Trayectoria de un proyectil:</strong> al lanzar una pelota, su altura sigue una parábola: \(h(t) = -\tfrac{1}{2}gt^{2} + v_{0}t + h_{0}\).</li>
+        <li><strong>Área en función del lado:</strong> el área de un cuadrado es \(A(\ell) = \ell^{2}\), una cuadrática pura.</li>
+        <li><strong>Antenas parabólicas:</strong> tienen sección transversal en forma de parábola (concentran señales en el foco).</li>
+        <li><strong>Faros de auto:</strong> usan espejos parabólicos para enfocar la luz.</li>
+        <li><strong>Economía:</strong> el ingreso de una empresa frecuentemente sigue \(I(p) = -ap^{2} + bp\), donde \(p\) es el precio.</li>
+        <li><strong>Puentes colgantes:</strong> los cables siguen una forma muy cercana a una parábola.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>La parábola más simple: \(f(x) = x^{2}\)</div>
+
+      <p>Antes de complicarnos con los coeficientes \(b\) y \(c\), conozcamos a la "abuela" de todas las parábolas: \(f(x) = x^{2}\). Tiene \(a=1\), \(b=0\), \(c=0\). Construimos la tabla de valores:</p>
+
+      <div class="subsec">Tabla de valores</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>\(x\)</th><th>\(-3\)</th><th>\(-2\)</th><th>\(-1\)</th><th>\(0\)</th><th>\(1\)</th><th>\(2\)</th><th>\(3\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(f(x) = x^{2}\)</td><td>\(9\)</td><td>\(4\)</td><td>\(1\)</td><td>\(0\)</td><td>\(1\)</td><td>\(4\)</td><td>\(9\)</td></tr>
+        </tbody>
+      </table>
+
+      <p>Fíjate en dos cosas:</p>
+      <ol class="steps-num">
+        <li>Los valores de \(f(x)\) son <strong>siempre positivos o cero</strong>. Cualquier número (positivo o negativo) elevado al cuadrado es no negativo.</li>
+        <li>La tabla es <strong>simétrica</strong>: \(f(-3) = f(3)\), \(f(-2) = f(2)\), etc. La parábola es simétrica respecto al <strong>eje y</strong>.</li>
+      </ol>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g1" width="440" height="320"></canvas>
+        <div class="embed-caption">Gráfico de \(f(x) = x^{2}\) con los 7 puntos de la tabla y vértice en el origen</div>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        El punto más bajo de la parábola es \((0, 0)\). Ese punto especial se llama <strong>vértice</strong>. La línea vertical que pasa por el vértice (en este caso el eje y) es el <strong>eje de simetría</strong>. Los estudiaremos en detalle en las próximas páginas.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 1 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Efecto de los coeficientes
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>El efecto de los coeficientes a, b y c</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Concavidad</span>
+    <span class="chip">Desplazamientos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El coeficiente \(a\): concavidad y "ancho"</div>
+
+      <p>El coeficiente \(a\) hace dos cosas importantes:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Si \(a > 0\)</span>
+          <span class="prop-eq">La parábola abre <strong>hacia arriba</strong> (↑). Tiene un mínimo en el vértice.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Si \(a < 0\)</span>
+          <span class="prop-eq">La parábola abre <strong>hacia abajo</strong> (↓). Tiene un máximo en el vértice.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Si \(|a|\) grande</span>
+          <span class="prop-eq">La parábola es <strong>más estrecha</strong> (crece muy rápido).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Si \(|a|\) pequeño</span>
+          <span class="prop-eq">La parábola es <strong>más ancha</strong> (crece lento).</span>
+        </div>
+      </div>
+
+      <div class="subsec">Compara tres parábolas con distinto \(a\)</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>\(x\)</th><th>\(f(x) = 2x^{2}\)</th><th>\(g(x) = x^{2}\)</th><th>\(h(x) = \tfrac{1}{2}x^{2}\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(-2\)</td><td>\(8\)</td><td>\(4\)</td><td>\(2\)</td></tr>
+          <tr><td>\(-1\)</td><td>\(2\)</td><td>\(1\)</td><td>\(0{,}5\)</td></tr>
+          <tr><td>\(0\)</td><td>\(0\)</td><td>\(0\)</td><td>\(0\)</td></tr>
+          <tr><td>\(1\)</td><td>\(2\)</td><td>\(1\)</td><td>\(0{,}5\)</td></tr>
+          <tr><td>\(2\)</td><td>\(8\)</td><td>\(4\)</td><td>\(2\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="440" height="320"></canvas>
+        <div class="embed-caption">Tres parábolas con \(a\) distinto. Mismo vértice (0,0); distinta apertura.</div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Truco mental:</strong> imagina que \(a\) es un "abridor" o "cerrador" de la parábola. Cuanto mayor sea \(|a|\), más cerrada (estrecha). Cuanto menor (más cerca de 0), más abierta (ancha).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>El coeficiente \(c\): desplazamiento vertical</div>
+
+      <p>El coeficiente \(c\) <strong>desplaza la parábola hacia arriba o hacia abajo</strong> sin cambiar su forma. Es además el punto donde la parábola corta el eje y.</p>
+
+      <div class="math-box">
+        Intersección con el eje \(y\): el punto \((0, c)\).
+      </div>
+
+      <p>Razón: cuando \(x=0\), \(f(0) = a \cdot 0 + b \cdot 0 + c = c\). Así que la parábola siempre pasa por \((0, c)\).</p>
+
+      <div class="subsec">Comparación al variar \(c\)</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>Función</th><th>Intersección con eje \(y\)</th><th>Desplazamiento desde \(f(x) = x^{2}\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(f(x) = x^{2}\)</td><td>\((0,\, 0)\)</td><td>(referencia)</td></tr>
+          <tr><td>\(f(x) = x^{2} + 3\)</td><td>\((0,\, 3)\)</td><td>Sube 3 unidades</td></tr>
+          <tr><td>\(f(x) = x^{2} - 5\)</td><td>\((0,\, -5)\)</td><td>Baja 5 unidades</td></tr>
+        </tbody>
+      </table>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2b" width="440" height="340"></canvas>
+        <div class="embed-caption">El coeficiente \(c\) traslada la parábola verticalmente. La forma no cambia.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>El coeficiente \(b\): mueve el eje de simetría</div>
+
+      <p>El coeficiente \(b\), combinado con \(a\), determina dónde está el <strong>eje de simetría</strong> de la parábola: la recta vertical sobre la que la parábola se refleja.</p>
+
+      <div class="math-box">
+        Eje de simetría: \(x = -\dfrac{b}{2a}\)
+      </div>
+
+      <p>El vértice de la parábola está siempre sobre este eje. La coordenada \(x\) del vértice también es \(-b/(2a)\).</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Encontrar el eje de simetría de \(f(x) = x^{2} - 6x + 9\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(a = 1\), \(b = -6\)</span>
+        <span class="math-step">\(x = -\dfrac{b}{2a} = -\dfrac{-6}{2 \cdot 1} = \dfrac{6}{2} = 3\)</span>
+        <span class="math-step"><span class="math-result">Eje de simetría: \(x = 3\)</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cuando \(b = 0\), el eje de simetría queda en \(x = 0\) (el eje y). Por eso \(f(x) = x^{2}\) es simétrica respecto al eje y. Cualquier valor de \(b \neq 0\) desplaza el eje de simetría a izquierda o derecha.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 2 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Procedimiento paso a paso
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Procedimiento paso a paso para graficar</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Vértice · ejes · intersecciones</span>
+    <span class="chip">Ejemplo guiado</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Los 6 pasos para graficar cualquier parábola</div>
+
+      <ol class="steps-num">
+        <li><strong>Identifica \(a\), \(b\), \(c\)</strong> en la función \(f(x) = ax^{2} + bx + c\).</li>
+        <li><strong>Determina la concavidad:</strong> si \(a > 0\), abre arriba; si \(a < 0\), abre abajo.</li>
+        <li><strong>Calcula el eje de simetría:</strong> \(x = -\dfrac{b}{2a}\). Llámalo \(h\).</li>
+        <li><strong>Calcula el vértice:</strong> \(V = (h, k)\) donde \(k = f(h)\). Evalúa la función en \(h\) para obtener \(k\).</li>
+        <li><strong>Calcula la intersección con el eje \(y\):</strong> el punto \((0, c)\).</li>
+        <li><strong>Calcula las intersecciones con el eje \(x\)</strong> (si existen): resuelve \(ax^{2}+bx+c=0\) por factorización o fórmula \(x = \dfrac{-b \pm \sqrt{b^{2}-4ac}}{2a}\).</li>
+      </ol>
+
+      <div class="card card-tip">
+        <strong>¿Cuándo hay intersecciones con el eje x?</strong> Depende del <em>discriminante</em> \(\Delta = b^{2}-4ac\):
+        <ul style="margin-top:.4rem;">
+          <li>Si \(\Delta > 0\): <strong>dos</strong> intersecciones.</li>
+          <li>Si \(\Delta = 0\): <strong>una</strong> intersección (el vértice toca el eje x).</li>
+          <li>Si \(\Delta < 0\): <strong>ninguna</strong> intersección.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo guiado completo</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Graficar \(f(x) = x^{2} - 4x + 3\).
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1:</strong> \(a = 1\), \(b = -4\), \(c = 3\).</span>
+        <span class="math-step"><strong>Paso 2:</strong> Como \(a = 1 > 0\), la parábola abre hacia arriba.</span>
+        <span class="math-step"><strong>Paso 3:</strong> Eje de simetría: \(x = -\dfrac{-4}{2 \cdot 1} = 2\).</span>
+        <span class="math-step"><strong>Paso 4:</strong> Vértice: \(k = f(2) = 2^{2} - 4 \cdot 2 + 3 = 4 - 8 + 3 = -1\). Por lo tanto \(V = (2, -1)\).</span>
+        <span class="math-step"><strong>Paso 5:</strong> Intersección con eje y: \((0, 3)\) (porque \(c = 3\)).</span>
+        <span class="math-step"><strong>Paso 6:</strong> Intersección con eje x: \(x^{2} - 4x + 3 = 0 \Rightarrow (x-1)(x-3) = 0\), de donde \(x = 1\) o \(x = 3\). Puntos: \((1, 0)\) y \((3, 0)\).</span>
+      </div>
+
+      <div class="subsec">Tabla de valores complementaria</div>
+      <table class="tbl">
+        <thead><tr><th>\(x\)</th><th>\(-1\)</th><th>\(0\)</th><th>\(1\)</th><th>\(2\)</th><th>\(3\)</th><th>\(4\)</th><th>\(5\)</th></tr></thead>
+        <tbody><tr><td>\(f(x)\)</td><td>\(8\)</td><td>\(3\)</td><td>\(0\)</td><td>\(-1\)</td><td>\(0\)</td><td>\(3\)</td><td>\(8\)</td></tr></tbody>
+      </table>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g3" width="460" height="380"></canvas>
+        <div class="embed-caption">\(f(x) = x^{2} - 4x + 3\) con vértice \(V(2,-1)\), intersecciones con ejes y puntos de tabla. Eje de simetría \(x=2\) (línea dorada discontinua).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 3 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — GRAFICADOR INTERACTIVO DE PARÁBOLAS
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Graficador interactivo de parábolas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🎮 Interactivo</span>
+    <span class="chip">Experimenta con a, b, c</span>
+    <span class="chip">Aprende viendo</span>
+  </div>
+
+  <div class="content">
+
+    <p>Aquí puedes <strong>experimentar</strong> con los coeficientes \(a\), \(b\) y \(c\) y observar cómo cambia la parábola en tiempo real. Mueve los sliders, prueba los presets, y consulta el panel para ver el vértice, eje de simetría e intersecciones calculadas automáticamente.</p>
+
+    <div class="leyenda">
+      <span><span class="dot dot-vertex"></span>Vértice</span>
+      <span><span class="dot dot-int"></span>Intersecciones con ejes</span>
+      <span><span class="line-axis"></span>Eje de simetría</span>
+    </div>
+
+    <div class="plotter-wrap">
+      <div class="plotter-canvas-wrap">
+        <canvas id="parabola-canvas" width="600" height="400"></canvas>
+      </div>
+
+      <div class="plotter-controls">
+        <div class="slider-control">
+          <label>\(a\) = <span id="val-a">1.0</span></label>
+          <input id="slider-a" type="range" min="-3" max="3" step="0.1" value="1" />
+          <small>Concavidad y "ancho"</small>
+        </div>
+        <div class="slider-control">
+          <label>\(b\) = <span id="val-b">0.0</span></label>
+          <input id="slider-b" type="range" min="-6" max="6" step="0.5" value="0" />
+          <small>Desplaza el eje de simetría</small>
+        </div>
+        <div class="slider-control">
+          <label>\(c\) = <span id="val-c">0.0</span></label>
+          <input id="slider-c" type="range" min="-6" max="6" step="0.5" value="0" />
+          <small>Desplaza verticalmente</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="parabola-info" class="info-panel">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Presets pedagógicos</div>
+    <div class="preset-buttons">
+      <button data-preset="standard">f(x) = x²</button>
+      <button data-preset="concava-arriba">Cóncava arriba con 2 raíces</button>
+      <button data-preset="concava-abajo">Cóncava abajo con 2 raíces</button>
+      <button data-preset="sin-raices">Sin raíces reales</button>
+      <button data-preset="una-raiz">Una sola raíz (tangente al eje x)</button>
+      <button data-preset="desplazada">Solo desplazada hacia arriba</button>
+    </div>
+
+    <div class="exploration-tasks">
+      <h3>🔍 Actividades de exploración</h3>
+      <ol>
+        <li><strong>Concavidad:</strong> mueve el slider de \(a\) de 1 a -1 lentamente. ¿En qué momento la parábola se voltea? ¿Qué pasa cuando \(a=0\)?</li>
+        <li><strong>Ancho:</strong> deja \(b=0\), \(c=0\) y mueve \(a\) entre 0,1 y 3. ¿Cómo cambia el ancho?</li>
+        <li><strong>Desplazamiento vertical:</strong> deja \(a=1\), \(b=0\) y mueve \(c\). ¿Hacia dónde se mueve la parábola? ¿Cambia su forma?</li>
+        <li><strong>Eje de simetría:</strong> deja \(a=1\), \(c=0\) y mueve \(b\). ¿Hacia dónde se mueve el vértice?</li>
+        <li><strong>Discriminante:</strong> presiona "Sin raíces reales" y observa. Luego presiona "Dos raíces". ¿Cuándo la parábola toca el eje x?</li>
+        <li><strong>Reto:</strong> intenta hacer una parábola con vértice exactamente en \((3, -2)\).</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 4 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Forma canónica y forma factorizada
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Otras formas de escribir una función cuadrática</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Forma canónica</span>
+    <span class="chip">Forma factorizada</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Tres formas equivalentes</div>
+
+      <p>Toda función cuadrática se puede escribir de tres formas distintas, cada una conveniente para extraer información distinta:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Forma general</span>
+          <span class="prop-eq">\(f(x) = ax^{2} + bx + c\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Forma canónica (vértice)</span>
+          <span class="prop-eq">\(f(x) = a(x - h)^{2} + k\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Forma factorizada (raíces)</span>
+          <span class="prop-eq">\(f(x) = a(x - r_{1})(x - r_{2})\)</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>¿Para qué sirve cada una?</strong>
+        <ul style="margin-top:.4rem;">
+          <li><strong>General:</strong> útil para identificar \(a\), \(b\), \(c\); permite ver la intersección con eje y directamente.</li>
+          <li><strong>Canónica:</strong> el vértice se lee directamente como \((h, k)\). Ideal para identificar el máximo/mínimo.</li>
+          <li><strong>Factorizada:</strong> las raíces \(r_{1}\) y \(r_{2}\) se leen directamente. Ideal para identificar las intersecciones con eje x.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Forma canónica: el vértice se lee directo</div>
+
+      <div class="math-box">
+        \(f(x) = a(x - h)^{2} + k\) &nbsp;&nbsp;⇒&nbsp;&nbsp; Vértice \(V = (h, k)\)
+      </div>
+
+      <p>El valor de \(a\) sigue controlando la concavidad y la apertura, igual que en la forma general. Los valores \(h\) y \(k\) son las coordenadas del vértice.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Cuál es el vértice de \(f(x) = 2(x - 3)^{2} + 5\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Comparando con \(f(x) = a(x-h)^{2} + k\): \(a = 2\), \(h = 3\), \(k = 5\).</span>
+        <span class="math-step"><span class="math-result">Vértice: \(V = (3, 5)\). Concavidad hacia arriba (porque \(a=2>0\)).</span></span>
+      </div>
+
+      <div class="subsec">Ejemplo del signo dentro del paréntesis</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Cuál es el vértice de \(f(x) = -(x + 2)^{2} - 1\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Reescribimos: \(f(x) = -(x - (-2))^{2} + (-1)\), entonces \(a = -1\), \(h = -2\), \(k = -1\).</span>
+        <span class="math-step"><span class="math-result">Vértice: \(V = (-2, -1)\). Concavidad hacia abajo.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Cuidado con los signos:</strong> en \((x - h)^{2}\), el valor de \(h\) tiene signo CONTRARIO al que aparece dentro del paréntesis. Si ves \((x + 2)^{2}\), entonces \(h = -2\) (porque \(x + 2 = x - (-2)\)).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Forma factorizada: las raíces se leen directo</div>
+
+      <div class="math-box">
+        \(f(x) = a(x - r_{1})(x - r_{2})\) &nbsp;&nbsp;⇒&nbsp;&nbsp; Raíces (intersecciones eje x): \(x = r_{1}\) y \(x = r_{2}\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Cuáles son las raíces de \(f(x) = (x - 4)(x + 2)\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Para que \(f(x) = 0\), necesitamos que uno de los factores sea 0:</span>
+        <span class="math-step">\(x - 4 = 0 \Rightarrow x = 4\)</span>
+        <span class="math-step">\(x + 2 = 0 \Rightarrow x = -2\)</span>
+        <span class="math-step"><span class="math-result">Raíces: \(x = 4\) y \(x = -2\). Intersecciones con eje x: \((4, 0)\) y \((-2, 0)\).</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g5a" width="460" height="320"></canvas>
+        <div class="embed-caption">\(f(x) = (x - 4)(x + 2)\): se leen las raíces directamente como intersecciones con eje x.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Cómo pasar entre formas</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Conversión</th><th>Método</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Canónica → General</td><td>Expandir \((x - h)^{2}\) y multiplicar por \(a\).</td></tr>
+          <tr><td>Factorizada → General</td><td>Multiplicar los factores \((x - r_{1})(x - r_{2})\).</td></tr>
+          <tr><td>General → Canónica</td><td>Calcular \(h = -b/(2a)\) y \(k = f(h)\).</td></tr>
+          <tr><td>General → Factorizada</td><td>Encontrar raíces con factorización o fórmula cuadrática.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cada forma es una "lente" distinta para mirar la misma parábola. Cuando un problema te pide el vértice, conviene usar canónica. Cuando pide las raíces, conviene factorizada. Saber elegir la forma adecuada te ahorra mucho trabajo.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 5 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Transformaciones de la parábola
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Transformaciones de la parábola</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Traslaciones</span>
+    <span class="chip">Reflexiones · estiramientos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Partir de la parábola madre</div>
+
+      <p>Toda parábola se puede obtener a partir de la parábola "madre" \(y = x^{2}\) mediante una combinación de cuatro tipos de transformaciones:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Traslación vertical</span>
+          <span class="prop-eq">\(y = x^{2} + k\): sube \(k\) unidades (si \(k > 0\)) o baja (si \(k < 0\)).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Traslación horizontal</span>
+          <span class="prop-eq">\(y = (x - h)^{2}\): mueve \(h\) unidades a la derecha (si \(h > 0\)) o izquierda (si \(h < 0\)).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Estiramiento/compresión vertical</span>
+          <span class="prop-eq">\(y = a \cdot x^{2}\): estira si \(|a| > 1\), comprime si \(|a| < 1\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Reflexión respecto al eje x</span>
+          <span class="prop-eq">\(y = -x^{2}\): voltea la parábola hacia abajo.</span>
+        </div>
+      </div>
+
+      <p>Combinando estas cuatro transformaciones obtienes la forma canónica completa:</p>
+
+      <div class="math-box">
+        \(f(x) = a(x - h)^{2} + k\)
+      </div>
+
+      <p>Donde:</p>
+      <ul style="margin:.5rem 0;line-height:1.7;">
+        <li>\(a\) controla el <strong>estiramiento</strong> (si \(|a|>1\)) o <strong>compresión</strong> (si \(|a|<1\)) y la <strong>reflexión</strong> (si \(a<0\)).</li>
+        <li>\(h\) controla la <strong>traslación horizontal</strong>.</li>
+        <li>\(k\) controla la <strong>traslación vertical</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplos visuales de cada transformación</div>
+
+      <div class="subsec">Traslación vertical: \(y = x^{2} + k\)</div>
+      <div class="embed-graph-wrap">
+        <canvas id="g6a" width="460" height="340"></canvas>
+        <div class="embed-caption">La parábola se desplaza arriba o abajo según el signo de \(k\).</div>
+      </div>
+
+      <div class="subsec">Traslación horizontal: \(y = (x - h)^{2}\)</div>
+      <div class="embed-graph-wrap">
+        <canvas id="g6b" width="460" height="340"></canvas>
+        <div class="embed-caption">La parábola se desplaza derecha o izquierda según el signo de \(h\).</div>
+      </div>
+
+      <div class="subsec">Reflexión respecto al eje x: \(y = -x^{2}\)</div>
+      <div class="embed-graph-wrap">
+        <canvas id="g6c" width="460" height="320"></canvas>
+        <div class="embed-caption">El signo negativo de \(a\) refleja la parábola hacia abajo.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Combinar transformaciones</div>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Describir qué transformaciones se aplicaron a \(y = x^{2}\) para obtener \(f(x) = -2(x - 3)^{2} + 4\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Comparando con \(f(x) = a(x - h)^{2} + k\): \(a = -2\), \(h = 3\), \(k = 4\).</span>
+        <span class="math-step">1. <strong>Reflexión:</strong> el signo negativo de \(a\) la voltea hacia abajo.</span>
+        <span class="math-step">2. <strong>Estiramiento vertical:</strong> \(|a| = 2 > 1\), la parábola se vuelve más estrecha.</span>
+        <span class="math-step">3. <strong>Traslación horizontal:</strong> \(h = 3\), la parábola se mueve 3 unidades a la derecha.</span>
+        <span class="math-step">4. <strong>Traslación vertical:</strong> \(k = 4\), la parábola sube 4 unidades.</span>
+        <span class="math-step"><span class="math-result">Vértice resultante: \((3, 4)\); concavidad hacia abajo.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Las cuatro transformaciones funcionan como un "control remoto" de la parábola: cada coeficiente activa un cambio específico. Cuando puedas predecir el aspecto de una parábola con solo mirar su forma canónica, ya internalizaste el efecto de cada transformación.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 6 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — GRAFICADOR GENERAL (puntos, rectas, parábolas)
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta: graficador general</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Puntos · rectas · parábolas</span>
+    <span class="chip">Plano cartesiano</span>
+  </div>
+
+  <div class="content">
+
+    <p>Esta herramienta permite graficar <strong>puntos, rectas y parábolas</strong> en un mismo plano cartesiano. Útil para visualizar problemas, comparar funciones, identificar intersecciones y construir tus propios ejercicios.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="tool-canvas" width="600" height="450"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="tool-section">
+          <h4>📍 Agregar punto \((x, y)\)</h4>
+          <div class="tool-row">
+            <label>x</label><input id="pt-x" type="number" step="0.5" value="0" />
+            <label>y</label><input id="pt-y" type="number" step="0.5" value="0" />
+            <input id="pt-color" type="color" value="#6A2C91" />
+            <button id="add-point">+ Punto</button>
+          </div>
+        </div>
+
+        <div class="tool-section">
+          <h4>📈 Agregar recta \(y = mx + n\)</h4>
+          <div class="tool-row">
+            <label>m</label><input id="line-m" type="number" step="0.5" value="1" />
+            <label>n</label><input id="line-n" type="number" step="0.5" value="0" />
+            <input id="line-color" type="color" value="#D4AF37" />
+            <button id="add-line">+ Recta</button>
+          </div>
+        </div>
+
+        <div class="tool-section">
+          <h4>📐 Agregar parábola \(y = ax^{2} + bx + c\)</h4>
+          <div class="tool-row">
+            <label>a</label><input id="quad-a" type="number" step="0.5" value="1" />
+            <label>b</label><input id="quad-b" type="number" step="0.5" value="0" />
+            <label>c</label><input id="quad-c" type="number" step="0.5" value="0" />
+            <input id="quad-color" type="color" value="#0B0F3F" />
+            <button id="add-quad">+ Parábola</button>
+          </div>
+        </div>
+
+        <button class="btn-clear-all" id="clear-all">🗑 Limpiar todo</button>
+      </div>
+    </div>
+
+    <div class="subsec">Objetos en el plano</div>
+    <div class="tool-list" id="tool-list">
+      <div class="tool-empty">Aún no has agregado ningún objeto. Usa los formularios de arriba.</div>
+    </div>
+
+    <div class="exploration-tasks">
+      <h3>🔍 Actividades sugeridas</h3>
+      <ol>
+        <li>Grafica la parábola \(y = x^{2} - 4\) y la recta \(y = 0\) (eje x). ¿En qué puntos se intersectan?</li>
+        <li>Grafica los puntos \((-2, 4)\), \((0, 0)\), \((1, 1)\), \((2, 4)\). ¿Qué parábola pasa por ellos?</li>
+        <li>Grafica la parábola \(y = x^{2}\) y la recta \(y = x + 2\). ¿Cuántas intersecciones tienen?</li>
+        <li>Grafica las rectas \(y = 2x + 1\) y \(y = -x + 4\). ¿Dónde se cortan?</li>
+        <li>Construye una parábola con vértice en \((2, -3)\) usando la forma canónica.</li>
+        <li>Grafica una parábola y una recta tangente a ella (que la toque en un solo punto).</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 7 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Gráficos cuadráticos — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál de las siguientes es una función cuadrática?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f(x) = 3x + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es una función lineal (no tiene \(x^{2}\)).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f(x) = x^{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Tiene \(x^{2}\), con \(a=1\), \(b=0\), \(c=0\). Su gráfico es una parábola.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(f(x) = 1/x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es una función racional, no cuadrática.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(f(x) = \sqrt{x}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es una función irracional.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">En la función \(f(x) = 2x^{2} + 3x - 5\), ¿cuál es el valor de \(a\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2\)<div class="opt-feedback"><strong>Correcto.</strong> \(a\) es el coeficiente que acompaña a \(x^{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> 3 es \(b\), el coeficiente de \(x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(-5\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-5\) es \(c\), el término constante.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(a=0\), no sería cuadrática.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si en \(f(x) = ax^{2}\) la \(a\) es negativa, la parábola:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> abre hacia arriba<div class="opt-feedback"><strong>Incorrecto.</strong> Eso ocurre cuando \(a > 0\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> abre hacia abajo<div class="opt-feedback"><strong>Correcto.</strong> El signo de \(a\) determina la concavidad: negativo ⇒ abre hacia abajo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> no se forma<div class="opt-feedback"><strong>Incorrecto.</strong> Siempre se forma una parábola si \(a \neq 0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> es una línea recta<div class="opt-feedback"><strong>Incorrecto.</strong> Solo si \(a = 0\), pero entonces no es cuadrática.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es la concavidad de \(f(x) = -3x^{2} + 4x - 1\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Cóncava hacia arriba<div class="opt-feedback"><strong>Incorrecto.</strong> \(a = -3 < 0\), abre hacia abajo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Cóncava hacia abajo<div class="opt-feedback"><strong>Correcto.</strong> \(a = -3\) es negativo, la parábola abre hacia abajo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> No tiene concavidad<div class="opt-feedback"><strong>Incorrecto.</strong> Toda parábola tiene concavidad definida (mientras \(a \neq 0\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Tiene dos concavidades<div class="opt-feedback"><strong>Incorrecto.</strong> Una parábola tiene una sola concavidad determinada por \(a\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es el punto de intersección con el eje y de \(f(x) = x^{2} - 4x + 6\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((0,\, 6)\)<div class="opt-feedback"><strong>Correcto.</strong> La intersección con el eje y siempre es \((0, c)\), aquí \(c = 6\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((0,\, -4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-4\) es \(b\), no la intersección.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((0,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> 1 es \(a\), no la intersección.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((0,\, 0)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería \((0, 0)\) solo si \(c = 0\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es el eje de simetría de \(f(x) = x^{2} - 6x + 9\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x = -6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es el valor de \(b\), no del eje. Falta dividir por \(2a\) y cambiar signo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x = 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(x = -b/(2a) = -(-6)/(2 \cdot 1) = 6/2 = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x = 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> 9 es \(c\), no el eje de simetría.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería \(x=0\) solo si \(b=0\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si una parábola tiene \(a > 0\) y vértice en \((2, -3)\), ¿cuál es su recorrido (rango)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(y \leq -3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería si abriera hacia abajo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(y \geq -3\)<div class="opt-feedback"><strong>Correcto.</strong> Abre hacia arriba (\(a > 0\)), \(-3\) es el valor mínimo; \(y\) toma todos los valores \(\geq -3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(y = -3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería si la parábola fuera una línea horizontal.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Todo el eje y<div class="opt-feedback"><strong>Incorrecto.</strong> Una parábola está acotada por su vértice (mínimo o máximo).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es el vértice de \(f(x) = x^{2} - 4x + 3\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((2,\, -1)\)<div class="opt-feedback"><strong>Correcto.</strong> \(h = -b/(2a) = 4/2 = 2\); \(k = f(2) = 4 - 8 + 3 = -1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((4,\, 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con los valores \(b\) y \(c\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((-2,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en la fórmula del vértice.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((0,\, 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la intersección con eje y, no el vértice.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿En qué puntos \(f(x) = x^{2} - 4x + 3\) intersecta al eje x?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((1,\, 0)\) y \((3,\, 0)\)<div class="opt-feedback"><strong>Correcto.</strong> Factorizando: \(x^{2}-4x+3 = (x-1)(x-3) = 0 \Rightarrow x = 1\) o \(x = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((-1,\, 0)\) y \((-3,\, 0)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((0,\, 3)\) y \((0,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esos serían puntos sobre el eje y, no x.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No intersecta al eje x<div class="opt-feedback"><strong>Incorrecto.</strong> Discriminante: \(16 - 12 = 4 > 0\), sí hay dos intersecciones.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(f(x) = ax^{2}\) tiene \(a = \tfrac{1}{4}\), comparada con \(g(x) = x^{2}\), la parábola \(f(x)\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Más estrecha<div class="opt-feedback"><strong>Incorrecto.</strong> Sería más estrecha si \(|a| > 1\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Más ancha<div class="opt-feedback"><strong>Correcto.</strong> Con \(|a| < 1\), la parábola crece más lento y se ve más ancha que \(g(x) = x^{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Igual<div class="opt-feedback"><strong>Incorrecto.</strong> Distinto valor de \(a\) ⇒ distinta forma.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Volcada<div class="opt-feedback"><strong>Incorrecto.</strong> Eso requeriría \(a < 0\), pero \(1/4 > 0\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 8 de 9</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 9 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Gráficos cuadráticos — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Gráficos de funciones cuadráticas</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">La función \(f(x) = ax^{2} + bx + c\) es cuadrática si:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(a=0\), desaparece el término \(x^{2}\) y la función es lineal.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(a \neq 0\)<div class="opt-feedback"><strong>Correcto.</strong> La condición clave es \(a \neq 0\); los otros coeficientes pueden ser 0.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(b = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(b\) puede ser 0 (\(f(x)=ax^{2}+c\) sigue siendo cuadrática).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(c = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(c\) puede ser 0 (\(f(x)=ax^{2}+bx\) sigue siendo cuadrática).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">En la función \(f(x) = 3x^{2} + 5x - 2\), el coeficiente \(c\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> 3 es \(a\) (coeficiente de \(x^{2}\)).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(5\)<div class="opt-feedback"><strong>Incorrecto.</strong> 5 es \(b\) (coeficiente de \(x\)).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(-2\)<div class="opt-feedback"><strong>Correcto.</strong> \(c\) es el término constante (sin variable), aquí \(-2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(c=-2\), no 0.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál de las siguientes parábolas abre hacia arriba?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(f(x) = -x^{2} + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(a = -1 < 0\), abre hacia abajo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(f(x) = -2x^{2} + x - 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(a = -2 < 0\), abre hacia abajo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(f(x) = 3x^{2} - 4\)<div class="opt-feedback"><strong>Correcto.</strong> \(a = 3 > 0\), abre hacia arriba.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(f(x) = -\tfrac{1}{2}x^{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(a = -1/2 < 0\), abre hacia abajo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">El vértice de la parábola \(y = x^{2}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((1,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es un punto de la parábola pero no el vértice.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((0,\, 0)\)<div class="opt-feedback"><strong>Correcto.</strong> Con \(b = 0\) y \(c = 0\), el vértice está en el origen.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((-1,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es un punto de la parábola (porque \((-1)^{2}=1\)) pero no el vértice.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((0,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con \(y = x^{2}+1\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Si \(f(x) = 2x^{2} - 8x + 5\), el eje de simetría es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x = -2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en la fórmula.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x = 2\)<div class="opt-feedback"><strong>Correcto.</strong> \(x = -b/(2a) = -(-8)/(2 \cdot 2) = 8/4 = 2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x = 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida dividir por \(2a\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x = 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(-b\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Una parábola tiene la forma \(f(x) = ax^{2} + c\) con \(a < 0\) y \(c > 0\). ¿Cuál afirmación es VERDADERA?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Abre hacia abajo y corta el eje y arriba del origen<div class="opt-feedback"><strong>Correcto.</strong> \(a<0\) ⇒ abre hacia abajo; intersección con eje y = \((0, c)\) con \(c>0\), arriba del origen.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Abre hacia arriba<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si \(a > 0\), pero \(a < 0\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> No tiene intersección con el eje y<div class="opt-feedback"><strong>Incorrecto.</strong> Toda parábola corta el eje y en \((0, c)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> El vértice está debajo del origen<div class="opt-feedback"><strong>Incorrecto.</strong> Con \(b=0\), el vértice es \((0, c)\), con \(c>0\) está arriba del origen.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuántas intersecciones con el eje x tiene \(f(x) = x^{2} + 1\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Dos<div class="opt-feedback"><strong>Incorrecto.</strong> Discriminante: \(0 - 4 = -4 < 0\), no hay raíces reales.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Una<div class="opt-feedback"><strong>Incorrecto.</strong> Eso requeriría discriminante igual a 0.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Ninguna<div class="opt-feedback"><strong>Correcto.</strong> \(x^{2}+1=0 \Rightarrow x^{2}=-1\), sin solución real. La parábola está sobre el eje x.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Tres<div class="opt-feedback"><strong>Incorrecto.</strong> Una parábola corta el eje x en máximo 2 puntos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si una parábola tiene vértice en \((3, 5)\) y abre hacia abajo, ¿cuál es el valor MÁXIMO de \(f\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> 3 es la coordenada \(x\) del vértice (no el valor de \(f\)).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(5\)<div class="opt-feedback"><strong>Correcto.</strong> Si abre hacia abajo, el valor máximo es la coordenada \(y\) del vértice, que es 5.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a ningún dato del problema.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(-5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el signo; el vértice da \(+5\) como máximo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Si las raíces de una parábola son \(x = 2\) y \(x = -3\), ¿cuál puede ser una expresión válida?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(f(x) = (x-2)(x+3)\)<div class="opt-feedback"><strong>Correcto.</strong> Forma factorizada: raíces son los valores que hacen cero cada factor: \(x-2=0 \Rightarrow x=2\); \(x+3=0 \Rightarrow x=-3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(f(x) = (x+2)(x-3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría raíces \(-2\) y \(3\), no \(2\) y \(-3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(f(x) = (x-2)(x-3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría raíces \(2\) y \(3\), pero falta el \(-3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(f(x) = (x+2)(x+3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría raíces \(-2\) y \(-3\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">La altura de una pelota lanzada al aire se modela por \(h(t) = -5t^{2} + 20t\) (con \(h\) en metros y \(t\) en segundos). ¿Cuál es la altura máxima que alcanza?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(10\) m<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al vértice.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(15\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo errado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(20\) m<div class="opt-feedback"><strong>Correcto.</strong> Tiempo del máximo: \(t = -20/(2 \cdot (-5)) = 2\) s. Altura: \(h(2) = -5(4) + 20(2) = -20+40 = 20\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(40\) m<div class="opt-feedback"><strong>Incorrecto.</strong> Mal cálculo del vértice.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>La parábola es una de las formas más importantes en matemática y ciencias. Modela trayectorias, formas de antenas, decisiones económicas, áreas. Dominar cómo identificar y graficar una función cuadrática es la puerta de entrada a ecuaciones cuadráticas, inecuaciones, modelos de optimización y cálculo.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Elementos del gráfico (vértice, eje, intersecciones)</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Gráficos cuadráticos · Página 9 de 9</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  /* ====== Helper: dibuja parábolas/puntos/rectas en un canvas ====== */
+  function makePlotter(canvas, cfg){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var xmin = cfg.xRange[0], xmax = cfg.xRange[1];
+    var ymin = cfg.yRange[0], ymax = cfg.yRange[1];
+    var ppuX = W / (xmax - xmin);
+    var ppuY = H / (ymax - ymin);
+
+    function wx(x){ return (x - xmin) * ppuX; }
+    function wy(y){ return H - (y - ymin) * ppuY; }
+
+    function drawGrid(){
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(106,44,145,.1)';
+      ctx.lineWidth = 1;
+      for(var i = Math.ceil(xmin); i <= xmax; i++){
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+      }
+      for(var j = Math.ceil(ymin); j <= ymax; j++){
+        ctx.beginPath(); ctx.moveTo(0, wy(j)); ctx.lineTo(W, wy(j)); ctx.stroke();
+      }
+      // Ejes
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      if(xmin <= 0 && xmax >= 0){
+        ctx.beginPath(); ctx.moveTo(wx(0), 0); ctx.lineTo(wx(0), H); ctx.stroke();
+      }
+      if(ymin <= 0 && ymax >= 0){
+        ctx.beginPath(); ctx.moveTo(0, wy(0)); ctx.lineTo(W, wy(0)); ctx.stroke();
+      }
+      // Etiquetas
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '9px Inter, sans-serif';
+      var yLabel = (ymin <= 0 && ymax >= 0) ? wy(0) + 10 : H - 2;
+      var xLabel = (xmin <= 0 && xmax >= 0) ? wx(0) + 3 : 3;
+      for(var k = Math.ceil(xmin); k <= xmax; k++){
+        if(k === 0) continue;
+        ctx.fillText(k.toString(), wx(k) - 4, yLabel);
+      }
+      for(var m = Math.ceil(ymin); m <= ymax; m++){
+        if(m === 0) continue;
+        ctx.fillText(m.toString(), xLabel, wy(m) + 3);
+      }
+    }
+
+    function drawAxisOfSymmetry(h){
+      ctx.strokeStyle = 'rgba(212,175,55,.9)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(wx(h), 0); ctx.lineTo(wx(h), H); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawParabola(a, b, c, color, lineWidth){
+      ctx.strokeStyle = color || '#6A2C91';
+      ctx.lineWidth = lineWidth || 2.5;
+      ctx.beginPath();
+      var first = true;
+      for(var px = 0; px <= W; px++){
+        var x = px / ppuX + xmin;
+        var y = a*x*x + b*x + c;
+        if(y < ymin - 2 || y > ymax + 2){ first = true; continue; }
+        var py = wy(y);
+        if(first){ ctx.moveTo(px, py); first = false; }
+        else { ctx.lineTo(px, py); }
+      }
+      ctx.stroke();
+    }
+
+    function drawLine(m, n, color, lineWidth){
+      ctx.strokeStyle = color || '#D4AF37';
+      ctx.lineWidth = lineWidth || 2.5;
+      ctx.beginPath();
+      var y1 = m*xmin + n;
+      var y2 = m*xmax + n;
+      ctx.moveTo(wx(xmin), wy(y1));
+      ctx.lineTo(wx(xmax), wy(y2));
+      ctx.stroke();
+    }
+
+    function drawPoint(x, y, color, label){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.beginPath(); ctx.arc(wx(x), wy(y), 4, 0, 2*Math.PI); ctx.fill();
+      if(label){
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.fillText(label, wx(x) + 6, wy(y) - 5);
+      }
+    }
+
+    function drawVertex(h, k){
+      ctx.fillStyle = '#D4AF37';
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(wx(h), wy(k), 6, 0, 2*Math.PI);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = 'bold 10px Inter, sans-serif';
+      ctx.fillText('V(' + h + ',' + k + ')', wx(h) + 8, wy(k) - 7);
+    }
+
+    function drawLegend(items){
+      ctx.font = '10px Inter, sans-serif';
+      var y0 = 14;
+      for(var i = 0; i < items.length; i++){
+        ctx.fillStyle = items[i].color;
+        ctx.fillRect(8, y0 - 5, 16, 3);
+        ctx.fillStyle = '#0B0F3F';
+        ctx.fillText(items[i].label, 28, y0);
+        y0 += 13;
+      }
+    }
+
+    return {
+      ctx: ctx, wx: wx, wy: wy,
+      drawGrid: drawGrid,
+      drawAxisOfSymmetry: drawAxisOfSymmetry,
+      drawParabola: drawParabola,
+      drawLine: drawLine,
+      drawPoint: drawPoint,
+      drawVertex: drawVertex,
+      drawLegend: drawLegend
+    };
+  }
+
+  /* ====== Gráficos embebidos en páginas 1, 2, 3, 5, 6 ====== */
+  function drawEmbedded(){
+    // ---- Página 1: f(x) = x² ----
+    var c1 = document.getElementById('g1');
+    if(c1){
+      var p = makePlotter(c1, {xRange:[-4, 4], yRange:[-2, 10]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(0);
+      p.drawParabola(1, 0, 0, '#6A2C91', 3);
+      // Puntos de tabla
+      var pts1 = [[-3,9],[-2,4],[-1,1],[1,1],[2,4],[3,9]];
+      for(var i = 0; i < pts1.length; i++){
+        p.drawPoint(pts1[i][0], pts1[i][1], '#6A2C91');
+      }
+      p.drawVertex(0, 0);
+    }
+
+    // ---- Página 2a: tres parábolas con distinto a ----
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var p = makePlotter(c2a, {xRange:[-3, 3], yRange:[-1, 9]});
+      p.drawGrid();
+      p.drawParabola(2, 0, 0, '#6A2C91', 2.5);
+      p.drawParabola(1, 0, 0, '#D4AF37', 2.5);
+      p.drawParabola(0.5, 0, 0, '#0B0F3F', 2.5);
+      p.drawVertex(0, 0);
+      p.drawLegend([
+        {color:'#6A2C91', label:'f(x) = 2x²  (más estrecha)'},
+        {color:'#D4AF37', label:'g(x) = x²'},
+        {color:'#0B0F3F', label:'h(x) = ½x²  (más ancha)'}
+      ]);
+    }
+
+    // ---- Página 2b: variación de c ----
+    var c2b = document.getElementById('g2b');
+    if(c2b){
+      var p = makePlotter(c2b, {xRange:[-4, 4], yRange:[-7, 8]});
+      p.drawGrid();
+      p.drawParabola(1, 0, 0, '#6A2C91', 2.5);
+      p.drawParabola(1, 0, 3, '#D4AF37', 2.5);
+      p.drawParabola(1, 0, -5, '#0B0F3F', 2.5);
+      // Marca intersecciones con eje y
+      p.drawPoint(0, 0, '#6A2C91');
+      p.drawPoint(0, 3, '#D4AF37', '(0, 3)');
+      p.drawPoint(0, -5, '#0B0F3F', '(0, -5)');
+      p.drawLegend([
+        {color:'#6A2C91', label:'f(x) = x²'},
+        {color:'#D4AF37', label:'f(x) = x² + 3'},
+        {color:'#0B0F3F', label:'f(x) = x² - 5'}
+      ]);
+    }
+
+    // ---- Página 3: f(x) = x² - 4x + 3 con todos los elementos ----
+    var c3 = document.getElementById('g3');
+    if(c3){
+      var p = makePlotter(c3, {xRange:[-2, 6], yRange:[-3, 9]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(2);
+      p.drawParabola(1, -4, 3, '#6A2C91', 3);
+      // Puntos de la tabla
+      var pts3 = [[-1,8],[0,3],[1,0],[3,0],[4,3],[5,8]];
+      for(var i = 0; i < pts3.length; i++){
+        p.drawPoint(pts3[i][0], pts3[i][1], '#6A2C91');
+      }
+      // Intersecciones con eje y especiales
+      p.drawPoint(0, 3, '#0B0F3F', '(0, 3)');
+      p.drawPoint(1, 0, '#0B0F3F', '(1, 0)');
+      p.drawPoint(3, 0, '#0B0F3F', '(3, 0)');
+      // Vértice
+      p.drawVertex(2, -1);
+    }
+
+    // ---- Página 5: f(x) = (x - 4)(x + 2) ----
+    var c5a = document.getElementById('g5a');
+    if(c5a){
+      var p = makePlotter(c5a, {xRange:[-4, 6], yRange:[-10, 8]});
+      p.drawGrid();
+      // (x-4)(x+2) = x² - 2x - 8
+      p.drawAxisOfSymmetry(1);
+      p.drawParabola(1, -2, -8, '#6A2C91', 3);
+      p.drawPoint(-2, 0, '#0B0F3F', 'r₁ = -2');
+      p.drawPoint(4, 0, '#0B0F3F', 'r₂ = 4');
+      p.drawVertex(1, -9);
+    }
+
+    // ---- Página 6a: traslación vertical ----
+    var c6a = document.getElementById('g6a');
+    if(c6a){
+      var p = makePlotter(c6a, {xRange:[-4, 4], yRange:[-6, 8]});
+      p.drawGrid();
+      p.drawParabola(1, 0, 0, '#6A2C91', 2.5);
+      p.drawParabola(1, 0, 3, '#D4AF37', 2.5);
+      p.drawParabola(1, 0, -4, '#0B0F3F', 2.5);
+      p.drawLegend([
+        {color:'#6A2C91', label:'y = x²'},
+        {color:'#D4AF37', label:'y = x² + 3  (sube 3)'},
+        {color:'#0B0F3F', label:'y = x² - 4  (baja 4)'}
+      ]);
+    }
+
+    // ---- Página 6b: traslación horizontal ----
+    var c6b = document.getElementById('g6b');
+    if(c6b){
+      var p = makePlotter(c6b, {xRange:[-6, 6], yRange:[-1, 10]});
+      p.drawGrid();
+      p.drawParabola(1, 0, 0, '#6A2C91', 2.5);
+      // y = (x - 3)² = x² - 6x + 9
+      p.drawParabola(1, -6, 9, '#D4AF37', 2.5);
+      // y = (x + 2)² = x² + 4x + 4
+      p.drawParabola(1, 4, 4, '#0B0F3F', 2.5);
+      p.drawLegend([
+        {color:'#6A2C91', label:'y = x²'},
+        {color:'#D4AF37', label:'y = (x - 3)²  (derecha 3)'},
+        {color:'#0B0F3F', label:'y = (x + 2)²  (izquierda 2)'}
+      ]);
+    }
+
+    // ---- Página 6c: reflexión ----
+    var c6c = document.getElementById('g6c');
+    if(c6c){
+      var p = makePlotter(c6c, {xRange:[-4, 4], yRange:[-6, 6]});
+      p.drawGrid();
+      p.drawParabola(1, 0, 0, '#6A2C91', 2.5);
+      p.drawParabola(-1, 0, 0, '#D4AF37', 2.5);
+      p.drawLegend([
+        {color:'#6A2C91', label:'y = x²  (abre arriba)'},
+        {color:'#D4AF37', label:'y = -x²  (reflejada, abre abajo)'}
+      ]);
+    }
+  }
+
+  /* ====== GRAFICADOR INTERACTIVO de parábolas (Página 4) ====== */
+  function setupPlotter(){
+    var canvas = document.getElementById('parabola-canvas');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var ppu = 25;
+    var cx = W/2, cy = H/2;
+
+    var aSlider = document.getElementById('slider-a');
+    var bSlider = document.getElementById('slider-b');
+    var cSlider = document.getElementById('slider-c');
+    var aVal = document.getElementById('val-a');
+    var bVal = document.getElementById('val-b');
+    var cVal = document.getElementById('val-c');
+    var info = document.getElementById('parabola-info');
+
+    function wx(x){ return cx + x*ppu; }
+    function wy(y){ return cy - y*ppu; }
+
+    function draw(){
+      var a = parseFloat(aSlider.value);
+      var b = parseFloat(bSlider.value);
+      var c = parseFloat(cSlider.value);
+
+      aVal.textContent = a.toFixed(1);
+      bVal.textContent = b.toFixed(1);
+      cVal.textContent = c.toFixed(1);
+
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.strokeStyle = 'rgba(106,44,145,.12)';
+      ctx.lineWidth = 1;
+      for(var i=-12; i<=12; i++){
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, wy(i)); ctx.lineTo(W, wy(i)); ctx.stroke();
+      }
+
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '10px Inter, sans-serif';
+      for(var j=-10; j<=10; j+=2){
+        if(j === 0) continue;
+        ctx.fillText(j.toString(), wx(j)-5, cy+12);
+        ctx.fillText(j.toString(), cx+5, wy(j)+4);
+      }
+
+      if(Math.abs(a) < 0.05){
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(wx(-10), wy(b*(-10) + c));
+        ctx.lineTo(wx(10), wy(b*(10) + c));
+        ctx.stroke();
+        info.innerHTML = '<span class="alert">⚠ Con a ≈ 0, esto deja de ser cuadrática y se vuelve LINEAL.</span><br><strong>Función:</strong> f(x) = ' + b.toFixed(1) + 'x + ' + c.toFixed(1);
+        return;
+      }
+
+      var h = -b / (2*a);
+      var k = a*h*h + b*h + c;
+
+      ctx.strokeStyle = 'rgba(212,175,55,.9)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.moveTo(wx(h), 0); ctx.lineTo(wx(h), H); ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = '#6A2C91';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      var first = true;
+      for(var px=0; px<=W; px++){
+        var x = (px - cx) / ppu;
+        var y = a*x*x + b*x + c;
+        var py = wy(y);
+        if(py < -200 || py > H+200){ first = true; continue; }
+        if(first){ ctx.moveTo(px, py); first = false; }
+        else { ctx.lineTo(px, py); }
+      }
+      ctx.stroke();
+
+      var vx = wx(h), vy = wy(k);
+      if(vy >= -20 && vy <= H+20){
+        ctx.fillStyle = '#D4AF37';
+        ctx.strokeStyle = '#0B0F3F';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(vx, vy, 6, 0, 2*Math.PI); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.fillText('V(' + h.toFixed(2) + ', ' + k.toFixed(2) + ')', vx+10, vy-8);
+      }
+
+      var yIntY = wy(c);
+      if(yIntY >= 0 && yIntY <= H){
+        ctx.fillStyle = '#6A2C91';
+        ctx.beginPath(); ctx.arc(cx, yIntY, 5, 0, 2*Math.PI); ctx.fill();
+      }
+
+      var disc = b*b - 4*a*c;
+      var xIntText = '';
+      if(disc > 0.001){
+        var sd = Math.sqrt(disc);
+        var x1 = (-b - sd)/(2*a);
+        var x2 = (-b + sd)/(2*a);
+        ctx.fillStyle = '#6A2C91';
+        ctx.beginPath(); ctx.arc(wx(x1), cy, 5, 0, 2*Math.PI); ctx.fill();
+        ctx.beginPath(); ctx.arc(wx(x2), cy, 5, 0, 2*Math.PI); ctx.fill();
+        xIntText = 'Intersecciones eje x: (' + x1.toFixed(2) + ', 0) y (' + x2.toFixed(2) + ', 0)';
+      } else if(Math.abs(disc) <= 0.001){
+        var x0 = -b/(2*a);
+        ctx.fillStyle = '#6A2C91';
+        ctx.beginPath(); ctx.arc(wx(x0), cy, 5, 0, 2*Math.PI); ctx.fill();
+        xIntText = 'Una intersección (tangente al eje x): (' + x0.toFixed(2) + ', 0)';
+      } else {
+        xIntText = 'No corta el eje x (discriminante < 0)';
+      }
+
+      var sign_b = b >= 0 ? '+' : '−';
+      var sign_c = c >= 0 ? '+' : '−';
+      var formula = 'f(x) = ' + a.toFixed(1) + 'x² ' + sign_b + ' ' + Math.abs(b).toFixed(1) + 'x ' + sign_c + ' ' + Math.abs(c).toFixed(1);
+      var concav = a > 0 ? 'hacia arriba ↑' : 'hacia abajo ↓';
+      info.innerHTML =
+        '<strong>Función:</strong> ' + formula + '<br>' +
+        '<strong>Concavidad:</strong> ' + concav + '<br>' +
+        '<strong>Vértice:</strong> (' + h.toFixed(2) + ', ' + k.toFixed(2) + ')<br>' +
+        '<strong>Eje de simetría:</strong> x = ' + h.toFixed(2) + '<br>' +
+        '<strong>Intersección eje y:</strong> (0, ' + c.toFixed(2) + ')<br>' +
+        '<strong>' + xIntText + '</strong><br>' +
+        '<strong>Discriminante:</strong> Δ = ' + disc.toFixed(2);
+    }
+
+    aSlider.addEventListener('input', draw);
+    bSlider.addEventListener('input', draw);
+    cSlider.addEventListener('input', draw);
+
+    var presets = {
+      'standard':       [1, 0, 0],
+      'concava-arriba': [1, -2, -3],
+      'concava-abajo':  [-1, 2, 3],
+      'sin-raices':     [1, 0, 4],
+      'una-raiz':       [1, -2, 1],
+      'desplazada':     [1, 0, 3]
+    };
+    var presetBtns = document.querySelectorAll('[data-preset]');
+    for(var i=0; i<presetBtns.length; i++){
+      presetBtns[i].addEventListener('click', (function(btn){
+        return function(){
+          var p = presets[btn.dataset.preset];
+          if(!p) return;
+          aSlider.value = p[0]; bSlider.value = p[1]; cSlider.value = p[2];
+          draw();
+        };
+      })(presetBtns[i]));
+    }
+
+    draw();
+  }
+
+  /* ====== GRAFICADOR GENERAL (Página 7) ====== */
+  function setupGeneralTool(){
+    var canvas = document.getElementById('tool-canvas');
+    if(!canvas) return;
+    var objects = [];
+    var idCounter = 0;
+
+    function render(){
+      var p = makePlotter(canvas, {xRange:[-10, 10], yRange:[-8, 8]});
+      p.drawGrid();
+      for(var i = 0; i < objects.length; i++){
+        var o = objects[i];
+        if(o.type === 'point'){
+          p.drawPoint(o.x, o.y, o.color, '(' + o.x + ', ' + o.y + ')');
+        } else if(o.type === 'line'){
+          p.drawLine(o.m, o.n, o.color, 2.5);
+        } else if(o.type === 'quad'){
+          p.drawParabola(o.a, o.b, o.c, o.color, 2.5);
+        }
+      }
+      renderList();
+    }
+
+    function renderList(){
+      var list = document.getElementById('tool-list');
+      if(objects.length === 0){
+        list.innerHTML = '<div class="tool-empty">Aún no has agregado ningún objeto. Usa los formularios de arriba.</div>';
+        return;
+      }
+      var html = '';
+      for(var i = 0; i < objects.length; i++){
+        var o = objects[i];
+        var label = '';
+        if(o.type === 'point') label = 'Punto (' + o.x + ', ' + o.y + ')';
+        else if(o.type === 'line') label = 'Recta: y = ' + o.m + 'x + ' + o.n;
+        else if(o.type === 'quad') label = 'Parábola: y = ' + o.a + 'x² + ' + o.b + 'x + ' + o.c;
+        html += '<div class="tool-list-item">' +
+                  '<span><span class="swatch" style="background:' + o.color + '"></span>' + label + '</span>' +
+                  '<button data-id="' + o.id + '" title="Eliminar">✕</button>' +
+                '</div>';
+      }
+      list.innerHTML = html;
+      var delBtns = list.querySelectorAll('button[data-id]');
+      for(var j = 0; j < delBtns.length; j++){
+        delBtns[j].addEventListener('click', function(e){
+          var id = parseInt(e.target.dataset.id);
+          objects = objects.filter(function(o){ return o.id !== id; });
+          render();
+        });
+      }
+    }
+
+    document.getElementById('add-point').addEventListener('click', function(){
+      var x = parseFloat(document.getElementById('pt-x').value);
+      var y = parseFloat(document.getElementById('pt-y').value);
+      var color = document.getElementById('pt-color').value;
+      if(!isNaN(x) && !isNaN(y)){
+        objects.push({id: idCounter++, type:'point', x: x, y: y, color: color});
+        render();
+      }
+    });
+
+    document.getElementById('add-line').addEventListener('click', function(){
+      var m = parseFloat(document.getElementById('line-m').value);
+      var n = parseFloat(document.getElementById('line-n').value);
+      var color = document.getElementById('line-color').value;
+      if(!isNaN(m) && !isNaN(n)){
+        objects.push({id: idCounter++, type:'line', m: m, n: n, color: color});
+        render();
+      }
+    });
+
+    document.getElementById('add-quad').addEventListener('click', function(){
+      var a = parseFloat(document.getElementById('quad-a').value);
+      var b = parseFloat(document.getElementById('quad-b').value);
+      var c = parseFloat(document.getElementById('quad-c').value);
+      var color = document.getElementById('quad-color').value;
+      if(!isNaN(a) && !isNaN(b) && !isNaN(c) && a !== 0){
+        objects.push({id: idCounter++, type:'quad', a: a, b: b, c: c, color: color});
+        render();
+      }
+    });
+
+    document.getElementById('clear-all').addEventListener('click', function(){
+      objects = [];
+      render();
+    });
+
+    render();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupPlotter();
+    setupGeneralTool();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

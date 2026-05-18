@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jerarquía de operaciones — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    /* Pirámide de jerarquía */
+    .hierarchy{display:flex;flex-direction:column;align-items:center;gap:.4rem;margin:1rem 0;}
+    .h-level{display:flex;align-items:center;gap:.8rem;padding:.7rem 1.5rem;border-radius:10px;font-weight:700;border:2px solid;width:90%;justify-content:space-between;}
+    .h-level .h-num{background:#fff;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;color:inherit;font-weight:800;border:2px solid;flex-shrink:0;}
+    .h-1{background:rgba(106,44,145,.12);border-color:#6A2C91;color:#6A2C91;}
+    .h-2{background:rgba(212,175,55,.18);border-color:#D4AF37;color:#9b7c1c;}
+    .h-3{background:rgba(11,15,63,.1);border-color:#0B0F3F;color:#0B0F3F;}
+    .h-4{background:rgba(106,44,145,.06);border-color:#a4408c;color:#6A2C91;}
+
+    /* Tabla de operadores */
+    .op-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .op-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .op-table td{padding:.55rem;border:1px solid #ddd;}
+    .op-table tr:nth-child(even){background:#f8f4e9;}
+
+    .step-arrow{color:#6A2C91;font-weight:700;margin:0 .3rem;}
+
+    /* Herramienta resolutora */
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text]{width:100%;padding:.55rem;border:2px solid #6A2C91;border-radius:6px;font-size:1.05rem;color:#0B0F3F;font-family:'Inter',monospace;text-align:center;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.5rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .45rem;font-size:.75rem;margin-right:.5rem;font-weight:700;}
+
+    /* Detector de errores */
+    .err-card{background:#f8f4e9;border-left:4px solid #D4AF37;border-radius:0 8px 8px 0;padding:.6rem .9rem;margin:.6rem 0;font-size:.93rem;}
+    .err-card .err-wrong{color:#a44;text-decoration:line-through;}
+    .err-card .err-right{color:#0B0F3F;font-weight:700;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué es la jerarquía?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Jerarquía de operaciones con racionales</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">PEMDAS / PAPOMUDAS</span>
+    <span class="chip">Paréntesis</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Resolver operaciones <strong>combinadas</strong> con números racionales, aplicando correctamente la jerarquía: paréntesis → potencias → multiplicaciones y divisiones → sumas y restas.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué necesitamos un orden?</div>
+
+      <p>Imagina que dos personas resuelven la misma expresión:</p>
+      <div class="math-box">\(2 + 3 \cdot 4\)</div>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li><strong>Ana</strong> suma primero: \(2+3=5\), luego multiplica: \(5 \cdot 4 = 20\).</li>
+        <li><strong>Beto</strong> multiplica primero: \(3 \cdot 4 = 12\), luego suma: \(2+12 = 14\).</li>
+      </ul>
+      <p>¿Cuál tiene razón? <strong>Beto</strong>. Para evitar resultados distintos, los matemáticos acordaron un <strong>orden universal</strong> para resolver operaciones combinadas. Ese orden es la <strong>jerarquía de operaciones</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La jerarquía paso a paso</div>
+
+      <div class="hierarchy">
+        <div class="h-level h-1"><span class="h-num">1</span><span>Paréntesis ( ), corchetes [ ] y llaves { }</span><span>—primero—</span></div>
+        <div class="h-level h-2"><span class="h-num">2</span><span>Potencias y raíces</span><span></span></div>
+        <div class="h-level h-3"><span class="h-num">3</span><span>Multiplicaciones y divisiones (izq. a der.)</span><span></span></div>
+        <div class="h-level h-4"><span class="h-num">4</span><span>Sumas y restas (izq. a der.)</span><span>—último—</span></div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Regla de oro</span>
+        Cuando dos operaciones del <strong>mismo nivel</strong> aparecen seguidas (por ejemplo, ÷ y · o + y −), se resuelven <strong>de izquierda a derecha</strong>, como leemos.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Reglas mnemotécnicas</div>
+
+      <p>Para acordarse del orden, se usan siglas:</p>
+      <table class="op-table">
+        <thead><tr><th>Sigla</th><th>¿Qué significa?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PAPOMUDAS</strong></td><td><strong>PA</strong>réntesis · <strong>PO</strong>tencias · <strong>MU</strong>ltiplicación y <strong>D</strong>ivisión · <strong>A</strong>dición y <strong>S</strong>ustracción</td></tr>
+          <tr><td><strong>PEMDAS</strong> (inglés)</td><td><strong>P</strong>arentheses · <strong>E</strong>xponents · <strong>M</strong>ultiplication-<strong>D</strong>ivision · <strong>A</strong>ddition-<strong>S</strong>ubtraction</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Signos y agrupación
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reglas de signos y agrupación</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Signos</span>
+    <span class="chip">Paréntesis anidados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Reglas de signos al multiplicar y dividir</div>
+
+      <table class="op-table">
+        <thead><tr><th>Signos</th><th>Resultado</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>(+) · (+)</td><td><strong>+</strong></td><td>\(3 \cdot 4 = 12\)</td></tr>
+          <tr><td>(−) · (−)</td><td><strong>+</strong></td><td>\(-3 \cdot (-4) = 12\)</td></tr>
+          <tr><td>(+) · (−)</td><td><strong>−</strong></td><td>\(3 \cdot (-4) = -12\)</td></tr>
+          <tr><td>(−) · (+)</td><td><strong>−</strong></td><td>\(-3 \cdot 4 = -12\)</td></tr>
+        </tbody>
+      </table>
+      <p>La misma regla aplica a la división: <strong>signos iguales → positivo</strong>, <strong>signos distintos → negativo</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Signos al sumar y restar</div>
+
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Si los signos son <strong>iguales</strong>: <strong>suma</strong> los valores y conserva el signo. Ej.: \(-3+(-5)=-8\).</li>
+        <li>Si los signos son <strong>distintos</strong>: <strong>resta</strong> los valores y conserva el signo del de <strong>mayor valor absoluto</strong>. Ej.: \(-7+3=-4\).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>El paréntesis con signo delante</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>+ ( )</strong> → los signos de adentro <strong>no cambian</strong>: \(+(3-5) = 3-5\).</span>
+        <span class="math-step"><strong>− ( )</strong> → los signos de adentro <strong>se invierten</strong>: \(-(3-5) = -3+5\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Agrupación anidada: ( ), [ ], { }</div>
+
+      <p>Cuando hay varios niveles de agrupación, se resuelve <strong>de adentro hacia afuera</strong>:</p>
+      <div class="math-block">
+        <span class="math-step">\( 2 \cdot \{ 3 + [ 4 - (1+2) ] \} \)</span>
+        <span class="math-step">Primero el paréntesis interno: \( (1+2)=3 \).</span>
+        <span class="math-step">\( 2 \cdot \{ 3 + [ 4 - 3 ] \} = 2 \cdot \{ 3 + 1 \} \)</span>
+        <span class="math-step">Luego las llaves: \( 3+1 = 4 \).</span>
+        <span class="math-step"><span class="math-result">\(2 \cdot 4 = 8\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>La barra de fracción agrupa</div>
+
+      <p>Una fracción compleja como \(\dfrac{2+3}{5-1}\) es equivalente a \((2+3) \div (5-1)\). El numerador y el denominador funcionan como <strong>paréntesis implícitos</strong>:</p>
+      <div class="math-block">
+        <span class="math-step">\(\dfrac{2+3}{5-1} = \dfrac{5}{4}\)</span>
+        <span class="math-step">No se puede simplificar antes de resolver numerador y denominador.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Ejemplos paso a paso
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Ejemplos resueltos paso a paso</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">5 ejemplos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Ejemplo sin fracciones</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Calcular:</strong> \(20 - 3 \cdot 2^2 + (7-5)\)</span>
+        <span class="math-step"><span class="step-arrow">①</span> Paréntesis: \((7-5) = 2\). Queda \(20 - 3 \cdot 2^2 + 2\).</span>
+        <span class="math-step"><span class="step-arrow">②</span> Potencias: \(2^2 = 4\). Queda \(20 - 3 \cdot 4 + 2\).</span>
+        <span class="math-step"><span class="step-arrow">③</span> Multiplicación: \(3 \cdot 4 = 12\). Queda \(20 - 12 + 2\).</span>
+        <span class="math-step"><span class="step-arrow">④</span> Suma/resta izq. a der.: \(20 - 12 = 8\), luego \(8 + 2 = 10\).</span>
+        <span class="math-step"><span class="math-result">Resultado: 10</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo con racionales</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Calcular:</strong> \(\dfrac{1}{2} + \dfrac{2}{3} \cdot \dfrac{3}{4}\)</span>
+        <span class="math-step"><span class="step-arrow">①</span> No hay paréntesis ni potencias.</span>
+        <span class="math-step"><span class="step-arrow">②</span> Multiplicación primero: \(\dfrac{2}{3} \cdot \dfrac{3}{4} = \dfrac{6}{12} = \dfrac{1}{2}\).</span>
+        <span class="math-step"><span class="step-arrow">③</span> Suma: \(\dfrac{1}{2} + \dfrac{1}{2} = 1\).</span>
+        <span class="math-step"><span class="math-result">Resultado: 1</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo con paréntesis y división</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Calcular:</strong> \(\left(\dfrac{1}{2} + \dfrac{1}{3}\right) \div \dfrac{5}{6}\)</span>
+        <span class="math-step"><span class="step-arrow">①</span> Paréntesis: \(\dfrac{1}{2} + \dfrac{1}{3} = \dfrac{3}{6} + \dfrac{2}{6} = \dfrac{5}{6}\).</span>
+        <span class="math-step"><span class="step-arrow">②</span> División: \(\dfrac{5}{6} \div \dfrac{5}{6} = \dfrac{5}{6} \cdot \dfrac{6}{5} = 1\).</span>
+        <span class="math-step"><span class="math-result">Resultado: 1</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Ejemplo con signos negativos</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Calcular:</strong> \(-3 + 2 \cdot (-4) - (-5)\)</span>
+        <span class="math-step"><span class="step-arrow">①</span> Multiplicación: \(2 \cdot (-4) = -8\). Queda \(-3 + (-8) - (-5)\).</span>
+        <span class="math-step"><span class="step-arrow">②</span> Quitamos paréntesis con sus signos: \(-3 - 8 + 5\).</span>
+        <span class="math-step"><span class="step-arrow">③</span> Sumas/restas izq. a der.: \(-3-8=-11\), luego \(-11+5 = -6\).</span>
+        <span class="math-step"><span class="math-result">Resultado: −6</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>Ejemplo con barra de fracción</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Calcular:</strong> \(\dfrac{3+5 \cdot 2}{2^2 - 1}\)</span>
+        <span class="math-step"><span class="step-arrow">①</span> Numerador: \(5 \cdot 2 = 10\); luego \(3+10=13\).</span>
+        <span class="math-step"><span class="step-arrow">②</span> Denominador: \(2^2 = 4\); luego \(4-1=3\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{13}{3}\)</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Resolvedor
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Resolvedor paso a paso</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Explicación automática</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resolvedor con explicación paso a paso</div>
+
+      <p>Ingresa una expresión (puedes usar <code>+ − * /</code>, paréntesis <code>( )</code> y potencias con <code>^</code>). La herramienta resuelve y muestra <strong>cada paso</strong> respetando la jerarquía.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label for="exprInput">Expresión:</label>
+            <input type="text" id="exprInput" value="20-3*2^2+(7-5)" />
+          </div>
+          <div class="preset-buttons">
+            <button onclick="setExpr('20-3*2^2+(7-5)')">20−3·2²+(7−5)</button>
+            <button onclick="setExpr('(2+3)*4-10/2')">(2+3)·4−10÷2</button>
+            <button onclick="setExpr('-3+2*(-4)-(-5)')">−3+2·(−4)−(−5)</button>
+            <button onclick="setExpr('2*(3+4*(5-2))')">2·(3+4·(5−2))</button>
+            <button onclick="setExpr('100-2^3*5+15/3')">100−2³·5+15÷3</button>
+          </div>
+          <button class="calc-button" onclick="solveExpr()">Resolver paso a paso →</button>
+        </div>
+
+        <div class="tool-display" id="solveDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa una expresión y presiona <strong>Resolver</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo funciona</span>
+        La herramienta busca la operación con <strong>mayor prioridad</strong> (paréntesis → potencias → · ÷ → + −) y la reemplaza por su resultado, mostrando cada simplificación.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Errores comunes
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Errores comunes y cómo evitarlos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">⚠️ Errores top</span>
+    <span class="chip">Checklist</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Top 6 errores frecuentes</div>
+
+      <div class="err-card">
+        <strong>Error 1 — Sumar antes de multiplicar.</strong><br>
+        <span class="err-wrong">\(2 + 3 \cdot 4 = 5 \cdot 4 = 20\)</span> &nbsp;→&nbsp; <span class="err-right">\(2 + 3 \cdot 4 = 2 + 12 = 14\)</span>
+      </div>
+
+      <div class="err-card">
+        <strong>Error 2 — Restar de izquierda a derecha mal.</strong><br>
+        <span class="err-wrong">\(10 - 3 - 2 = 10 - 1 = 9\)</span> &nbsp;→&nbsp; <span class="err-right">\(10 - 3 - 2 = 7 - 2 = 5\)</span><br>
+        <em style="font-size:.85rem;">Se hace izquierda → derecha, no asociando los últimos dos.</em>
+      </div>
+
+      <div class="err-card">
+        <strong>Error 3 — Olvidar invertir signos al quitar paréntesis con "−" delante.</strong><br>
+        <span class="err-wrong">\(10 - (3 - 5) = 10 - 3 - 5 = 2\)</span> &nbsp;→&nbsp; <span class="err-right">\(10 - (3 - 5) = 10 - 3 + 5 = 12\)</span>
+      </div>
+
+      <div class="err-card">
+        <strong>Error 4 — Tratar la barra de fracción como una sola línea.</strong><br>
+        <span class="err-wrong">\(\dfrac{2+3}{5-1} = \dfrac{2}{5-1} + \dfrac{3}{5-1}\)</span> &nbsp;→&nbsp; <span class="err-right">Primero resuelve numerador y denominador: \(\dfrac{5}{4}\)</span>
+      </div>
+
+      <div class="err-card">
+        <strong>Error 5 — Aplicar potencia al signo cuando no corresponde.</strong><br>
+        <span class="err-wrong">\(-3^2 = (-3)\cdot(-3) = 9\)</span> &nbsp;→&nbsp; <span class="err-right">\(-3^2 = -(3^2) = -9\)</span><br>
+        <em style="font-size:.85rem;">Sin paréntesis, el "−" no entra a la potencia. Si quieres incluir el signo, escribe \((-3)^2 = 9\).</em>
+      </div>
+
+      <div class="err-card">
+        <strong>Error 6 — Hacer la división del medio "en cualquier orden".</strong><br>
+        <span class="err-wrong">\(8 \div 4 \cdot 2 = 8 \div 8 = 1\)</span> &nbsp;→&nbsp; <span class="err-right">\(8 \div 4 \cdot 2 = 2 \cdot 2 = 4\)</span><br>
+        <em style="font-size:.85rem;">Las mismas prioridades se resuelven de izquierda a derecha.</em>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Checklist antes de resolver</div>
+
+      <ol class="steps-num">
+        <li>¿Hay paréntesis, corchetes o llaves? → Resuelve de adentro hacia afuera.</li>
+        <li>¿Hay potencias o raíces? → Calcúlalas antes de · y ÷.</li>
+        <li>¿Multiplicación o división seguidas? → Izquierda a derecha.</li>
+        <li>¿Suma o resta seguidas? → Izquierda a derecha.</li>
+        <li>¿Hay barras de fracción? → Numerador y denominador son grupos independientes.</li>
+        <li>¿Aparece "−" antes de un paréntesis? → Invierte los signos al expandir.</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Detector
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Detector de errores</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Encuentra el error</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Detector de errores</div>
+
+      <p>La herramienta presenta una expresión y dos posibles resoluciones. Tú debes decidir cuál aplica correctamente la jerarquía. Haz clic en la opción que creas correcta para revelar la explicación.</p>
+
+      <div id="detectorContainer"></div>
+
+      <button class="calc-button" onclick="nextDetector()">Nuevo problema →</button>
+
+      <div class="card card-tip">
+        <span class="card-label">Tip</span>
+        Antes de aceptar un resultado, pregúntate: ¿se respetó el orden? ¿se aplicaron bien los signos al quitar paréntesis? ¿se hizo izquierda a derecha cuando había operaciones del mismo nivel?
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Jerarquía de operaciones — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Calcula \(8 - 2 \cdot 3 + 1\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 19<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste y restaste antes de multiplicar.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 3<div class="opt-feedback"><strong>Correcto.</strong> \(2 \cdot 3 = 6\); luego \(8 - 6 + 1 = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> Aplicaste paréntesis donde no había.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 21<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \((8-2) \cdot 3 + 1\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Calcula \(-4 - (-2 + 5)\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> −7<div class="opt-feedback"><strong>Correcto.</strong> Paréntesis: \(-2+5=3\); luego \(-4-3=-7\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> −1<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el signo del paréntesis.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 7<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste el opuesto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 3<div class="opt-feedback"><strong>Incorrecto.</strong> Ignoraste el \(-4\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Calcula \(\dfrac{1}{2} + \dfrac{1}{3} \cdot \dfrac{3}{2}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{15}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste antes de multiplicar.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{1}{3} \cdot \dfrac{3}{2} = \dfrac{1}{2}\); \(\dfrac{1}{2}+\dfrac{1}{2}=1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{2}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Revisa la multiplicación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sumar \(\dfrac{1}{2}\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Calcula \(6 + 4 \cdot 3 - 2^2\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 26<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste restar \(2^2\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 14<div class="opt-feedback"><strong>Correcto.</strong> \(2^2=4\); \(4 \cdot 3=12\); \(6+12-4=14\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 22<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste el \(2^2\) en vez de restar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Solo calculaste \(4 \cdot 3\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Calcula \(\left[ 5 - (2+1) \right] \cdot (-3) + 4\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 10<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el signo del \(-3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Te olvidaste de multiplicar por \(-3\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> −2<div class="opt-feedback"><strong>Correcto.</strong> \((2+1)=3\); \([5-3]=2\); \(2\cdot(-3)=-6\); \(-6+4=-2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> −6<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sumar el +4 al final.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Calcula \(\dfrac{(3+5) \cdot 2}{4^2 - 12}\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 4<div class="opt-feedback"><strong>Correcto.</strong> Num: \((3+5)\cdot 2 = 16\); Den: \(16-12=4\); \(\dfrac{16}{4}=4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste un cálculo intermedio.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> Calculaste solo el numerador.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{16}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste calcular \(4^2\) en el denominador.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Calcula \(-\dfrac{1}{2} + \left(\dfrac{3}{4} - \dfrac{1}{2}\right) \cdot 2\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 0<div class="opt-feedback"><strong>Correcto.</strong> Paréntesis: \(\dfrac{1}{4}\). \(\dfrac{1}{4}\cdot 2 = \dfrac{1}{2}\). \(-\dfrac{1}{2}+\dfrac{1}{2}=0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> Error en el paréntesis.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(-\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signos.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(-3^2 + (-3)^2\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 0<div class="opt-feedback"><strong>Correcto.</strong> \(-3^2 = -9\) y \((-3)^2 = 9\); \(-9+9=0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 18<div class="opt-feedback"><strong>Incorrecto.</strong> Trataste \(-3^2\) como \((-3)^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> −18<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste el signo de \((-3)^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 9<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste uno de los términos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(20 \div 4 \cdot 5\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(20 \div (4\cdot 5)\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 25<div class="opt-feedback"><strong>Correcto.</strong> Izq. a der.: \(20 \div 4 = 5\); \(5 \cdot 5 = 25\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(20 \cdot 5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(20 \div 5\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">\(\dfrac{1}{2} - \dfrac{1}{4} + \dfrac{1}{8}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(\dfrac{1}{2}-(\dfrac{1}{4}+\dfrac{1}{8})\), pero se hace izq.→der.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{3}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> Común denominador 8: \(\dfrac{4}{8}-\dfrac{2}{8}+\dfrac{1}{8}=\dfrac{3}{8}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{7}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste todo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste todo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Jerarquía de operaciones — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Jerarquía y operatoria</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">El valor de \(5 + 3 \cdot 4\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 32<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste antes de multiplicar.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 17<div class="opt-feedback"><strong>Correcto.</strong> \(3 \cdot 4=12\); \(5+12=17\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 7<div class="opt-feedback"><strong>Incorrecto.</strong> Revisa la multiplicación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 60<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste todo entre sí.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(10 - 2 \cdot (3 + 1)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 32<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \((10-2)\cdot 4\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 2<div class="opt-feedback"><strong>Correcto.</strong> \((3+1)=4\); \(2\cdot 4 = 8\); \(10-8=2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 16<div class="opt-feedback"><strong>Incorrecto.</strong> Error en el orden.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 6<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(10-2\cdot 3+1\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">\(-3^2 + (-3)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0<div class="opt-feedback"><strong>Correcto.</strong> \(-3^2 = -9\) y \((-3)^2 = 9\); \(-9+9=0\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 18<div class="opt-feedback"><strong>Incorrecto.</strong> Trataste \(-3^2\) como \((-3)^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> −18<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste el signo de \((-3)^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 9<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste un término.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(\dfrac{1}{2} + \dfrac{1}{3} \cdot 6\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste antes de multiplicar.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{5}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{1}{3} \cdot 6 = 2\); \(\dfrac{1}{2}+2 = \dfrac{5}{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste mal.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sumar \(\dfrac{1}{2}\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">\(20 \div 4 \cdot 5\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(20 \div (4\cdot 5)\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 25<div class="opt-feedback"><strong>Correcto.</strong> Izq. a der.: \(20 \div 4 = 5\); \(5 \cdot 5 = 25\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(20 \cdot 5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Hiciste \(20 \div 5\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">El resultado de \(2 - \{ 3 \cdot [4 - (5-3)] \}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste invertir el signo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> −4<div class="opt-feedback"><strong>Correcto.</strong> \((5-3)=2\); \([4-2]=2\); \(\{3\cdot 2\}=6\); \(2-6=-4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> −6<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el "2" inicial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 6<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste la resta inicial.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">\(\dfrac{2+3 \cdot 2}{4-2}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste el denominador.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4<div class="opt-feedback"><strong>Correcto.</strong> Num: \(2+6=8\); den: \(4-2=2\); \(\dfrac{8}{2}=4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{8}{2}\) (sin simplificar)<div class="opt-feedback"><strong>Incorrecto.</strong> El valor es correcto, falta simplificar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">\(\dfrac{3}{4} \cdot \left(\dfrac{2}{3} + \dfrac{1}{6}\right)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{5}{12}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste sumar antes de multiplicar.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{5}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> Paréntesis: \(\dfrac{5}{6}\); \(\dfrac{3}{4}\cdot\dfrac{5}{6}=\dfrac{15}{24}=\dfrac{5}{8}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{5}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por \(\dfrac{3}{4}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{3}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error en la distributiva.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Cuál es el resultado de \(-2 \cdot (3 - 5) + 4\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0<div class="opt-feedback"><strong>Incorrecto.</strong> Error en el signo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 8<div class="opt-feedback"><strong>Correcto.</strong> \((3-5)=-2\); \(-2\cdot(-2)=4\); \(4+4=8\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> −8<div class="opt-feedback"><strong>Incorrecto.</strong> \((-)(-)=(+)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 4<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">\(\dfrac{1}{2} - \dfrac{1}{4} + \dfrac{1}{8}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Se hace izq.→der.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> Común denom. 8: \(\dfrac{4}{8}-\dfrac{2}{8}+\dfrac{1}{8}=\dfrac{3}{8}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{7}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste los tres.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste todo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya tienes el orden grabado: <strong>paréntesis → potencias → · ÷ → + −</strong>, y cuando hay operaciones del mismo nivel, izquierda a derecha.</p>
+    <p>La jerarquía de operaciones es la base sobre la cual se construye toda la matemática avanzada: álgebra, ecuaciones, funciones. Un error aquí se arrastra a todo lo demás.</p>
+    <span class="next-pill">Próximo: Propiedades de la operatoria</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Jerarquía de operaciones · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Resolvedor por pasos ---------- */
+function setExpr(s){ document.getElementById('exprInput').value = s; solveExpr(); }
+
+function tokenize(s){
+  s = s.replace(/\s+/g,'').replace(/,/g,'.');
+  const tokens=[];
+  let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if('+-*/^()'.includes(c)){
+      if(c==='-' && (i===0 || '+-*/^('.includes(s[i-1]))){
+        let j=i+1, numStr='-';
+        while(j<s.length && (/[0-9.]/).test(s[j])){numStr+=s[j];j++;}
+        if(numStr==='-'){ tokens.push({type:'op',v:'-'}); i++; continue; }
+        tokens.push({type:'num',v:parseFloat(numStr)});
+        i=j;continue;
+      }
+      tokens.push({type:'op',v:c});
+      i++;
+    } else if(/[0-9.]/.test(c)){
+      let j=i, numStr='';
+      while(j<s.length && /[0-9.]/.test(s[j])){numStr+=s[j];j++;}
+      tokens.push({type:'num',v:parseFloat(numStr)});
+      i=j;
+    } else { i++; }
+  }
+  return tokens;
+}
+
+function tokensToString(tokens){
+  return tokens.map(t=>t.type==='num'?(t.v<0?'('+t.v+')':t.v):t.v).join(' ');
+}
+
+function findInnermostParen(tokens){
+  let lastOpen=-1;
+  for(let i=0;i<tokens.length;i++){
+    if(tokens[i].type==='op' && tokens[i].v==='(') lastOpen=i;
+    if(tokens[i].type==='op' && tokens[i].v===')') return [lastOpen,i];
+  }
+  return null;
+}
+
+function evalSimple(tokens){
+  let arr=[...tokens];
+  for(let i=arr.length-1;i>=0;i--){
+    if(arr[i].type==='op' && arr[i].v==='^'){
+      const a=arr[i-1].v, b=arr[i+1].v;
+      arr.splice(i-1,3,{type:'num',v:Math.pow(a,b)});
+      i=arr.length;
+    }
+  }
+  let i=0;
+  while(i<arr.length){
+    if(arr[i].type==='op' && (arr[i].v==='*' || arr[i].v==='/')){
+      const a=arr[i-1].v, b=arr[i+1].v;
+      const r = arr[i].v==='*'? a*b : a/b;
+      arr.splice(i-1,3,{type:'num',v:r});
+      i=Math.max(0,i-1);
+    } else i++;
+  }
+  i=0;
+  while(i<arr.length){
+    if(arr[i].type==='op' && (arr[i].v==='+' || arr[i].v==='-')){
+      const a=arr[i-1].v, b=arr[i+1].v;
+      const r = arr[i].v==='+'? a+b : a-b;
+      arr.splice(i-1,3,{type:'num',v:r});
+      i=Math.max(0,i-1);
+    } else i++;
+  }
+  return arr[0].v;
+}
+
+function findHighestPriorityOp(tokens){
+  for(let i=0;i<tokens.length;i++) if(tokens[i].type==='op' && tokens[i].v==='^') return i;
+  for(let i=0;i<tokens.length;i++) if(tokens[i].type==='op' && (tokens[i].v==='*' || tokens[i].v==='/')) return i;
+  for(let i=0;i<tokens.length;i++) if(tokens[i].type==='op' && (tokens[i].v==='+' || tokens[i].v==='-')) return i;
+  return -1;
+}
+
+function solveExpr(){
+  const raw = document.getElementById('exprInput').value;
+  const out = document.getElementById('solveDisplay');
+  out.innerHTML='';
+  let tokens;
+  try{ tokens = tokenize(raw); } catch(e){ out.innerHTML='<p style="color:#a44;">⚠ Error de sintaxis.</p>'; return; }
+  if(!tokens.length){ out.innerHTML='<p style="color:#a44;">⚠ Expresión vacía.</p>'; return; }
+
+  const steps=[];
+  steps.push({label:'Inicio', expr: tokensToString(tokens)});
+
+  let safety=0;
+  while(safety++<100){
+    const paren = findInnermostParen(tokens);
+    if(paren){
+      const [a,b] = paren;
+      const inner = tokens.slice(a+1,b);
+      let val;
+      try{ val = evalSimple(inner); } catch(e){ out.innerHTML='<p style="color:#a44;">⚠ Error al evaluar.</p>'; return; }
+      tokens.splice(a, b-a+1, {type:'num',v:val});
+      steps.push({label:'Paréntesis', expr: tokensToString(tokens), detail:`Se resolvió: ${tokensToString(inner)} = ${val}`});
+      continue;
+    }
+    const opIdx = findHighestPriorityOp(tokens);
+    if(opIdx===-1) break;
+    const a=tokens[opIdx-1].v, b=tokens[opIdx+1].v, o=tokens[opIdx].v;
+    let r, opName='';
+    if(o==='^'){ r=Math.pow(a,b); opName='Potencia'; }
+    else if(o==='*'){ r=a*b; opName='Multiplicación'; }
+    else if(o==='/'){ r=a/b; opName='División'; }
+    else if(o==='+'){ r=a+b; opName='Suma'; }
+    else if(o==='-'){ r=a-b; opName='Resta'; }
+    tokens.splice(opIdx-1,3,{type:'num',v:r});
+    steps.push({label:opName, expr: tokensToString(tokens), detail:`${a} ${o} ${b} = ${r}`});
+  }
+
+  let html='';
+  steps.forEach((s,i)=>{
+    html += `<div class="resolver-step"><span class="step-label">${i===0?'Paso 0':'Paso '+i+' · '+s.label}</span>${s.expr}${s.detail?'<br><em style="font-size:.82rem;color:#666;">'+s.detail+'</em>':''}</div>`;
+  });
+  if(tokens.length===1){
+    html += `<div style="margin-top:.8rem;text-align:center;"><span class="math-result" style="font-size:1.15rem;">Resultado: ${Math.round(tokens[0].v*1000000)/1000000}</span></div>`;
+  }
+  out.innerHTML = html;
+}
+
+/* ---------- Detector de errores ---------- */
+const detectorProblems = [
+  {
+    expr: '6 + 2 · 5',
+    optA: {text: '6 + 2 · 5 = 8 · 5 = 40', correct:false, why:'Sumó antes de multiplicar.'},
+    optB: {text: '6 + 2 · 5 = 6 + 10 = 16', correct:true,  why:'Multiplicó primero, luego sumó. ✔'}
+  },
+  {
+    expr: '10 − 4 − 3',
+    optA: {text: '10 − 4 − 3 = 10 − 1 = 9', correct:false, why:'Asoció mal los últimos dos.'},
+    optB: {text: '10 − 4 − 3 = 6 − 3 = 3', correct:true,  why:'Hizo izquierda a derecha. ✔'}
+  },
+  {
+    expr: '(−3)² + (−2)³',
+    optA: {text: '(−3)² + (−2)³ = 9 + (−8) = 1', correct:true, why:'Aplicó bien la potencia a cada paréntesis.'},
+    optB: {text: '(−3)² + (−2)³ = −9 + 8 = −1', correct:false, why:'No respetó el signo del paréntesis.'}
+  },
+  {
+    expr: '20 ÷ 4 · 2',
+    optA: {text: '20 ÷ 4 · 2 = 20 ÷ 8 = 2,5', correct:false, why:'Multiplicó antes de dividir (ambas van izq.→der.).'},
+    optB: {text: '20 ÷ 4 · 2 = 5 · 2 = 10', correct:true, why:'Hizo izquierda a derecha. ✔'}
+  },
+  {
+    expr: '8 − (3 − 5)',
+    optA: {text: '8 − (3 − 5) = 8 − 3 − 5 = 0', correct:false, why:'No invirtió el signo al quitar el paréntesis.'},
+    optB: {text: '8 − (3 − 5) = 8 − (−2) = 10', correct:true, why:'Resolvió primero el paréntesis. ✔'}
+  }
+];
+let detectorIdx = 0;
+function renderDetector(){
+  const p = detectorProblems[detectorIdx];
+  const cont = document.getElementById('detectorContainer');
+  const order = Math.random()<0.5 ? ['A','B'] : ['B','A'];
+  const map = {A:p.optA, B:p.optB};
+  cont.innerHTML = `
+    <div class="ex-item">
+      <div style="font-size:1.05rem;margin-bottom:.5rem;"><b>Expresión:</b> ${p.expr}</div>
+      <div class="opts">
+        ${order.map(k=>`<div class="opt ${map[k].correct?'opt-correct':'opt-incorrect'}" onclick="this.classList.add('revealed')"><span class="opt-letter">${k}</span> ${map[k].text}<div class="opt-feedback"><strong>${map[k].correct?'Correcto.':'Incorrecto.'}</strong> ${map[k].why}</div></div>`).join('')}
+      </div>
+    </div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(cont,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+function nextDetector(){ detectorIdx = (detectorIdx+1)%detectorProblems.length; renderDetector(); }
+
+document.addEventListener('DOMContentLoaded',()=>{
+  solveExpr();
+  renderDetector();
+});
+</script>
+
+</body>
+</html>

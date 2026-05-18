@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Potencias, raíces y logaritmos — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+    .triangle-rel{background:linear-gradient(135deg,#F8F4E9 0%,#fff 100%);border:2px solid #D4AF37;border-radius:12px;padding:1.2rem;margin:1rem 0;}
+    .triangle-rel h4{color:#6A2C91;margin-top:0;text-align:center;}
+    .triangle-rel ul{margin:.5rem 0;}
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+<!-- PÁGINA 1 — La familia de tres operaciones -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Potencias, raíces y logaritmos: una sola familia</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Visión unificada</span>
+    <span class="chip">Tres preguntas, un solo triángulo</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Mostrar que comprenden las relaciones entre potencias, raíces enésimas y logaritmos, estableciendo equivalencias y resolviendo problemas en contextos diversos.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Tres operaciones, un mismo triángulo</div>
+
+      <p>Hasta ahora estudiaste tres operaciones que parecían independientes: la potencia, la raíz y el logaritmo. La verdad es que <strong>las tres son la misma idea, vista desde tres ángulos distintos</strong>. Comparten una misma ecuación de fondo:</p>
+
+      <div class="math-box">
+        \(b^{c} = a\)
+      </div>
+
+      <p>Dependiendo de cuál de las tres letras conozcas y cuál te falte, tienes una operación distinta:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Lo que sabes</th><th>Lo que buscas</th><th>Operación</th><th>Notación</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Base \(b\) y exponente \(c\)</td><td>El valor \(a\)</td><td>Potencia</td><td>\(b^{c}\)</td></tr>
+          <tr><td>Valor \(a\) y exponente \(c\)</td><td>La base \(b\)</td><td>Raíz</td><td>\(\sqrt[c]{a}\)</td></tr>
+          <tr><td>Base \(b\) y valor \(a\)</td><td>El exponente \(c\)</td><td>Logaritmo</td><td>\(\log_{b}(a)\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Imagen mental:</strong> piensa en un triángulo con tres vértices: <em>base</em>, <em>exponente</em> y <em>valor</em>. Cada vez que despejas uno de ellos a partir de los otros dos, estás usando una operación distinta. Pero la relación entre los tres siempre es la misma: \(b^{c} = a\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Un ejemplo desde tres ángulos</div>
+
+      <p>Considera la igualdad \(2^{3} = 8\). Esta única afirmación se puede leer de tres maneras distintas:</p>
+
+      <div class="triangle-rel">
+        <h4>La ecuación \(2^{3} = 8\) responde tres preguntas</h4>
+        <ul>
+          <li><strong>Pregunta de potencia:</strong> "¿Cuánto vale 2 elevado a 3?" → Respuesta: \(2^{3} = 8\).</li>
+          <li><strong>Pregunta de raíz:</strong> "¿Qué número elevado al cubo da 8?" → Respuesta: \(\sqrt[3]{8} = 2\).</li>
+          <li><strong>Pregunta de logaritmo:</strong> "¿A qué exponente hay que elevar 2 para obtener 8?" → Respuesta: \(\log_{2}(8) = 3\).</li>
+        </ul>
+      </div>
+
+      <p>Las tres preguntas son <em>distintas</em>, pero las tres respuestas están conectadas por la misma ecuación. Si sabes cualquier dos de las tres letras, puedes encontrar la tercera usando la operación correspondiente.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Sabiendo que \(\sqrt[3]{125} = 5\), escribe esta relación de las otras dos formas (potencia y logaritmo).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Forma raíz: \(\sqrt[3]{125} = 5\).</span>
+        <span class="math-step">Forma potencia (elevando ambos lados al cubo): \(5^{3} = 125\).</span>
+        <span class="math-step">Forma logaritmo (preguntando por el exponente): \(\log_{5}(125) = 3\).</span>
+        <span class="math-step"><span class="math-result">Las tres dicen lo mismo: \(b=5\), \(c=3\), \(a=125\).</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Las dos operaciones inversas de la potencia</div>
+
+      <p>La potencia es una operación "directa": tienes base y exponente, calculas el valor. Para "deshacer" esta operación hay <strong>dos caminos posibles</strong>, dependiendo de lo que conozcas:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">¿Conoces el exponente?</span>
+          <span class="prop-eq">Para encontrar la base, usas <strong>raíz</strong>: \(b = \sqrt[c]{a}\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">¿Conoces la base?</span>
+          <span class="prop-eq">Para encontrar el exponente, usas <strong>logaritmo</strong>: \(c = \log_{b}(a)\)</span>
+        </div>
+      </div>
+
+      <p>Por eso decimos que la raíz y el logaritmo son "operaciones inversas" de la potencia. La diferencia entre ellas es qué dato faltaba.</p>
+
+      <div class="card card-tip">
+        <strong>Analogía:</strong> imagina una balanza con tres pesas: una a la izquierda (base), otra al medio (exponente) y la fórmula \(b^{c}=a\) en el plato derecho. Si te quitan la pesa izquierda, usas raíz para reconstruirla. Si te quitan la del medio, usas logaritmo. Si te quitan ambas, te falta información.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Sin avanzar: dada la igualdad \(3^{4} = 81\), escríbela como raíz y como logaritmo. Si llegaste a \(\sqrt[4]{81} = 3\) y \(\log_{3}(81) = 4\), ya internalizaste la relación. Esta capacidad de "traducir" entre los tres lenguajes es la clave del OA 2.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Relaciones P-R-L · Página 1 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 2 — Las dos relaciones inversas en detalle -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Relaciones inversas en profundidad</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Potencia ↔ Raíz</span>
+    <span class="chip">Potencia ↔ Logaritmo</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Potencia y raíz: el puente del exponente fraccionario</div>
+
+      <p>Ya conociste esta relación en el OA 1. La equivalencia es:</p>
+
+      <div class="math-box">
+        \(\sqrt[n]{a^{m}} = a^{m/n}\)
+      </div>
+
+      <p>La raíz no es una operación "diferente" de la potencia; es la <em>misma</em> operación pero con exponente fraccionario. El índice de la raíz pasa al denominador del exponente.</p>
+
+      <div class="subsec">Ejemplos rápidos</div>
+      <div class="math-block">
+        <span class="math-step">\(\sqrt{a} = a^{1/2}\)</span>
+        <span class="math-step">\(\sqrt[3]{a^{2}} = a^{2/3}\)</span>
+        <span class="math-step">\(\sqrt[5]{x^{4}} = x^{4/5}\)</span>
+      </div>
+
+      <p>La relación es <em>bidireccional</em>: cada raíz se puede escribir como potencia y cada potencia con exponente fraccionario se puede escribir como raíz.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Potencia y logaritmo: el puente del exponente como respuesta</div>
+
+      <p>Aquí está la nueva relación a profundizar. El logaritmo es la operación que "extrae el exponente" de una potencia.</p>
+
+      <div class="math-box">
+        \(\log_{b}(a) = c \iff b^{c} = a\)
+      </div>
+
+      <p>Lee esta equivalencia con cuidado: el símbolo \(\iff\) significa "si y solo si". Las dos expresiones son <em>completamente equivalentes</em>: dicen exactamente lo mismo.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Forma logarítmica</th><th>Forma exponencial (potencia)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\log_{2}(8) = 3\)</td><td>\(2^{3} = 8\)</td></tr>
+          <tr><td>\(\log(1000) = 3\)</td><td>\(10^{3} = 1000\)</td></tr>
+          <tr><td>\(\log_{5}(1) = 0\)</td><td>\(5^{0} = 1\)</td></tr>
+          <tr><td>\(\log_{3}(81) = 4\)</td><td>\(3^{4} = 81\)</td></tr>
+          <tr><td>\(\log_{2}(\sqrt{2}) = \tfrac{1}{2}\)</td><td>\(2^{1/2} = \sqrt{2}\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Sabiendo que \(2^{10} = 1024\), calcular \(\log_{2}(1024)\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Aplicando la equivalencia: \(\log_{2}(1024) = 10\).</span>
+        <span class="math-step">La potencia y el logaritmo "intercambian" la información: ahora el exponente es la respuesta.</span>
+        <span class="math-step"><span class="math-result">\(\log_{2}(1024) = 10\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Cuándo se "naturalmente" pide cada operación:</strong>
+        <ul style="margin-top:.4rem;">
+          <li>Conoces el exponente y necesitas el valor → <strong>potencia</strong> ("cuánto se multiplica").</li>
+          <li>Conoces la base y necesitas el exponente → <strong>logaritmo</strong> ("cuántas veces se multiplica").</li>
+          <li>Conoces el exponente y necesitas la base → <strong>raíz</strong> ("qué número, al multiplicarse \(n\) veces, da el valor").</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Las dos relaciones, juntas</div>
+
+      <p>Veamos cómo conviven las tres operaciones en un solo problema.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Calcular \(\log_{2}(\sqrt{8})\) usando ambas relaciones.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Paso 1 — convertir la raíz a potencia: \(\sqrt{8} = 8^{1/2}\).</span>
+        <span class="math-step">Paso 2 — reescribir 8 como potencia de 2: \(8 = 2^{3}\). Entonces \(8^{1/2} = (2^{3})^{1/2} = 2^{3/2}\).</span>
+        <span class="math-step">Paso 3 — aplicar logaritmo: \(\log_{2}(2^{3/2}) = 3/2\) (porque el exponente al que hay que elevar 2 para obtener \(2^{3/2}\) es… \(3/2\)).</span>
+        <span class="math-step"><span class="math-result">\(\log_{2}(\sqrt{8}) = \dfrac{3}{2}\)</span></span>
+      </div>
+
+      <p>Observa cómo las tres operaciones se complementan: empezamos con una raíz, la convertimos a potencia, y luego usamos logaritmo para extraer el exponente. Esta capacidad de "saltar" entre representaciones es lo que define a alguien que <em>realmente</em> entiende potencias, raíces y logaritmos.</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cuando ves un problema con cualquiera de las tres operaciones, pregúntate: "¿podría reescribir esto usando otra de las tres?". Esa flexibilidad mental es lo que separa al estudiante que <em>recuerda</em> propiedades del que <em>comprende</em> la relación.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Relaciones P-R-L · Página 2 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 3 — Aplicación unificada -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicaciones unificadas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Resolver ecuaciones</span>
+    <span class="chip">Modelos reales</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Despejar una incógnita: ¿qué operación uso?</div>
+
+      <p>Cuando enfrentas una ecuación con una incógnita, la operación que necesitas depende de <em>dónde está la incógnita</em>:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Ecuación</th><th>Incógnita está…</th><th>Para despejar usa…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(x^{3} = 27\)</td><td>en la base</td><td>raíz cúbica: \(x = \sqrt[3]{27} = 3\)</td></tr>
+          <tr><td>\(2^{x} = 32\)</td><td>en el exponente</td><td>logaritmo: \(x = \log_{2}(32) = 5\)</td></tr>
+          <tr><td>\(b^{4} = 81\)</td><td>en la base (con exponente conocido)</td><td>raíz cuarta: \(b = \sqrt[4]{81} = 3\)</td></tr>
+          <tr><td>\(\log_{3}(x) = 2\)</td><td>como argumento del log</td><td>potencia: \(x = 3^{2} = 9\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Regla mnemotécnica:</strong> "para deshacer hay que hacer lo opuesto". El opuesto de elevar es extraer raíz (si la incógnita es la base) o aplicar logaritmo (si la incógnita es el exponente).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Aplicación: crecimiento exponencial y tiempo</div>
+
+      <p>Los modelos de crecimiento exponencial (poblaciones, bacterias, interés compuesto, virus) tienen la forma:</p>
+
+      <div class="math-box">
+        \(P(t) = P_{0} \cdot a^{t}\)
+      </div>
+
+      <p>donde \(P_{0}\) es el valor inicial y \(a\) es el factor de crecimiento por unidad de tiempo. Si te preguntan <em>cuánto vale P en cierto tiempo</em>, usas potencia. Si te preguntan <em>cuánto tiempo toma alcanzar cierto valor</em>, usas logaritmo.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una colonia de bacterias se duplica cada hora. Si empiezas con 100 bacterias, ¿cuántas habrá después de 5 horas? ¿En cuánto tiempo llegarás a 1600 bacterias?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Modelo: \(P(t) = 100 \cdot 2^{t}\).</span>
+        <span class="math-step"><strong>Parte 1 (potencia):</strong> después de 5 horas, \(P(5) = 100 \cdot 2^{5} = 100 \cdot 32 = 3200\) bacterias.</span>
+        <span class="math-step"><strong>Parte 2 (logaritmo):</strong> queremos \(P(t) = 1600\). Entonces \(100 \cdot 2^{t} = 1600\), o sea \(2^{t} = 16\).</span>
+        <span class="math-step">Despejando con logaritmo: \(t = \log_{2}(16) = 4\) horas.</span>
+        <span class="math-step"><span class="math-result">5 h → 3200 bacterias; para alcanzar 1600, t = 4 h.</span></span>
+      </div>
+
+      <p>Observa cómo en el mismo problema usamos potencia (para predecir el futuro) y logaritmo (para "preguntar al pasado": cuánto tiempo ha transcurrido).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Aplicación: dimensiones geométricas</div>
+
+      <p>Cuando trabajas con áreas (cuadrados) o volúmenes (cubos), las tres operaciones aparecen naturalmente:</p>
+
+      <ul style="margin:.5rem 0;">
+        <li><strong>Área conocida, lado desconocido</strong> (cuadrado): \(\ell = \sqrt{A}\).</li>
+        <li><strong>Volumen conocido, arista desconocida</strong> (cubo): \(a = \sqrt[3]{V}\).</li>
+        <li><strong>Lado conocido, área desconocida</strong>: \(A = \ell^{2}\) (potencia).</li>
+        <li><strong>Comparar tamaños relativos en órdenes de magnitud</strong>: usar logaritmos (cuántas "veces" más grande).</li>
+      </ul>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un cuadrado A tiene área de 100 m² y un cuadrado B tiene área de 10 000 m². ¿Cuántas veces más grande es el lado de B respecto al de A? ¿Y cuántos órdenes de magnitud difieren sus áreas?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Lado de A: \(\sqrt{100} = 10\) m. Lado de B: \(\sqrt{10000} = 100\) m.</span>
+        <span class="math-step">Razón de lados: \(100/10 = 10\). El lado de B es 10 veces el de A.</span>
+        <span class="math-step">Razón de áreas: \(10000/100 = 100\). En escala logarítmica: \(\log(100) = 2\) órdenes de magnitud.</span>
+        <span class="math-step"><span class="math-result">Lado B = 10 · lado A; áreas difieren en 2 órdenes de magnitud.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Antes de leer la próxima sección de cualquier problema PAES con potencias/raíces/logs, pregúntate: "¿qué letra del triángulo \(b^{c}=a\) está despejada y cuál falta?". Esa sola pregunta te orienta hacia la operación correcta sin tener que memorizar tablas.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Relaciones P-R-L · Página 3 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 4 — EJERCICIOS -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Relaciones P-R-L — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(2^{3} = 8\), ¿cuál es el logaritmo de 8 en base 2?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> 2 es la base, no el exponente.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> Por equivalencia: \(b^{c} = a \iff \log_{b}(a) = c\). El logaritmo es el exponente, que es 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(8\)<div class="opt-feedback"><strong>Incorrecto.</strong> 8 es el argumento, no el logaritmo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> 1 sería \(\log_{2}(2)\), no \(\log_{2}(8)\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(\sqrt{16} = 4\), entonces \(4^{2}\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(8\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(8 = 4 \cdot 2\), no \(4^{2}\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(16\)<div class="opt-feedback"><strong>Correcto.</strong> La raíz es la inversa de la potencia: \(\sqrt{16} = 4 \iff 4^{2} = 16\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(4^{2} = 16\), no 4.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(64\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(64 = 4^{3}\), exponente incorrecto.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">La operación inversa de "elevar al cubo" es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Raíz cuadrada<div class="opt-feedback"><strong>Incorrecto.</strong> La raíz cuadrada deshace "elevar al cuadrado", no al cubo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Raíz cúbica<div class="opt-feedback"><strong>Correcto.</strong> La raíz cúbica (\(\sqrt[3]{\ }\)) deshace "elevar al cubo": \((\sqrt[3]{a})^{3} = a\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Logaritmo en base 3<div class="opt-feedback"><strong>Incorrecto.</strong> El log en base 3 deshace potencias de base 3 (\(3^{x}\)), no la operación de elevar al cubo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Multiplicación por 3<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicar por 3 no es la inversa de elevar al cubo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(\log_{b}(x) = c\), ¿cuál es el equivalente en forma de potencia?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(b^{x} = c\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia los roles de \(x\) y \(c\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(b^{c} = x\)<div class="opt-feedback"><strong>Correcto.</strong> Por definición: \(\log_{b}(x) = c \iff b^{c} = x\). La base se conserva, el logaritmo (\(c\)) es el exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(c^{x} = b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia base con logaritmo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(c^{b} = x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia base por logaritmo en la potencia.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(\sqrt[3]{27} = 3\), ¿cuál es \(\log_{3}(27)\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\log_{3}(3) = 1\), no \(\log_{3}(27)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(3^{2} = 9\), no 27.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt[3]{27} = 3 \iff 3^{3} = 27 \iff \log_{3}(27) = 3\). Los tres son equivalentes.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(27\)<div class="opt-feedback"><strong>Incorrecto.</strong> 27 es el argumento, no el resultado del logaritmo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(\log_{5}(125) = 3\), entonces se cumple:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(5 \cdot 3 = 125\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(5 \cdot 3 = 15\), no 125.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(5^{3} = 125\)<div class="opt-feedback"><strong>Correcto.</strong> Por definición, el logaritmo es el exponente al que hay que elevar la base.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(125 / 5 = 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> La división no expresa la relación logaritmo-potencia.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(3^{5} = 243\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia la base con el exponente.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(2^{x} = 16\), entonces \(x\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{2} = 4\), no 16.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4\)<div class="opt-feedback"><strong>Correcto.</strong> \(2^{4} = 16\), entonces \(x = \log_{2}(16) = 4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(8\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{8} = 256\), se pasa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(16\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(x\) (el exponente) con el valor de la potencia.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál de las siguientes afirmaciones describe correctamente las tres operaciones?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Todas son la misma operación con distinto nombre<div class="opt-feedback"><strong>Incorrecto.</strong> Son tres operaciones distintas, aunque conectadas. La pregunta es <em>qué se busca</em> en cada caso.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\sqrt{x} = x^{1/2}\), pero el logaritmo es totalmente distinto<div class="opt-feedback"><strong>Incorrecto.</strong> El logaritmo también está conectado: es la operación que extrae el exponente de una potencia.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\sqrt{x} = x^{1/2}\) y el logaritmo es la inversa de la potencia (extrae el exponente)<div class="opt-feedback"><strong>Correcto.</strong> Las tres operaciones están conectadas por la ecuación \(b^{c} = a\): la raíz despeja la base, el logaritmo despeja el exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Las tres son operaciones independientes<div class="opt-feedback"><strong>Incorrecto.</strong> Toda la idea del OA 2 es que están conectadas — son tres formas de leer la misma ecuación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(\log_{b}(256) = 4\), ¿cuál es \(b\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(16\) (porque \(b^{2} = 256\))<div class="opt-feedback"><strong>Incorrecto.</strong> Usa exponente 2 en lugar del exponente dado (4).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4\) (porque \(b^{4} = 256\))<div class="opt-feedback"><strong>Correcto.</strong> La equivalencia es \(b^{4} = 256\). Despejando: \(b = \sqrt[4]{256} = 4\) (porque \(4^{4} = 256\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(64\) (porque \(b = 256/4\))<div class="opt-feedback"><strong>Incorrecto.</strong> La división no resuelve esta ecuación; necesitas raíz cuarta.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(260\) (porque \(b = 256 + 4\))<div class="opt-feedback"><strong>Incorrecto.</strong> La suma no tiene relación con esta operación.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál de las siguientes igualdades es FALSA?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Si \(b^{c} = x\), entonces \(\log_{b}(x) = c\)<div class="opt-feedback"><strong>Verdadera.</strong> Es la definición misma del logaritmo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Si \(\sqrt{x} = y\), entonces \(y^{2} = x\)<div class="opt-feedback"><strong>Verdadera.</strong> Es la relación inversa entre raíz cuadrada y cuadrado.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Si \(\log_{b}(x) = c\), entonces \(b/c = x\)<div class="opt-feedback"><strong>FALSA — esta es la respuesta correcta.</strong> Lo correcto es \(b^{c} = x\), no la división \(b/c\). Es un error frecuente confundir la operación inversa con división.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Si \(x^{1/n} = y\), entonces \(y^{n} = x\)<div class="opt-feedback"><strong>Verdadera.</strong> Es la equivalencia entre raíz n-ésima y exponente fraccionario.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Relaciones P-R-L · Página 4 de 5</div>
+  </div>
+</div>
+
+
+<!-- PÁGINA 5 — PAES + CIERRE -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Relaciones P-R-L — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Relaciones entre potencias, raíces y logaritmos</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es la operación inversa de \(\log_{2}(x)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Raíz cuadrada<div class="opt-feedback"><strong>Incorrecto.</strong> La raíz cuadrada deshace al cuadrado, no al logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Multiplicar por 2<div class="opt-feedback"><strong>Incorrecto.</strong> La multiplicación no deshace un logaritmo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Elevar 2 al exponente \(x\), es decir \(2^{x}\)<div class="opt-feedback"><strong>Correcto.</strong> El logaritmo y la potencia son operaciones inversas: si \(y = \log_{2}(x)\), entonces \(x = 2^{y}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Dividir por 2<div class="opt-feedback"><strong>Incorrecto.</strong> Dividir es la inversa de multiplicar, no de logaritmo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Si \(4^{x} = 64\), entonces \(x\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> \(4^{3} = 64\), así que \(x = \log_{4}(64) = 3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(16\)<div class="opt-feedback"><strong>Incorrecto.</strong> 16 es \(64/4\); no resuelve la ecuación exponencial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(4^{4} = 256\), no 64.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(60\)<div class="opt-feedback"><strong>Incorrecto.</strong> 60 es \(64-4\); resta inválida en este contexto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál de las siguientes expresiones es equivalente a \(\log_{3}(81)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(81/3 = 27\)<div class="opt-feedback"><strong>Incorrecto.</strong> La división no es la operación que define al logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(3^{81}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambia argumento con exponente.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> El exponente al que hay que elevar 3 para obtener 81, que es 4<div class="opt-feedback"><strong>Correcto.</strong> Por definición, \(\log_{3}(81) = 4\) porque \(3^{4} = 81\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\sqrt{81} = 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> La raíz cuadrada no calcula el logaritmo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">Si \(\log(x) = 3\) (base 10), entonces \(x\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(30\)<div class="opt-feedback"><strong>Incorrecto.</strong> 30 es \(10 \cdot 3\); confunde la operación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(100\)<div class="opt-feedback"><strong>Incorrecto.</strong> 100 corresponde a \(\log(100) = 2\), no 3.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(1000\)<div class="opt-feedback"><strong>Correcto.</strong> Por equivalencia: \(\log(x) = 3 \iff 10^{3} = x = 1000\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(0{,}001\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso correspondería a \(\log(x) = -3\), exponente negativo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Si \(\sqrt[5]{32} = 2\), ¿cuál es \(\log_{2}(32)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> 2 es la base del logaritmo, no su valor.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(5\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt[5]{32} = 2 \iff 2^{5} = 32 \iff \log_{2}(32) = 5\). El índice de la raíz es el logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(32\)<div class="opt-feedback"><strong>Incorrecto.</strong> 32 es el argumento del logaritmo, no su valor.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1/5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería el exponente fraccionario de \(\sqrt[5]{}\) como potencia, no el log de 32.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">La relación entre raíz n-ésima y exponente fraccionario es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\sqrt[n]{a} = 1/a^{n}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con exponente negativo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sqrt[n]{a} = a^{1/n}\)<div class="opt-feedback"><strong>Correcto.</strong> El índice de la raíz pasa al denominador del exponente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt[n]{a} = na\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica base por índice, sin relación con la operación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\sqrt[n]{a} = a^{n}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eleva en lugar de extraer raíz.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Si \(\log_{b}(a) = c\), entonces:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a + c = b\)<div class="opt-feedback"><strong>Incorrecto.</strong> La suma no es la operación inversa del logaritmo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(b \cdot c = a\)<div class="opt-feedback"><strong>Incorrecto.</strong> La multiplicación tampoco es la inversa correcta.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(b^{c} = a\)<div class="opt-feedback"><strong>Correcto.</strong> Es la definición misma del logaritmo: el logaritmo es el exponente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(c/b = a\)<div class="opt-feedback"><strong>Incorrecto.</strong> La división no expresa la relación log-potencia.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Una población se duplica cada año según \(P = P_{0} \cdot 2^{t}\). ¿Cuántos años deben pasar para que la población sea 8 veces la inicial?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2\) años<div class="opt-feedback"><strong>Incorrecto.</strong> En 2 años: \(2^{2} = 4\), aún no 8.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(3\) años<div class="opt-feedback"><strong>Correcto.</strong> Quiero \(2^{t} = 8\), entonces \(t = \log_{2}(8) = 3\) años. Usar logaritmo para despejar el tiempo en un modelo exponencial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4\) años<div class="opt-feedback"><strong>Incorrecto.</strong> En 4 años la población sería 16 veces la inicial, no 8.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(8\) años<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el factor (8 veces) con el tiempo (años).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Cuál es el valor de \(\log_{2}(\sqrt{2})\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\log_{2}(2) = 1\), pero el argumento aquí es \(\sqrt{2}\), no 2.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{2} = 2^{1/2}\), entonces \(\log_{2}(\sqrt{2}) = \log_{2}(2^{1/2}) = 1/2\). Une raíz, potencia y log.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(\log_{2}(4)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\sqrt{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Repite el argumento; el logaritmo es el exponente, no la raíz.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Si \(10^{x} = 0{,}001\), ¿cuál es \(x\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(10^{3} = 1000\), no 0,001. Falta el signo negativo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-3\)<div class="opt-feedback"><strong>Correcto.</strong> \(0{,}001 = 1/1000 = 10^{-3}\), así que \(x = -3\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería un exponente fraccionario; no corresponde a un decimal de la forma \(10^{-n}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(-\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Combina dos errores: fraccionario y negativo sin justificación.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Cuando entiendes que potencias, raíces y logaritmos son tres caras del mismo cubo, ya no tienes que memorizar fórmulas: deduces la operación que necesitas según lo que conoces y lo que buscas. Esa flexibilidad es la marca del estudiante que domina el OA 2.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Representación en la recta numérica</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Relaciones P-R-L · Página 5 de 5</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matemática 2° Medio — Índice de Guías | MaestrIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- KaTeX para renderizar fórmulas matemáticas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#F8F4E9 0%,#fff 100%);color:#0B0F3F;line-height:1.6;min-height:100vh;}
+
+    /* HEADER */
+    .top-header{background:linear-gradient(135deg,#0B0F3F 0%,#6A2C91 100%);color:#fff;padding:2rem 1.5rem;box-shadow:0 4px 20px rgba(11,15,63,.25);}
+    .top-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+    .brand-block{display:flex;align-items:center;gap:1rem;}
+    .brand-block img{width:60px;height:60px;border-radius:50%;background:#fff;padding:4px;}
+    .brand-block .brand-text h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800;line-height:1.1;}
+    .brand-block .brand-text p{font-size:.85rem;color:#D4AF37;margin-top:.2rem;}
+    .header-links{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .header-links a{color:#fff;background:rgba(255,255,255,.12);padding:.5rem 1rem;border-radius:20px;text-decoration:none;font-size:.85rem;font-weight:600;transition:background .2s;}
+    .header-links a:hover{background:rgba(212,175,55,.3);}
+
+    /* HERO */
+    .hero{max-width:1200px;margin:2rem auto 1rem;padding:0 1.5rem;text-align:center;}
+    .hero h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#0B0F3F;margin-bottom:.6rem;}
+    .hero h2 span{color:#6A2C91;}
+    .hero p{font-size:1.05rem;color:#555;max-width:700px;margin:0 auto;}
+    .hero-stats{display:flex;justify-content:center;gap:1.5rem;margin:1.4rem 0;flex-wrap:wrap;}
+    .stat{background:#fff;border:2px solid #D4AF37;border-radius:12px;padding:.7rem 1.2rem;text-align:center;min-width:90px;}
+    .stat .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.8rem;font-weight:800;color:#6A2C91;line-height:1;}
+    .stat .stat-label{font-size:.72rem;color:#0B0F3F;margin-top:.15rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+
+    /* OA SECTIONS */
+    .oa-section{max-width:1200px;margin:2.5rem auto;padding:0 1.5rem;}
+    .oa-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:3px solid #D4AF37;}
+    .oa-badge{background:#6A2C91;color:#fff;padding:.45rem .9rem;border-radius:8px;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0;}
+    .oa-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:700;color:#0B0F3F;flex:1;}
+    .oa-count{color:#6A2C91;font-size:.85rem;font-weight:700;background:#FFF8E1;padding:.3rem .7rem;border-radius:12px;flex-shrink:0;}
+    .oa-desc{color:#555;font-size:.95rem;margin-bottom:1.2rem;line-height:1.5;}
+
+    /* GRID DE GUÍAS */
+    .guides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .guide-card{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden;}
+    .guide-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(106,44,145,.18);border-color:#6A2C91;}
+    .guide-card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%;background:linear-gradient(180deg,#6A2C91,#D4AF37);}
+    .guide-num{display:inline-block;background:#F8F4E9;color:#6A2C91;font-weight:800;font-size:.78rem;padding:.25rem .55rem;border-radius:6px;width:fit-content;margin-bottom:.6rem;}
+    .guide-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:#0B0F3F;margin-bottom:.4rem;line-height:1.25;}
+    .guide-desc{font-size:.85rem;color:#555;line-height:1.5;flex:1;margin-bottom:.7rem;}
+    .guide-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;}
+    .guide-tag{background:#F8F4E9;color:#6A2C91;font-size:.7rem;padding:.18rem .5rem;border-radius:10px;font-weight:600;}
+    .guide-link{display:inline-flex;align-items:center;gap:.4rem;color:#6A2C91;font-weight:700;font-size:.88rem;margin-top:auto;}
+    .guide-card:hover .guide-link{color:#552072;}
+    .guide-link::after{content:'→';transition:transform .2s;}
+    .guide-card:hover .guide-link::after{transform:translateX(4px);}
+
+    /* FOOTER */
+    .site-footer{background:#0B0F3F;color:#fff;padding:2rem 1.5rem;margin-top:4rem;text-align:center;}
+    .site-footer p{font-size:.9rem;margin:.3rem 0;}
+    .site-footer .footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;color:#D4AF37;}
+    .site-footer a{color:#D4AF37;text-decoration:none;}
+    .site-footer a:hover{text-decoration:underline;}
+
+    /* PDF BUTTON */
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    @media (max-width:600px){
+      .hero h2{font-size:1.6rem;}
+      .top-header{padding:1.5rem 1rem;}
+      .brand-block .brand-text h1{font-size:1.15rem;}
+      .stat{min-width:75px;padding:.55rem .8rem;}
+      .stat .stat-num{font-size:1.4rem;}
+    }
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .top-header{background:#0B0F3F !important;}
+      .guide-card{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+      .oa-section{page-break-inside:avoid;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+<!-- HEADER -->
+<div class="top-header">
+  <div class="top-header-inner">
+    <div class="brand-block">
+      <img src="logo.png" alt="MaestrIA" />
+      <div class="brand-text">
+        <h1>MaestrIA</h1>
+        <p>Domina la materia · 2° Medio · Matemática</p>
+      </div>
+    </div>
+    <div class="header-links">
+      <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a>
+      <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>Matemática <span>2° Medio</span></h2>
+  <p>Colección completa de guías interactivas con teoría, ejemplos guiados, herramientas dinámicas y ejercicios estilo PAES. Todas las guías se pueden exportar como PDF para uso offline.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">OA</div></div>
+    <div class="stat"><div class="stat-num">19</div><div class="stat-label">Guías</div></div>
+    <div class="stat"><div class="stat-num">150+</div><div class="stat-label">Páginas</div></div>
+    <div class="stat"><div class="stat-num">35+</div><div class="stat-label">Herramientas</div></div>
+    <div class="stat"><div class="stat-num">380</div><div class="stat-label">Preguntas</div></div>
+  </div>
+</section>
+
+
+<!-- ====== OA 1 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-title">Operaciones con números reales (potencias, raíces, logaritmos)</span>
+    <span class="oa-count">4 guías</span>
+  </div>
+  <p class="oa-desc">Realizar cálculos y estimaciones con operaciones entre números reales: propiedades de potencias y raíces, descomposición, exponentes fraccionarios y logaritmos básicos.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA1_Potencias_2Medio.html">
+      <span class="guide-num">GUÍA 1.1</span>
+      <h3 class="guide-title">Potencias: propiedades y operatoria</h3>
+      <p class="guide-desc">Multiplicación, división, potencia de potencia, exponente cero y negativo. Base entera y racional.</p>
+      <div class="guide-tags"><span class="guide-tag">4 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA1_Raices_2Medio.html">
+      <span class="guide-num">GUÍA 1.2</span>
+      <h3 class="guide-title">Raíces: propiedades y operatoria</h3>
+      <p class="guide-desc">Raíz n-ésima, multiplicación y división, descomposición y simplificación de radicales.</p>
+      <div class="guide-tags"><span class="guide-tag">4 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA1_RaicesPotencias_2Medio.html">
+      <span class="guide-num">GUÍA 1.3</span>
+      <h3 class="guide-title">Raíces y Potencias: exponente fraccionario</h3>
+      <p class="guide-desc">El puente entre raíces y potencias. Equivalencias, operatoria unificada y simplificación.</p>
+      <div class="guide-tags"><span class="guide-tag">4 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA1_Logaritmos_2Medio.html">
+      <span class="guide-num">GUÍA 1.4</span>
+      <h3 class="guide-title">Logaritmos: definición y propiedades</h3>
+      <p class="guide-desc">Definición de logaritmo, base 10 y e, propiedades operatorias (producto, cociente, potencia, cambio de base).</p>
+      <div class="guide-tags"><span class="guide-tag">4 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 2 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-title">Relaciones entre potencias, raíces y logaritmos</span>
+    <span class="oa-count">5 guías</span>
+  </div>
+  <p class="oa-desc">Comprender las relaciones entre las tres operaciones: representaciones, conversiones entre registros, comparaciones en la recta numérica y aplicaciones en contextos reales.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA2_RaicesRacionales_2Medio.html">
+      <span class="guide-num">GUÍA 2.1</span>
+      <h3 class="guide-title">Raíces con números racionales</h3>
+      <p class="guide-desc">Combinar raíces con fracciones, racionalización de denominadores y problemas geométricos.</p>
+      <div class="guide-tags"><span class="guide-tag">5 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_RelacionesTresOperaciones_2Medio.html">
+      <span class="guide-num">GUÍA 2.2</span>
+      <h3 class="guide-title">Relaciones entre potencias, raíces y logaritmos</h3>
+      <p class="guide-desc">Las tres operaciones como una familia. Inversas entre sí y visión unificada.</p>
+      <div class="guide-tags"><span class="guide-tag">5 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_RectaNumerica_2Medio.html">
+      <span class="guide-num">GUÍA 2.3</span>
+      <h3 class="guide-title">Representación en la recta numérica</h3>
+      <p class="guide-desc">Ubicar potencias, raíces y logaritmos en la recta. Comparar magnitudes sin calcular.</p>
+      <div class="guide-tags"><span class="guide-tag">5 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_CambioRegistro_2Medio.html">
+      <span class="guide-num">GUÍA 2.4</span>
+      <h3 class="guide-title">Conversión entre registros</h3>
+      <p class="guide-desc">Pasar entre potencia, raíz y logaritmo. Aprender a "traducir" entre las tres notaciones.</p>
+      <div class="guide-tags"><span class="guide-tag">5 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_ProblemasLogaritmos_2Medio.html">
+      <span class="guide-num">GUÍA 2.5</span>
+      <h3 class="guide-title">Problemas con logaritmos</h3>
+      <p class="guide-desc">Aplicaciones reales: pH, escala Richter, decibeles, interés compuesto y crecimiento exponencial.</p>
+      <div class="guide-tags"><span class="guide-tag">5 páginas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 3 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-title">Función cuadrática</span>
+    <span class="oa-count">4 guías</span>
+  </div>
+  <p class="oa-desc">Comprender la función \(f(x) = ax^{2}+bx+c\): graficarla variando coeficientes, identificar sus elementos clave (vértice, intersecciones, eje de simetría), modelar problemas reales y resolver inecuaciones cuadráticas.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA3_GraficosCuadraticos_2Medio.html">
+      <span class="guide-num">GUÍA 3.1</span>
+      <h3 class="guide-title">Gráficos de funciones cuadráticas</h3>
+      <p class="guide-desc">Construir parábolas variando \(a\), \(b\), \(c\). Incluye <strong>graficador interactivo</strong> y herramienta general de puntos/rectas/parábolas.</p>
+      <div class="guide-tags"><span class="guide-tag">9 páginas</span><span class="guide-tag">3 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA3_ElementosCuadraticos_2Medio.html">
+      <span class="guide-num">GUÍA 3.2</span>
+      <h3 class="guide-title">Elementos de la función cuadrática</h3>
+      <p class="guide-desc">Vértice, eje de simetría, intersecciones, concavidad, dominio y recorrido. Con <strong>analizador interactivo</strong> y galería de práctica.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA3_ModelarCuadraticas_2Medio.html">
+      <span class="guide-num">GUÍA 3.3</span>
+      <h3 class="guide-title">Modelar problemas con cuadráticas</h3>
+      <p class="guide-desc">Geometría, física, economía. <strong>Simulador de tiro parabólico</strong> y <strong>optimizador de área</strong> con perímetro fijo.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA3_InecuacionesCuadraticas_2Medio.html">
+      <span class="guide-num">GUÍA 3.4</span>
+      <h3 class="guide-title">Inecuaciones cuadráticas y regiones del plano</h3>
+      <p class="guide-desc"><strong>Visualizador de regiones</strong> sombreadas y <strong>verificador de puntos</strong> mediante clic en el plano cartesiano.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 5 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 5</span>
+    <span class="oa-title">Función inversa</span>
+    <span class="oa-count">3 guías</span>
+  </div>
+  <p class="oa-desc">Comprender la inversa de una función mediante la metáfora de la máquina, calcular inversas para funciones lineales y cuadráticas, reconocerlas en distintas representaciones y aplicarlas a problemas reales.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA5_EcuacionesInversas_2Medio.html">
+      <span class="guide-num">GUÍA 5.1</span>
+      <h3 class="guide-title">Ecuaciones de las funciones inversas</h3>
+      <p class="guide-desc">Procedimiento para calcular \(f^{-1}\) de lineales y cuadráticas. <strong>Calculadoras</strong> interactivas con selección de rama.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA5_ReconocerInversa_2Medio.html">
+      <span class="guide-num">GUÍA 5.2</span>
+      <h3 class="guide-title">Reconocer la función inversa</h3>
+      <p class="guide-desc">En tablas, gráficos, diagramas y fórmulas. <strong>Comparador de funciones</strong> y <strong>quiz "¿son inversas?"</strong>.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA5_ProblemasInversa_2Medio.html">
+      <span class="guide-num">GUÍA 5.3</span>
+      <h3 class="guide-title">Problemas reales con función inversa</h3>
+      <p class="guide-desc">Conversión de unidades, costos, IVA, caída libre. <strong>Convertidor universal</strong> y <strong>resolutor</strong> con 5 escenarios.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 8 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 8</span>
+    <span class="oa-title">Razones trigonométricas en triángulos rectángulos</span>
+    <span class="oa-count">2 guías</span>
+  </div>
+  <p class="oa-desc">Comprender seno, coseno y tangente en triángulos rectángulos, su relación con la semejanza, y aplicarlas para resolver problemas geométricos, físicos y de la vida cotidiana (alturas, distancias inaccesibles, navegación, rampas).</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA8_ResolverTriangulos_2Medio.html">
+      <span class="guide-num">GUÍA 8.1</span>
+      <h3 class="guide-title">Resolver triángulos rectángulos</h3>
+      <p class="guide-desc">SOH-CAH-TOA, valores notables, procedimiento completo. <strong>Visualizador de razones</strong> y <strong>resolutor</strong> con 4 modos de entrada.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA8_ProblemasTrigonometria_2Medio.html">
+      <span class="guide-num">GUÍA 8.2</span>
+      <h3 class="guide-title">Problemas reales de trigonometría</h3>
+      <p class="guide-desc">Alturas inaccesibles, ángulos de elevación/depresión, rampas, geometría. <strong>Calculadora de altura</strong> y <strong>resolutor</strong> de 5 escenarios.</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 11 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 11</span>
+    <span class="oa-title">Permutaciones y combinatoria sencilla</span>
+    <span class="oa-count">1 guía</span>
+  </div>
+  <p class="oa-desc">Utilizar permutaciones, combinaciones y el principio fundamental del conteo para calcular probabilidades de eventos y resolver problemas de juegos de azar y de la vida cotidiana.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA11_PermutacionesCombinatoria_2Medio.html">
+      <span class="guide-num">GUÍA 11.1</span>
+      <h3 class="guide-title">Permutaciones, combinatoria y probabilidad</h3>
+      <p class="guide-desc">Factorial, \(P(n,r)\), \(C(n,r)\) y aplicación a probabilidad clásica. <strong>Calculadora de P y C</strong> y <strong>probabilidades en 5 escenarios</strong> (urna, cartas, dados, monedas, lotería).</p>
+      <div class="guide-tags"><span class="guide-tag">8 páginas</span><span class="guide-tag">2 herramientas</span><span class="guide-tag">20 preguntas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p class="footer-brand">MaestrIA</p>
+  <p>Domina la materia · Preparación PAES</p>
+  <p style="margin-top:.7rem;">
+    <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a> ·
+    <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+  </p>
+  <p style="font-size:.78rem;color:#888;margin-top:.6rem;">Autor: Paulo Figueroa · Matemática 2° Medio</p>
+</footer>
+
+</body>
+</html>

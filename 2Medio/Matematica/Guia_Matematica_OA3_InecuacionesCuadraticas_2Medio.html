@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inecuaciones cuadráticas — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* TOOL: Visualizador de regiones */
+    .tool-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;position:relative;}
+    .tool-canvas-wrap canvas{width:100%;height:auto;display:block;cursor:crosshair;}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .slider-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .slider-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .slider-control input[type=range]{width:100%;accent-color:#6A2C91;}
+    .slider-control input[type=number]{width:100%;padding:.4rem .55rem;border:1px solid #D9D9D9;border-radius:5px;font-size:.9rem;}
+    .slider-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .ineq-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem;margin-top:.3rem;}
+    .ineq-selector button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:6px;padding:.4rem;cursor:pointer;font-weight:700;font-size:.95rem;font-family:'Inter',sans-serif;transition:all .2s;}
+    .ineq-selector button.active{background:#6A2C91;color:#fff;}
+    .ineq-selector button:hover{background:#552072;color:#fff;}
+    .tool-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .tool-info .badge-ok{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:.1rem .6rem;border-radius:10px;font-size:.82rem;font-weight:700;}
+    .tool-info .badge-no{display:inline-block;background:#6A2C91;color:#fff;padding:.1rem .6rem;border-radius:10px;font-size:.82rem;font-weight:700;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;transition:background .2s;}
+    .preset-buttons button:hover{background:#552072;}
+    .exploration-tasks{background:#FFF8E1;border:2px solid #D4AF37;border-radius:8px;padding:.9rem 1.3rem;margin:1rem 0;}
+    .exploration-tasks h3{margin:0 0 .5rem;color:#0B0F3F;font-size:1.05rem;}
+    .exploration-tasks ol{margin:.4rem 0;padding-left:1.2rem;}
+    .exploration-tasks li{margin:.4rem 0;line-height:1.5;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Inecuaciones cuadráticas: introducción
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Inecuaciones cuadráticas: regiones del plano</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Inecuaciones</span>
+    <span class="chip">Regiones del plano</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Determinar en el plano cartesiano las regiones cuyos puntos \(P(x, y)\) representan soluciones de las inecuaciones cuadráticas \(y < ax^{2}+bx+c\) o \(y > ax^{2}+bx+c\).</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>De la ecuación a la inecuación</div>
+
+      <p>Una <strong>ecuación</strong> usa el signo igual (\(=\)) y tiene como solución valores específicos (puntos). Una <strong>inecuación</strong> usa los signos \(<\), \(>\), \(\leq\) o \(\geq\) y tiene como solución <em>conjuntos</em> de valores (intervalos o regiones).</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Tipo</th><th>Ejemplo</th><th>Solución típica</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ecuación cuadrática</td><td>\(x^{2} - 4 = 0\)</td><td>Puntos: \(x = 2\) y \(x = -2\)</td></tr>
+          <tr><td>Inecuación cuadrática 1 variable</td><td>\(x^{2} - 4 < 0\)</td><td>Intervalo: \(-2 < x < 2\)</td></tr>
+          <tr><td>Inecuación cuadrática 2 variables</td><td>\(y > x^{2} - 4\)</td><td>Región del plano cartesiano</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-def">
+        <strong>Inecuación cuadrática en dos variables:</strong> es una desigualdad de la forma \(y < ax^{2}+bx+c\), \(y > ax^{2}+bx+c\), \(y \leq ax^{2}+bx+c\) o \(y \geq ax^{2}+bx+c\), donde \(a \neq 0\). Su solución es el conjunto de pares \((x, y)\) que la cumplen, formando una <em>región</em> del plano.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La parábola divide el plano en dos regiones</div>
+
+      <p>Cuando graficas la parábola \(y = ax^{2}+bx+c\), esta curva divide al plano cartesiano en <strong>dos regiones</strong>:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Región superior</span>
+          <span class="prop-eq">Todos los puntos \((x, y)\) con \(y > ax^{2}+bx+c\). Está "por encima" de la parábola.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Región inferior</span>
+          <span class="prop-eq">Todos los puntos \((x, y)\) con \(y < ax^{2}+bx+c\). Está "por debajo" de la parábola.</span>
+        </div>
+      </div>
+
+      <p>La parábola misma (\(y = ax^{2}+bx+c\)) es la <em>frontera</em> entre ambas regiones. Pertenece a la solución cuando la inecuación es \(\leq\) o \(\geq\) (no estricta), y NO pertenece cuando es \(<\) o \(>\) (estricta).</p>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g1a" width="460" height="380"></canvas>
+        <div class="embed-caption">La parábola \(y = x^{2}\) divide el plano en dos regiones: arriba (\(y > x^{2}\)) y abajo (\(y < x^{2}\)).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>¿Cómo se dibuja una región?</div>
+
+      <ol class="steps-num">
+        <li><strong>Grafica la parábola</strong> \(y = ax^{2}+bx+c\) (frontera).</li>
+        <li><strong>Decide el tipo de línea:</strong>
+          <ul>
+            <li>Si la inecuación es <strong>estricta</strong> (\(<\) o \(>\)): línea <em>discontinua</em> (la parábola NO se incluye).</li>
+            <li>Si es <strong>no estricta</strong> (\(\leq\) o \(\geq\)): línea <em>continua</em> (la parábola SÍ se incluye).</li>
+          </ul>
+        </li>
+        <li><strong>Sombrea la región correcta:</strong>
+          <ul>
+            <li>Si la inecuación es \(y > \ldots\) o \(y \geq \ldots\): sombrea la región <em>encima</em> de la parábola.</li>
+            <li>Si es \(y < \ldots\) o \(y \leq \ldots\): sombrea la región <em>debajo</em> de la parábola.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="card card-tip">
+        <strong>Atajo de verificación:</strong> elige un punto cualquiera (típicamente \((0, 0)\) si no está sobre la parábola). Reemplaza en la inecuación. Si la cumple, ese punto está en la región solución. Si no, está en la otra región.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Inecuaciones de UNA variable (recordatorio prerequisito)
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Inecuaciones de una variable: prerrequisito</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Una variable</span>
+    <span class="chip">Análisis de signo</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resolver \(ax^{2}+bx+c > 0\) o \(< 0\)</div>
+
+      <p>Antes de las regiones del plano, conviene dominar las inecuaciones de <em>una sola variable</em>. La solución no es un intervalo en el plano, sino en la <strong>recta numérica</strong>.</p>
+
+      <p>La estrategia clave: usar las <strong>raíces de la cuadrática</strong> y el <strong>signo de \(a\)</strong> para determinar dónde la función toma valores positivos o negativos.</p>
+
+      <div class="card card-tip">
+        <strong>Regla maestra (con \(a > 0\)):</strong> la parábola es positiva (\(> 0\)) <em>fuera</em> de sus raíces y negativa (\(< 0\)) <em>entre</em> ellas. Si \(a < 0\), todo se invierte.
+      </div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Caso</th><th>\(ax^{2}+bx+c > 0\)</th><th>\(ax^{2}+bx+c < 0\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(a > 0\), dos raíces \(r_{1} < r_{2}\)</td><td>\(x < r_{1}\) o \(x > r_{2}\)</td><td>\(r_{1} < x < r_{2}\)</td></tr>
+          <tr><td>\(a < 0\), dos raíces \(r_{1} < r_{2}\)</td><td>\(r_{1} < x < r_{2}\)</td><td>\(x < r_{1}\) o \(x > r_{2}\)</td></tr>
+          <tr><td>\(\Delta = 0\) (raíz doble \(r\))</td><td>Todos los \(x \neq r\) (si \(a>0\))</td><td>Sin solución (si \(a>0\))</td></tr>
+          <tr><td>\(\Delta < 0\) (sin raíces)</td><td>Todos los reales (si \(a>0\))</td><td>Sin solución (si \(a>0\))</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo guiado</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Resolver \(x^{2} - 5x + 6 \leq 0\).
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Encontrar raíces:</strong> \(x^{2} - 5x + 6 = (x-2)(x-3) = 0 \Rightarrow x = 2\) o \(x = 3\).</span>
+        <span class="math-step"><strong>Analizar signo:</strong> \(a = 1 > 0\), parábola abre hacia arriba. Es negativa <em>entre</em> las raíces.</span>
+        <span class="math-step"><strong>Incluye igualdad:</strong> como es \(\leq\), incluimos las raíces.</span>
+        <span class="math-step"><span class="math-result">Solución: \(x \in [2, 3]\) (intervalo cerrado).</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="300"></canvas>
+        <div class="embed-caption">\(x^{2}-5x+6\): negativa entre las raíces \(x=2\) y \(x=3\). Por eso la solución es \([2, 3]\).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Notación de intervalos</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Notación</th><th>Significado</th><th>Ejemplo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\((a, b)\)</td><td>Intervalo abierto: NO incluye extremos</td><td>\(x \in (2, 3) \Leftrightarrow 2 < x < 3\)</td></tr>
+          <tr><td>\([a, b]\)</td><td>Intervalo cerrado: SÍ incluye extremos</td><td>\(x \in [2, 3] \Leftrightarrow 2 \leq x \leq 3\)</td></tr>
+          <tr><td>\((a, b]\) o \([a, b)\)</td><td>Semiabierto (uno sí, otro no)</td><td>\(x \in [2, 3) \Leftrightarrow 2 \leq x < 3\)</td></tr>
+          <tr><td>\((-\infty, a)\)</td><td>Todos los \(x\) menores que \(a\)</td><td>\(x < a\)</td></tr>
+          <tr><td>\((a, \infty)\)</td><td>Todos los \(x\) mayores que \(a\)</td><td>\(x > a\)</td></tr>
+          <tr><td>\((-\infty, r_{1}) \cup (r_{2}, \infty)\)</td><td>Unión de dos intervalos</td><td>\(x < r_{1}\) o \(x > r_{2}\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Sin escribir: ¿cuál es la solución de \(x^{2} - 4 > 0\)? Pista: raíces \(\pm 2\), \(a > 0\) ⇒ positivo fuera de raíces. Si llegas a \(x \in (-\infty, -2) \cup (2, \infty)\), ya dominas el análisis de signo.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Inecuaciones de DOS variables (regiones)
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Regiones del plano: el corazón del OA</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Dos variables</span>
+    <span class="chip">Verificación de puntos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Verificar si un punto pertenece a una región</div>
+
+      <p>Dado un punto \(P(x_{0}, y_{0})\) y una inecuación, ¿cómo sabemos si el punto pertenece a la región solución? Es muy directo: <strong>reemplazas las coordenadas en la inecuación</strong> y verificas si se cumple.</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿El punto \(P(2, 5)\) pertenece a la región \(y > x^{2}\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Reemplazamos: \(y_{0} = 5\), \(x_{0} = 2\).</span>
+        <span class="math-step">¿Se cumple que \(5 > 2^{2}\)? Es decir, ¿\(5 > 4\)? Sí.</span>
+        <span class="math-step"><span class="math-result">\(P(2, 5)\) sí pertenece a la región \(y > x^{2}\) (está por encima de la parábola).</span></span>
+      </div>
+
+      <div class="subsec">Otro ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿El punto \(P(1, 0)\) pertenece a la región \(y < x^{2} - 2\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Reemplazamos: \(y_{0} = 0\), \(x_{0} = 1\).</span>
+        <span class="math-step">¿Se cumple que \(0 < 1^{2} - 2 = -1\)? Es decir, ¿\(0 < -1\)? No.</span>
+        <span class="math-step"><span class="math-result">\(P(1, 0)\) NO pertenece. Está por encima de la parábola, no por debajo.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>El "truco del punto de prueba"</div>
+
+      <p>Si quieres saber qué <strong>región completa</strong> sombrear (encima o debajo) sin pensar demasiado, usa el método del <em>punto de prueba</em>:</p>
+
+      <ol class="steps-num">
+        <li>Grafica la parábola.</li>
+        <li>Elige un punto cualquiera que NO esté sobre la parábola. El \((0, 0)\) suele ser el más fácil (si no está sobre la curva).</li>
+        <li>Reemplaza ese punto en la inecuación.</li>
+        <li>Si se cumple, sombrea la región que contiene a ese punto. Si no, sombrea la otra.</li>
+      </ol>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Determinar qué región corresponde a \(y < x^{2} - 4\).
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Punto de prueba:</strong> \((0, 0)\).</span>
+        <span class="math-step">¿Se cumple que \(0 < 0^{2} - 4 = -4\)? No (0 no es menor que \(-4\)).</span>
+        <span class="math-step">Entonces \((0, 0)\) NO está en la región solución. La región es la otra (la que NO contiene al origen).</span>
+        <span class="math-step"><span class="math-result">Se sombrea la región exterior (que contiene a los puntos por debajo de la parábola, no al origen).</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g3a" width="460" height="380"></canvas>
+        <div class="embed-caption">\(y < x^{2} - 4\): región sombreada en gris dorado claro; parábola con línea discontinua (estricta).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Resumen visual</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Inecuación</th><th>Tipo de línea</th><th>Región sombreada</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(y > ax^{2}+bx+c\)</td><td>Discontinua (estricta)</td><td>Encima de la parábola</td></tr>
+          <tr><td>\(y \geq ax^{2}+bx+c\)</td><td>Continua (incluye frontera)</td><td>Encima de la parábola + parábola</td></tr>
+          <tr><td>\(y < ax^{2}+bx+c\)</td><td>Discontinua (estricta)</td><td>Debajo de la parábola</td></tr>
+          <tr><td>\(y \leq ax^{2}+bx+c\)</td><td>Continua (incluye frontera)</td><td>Debajo de la parábola + parábola</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — VISUALIZADOR DE REGIONES (HERRAMIENTA 1)
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Visualizador interactivo de regiones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Cambia la inecuación</span>
+    <span class="chip">Mira la región sombreada</span>
+  </div>
+
+  <div class="content">
+
+    <p>Esta herramienta dibuja la <strong>región solución</strong> de cualquier inecuación cuadrática del tipo \(y\) (signo) \(ax^{2}+bx+c\). Ajusta los coeficientes y cambia el signo de la inecuación para ver instantáneamente qué región del plano cumple la condición.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="region-canvas" width="600" height="450"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="slider-control">
+          <label>Coeficiente \(a\) = <span id="r-a-val">1</span></label>
+          <input id="r-a" type="range" min="-3" max="3" step="0.5" value="1" />
+        </div>
+        <div class="slider-control">
+          <label>Coeficiente \(b\) = <span id="r-b-val">0</span></label>
+          <input id="r-b" type="range" min="-6" max="6" step="0.5" value="0" />
+        </div>
+        <div class="slider-control">
+          <label>Coeficiente \(c\) = <span id="r-c-val">-4</span></label>
+          <input id="r-c" type="range" min="-8" max="8" step="0.5" value="-4" />
+        </div>
+        <div class="slider-control">
+          <label>Tipo de inecuación</label>
+          <div class="ineq-selector" id="r-ineq">
+            <button data-ineq="lt">&lt;</button>
+            <button data-ineq="le">≤</button>
+            <button data-ineq="gt" class="active">&gt;</button>
+            <button data-ineq="ge">≥</button>
+          </div>
+          <small>Estricta (<, >) = línea discontinua. No estricta (≤, ≥) = línea continua.</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="region-info" class="tool-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Presets de inecuaciones clásicas</div>
+    <div class="preset-buttons">
+      <button data-rpre="1,0,0,gt">y &gt; x²</button>
+      <button data-rpre="1,0,0,lt">y &lt; x²</button>
+      <button data-rpre="1,0,-4,ge">y ≥ x² - 4</button>
+      <button data-rpre="-1,0,4,le">y ≤ -x² + 4</button>
+      <button data-rpre="1,-4,3,lt">y &lt; x² - 4x + 3</button>
+      <button data-rpre="-1,2,3,gt">y &gt; -x² + 2x + 3</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Sistemas de inecuaciones
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Sistemas de inecuaciones cuadráticas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Intersección de regiones</span>
+    <span class="chip">Casos avanzados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Sistema de dos o más inecuaciones</div>
+
+      <p>Cuando un problema impone <em>varias condiciones simultáneas</em>, la región solución es la <strong>intersección</strong> de todas las regiones individuales: los puntos que cumplen TODAS las inecuaciones a la vez.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Determinar la región del plano que cumple simultáneamente: \(y \geq x^{2}\) y \(y \leq 4\).
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Primera condición:</strong> \(y \geq x^{2}\) ⇒ región encima (o sobre) la parábola \(y = x^{2}\).</span>
+        <span class="math-step"><strong>Segunda condición:</strong> \(y \leq 4\) ⇒ región debajo (o sobre) la recta horizontal \(y = 4\).</span>
+        <span class="math-step"><strong>Intersección:</strong> región acotada entre la parábola y la recta \(y = 4\); es la zona dentro de la "copa" formada.</span>
+        <span class="math-step"><span class="math-result">Es una región acotada con forma de "lente" o "huso" entre las dos curvas.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g5a" width="460" height="380"></canvas>
+        <div class="embed-caption">Sistema \(y \geq x^{2}\) y \(y \leq 4\): región solución sombreada (entre la parábola y la recta).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Estrategia para sistemas</div>
+
+      <ol class="steps-num">
+        <li>Grafica cada curva (parábola, recta) por separado.</li>
+        <li>Identifica la región solución de cada inecuación individual usando el truco del punto de prueba.</li>
+        <li>La región solución del sistema es la <strong>intersección</strong> de todas las regiones individuales.</li>
+        <li>Si las regiones no se intersectan, el sistema NO tiene solución.</li>
+      </ol>
+
+      <div class="card card-tip">
+        <strong>Visualización mental:</strong> piensa cada inecuación como un "filtro" que deja pasar solo ciertos puntos del plano. Con varias inecuaciones simultáneas, un punto debe pasar TODOS los filtros para ser solución del sistema.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Antes de avanzar: ¿qué pasa si el sistema es \(y > x^{2}\) y \(y < -1\)? La parábola \(y = x^{2}\) tiene su mínimo en \((0, 0)\), entonces \(y > x^{2}\) implica \(y > 0\). Pero \(y < -1\) implica \(y < 0\). No hay punto que cumpla ambas: <strong>el sistema no tiene solución</strong>.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — VERIFICADOR DE PUNTOS (HERRAMIENTA 2)
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Verificador interactivo de puntos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Clic en el plano</span>
+    <span class="chip">Verifica pertenencia</span>
+  </div>
+
+  <div class="content">
+
+    <p>Define una inecuación cuadrática con los coeficientes y el signo, luego <strong>haz clic en cualquier punto del plano</strong> para verificar si pertenece a la región solución. La herramienta te dice de inmediato si el punto cumple la inecuación.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="verify-canvas" width="600" height="450"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="slider-control">
+          <label>Coeficiente \(a\) = <span id="v-a-val">1</span></label>
+          <input id="v-a" type="range" min="-3" max="3" step="0.5" value="1" />
+        </div>
+        <div class="slider-control">
+          <label>Coeficiente \(b\) = <span id="v-b-val">0</span></label>
+          <input id="v-b" type="range" min="-6" max="6" step="0.5" value="0" />
+        </div>
+        <div class="slider-control">
+          <label>Coeficiente \(c\) = <span id="v-c-val">0</span></label>
+          <input id="v-c" type="range" min="-6" max="6" step="0.5" value="0" />
+        </div>
+        <div class="slider-control">
+          <label>Tipo de inecuación</label>
+          <div class="ineq-selector" id="v-ineq">
+            <button data-vineq="lt">&lt;</button>
+            <button data-vineq="le">≤</button>
+            <button data-vineq="gt" class="active">&gt;</button>
+            <button data-vineq="ge">≥</button>
+          </div>
+        </div>
+        <div class="slider-control">
+          <label>O ingresa un punto manualmente:</label>
+          <div style="display:flex;gap:.4rem;align-items:center;">
+            <span style="color:#6A2C91;font-weight:700;">x =</span>
+            <input id="v-px" type="number" step="0.5" value="2" style="flex:1;">
+            <span style="color:#6A2C91;font-weight:700;">y =</span>
+            <input id="v-py" type="number" step="0.5" value="3" style="flex:1;">
+          </div>
+          <small>O haz clic directamente en el canvas.</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="verify-info" class="tool-info">Cargando…</div>
+
+    <div class="exploration-tasks">
+      <h3>🔍 Actividades sugeridas</h3>
+      <ol>
+        <li>Configura \(y > x^{2}\). Haz clic en \((0, 5)\). ¿Pertenece? Ahora haz clic en \((2, 1)\). Verifica con tu cálculo manual.</li>
+        <li>Cambia a \(y \leq x^{2} - 4\). Haz clic justo SOBRE la parábola (por ejemplo en \((2, 0)\)). ¿Pertenece? ¿Por qué?</li>
+        <li>Configura \(y < -x^{2} + 4\). Encuentra 3 puntos que pertenezcan y 3 que no.</li>
+        <li>Reto: ¿puedes encontrar un punto que esté EXACTAMENTE sobre la parábola? ¿En cuál tipo de inecuación pertenecería?</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Inecuaciones cuadráticas — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Para qué valores de \(x\) se cumple \(x^{2} < 4\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(-2 < x < 2\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^{2} - 4 < 0 \iff (x-2)(x+2) < 0\). Raíces \(\pm 2\), \(a > 0\) ⇒ negativo entre raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x < -2\) o \(x > 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es donde es POSITIVO (\(x^{2} > 4\)), no negativo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x < 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el efecto del cuadrado y los negativos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Todos los \(x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Para \(x = 3\), \(x^{2} = 9 > 4\), no cumple.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿El punto \((2, 5)\) pertenece a la región \(y > x^{2}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Sí<div class="opt-feedback"><strong>Correcto.</strong> Reemplazando: \(5 > 2^{2} = 4\). Se cumple, así que el punto pertenece a la región.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> No<div class="opt-feedback"><strong>Incorrecto.</strong> Sí cumple: 5 es mayor que 4.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo si \(x\) es positivo<div class="opt-feedback"><strong>Incorrecto.</strong> No hay restricción de signo en la inecuación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Es indeterminado<div class="opt-feedback"><strong>Incorrecto.</strong> Es totalmente determinable reemplazando los valores.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(y > x^{2} + 1\), la región que satisface esta inecuación está:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Arriba de la parábola \(y = x^{2} + 1\)<div class="opt-feedback"><strong>Correcto.</strong> Cuando \(y\) es mayor que el valor de la parábola, el punto está por encima de ella.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Abajo<div class="opt-feedback"><strong>Incorrecto.</strong> Esa sería la región para \(y < x^{2} + 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> En la parábola<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(y = x^{2}+1\), es la frontera, no la región estricta.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> En todo el plano<div class="opt-feedback"><strong>Incorrecto.</strong> La inecuación restringe la región a un subconjunto del plano.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Para qué valores de \(x\) se cumple \(x^{2} - 5x + 6 \leq 0\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x \in [2, 3]\)<div class="opt-feedback"><strong>Correcto.</strong> Raíces 2 y 3, \(a > 0\) ⇒ negativo entre raíces. \(\leq\) incluye las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x \in (-\infty, 2] \cup [3, \infty)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa es la solución de \(\geq 0\), no de \(\leq 0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x \in [-3, -2]\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el signo de las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Sin solución<div class="opt-feedback"><strong>Incorrecto.</strong> Hay valores que cumplen; las raíces y todo lo intermedio.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Qué condición sobre \((x, y)\) define la región DEBAJO de la parábola \(y = -x^{2} + 4\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(y < -x^{2} + 4\)<div class="opt-feedback"><strong>Correcto.</strong> "Debajo" significa que \(y\) es menor que el valor de la parábola para cada \(x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(y > -x^{2} + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa es la región ARRIBA.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(y = -x^{2} + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la parábola misma, no una región.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(y \neq -x^{2} + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa condición incluye ambas regiones (arriba y abajo).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿El punto \((0, 0)\) satisface \(y > x^{2} - 2\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Sí<div class="opt-feedback"><strong>Correcto.</strong> Reemplazando: \(0 > 0^{2} - 2 = -2\). Sí, 0 es mayor que \(-2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> No<div class="opt-feedback"><strong>Incorrecto.</strong> 0 > -2 es verdadero.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo si \(y > 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Aquí \(y = 0\) y la condición sí se cumple.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Es indeterminado<div class="opt-feedback"><strong>Incorrecto.</strong> Es determinable reemplazando.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿La región \(y \leq x^{2}\) incluye el punto \((1, 1)\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Sí<div class="opt-feedback"><strong>Correcto.</strong> \(1 \leq 1^{2} = 1\). La igualdad cumple \(\leq\), así que el punto (sobre la parábola) sí pertenece.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> No<div class="opt-feedback"><strong>Incorrecto.</strong> La inecuación es \(\leq\), no \(<\) estricta, así que la igualdad cumple.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo si \(y > 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es relevante el signo de \(y\) aquí.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Indeterminado<div class="opt-feedback"><strong>Incorrecto.</strong> Es determinable reemplazando.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Para qué valores reales de \(x\) se cumple \(x^{2} - 4x + 3 > 0\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x \in (-\infty, 1) \cup (3, \infty)\)<div class="opt-feedback"><strong>Correcto.</strong> Raíces 1 y 3, \(a > 0\) ⇒ positivo FUERA de las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x \in (1, 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Entre las raíces es negativo, no positivo (con \(a > 0\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x > 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Para \(x = 2\) (positivo), \(x^{2}-4x+3 = -1 < 0\), no cumple.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x \in \mathbb{R}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No todos los reales cumplen; en \([1, 3]\) la cuadrática es \(\leq 0\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál de estos puntos NO pertenece a la región \(y < x^{2} + 1\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((0, -1)\)<div class="opt-feedback"><strong>Sí pertenece.</strong> \(-1 < 0^{2} + 1 = 1\) ✓.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((2, 3)\)<div class="opt-feedback"><strong>Sí pertenece.</strong> \(3 < 2^{2} + 1 = 5\) ✓.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((1, 3)\)<div class="opt-feedback"><strong>Correcto (NO pertenece).</strong> \(3 < 1^{2} + 1 = 2\) es FALSO (3 no es menor que 2).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((-1, 1)\)<div class="opt-feedback"><strong>Sí pertenece.</strong> \(1 < (-1)^{2} + 1 = 2\) ✓.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">La región \(y \geq x^{2}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Todo lo que está ENCIMA o sobre la parábola \(y = x^{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\geq\) incluye la frontera; "encima" porque \(y\) es mayor que el valor de la parábola.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Todo lo que está debajo<div class="opt-feedback"><strong>Incorrecto.</strong> Esa sería la región \(y \leq x^{2}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo la parábola<div class="opt-feedback"><strong>Incorrecto.</strong> La inecuación incluye toda la región, no solo la curva.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> El plano entero<div class="opt-feedback"><strong>Incorrecto.</strong> La región está limitada por la parábola.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Inecuaciones cuadráticas — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Inecuaciones y regiones cuadráticas</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es la solución de \(x^{2} \leq 9\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-3 \leq x \leq 3\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^{2} - 9 \leq 0 \iff (x-3)(x+3) \leq 0\). Raíces \(\pm 3\); negativo entre raíces. \(\leq\) incluye los extremos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x \leq 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Incluiría \(x = -10\), pero \((-10)^{2} = 100 > 9\), no cumple.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x \geq -3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Por el mismo motivo, incluiría valores que no cumplen.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x \leq -3\) o \(x \geq 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la solución de \(x^{2} \geq 9\), no de \(\leq\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">La región \(y > x^{2}\) está representada por:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Los puntos por encima de la parábola \(y = x^{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Cuando \(y\) es mayor que el valor de la parábola, el punto está "arriba" de la curva.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Los puntos por debajo<div class="opt-feedback"><strong>Incorrecto.</strong> Esa es la región \(y < x^{2}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Los puntos en la parábola<div class="opt-feedback"><strong>Incorrecto.</strong> Sería la curva (y la inecuación es estricta, así que ni siquiera incluye la parábola).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Sin región<div class="opt-feedback"><strong>Incorrecto.</strong> Toda inecuación válida define una región del plano.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Qué tipo de línea (continua o discontinua) se usa para graficar la frontera de \(y > x^{2}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Continua<div class="opt-feedback"><strong>Incorrecto.</strong> Continua se usa para \(\leq\) o \(\geq\) (no estrictas).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Discontinua<div class="opt-feedback"><strong>Correcto.</strong> El signo \(>\) es estricto: la parábola NO se incluye en la región, se grafica con línea discontinua.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Doble<div class="opt-feedback"><strong>Incorrecto.</strong> No es una convención estándar.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Punteada azul<div class="opt-feedback"><strong>Incorrecto.</strong> El color no determina inclusión; solo el tipo de línea (continua o discontinua).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Para qué valores de \(x\) se cumple \(x^{2} - x - 6 > 0\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-2 < x < 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Entre las raíces es negativo (con \(a > 0\)).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x \in (-\infty, -2) \cup (3, \infty)\)<div class="opt-feedback"><strong>Correcto.</strong> Factorizando: \((x-3)(x+2) > 0\). Raíces \(-2\) y \(3\), \(a > 0\) ⇒ positivo fuera de las raíces.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> En \(x = 0\), \(0 - 0 - 6 = -6 < 0\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x > 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cumple, pero también \(x > 3\) en general.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿El punto \((1, 2)\) pertenece a la región \(y \leq x^{2} + 1\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Sí (porque \(2 \leq 2\))<div class="opt-feedback"><strong>Correcto.</strong> \(2 \leq 1^{2} + 1 = 2\). La igualdad cumple \(\leq\), así que el punto pertenece (está sobre la parábola).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> No<div class="opt-feedback"><strong>Incorrecto.</strong> Como es \(\leq\), la igualdad sí cumple.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Solo si \(x = 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> No hay tal restricción.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Indeterminado<div class="opt-feedback"><strong>Incorrecto.</strong> Es determinable.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuál es el conjunto solución de \(-x^{2} + 4 \geq 0\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x \in [-2, 2]\)<div class="opt-feedback"><strong>Correcto.</strong> Raíces \(\pm 2\), \(a = -1 < 0\) ⇒ positivo entre raíces. \(\geq\) incluye los extremos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x \in (-\infty, -2] \cup [2, \infty)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Con \(a < 0\), fuera de las raíces es NEGATIVO.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x \geq 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Incluye \(x = 100\) que claramente no cumple.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Sin solución<div class="opt-feedback"><strong>Incorrecto.</strong> Sí hay solución; por ejemplo \(x = 0\): \(-0 + 4 = 4 \geq 0\) ✓.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Si \(y < ax^{2}+bx+c\) representa la región DEBAJO de la parábola, entonces:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> La línea de la parábola SÍ se incluye<div class="opt-feedback"><strong>Incorrecto.</strong> El signo \(<\) es estricto, NO incluye la frontera.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> La línea de la parábola NO se incluye (es discontinua)<div class="opt-feedback"><strong>Correcto.</strong> El signo \(<\) significa que la parábola misma queda fuera de la región solución. Se grafica con línea discontinua.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Toda la región está sombreada<div class="opt-feedback"><strong>Incorrecto.</strong> Solo la región debajo, no todo el plano.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> No hay región<div class="opt-feedback"><strong>Incorrecto.</strong> Sí hay una región bien definida (debajo de la parábola).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">¿Cuál de los siguientes puntos pertenece a la región \(y > x^{2} - 4\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((0, -5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-5 > 0^{2} - 4 = -4\) es falso (\(-5 < -4\)).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((1, 0)\)<div class="opt-feedback"><strong>Correcto.</strong> \(0 > 1^{2} - 4 = -3\). Sí cumple.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((3, 4)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(4 > 3^{2} - 4 = 5\) es falso (\(4 < 5\)).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((-2, -5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-5 > (-2)^{2} - 4 = 0\) es falso (\(-5 < 0\)).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Resuelve la inecuación \((x - 2)(x + 1) < 0\):</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x \in (-1, 2)\)<div class="opt-feedback"><strong>Correcto.</strong> Raíces \(-1\) y \(2\). Al expandir, \(a > 0\) ⇒ negativo ENTRE las raíces.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x \in (-\infty, -1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Fuera de raíces es POSITIVO.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x \in (2, \infty)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mismo error.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x \in (-\infty, -1) \cup (2, \infty)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la solución de \((x-2)(x+1) > 0\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">La región del plano donde \(y \geq x^{2}\) Y \(y \leq 4\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Una región acotada por la parábola y la recta horizontal \(y = 4\)<div class="opt-feedback"><strong>Correcto.</strong> Es la intersección: encima de la parábola Y debajo de la recta. Forma de "huso" o lente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Todo el plano<div class="opt-feedback"><strong>Incorrecto.</strong> Las dos condiciones restringen mucho la región.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Solo el eje x<div class="opt-feedback"><strong>Incorrecto.</strong> Mucho más amplio que solo el eje x.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Sin región<div class="opt-feedback"><strong>Incorrecto.</strong> Las dos regiones sí se intersectan (la parábola alcanza y supera \(y=4\) en \(x = \pm 2\)).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Has completado las 4 guías del OA 3. Las inecuaciones cuadráticas y las regiones del plano son la herramienta que conecta el álgebra con la geometría analítica. Aparecen en optimización, programación lineal, regiones de factibilidad económica y muchos más contextos avanzados.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">¡Felicitaciones! OA 3 completo.</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Inecuaciones cuadráticas · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  function makePlotter(canvas, cfg){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var xmin = cfg.xRange[0], xmax = cfg.xRange[1];
+    var ymin = cfg.yRange[0], ymax = cfg.yRange[1];
+    var ppuX = W / (xmax - xmin);
+    var ppuY = H / (ymax - ymin);
+
+    function wx(x){ return (x - xmin) * ppuX; }
+    function wy(y){ return H - (y - ymin) * ppuY; }
+    function px2x(px){ return px / ppuX + xmin; }
+    function py2y(py){ return ymax - py / ppuY; }
+
+    function clear(){
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    function drawGrid(){
+      ctx.strokeStyle = 'rgba(106,44,145,.1)';
+      ctx.lineWidth = 1;
+      for(var i = Math.ceil(xmin); i <= xmax; i++){
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+      }
+      for(var j = Math.ceil(ymin); j <= ymax; j++){
+        ctx.beginPath(); ctx.moveTo(0, wy(j)); ctx.lineTo(W, wy(j)); ctx.stroke();
+      }
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      if(xmin <= 0 && xmax >= 0){
+        ctx.beginPath(); ctx.moveTo(wx(0), 0); ctx.lineTo(wx(0), H); ctx.stroke();
+      }
+      if(ymin <= 0 && ymax >= 0){
+        ctx.beginPath(); ctx.moveTo(0, wy(0)); ctx.lineTo(W, wy(0)); ctx.stroke();
+      }
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '9px Inter, sans-serif';
+      var yLab = (ymin <= 0 && ymax >= 0) ? wy(0) + 10 : H - 2;
+      var xLab = (xmin <= 0 && xmax >= 0) ? wx(0) + 3 : 3;
+      var stepX = Math.max(1, Math.round((xmax - xmin) / 20));
+      var stepY = Math.max(1, Math.round((ymax - ymin) / 15));
+      for(var k = Math.ceil(xmin); k <= xmax; k++){
+        if(k === 0 || k % stepX !== 0) continue;
+        ctx.fillText(k.toString(), wx(k) - 4, yLab);
+      }
+      for(var m = Math.ceil(ymin); m <= ymax; m++){
+        if(m === 0 || m % stepY !== 0) continue;
+        ctx.fillText(m.toString(), xLab, wy(m) + 3);
+      }
+    }
+
+    function drawParabola(a, b, c, color, lineWidth, dashed){
+      ctx.strokeStyle = color || '#6A2C91';
+      ctx.lineWidth = lineWidth || 2.5;
+      if(dashed) ctx.setLineDash([6, 4]); else ctx.setLineDash([]);
+      ctx.beginPath();
+      var first = true;
+      for(var pxx = 0; pxx <= W; pxx++){
+        var x = pxx / ppuX + xmin;
+        var y = a*x*x + b*x + c;
+        if(y < ymin - 5 || y > ymax + 5){ first = true; continue; }
+        var py = wy(y);
+        if(first){ ctx.moveTo(pxx, py); first = false; }
+        else { ctx.lineTo(pxx, py); }
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawHLine(yVal, color, dashed){
+      ctx.strokeStyle = color || '#0B0F3F';
+      ctx.lineWidth = 2;
+      if(dashed) ctx.setLineDash([6, 4]); else ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(0, wy(yVal)); ctx.lineTo(W, wy(yVal));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function shadeRegionAboveParabola(a, b, c, color){
+      // Rellena con color semitransparente la región y > ax²+bx+c
+      ctx.fillStyle = color || 'rgba(212,175,55,.3)';
+      ctx.beginPath();
+      ctx.moveTo(0, 0); // esquina superior izquierda
+      // Línea horizontal en la parte superior del canvas
+      ctx.lineTo(W, 0);
+      // Bajar por la parte derecha hasta la parábola en x = xmax
+      var lastX = W, lastY = wy(a*xmax*xmax + b*xmax + c);
+      if(lastY < 0) lastY = 0;
+      if(lastY > H) lastY = H;
+      ctx.lineTo(W, lastY);
+      // Trazar la parábola de derecha a izquierda
+      for(var pxx = W; pxx >= 0; pxx--){
+        var x = pxx / ppuX + xmin;
+        var y = a*x*x + b*x + c;
+        var py = wy(y);
+        if(py < 0) py = 0;
+        if(py > H) py = H;
+        ctx.lineTo(pxx, py);
+      }
+      ctx.lineTo(0, 0);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function shadeRegionBelowParabola(a, b, c, color){
+      // Rellena con color semitransparente la región y < ax²+bx+c
+      ctx.fillStyle = color || 'rgba(212,175,55,.3)';
+      ctx.beginPath();
+      // Empezar en la esquina inferior izquierda
+      ctx.moveTo(0, H);
+      ctx.lineTo(W, H);
+      // Subir por la parte derecha hasta la parábola en x = xmax
+      var lastY = wy(a*xmax*xmax + b*xmax + c);
+      if(lastY < 0) lastY = 0;
+      if(lastY > H) lastY = H;
+      ctx.lineTo(W, lastY);
+      // Trazar la parábola de derecha a izquierda
+      for(var pxx = W; pxx >= 0; pxx--){
+        var x = pxx / ppuX + xmin;
+        var y = a*x*x + b*x + c;
+        var py = wy(y);
+        if(py < 0) py = 0;
+        if(py > H) py = H;
+        ctx.lineTo(pxx, py);
+      }
+      ctx.lineTo(0, H);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function shadeBetweenParabolaAndY(a, b, c, yLimit, color){
+      // Rellena la región donde y >= parabola Y y <= yLimit
+      ctx.fillStyle = color || 'rgba(212,175,55,.35)';
+      ctx.beginPath();
+      var started = false;
+      // Trazar parábola de izquierda a derecha (parte inferior de la región)
+      for(var pxx = 0; pxx <= W; pxx++){
+        var x = pxx / ppuX + xmin;
+        var yPar = a*x*x + b*x + c;
+        if(yPar > yLimit) { started = false; continue; }
+        var py = wy(yPar);
+        if(!started){ ctx.moveTo(pxx, py); started = true; }
+        else { ctx.lineTo(pxx, py); }
+      }
+      // Trazar línea y=yLimit de derecha a izquierda
+      ctx.lineTo(W, wy(yLimit));
+      ctx.lineTo(0, wy(yLimit));
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function drawPoint(x, y, color, label){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(wx(x), wy(y), 6, 0, 2*Math.PI);
+      ctx.fill(); ctx.stroke();
+      if(label){
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = 'bold 10px Inter, sans-serif';
+        ctx.fillText(label, wx(x) + 8, wy(y) - 7);
+      }
+    }
+
+    function drawLabel(x, y, text, color){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.font = 'bold 12px Inter, sans-serif';
+      ctx.fillText(text, wx(x), wy(y));
+    }
+
+    return {
+      ctx: ctx, wx: wx, wy: wy, px2x: px2x, py2y: py2y, W: W, H: H,
+      clear: clear, drawGrid: drawGrid,
+      drawParabola: drawParabola,
+      drawHLine: drawHLine,
+      shadeRegionAboveParabola: shadeRegionAboveParabola,
+      shadeRegionBelowParabola: shadeRegionBelowParabola,
+      shadeBetweenParabolaAndY: shadeBetweenParabolaAndY,
+      drawPoint: drawPoint,
+      drawLabel: drawLabel
+    };
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    // Página 1a: y = x² con dos regiones rotuladas
+    var c1a = document.getElementById('g1a');
+    if(c1a){
+      var p = makePlotter(c1a, {xRange:[-4, 4], yRange:[-3, 10]});
+      p.clear();
+      p.shadeRegionAboveParabola(1, 0, 0, 'rgba(212,175,55,.22)');
+      p.shadeRegionBelowParabola(1, 0, 0, 'rgba(106,44,145,.12)');
+      p.drawGrid();
+      p.drawParabola(1, 0, 0, '#6A2C91', 3);
+      p.drawLabel(-3, 7, 'y > x²', '#0B0F3F');
+      p.drawLabel(1, -2, 'y < x²', '#6A2C91');
+    }
+
+    // Página 2a: x² - 5x + 6 (para mostrar solución de inecuación 1D)
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var p = makePlotter(c2a, {xRange:[-1, 6], yRange:[-2, 8]});
+      p.clear();
+      p.drawGrid();
+      p.drawParabola(1, -5, 6, '#6A2C91', 3);
+      // Marcar raíces
+      p.drawPoint(2, 0, '#D4AF37', 'x=2');
+      p.drawPoint(3, 0, '#D4AF37', 'x=3');
+      // Sombrear intervalo [2,3] en el eje x
+      var ctx = p.ctx;
+      ctx.fillStyle = 'rgba(212,175,55,.5)';
+      ctx.fillRect(p.wx(2), p.wy(0) - 4, p.wx(3) - p.wx(2), 8);
+    }
+
+    // Página 3a: y < x² - 4 (región sombreada)
+    var c3a = document.getElementById('g3a');
+    if(c3a){
+      var p = makePlotter(c3a, {xRange:[-4, 4], yRange:[-6, 8]});
+      p.clear();
+      p.shadeRegionBelowParabola(1, 0, -4, 'rgba(212,175,55,.3)');
+      p.drawGrid();
+      p.drawParabola(1, 0, -4, '#6A2C91', 3, true); // discontinua
+      p.drawPoint(0, 0, '#6A2C91', '(0,0) NO está');
+      p.drawLabel(2, -5, 'región solución', '#0B0F3F');
+    }
+
+    // Página 5a: y ≥ x² Y y ≤ 4
+    var c5a = document.getElementById('g5a');
+    if(c5a){
+      var p = makePlotter(c5a, {xRange:[-3, 3], yRange:[-1, 6]});
+      p.clear();
+      p.shadeBetweenParabolaAndY(1, 0, 0, 4, 'rgba(212,175,55,.4)');
+      p.drawGrid();
+      p.drawParabola(1, 0, 0, '#6A2C91', 3); // continua porque ≥
+      p.drawHLine(4, '#6A2C91', false); // continua porque ≤
+      p.drawPoint(2, 4, '#D4AF37', '(2,4)');
+      p.drawPoint(-2, 4, '#D4AF37', '(-2,4)');
+      p.drawLabel(-0.5, 2, 'región', '#0B0F3F');
+    }
+  }
+
+  /* ====== TOOL 1: Visualizador de regiones ====== */
+  function setupRegionTool(){
+    var canvas = document.getElementById('region-canvas');
+    if(!canvas) return;
+    var aInp = document.getElementById('r-a');
+    var bInp = document.getElementById('r-b');
+    var cInp = document.getElementById('r-c');
+    var aVal = document.getElementById('r-a-val');
+    var bVal = document.getElementById('r-b-val');
+    var cVal = document.getElementById('r-c-val');
+    var info = document.getElementById('region-info');
+    var ineqType = 'gt'; // por defecto
+
+    function update(){
+      var a = parseFloat(aInp.value);
+      var b = parseFloat(bInp.value);
+      var c = parseFloat(cInp.value);
+      aVal.textContent = a;
+      bVal.textContent = b;
+      cVal.textContent = c;
+
+      if(Math.abs(a) < 0.001){
+        info.innerHTML = '<strong>⚠ Con \(a = 0\) no es cuadrática.</strong>';
+        return;
+      }
+
+      var p = makePlotter(canvas, {xRange:[-8, 8], yRange:[-6, 8]});
+      p.clear();
+
+      var isAbove = (ineqType === 'gt' || ineqType === 'ge');
+      var isStrict = (ineqType === 'gt' || ineqType === 'lt');
+
+      if(isAbove){
+        p.shadeRegionAboveParabola(a, b, c, 'rgba(212,175,55,.32)');
+      } else {
+        p.shadeRegionBelowParabola(a, b, c, 'rgba(212,175,55,.32)');
+      }
+
+      p.drawGrid();
+      p.drawParabola(a, b, c, '#6A2C91', 3, isStrict);
+
+      var signText = {lt:'<', le:'≤', gt:'>', ge:'≥'}[ineqType];
+      var regionDesc = isAbove ? 'ENCIMA' : 'DEBAJO';
+      var lineDesc = isStrict ? 'discontinua (NO incluye la parábola)' : 'continua (incluye la parábola)';
+
+      // Formula display
+      var sign_b = b >= 0 ? '+' : '−';
+      var sign_c = c >= 0 ? '+' : '−';
+      var formula = a + 'x² ' + sign_b + ' ' + Math.abs(b) + 'x ' + sign_c + ' ' + Math.abs(c);
+
+      info.innerHTML =
+        '<strong>Inecuación:</strong> y ' + signText + ' ' + formula + '<br>' +
+        '<strong>Tipo:</strong> ' + (isStrict ? 'Estricta' : 'No estricta') + '<br>' +
+        '<strong>Línea de frontera:</strong> ' + lineDesc + '<br>' +
+        '<strong>Región sombreada:</strong> ' + regionDesc + ' de la parábola';
+    }
+
+    aInp.addEventListener('input', update);
+    bInp.addEventListener('input', update);
+    cInp.addEventListener('input', update);
+
+    var ineqBtns = document.querySelectorAll('#r-ineq button');
+    for(var i = 0; i < ineqBtns.length; i++){
+      ineqBtns[i].addEventListener('click', (function(btn){
+        return function(){
+          ineqType = btn.dataset.ineq;
+          // Actualizar visual de botones
+          for(var k = 0; k < ineqBtns.length; k++) ineqBtns[k].classList.remove('active');
+          btn.classList.add('active');
+          update();
+        };
+      })(ineqBtns[i]));
+    }
+
+    var presets = document.querySelectorAll('[data-rpre]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          var parts = btn.dataset.rpre.split(',');
+          aInp.value = parts[0];
+          bInp.value = parts[1];
+          cInp.value = parts[2];
+          ineqType = parts[3];
+          for(var k = 0; k < ineqBtns.length; k++){
+            ineqBtns[k].classList.remove('active');
+            if(ineqBtns[k].dataset.ineq === ineqType) ineqBtns[k].classList.add('active');
+          }
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  /* ====== TOOL 2: Verificador de puntos ====== */
+  function setupVerifyTool(){
+    var canvas = document.getElementById('verify-canvas');
+    if(!canvas) return;
+    var aInp = document.getElementById('v-a');
+    var bInp = document.getElementById('v-b');
+    var cInp = document.getElementById('v-c');
+    var aVal = document.getElementById('v-a-val');
+    var bVal = document.getElementById('v-b-val');
+    var cVal = document.getElementById('v-c-val');
+    var pxInp = document.getElementById('v-px');
+    var pyInp = document.getElementById('v-py');
+    var info = document.getElementById('verify-info');
+    var ineqType = 'gt';
+    var currentX = 2, currentY = 3;
+
+    function checkInequality(a, b, c, x, y, type){
+      var lhs = y;
+      var rhs = a*x*x + b*x + c;
+      var diff = lhs - rhs;
+      if(type === 'gt') return diff > 0.001;
+      if(type === 'ge') return diff >= -0.001;
+      if(type === 'lt') return diff < -0.001;
+      if(type === 'le') return diff <= 0.001;
+      return false;
+    }
+
+    function update(){
+      var a = parseFloat(aInp.value);
+      var b = parseFloat(bInp.value);
+      var c = parseFloat(cInp.value);
+      aVal.textContent = a;
+      bVal.textContent = b;
+      cVal.textContent = c;
+
+      if(Math.abs(a) < 0.001){
+        info.innerHTML = '<strong>⚠ Con \(a = 0\) no es cuadrática.</strong>';
+        return;
+      }
+
+      var p = makePlotter(canvas, {xRange:[-8, 8], yRange:[-6, 8]});
+      p.clear();
+
+      var isAbove = (ineqType === 'gt' || ineqType === 'ge');
+      var isStrict = (ineqType === 'gt' || ineqType === 'lt');
+
+      if(isAbove){
+        p.shadeRegionAboveParabola(a, b, c, 'rgba(212,175,55,.25)');
+      } else {
+        p.shadeRegionBelowParabola(a, b, c, 'rgba(212,175,55,.25)');
+      }
+
+      p.drawGrid();
+      p.drawParabola(a, b, c, '#6A2C91', 3, isStrict);
+
+      // Punto del usuario
+      var cumple = checkInequality(a, b, c, currentX, currentY, ineqType);
+      var ptColor = cumple ? '#D4AF37' : '#6A2C91';
+      p.drawPoint(currentX, currentY, ptColor, 'P(' + currentX + ', ' + currentY + ')');
+
+      var signText = {lt:'<', le:'≤', gt:'>', ge:'≥'}[ineqType];
+      var sign_b = b >= 0 ? '+' : '−';
+      var sign_c = c >= 0 ? '+' : '−';
+      var formula = a + 'x² ' + sign_b + ' ' + Math.abs(b) + 'x ' + sign_c + ' ' + Math.abs(c);
+      var rhsVal = a*currentX*currentX + b*currentX + c;
+
+      var resultBadge = cumple
+        ? '<span class="badge-ok">✓ SÍ PERTENECE</span>'
+        : '<span class="badge-no">✗ NO PERTENECE</span>';
+
+      info.innerHTML =
+        '<strong>Inecuación:</strong> y ' + signText + ' ' + formula + '<br>' +
+        '<strong>Punto evaluado:</strong> P(' + currentX + ', ' + currentY + ')<br>' +
+        '<strong>Cálculo:</strong> ¿es ' + currentY + ' ' + signText + ' ' + rhsVal.toFixed(2) + '?<br>' +
+        '<strong>Resultado:</strong> ' + resultBadge;
+    }
+
+    aInp.addEventListener('input', update);
+    bInp.addEventListener('input', update);
+    cInp.addEventListener('input', update);
+    pxInp.addEventListener('input', function(){
+      var v = parseFloat(pxInp.value);
+      if(!isNaN(v)){ currentX = v; update(); }
+    });
+    pyInp.addEventListener('input', function(){
+      var v = parseFloat(pyInp.value);
+      if(!isNaN(v)){ currentY = v; update(); }
+    });
+
+    var ineqBtns = document.querySelectorAll('#v-ineq button');
+    for(var i = 0; i < ineqBtns.length; i++){
+      ineqBtns[i].addEventListener('click', (function(btn){
+        return function(){
+          ineqType = btn.dataset.vineq;
+          for(var k = 0; k < ineqBtns.length; k++) ineqBtns[k].classList.remove('active');
+          btn.classList.add('active');
+          update();
+        };
+      })(ineqBtns[i]));
+    }
+
+    // Click en canvas
+    canvas.addEventListener('click', function(e){
+      var rect = canvas.getBoundingClientRect();
+      var px = (e.clientX - rect.left) * (canvas.width / rect.width);
+      var py = (e.clientY - rect.top) * (canvas.height / rect.height);
+      // Convertir a coord matemática
+      var p = makePlotter(canvas, {xRange:[-8, 8], yRange:[-6, 8]});
+      var x = p.px2x(px);
+      var y = p.py2y(py);
+      // Redondear a 0.5
+      currentX = Math.round(x * 2) / 2;
+      currentY = Math.round(y * 2) / 2;
+      pxInp.value = currentX;
+      pyInp.value = currentY;
+      update();
+    });
+
+    update();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupRegionTool();
+    setupVerifyTool();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

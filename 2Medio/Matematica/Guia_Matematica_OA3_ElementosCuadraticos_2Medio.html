@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elementos de la función cuadrática — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* ANALIZADOR */
+    .analyzer-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.analyzer-wrap{grid-template-columns:1fr;}}
+    .analyzer-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    #analyzer-canvas{width:100%;height:auto;display:block;}
+    .analyzer-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .input-control input[type=number]{width:100%;padding:.45rem .6rem;border:1px solid #D9D9D9;border-radius:6px;font-size:.95rem;font-family:'Inter',sans-serif;}
+    .input-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .analyzer-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .analyzer-info .alert{color:#6A2C91;font-weight:700;}
+    .analyzer-info .badge{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:0 .5rem;border-radius:10px;font-size:.78rem;font-weight:700;margin-left:.3rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;transition:background .2s;}
+    .preset-buttons button:hover{background:#552072;}
+
+    /* GALERÍA INTERACTIVA */
+    .gallery-wrap{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;margin:1rem 0;}
+    .gallery-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;gap:.5rem;}
+    .gallery-nav button{background:#6A2C91;color:#fff;border:0;border-radius:18px;padding:.5rem 1.1rem;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:600;}
+    .gallery-nav button:hover{background:#552072;}
+    .gallery-counter{font-size:.9rem;color:#6A2C91;font-weight:700;}
+    .gallery-canvas-wrap{display:flex;justify-content:center;background:#fff;}
+    #gallery-canvas{display:block;max-width:100%;height:auto;}
+    .gallery-toggle{text-align:center;margin:.7rem 0;}
+    .gallery-toggle button{background:#D4AF37;color:#0B0F3F;border:0;border-radius:18px;padding:.5rem 1.2rem;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .gallery-toggle button:hover{background:#b39028;}
+    .gallery-info{background:#FFF8E1;border:1px solid #D4AF37;border-radius:8px;padding:.7rem 1rem;font-size:.88rem;line-height:1.7;color:#0B0F3F;}
+    .gallery-info .hidden-msg{color:#888;font-style:italic;text-align:center;}
+
+    .exploration-tasks{background:#FFF8E1;border:2px solid #D4AF37;border-radius:8px;padding:.9rem 1.3rem;margin:1rem 0;}
+    .exploration-tasks h3{margin:0 0 .5rem;color:#0B0F3F;font-size:1.05rem;}
+    .exploration-tasks ol{margin:.4rem 0;padding-left:1.2rem;}
+    .exploration-tasks li{margin:.4rem 0;line-height:1.5;}
+    .leyenda{display:flex;flex-wrap:wrap;gap:1rem;margin:.6rem 0;font-size:.82rem;}
+    .leyenda span{display:inline-flex;align-items:center;gap:.3rem;}
+    .leyenda .dot{display:inline-block;width:14px;height:14px;border-radius:50%;}
+    .leyenda .dot-vertex{background:#D4AF37;border:2px solid #0B0F3F;}
+    .leyenda .dot-int{background:#6A2C91;}
+    .leyenda .line-axis{display:inline-block;width:20px;height:2px;background:#D4AF37;border-top:1px dashed #D4AF37;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.gallery-nav,.gallery-toggle,.analyzer-controls{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — El vértice
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Elementos de la función cuadrática: el vértice</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Vértice</span>
+    <span class="chip">Máximo / mínimo</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Identificar los elementos de las funciones cuadráticas: vértice, intersecciones con los ejes, eje de simetría y concavidad.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué es el vértice?</div>
+
+      <div class="card card-def">
+        <strong>Vértice:</strong> es el punto extremo de la parábola. Si la parábola abre hacia arriba, el vértice es el punto <em>más bajo</em> (mínimo). Si abre hacia abajo, es el punto <em>más alto</em> (máximo). Se anota \(V = (h, k)\).
+      </div>
+
+      <p>El vértice siempre está sobre el eje de simetría. Su coordenada \(x\) es justamente \(h = -b/(2a)\), y su coordenada \(y\) se obtiene evaluando: \(k = f(h)\).</p>
+
+      <div class="math-box">
+        \(V = (h, k)\) &nbsp;&nbsp;donde&nbsp;&nbsp; \(h = -\dfrac{b}{2a}\), &nbsp; \(k = f(h)\)
+      </div>
+
+      <div class="card card-tip">
+        <strong>Interpretación práctica:</strong> el vértice responde dos preguntas importantes:
+        <ul style="margin-top:.4rem;">
+          <li>"¿Cuál es el valor máximo (o mínimo) que toma la función?" → Respuesta: \(k\).</li>
+          <li>"¿En qué valor de \(x\) ocurre ese máximo (o mínimo)?" → Respuesta: \(h\).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo calcularlo desde la forma general</div>
+
+      <p>Si tienes \(f(x) = ax^{2} + bx + c\), sigue estos dos pasos:</p>
+
+      <ol class="steps-num">
+        <li>Calcula \(h = -\dfrac{b}{2a}\).</li>
+        <li>Evalúa \(k = f(h) = a h^{2} + b h + c\).</li>
+      </ol>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Encontrar el vértice de \(f(x) = x^{2} - 6x + 10\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(a = 1\), \(b = -6\), \(c = 10\).</span>
+        <span class="math-step">\(h = -\dfrac{-6}{2 \cdot 1} = \dfrac{6}{2} = 3\).</span>
+        <span class="math-step">\(k = f(3) = 3^{2} - 6 \cdot 3 + 10 = 9 - 18 + 10 = 1\).</span>
+        <span class="math-step"><span class="math-result">Vértice: \(V = (3, 1)\). Como \(a=1>0\), es un mínimo.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g1a" width="460" height="340"></canvas>
+        <div class="embed-caption">\(f(x) = x^{2} - 6x + 10\): vértice mínimo \(V(3,\,1)\); abre hacia arriba.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Cómo leerlo desde la forma canónica</div>
+
+      <p>Si la función está en forma canónica \(f(x) = a(x - h)^{2} + k\), el vértice se lee <strong>directamente</strong>:</p>
+
+      <div class="math-box">
+        \(f(x) = a(x - h)^{2} + k\) &nbsp;&nbsp;⇒&nbsp;&nbsp; \(V = (h, k)\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Cuál es el vértice de \(f(x) = -2(x - 4)^{2} + 7\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Comparando con \(a(x - h)^{2} + k\): \(a = -2\), \(h = 4\), \(k = 7\).</span>
+        <span class="math-step"><span class="math-result">\(V = (4, 7)\). Como \(a < 0\), es un máximo.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Cuidado con los signos:</strong> en la forma canónica el valor de \(h\) tiene el signo CONTRARIO al que aparece dentro del paréntesis. Si ves \((x + 3)^{2}\), entonces \(h = -3\) (porque \(x + 3 = x - (-3)\)).
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Sin avanzar: ¿cuál es el vértice de \(f(x) = (x + 1)^{2} - 5\)? Si llegas a \(V = (-1, -5)\), ya internalizaste cómo leer la forma canónica.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Intersecciones con los ejes
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Intersecciones con los ejes</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Eje y · eje x</span>
+    <span class="chip">Discriminante</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Intersección con el eje y</div>
+
+      <p>El eje y está formado por todos los puntos con \(x = 0\). Para encontrar dónde la parábola lo cruza, simplemente evaluamos la función en \(x = 0\).</p>
+
+      <div class="math-box">
+        \(f(0) = a \cdot 0^{2} + b \cdot 0 + c = c\) &nbsp;&nbsp;⇒&nbsp;&nbsp; Intersección: \((0, c)\)
+      </div>
+
+      <p>Por eso el coeficiente \(c\) es tan importante: <em>siempre</em> es el valor donde la parábola corta el eje y. Es el elemento más fácil de identificar.</p>
+
+      <div class="subsec">Ejemplos directos</div>
+      <table class="tbl">
+        <thead>
+          <tr><th>Función</th><th>Intersección eje y</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(f(x) = 2x^{2} + 3x - 7\)</td><td>\((0, -7)\)</td></tr>
+          <tr><td>\(f(x) = -x^{2} + 5\)</td><td>\((0, 5)\)</td></tr>
+          <tr><td>\(f(x) = x^{2}\)</td><td>\((0, 0)\)</td></tr>
+          <tr><td>\(f(x) = 3x^{2} - 6x\)</td><td>\((0, 0)\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Intersecciones con el eje x</div>
+
+      <p>El eje x está formado por todos los puntos con \(y = 0\). Las intersecciones con el eje x son las soluciones de la ecuación \(ax^{2} + bx + c = 0\), también llamadas <strong>raíces</strong> o <strong>ceros</strong> de la función.</p>
+
+      <p>Hay tres métodos para encontrarlas:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Método 1: Factorización</span>
+          <span class="prop-eq">Cuando se puede factorizar fácilmente como \((x - r_{1})(x - r_{2})\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Método 2: Fórmula cuadrática</span>
+          <span class="prop-eq">\(x = \dfrac{-b \pm \sqrt{b^{2} - 4ac}}{2a}\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Método 3: Discriminante</span>
+          <span class="prop-eq">\(\Delta = b^{2} - 4ac\) predice <em>cuántas</em> raíces hay (0, 1 o 2).</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>¿Cuántas raíces tiene una parábola?</strong> Depende del discriminante \(\Delta = b^{2} - 4ac\):
+        <ul style="margin-top:.4rem;">
+          <li>Si \(\Delta > 0\): <strong>dos</strong> raíces reales distintas. La parábola corta el eje x en dos puntos.</li>
+          <li>Si \(\Delta = 0\): <strong>una</strong> raíz (doble). La parábola toca el eje x en su vértice (tangente).</li>
+          <li>Si \(\Delta < 0\): <strong>ninguna</strong> raíz real. La parábola no toca el eje x.</li>
+        </ul>
+      </div>
+
+      <div class="subsec">Ejemplo 1 — Dos raíces (factorización)</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Encontrar las raíces de \(f(x) = x^{2} - 5x + 6\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Discriminante: \(\Delta = (-5)^{2} - 4 \cdot 1 \cdot 6 = 25 - 24 = 1 > 0\). Hay dos raíces.</span>
+        <span class="math-step">Factorizando: \(x^{2} - 5x + 6 = (x - 2)(x - 3)\).</span>
+        <span class="math-step">\((x - 2)(x - 3) = 0 \Rightarrow x = 2\) o \(x = 3\).</span>
+        <span class="math-step"><span class="math-result">Intersecciones eje x: \((2, 0)\) y \((3, 0)\).</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="320"></canvas>
+        <div class="embed-caption">\(f(x) = x^{2} - 5x + 6\): dos raíces reales (Δ > 0).</div>
+      </div>
+
+      <div class="subsec">Ejemplo 2 — Sin raíces reales</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        ¿Tiene raíces \(f(x) = x^{2} + 2x + 5\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(\Delta = 2^{2} - 4 \cdot 1 \cdot 5 = 4 - 20 = -16 < 0\).</span>
+        <span class="math-step"><span class="math-result">No tiene raíces reales: la parábola no toca el eje x.</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2b" width="460" height="320"></canvas>
+        <div class="embed-caption">\(f(x) = x^{2} + 2x + 5\): no corta el eje x (Δ < 0).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Eje de simetría, concavidad, dominio y recorrido
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Eje de simetría, concavidad, dominio y recorrido</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Simetría</span>
+    <span class="chip">Dominio · recorrido</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Eje de simetría</div>
+
+      <div class="card card-def">
+        <strong>Eje de simetría:</strong> es la recta vertical que divide la parábola en dos mitades exactamente iguales (una es el reflejo de la otra). Pasa siempre por el vértice.
+      </div>
+
+      <div class="math-box">
+        Ecuación del eje de simetría: \(x = -\dfrac{b}{2a}\)
+      </div>
+
+      <p>Observa que es la misma coordenada \(x\) del vértice. El eje y el vértice están "atados".</p>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Encontrar el eje de simetría de \(f(x) = 2x^{2} - 8x + 5\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(a = 2\), \(b = -8\).</span>
+        <span class="math-step">\(x = -\dfrac{-8}{2 \cdot 2} = \dfrac{8}{4} = 2\).</span>
+        <span class="math-step"><span class="math-result">Eje de simetría: \(x = 2\).</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Concavidad</div>
+
+      <p>La <strong>concavidad</strong> indica hacia dónde "abre" la parábola. Se decide únicamente por el signo de \(a\):</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Si \(a > 0\)</span>
+          <span class="prop-eq">Cóncava hacia <strong>arriba</strong> (↑). El vértice es un <em>mínimo</em>.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Si \(a < 0\)</span>
+          <span class="prop-eq">Cóncava hacia <strong>abajo</strong> (↓). El vértice es un <em>máximo</em>.</span>
+        </div>
+      </div>
+
+      <p>Una parábola con \(a > 0\) parece una "U"; con \(a < 0\) parece una "U invertida" (∩).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Dominio y recorrido</div>
+
+      <p>El <strong>dominio</strong> de una función es el conjunto de valores de \(x\) que la función acepta. Para cualquier función cuadrática, podemos elevar al cuadrado, multiplicar y sumar sin restricciones, por lo que:</p>
+
+      <div class="math-box">
+        Dominio: \(\mathbb{R}\) (todos los números reales)
+      </div>
+
+      <p>El <strong>recorrido</strong> (o rango) es el conjunto de valores que toma \(f(x)\). Para una parábola, el recorrido depende de la concavidad y del vértice:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Caso</th><th>Recorrido</th><th>Explicación</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(a > 0\) (abre arriba)</td><td>\([k, +\infty)\) o \(y \geq k\)</td><td>\(k\) es el valor mínimo</td></tr>
+          <tr><td>\(a < 0\) (abre abajo)</td><td>\((-\infty, k]\) o \(y \leq k\)</td><td>\(k\) es el valor máximo</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Determinar el dominio y recorrido de \(f(x) = -x^{2} + 4x - 1\).
+      </div>
+      <div class="math-block">
+        <span class="math-step">Dominio: \(\mathbb{R}\) (siempre).</span>
+        <span class="math-step">Vértice: \(h = -4/(2 \cdot -1) = 2\); \(k = f(2) = -4 + 8 - 1 = 3\). \(V = (2, 3)\).</span>
+        <span class="math-step">Como \(a = -1 < 0\), abre hacia abajo y \(k = 3\) es el máximo.</span>
+        <span class="math-step"><span class="math-result">Recorrido: \(y \leq 3\) (todos los valores menores o iguales a 3).</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cuando puedes mirar una parábola y decir inmediatamente: "abre arriba, vértice en (2, -3), entonces el recorrido es \(y \geq -3\)" — sin hacer ningún cálculo más — significa que has integrado todos los elementos en una imagen mental coherente.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Tabla resumen de todos los elementos</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Elemento</th><th>Fórmula / Cómo encontrarlo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Concavidad</td><td>Signo de \(a\): positivo ⇒ arriba; negativo ⇒ abajo</td></tr>
+          <tr><td>Vértice</td><td>\(V = (h, k)\), con \(h = -b/(2a)\) y \(k = f(h)\)</td></tr>
+          <tr><td>Eje de simetría</td><td>\(x = -b/(2a)\) (igual a \(h\))</td></tr>
+          <tr><td>Intersección eje y</td><td>\((0, c)\)</td></tr>
+          <tr><td>Intersecciones eje x</td><td>Resolver \(ax^{2}+bx+c = 0\) (depende del discriminante)</td></tr>
+          <tr><td>Discriminante</td><td>\(\Delta = b^{2} - 4ac\)</td></tr>
+          <tr><td>Máximo / mínimo</td><td>\(k\) (máximo si \(a<0\); mínimo si \(a>0\))</td></tr>
+          <tr><td>Dominio</td><td>\(\mathbb{R}\)</td></tr>
+          <tr><td>Recorrido</td><td>\(y \geq k\) (si \(a>0\)) o \(y \leq k\) (si \(a<0\))</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — ANALIZADOR INTERACTIVO
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Analizador interactivo de parábolas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Ingresa a, b, c</span>
+    <span class="chip">Todos los elementos automáticos</span>
+  </div>
+
+  <div class="content">
+
+    <p>Ingresa los valores de \(a\), \(b\) y \(c\) y obtén automáticamente <strong>todos los elementos</strong> de la parábola: vértice, eje de simetría, intersecciones con los ejes, concavidad, máximo/mínimo, dominio y recorrido.</p>
+
+    <div class="leyenda">
+      <span><span class="dot dot-vertex"></span>Vértice</span>
+      <span><span class="dot dot-int"></span>Intersecciones con ejes</span>
+      <span><span class="line-axis"></span>Eje de simetría</span>
+    </div>
+
+    <div class="analyzer-wrap">
+      <div class="analyzer-canvas-wrap">
+        <canvas id="analyzer-canvas" width="600" height="450"></canvas>
+      </div>
+
+      <div class="analyzer-controls">
+        <div class="input-control">
+          <label>Coeficiente \(a\)</label>
+          <input id="ana-a" type="number" step="0.5" value="1" />
+          <small>Determina concavidad (debe ser ≠ 0)</small>
+        </div>
+        <div class="input-control">
+          <label>Coeficiente \(b\)</label>
+          <input id="ana-b" type="number" step="0.5" value="-4" />
+        </div>
+        <div class="input-control">
+          <label>Coeficiente \(c\)</label>
+          <input id="ana-c" type="number" step="0.5" value="3" />
+        </div>
+      </div>
+    </div>
+
+    <div id="analyzer-info" class="analyzer-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Ejemplos clásicos (carga rápida)</div>
+    <div class="preset-buttons">
+      <button data-ana="1,-4,3">f(x) = x² - 4x + 3</button>
+      <button data-ana="-1,4,3">f(x) = -x² + 4x + 3</button>
+      <button data-ana="2,-8,5">f(x) = 2x² - 8x + 5</button>
+      <button data-ana="1,2,5">f(x) = x² + 2x + 5 (sin raíces)</button>
+      <button data-ana="1,-4,4">f(x) = x² - 4x + 4 (raíz doble)</button>
+      <button data-ana="-2,8,-6">f(x) = -2x² + 8x - 6</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Lectura inversa + Aplicaciones del vértice
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Lectura inversa y aplicaciones del vértice</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Del gráfico a la fórmula</span>
+    <span class="chip">Optimización</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>De un gráfico a la fórmula</div>
+
+      <p>A veces tienes un gráfico (o un problema) y debes encontrar la fórmula de la parábola. La estrategia depende de qué información se conoce:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Conoces vértice + un punto</span>
+          <span class="prop-eq">Usa forma canónica \(f(x) = a(x - h)^{2} + k\). Reemplaza \((h, k)\) y usa el punto para encontrar \(a\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Conoces las dos raíces + un punto</span>
+          <span class="prop-eq">Usa forma factorizada \(f(x) = a(x - r_{1})(x - r_{2})\). Reemplaza raíces y usa el punto para encontrar \(a\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Conoces tres puntos</span>
+          <span class="prop-eq">Usa forma general \(f(x) = ax^{2}+bx+c\). Tres ecuaciones, tres incógnitas.</span>
+        </div>
+      </div>
+
+      <div class="subsec">Ejemplo guiado — raíces + punto</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Una parábola pasa por \((1, 0)\), \((3, 0)\) y \((0, 6)\). Encontrar su fórmula.
+      </div>
+      <div class="math-block">
+        <span class="math-step">Como pasa por \((1, 0)\) y \((3, 0)\), sus raíces son \(r_{1} = 1\) y \(r_{2} = 3\). Usamos forma factorizada: \(f(x) = a(x - 1)(x - 3)\).</span>
+        <span class="math-step">Usamos el tercer punto \((0, 6)\) para encontrar \(a\): \(6 = a(0 - 1)(0 - 3) = a \cdot (-1)(-3) = 3a\). De donde \(a = 2\).</span>
+        <span class="math-step">Fórmula: \(f(x) = 2(x - 1)(x - 3) = 2(x^{2} - 4x + 3) = 2x^{2} - 8x + 6\).</span>
+        <span class="math-step"><span class="math-result">\(f(x) = 2x^{2} - 8x + 6\)</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g5a" width="460" height="320"></canvas>
+        <div class="embed-caption">\(f(x) = 2x^{2} - 8x + 6\) pasando por \((1,0)\), \((3,0)\) y \((0,6)\).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>El vértice como óptimo: aplicaciones</div>
+
+      <p>En muchos problemas reales, la pregunta clave es <em>cuál es el máximo (o mínimo)</em> de alguna cantidad. Si la cantidad se modela con una parábola, la respuesta está en el vértice.</p>
+
+      <div class="subsec">Aplicación 1 — Altura máxima de un proyectil</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        La altura de una pelota lanzada al aire es \(h(t) = -5t^{2} + 30t\) (\(h\) en metros, \(t\) en segundos). ¿Cuál es la altura máxima y cuándo se alcanza?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(a = -5\), \(b = 30\), \(c = 0\). Como \(a < 0\), la parábola abre hacia abajo y tiene un máximo.</span>
+        <span class="math-step">Tiempo del máximo: \(t = -b/(2a) = -30/(-10) = 3\) s.</span>
+        <span class="math-step">Altura máxima: \(h(3) = -5(9) + 30(3) = -45 + 90 = 45\) m.</span>
+        <span class="math-step"><span class="math-result">Altura máxima: 45 m, a los 3 segundos.</span></span>
+      </div>
+
+      <div class="subsec">Aplicación 2 — Ingreso máximo de un negocio</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        El ingreso diario de una empresa se modela con \(I(p) = -2p^{2} + 40p\), donde \(p\) es el precio del producto. ¿A qué precio se maximiza el ingreso? ¿Cuánto es el ingreso máximo?
+      </div>
+      <div class="math-block">
+        <span class="math-step">\(a = -2\), \(b = 40\). Parábola con máximo (porque \(a<0\)).</span>
+        <span class="math-step">Precio óptimo: \(p = -40/(-4) = 10\).</span>
+        <span class="math-step">Ingreso máximo: \(I(10) = -2(100) + 40(10) = -200 + 400 = 200\).</span>
+        <span class="math-step"><span class="math-result">Precio óptimo: $10; ingreso máximo: $200.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Patrón universal:</strong> en cualquier problema de "máximo" o "mínimo" donde aparezca una parábola, el truco es el mismo: calcular el vértice. La coordenada \(h\) te dice <em>cuándo</em> (o <em>dónde</em>) ocurre el óptimo; la coordenada \(k\) te dice <em>cuánto vale</em>.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — GALERÍA INTERACTIVA
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Galería interactiva: practica identificar elementos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🎮 Práctica</span>
+    <span class="chip">Identifica antes de revelar</span>
+    <span class="chip">6 parábolas distintas</span>
+  </div>
+
+  <div class="content">
+
+    <p>Para cada parábola, <strong>intenta identificar a mano</strong> el vértice, la concavidad, las intersecciones, etc., antes de presionar "Mostrar elementos". Es la forma más rápida de internalizar el procedimiento.</p>
+
+    <div class="gallery-wrap">
+      <div class="gallery-nav">
+        <button id="gallery-prev">◀ Anterior</button>
+        <span class="gallery-counter" id="gallery-counter">Parábola 1 de 6</span>
+        <button id="gallery-next">Siguiente ▶</button>
+      </div>
+
+      <div class="gallery-canvas-wrap">
+        <canvas id="gallery-canvas" width="560" height="400"></canvas>
+      </div>
+
+      <div class="gallery-toggle">
+        <button id="gallery-reveal">👁 Mostrar elementos</button>
+      </div>
+
+      <div id="gallery-info" class="gallery-info">
+        <div class="hidden-msg">Antes de revelar, intenta identificar: concavidad, vértice, eje de simetría, intersección con eje y, intersecciones con eje x.</div>
+      </div>
+    </div>
+
+    <div class="exploration-tasks">
+      <h3>🎯 Estrategia recomendada</h3>
+      <ol>
+        <li>Mira la parábola y anota mentalmente: ¿abre arriba o abajo?</li>
+        <li>Localiza el vértice y aproxima sus coordenadas.</li>
+        <li>Identifica dónde corta los ejes (cuenta cuadrados en la grilla).</li>
+        <li>Imagina dónde estaría el eje de simetría (pasa por el vértice).</li>
+        <li>Presiona "Mostrar elementos" y compara con tus respuestas.</li>
+        <li>Pasa a la siguiente parábola y repite.</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Elementos cuadráticos — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El vértice de \(y = (x - 3)^{2} + 5\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((3,\, 5)\)<div class="opt-feedback"><strong>Correcto.</strong> En la forma canónica \(a(x-h)^{2}+k\), el vértice se lee directamente: \(h=3\), \(k=5\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((-3,\, 5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida invertir el signo de \(h\) en la forma canónica.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((3,\, -5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo de \(k\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((-3,\, -5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia signo de ambos coordenadas.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es la intersección con el eje y de \(f(x) = 2x^{2} + 3x - 7\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((0,\, 2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> 2 es \(a\), no la intersección.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((0,\, 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> 3 es \(b\), no la intersección.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((0,\, -7)\)<div class="opt-feedback"><strong>Correcto.</strong> La intersección con el eje y siempre es \((0, c)\). Aquí \(c = -7\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((0,\, 7)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida el signo negativo de \(c\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si el discriminante \(\Delta < 0\), la parábola:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Corta el eje x en 2 puntos<div class="opt-feedback"><strong>Incorrecto.</strong> Eso ocurre cuando \(\Delta > 0\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Corta el eje x en 1 punto<div class="opt-feedback"><strong>Incorrecto.</strong> Eso ocurre cuando \(\Delta = 0\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> No corta el eje x<div class="opt-feedback"><strong>Correcto.</strong> Cuando el discriminante es negativo, la ecuación \(ax^{2}+bx+c=0\) no tiene soluciones reales: la parábola no toca el eje x.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Es una recta<div class="opt-feedback"><strong>Incorrecto.</strong> Una parábola sigue siendo parábola independientemente del discriminante.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El vértice de \(f(x) = x^{2} - 6x + 10\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((3,\, 1)\)<div class="opt-feedback"><strong>Correcto.</strong> \(h = -b/(2a) = 6/2 = 3\); \(k = f(3) = 9 - 18 + 10 = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((-3,\, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en \(h\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((6,\, 10)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con los valores \(b\) y \(c\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((3,\, 10)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Usa \(c\) en lugar de calcular \(f(3)\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Las intersecciones con el eje x de \(f(x) = x^{2} - 5x + 6\) son:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((2,\, 0)\) y \((3,\, 0)\)<div class="opt-feedback"><strong>Correcto.</strong> Factorizando: \((x-2)(x-3) = 0 \Rightarrow x = 2\) o \(x = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((-2,\, 0)\) y \((-3,\, 0)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en las raíces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((5,\, 0)\) y \((6,\, 0)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con los valores \(b\) y \(c\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No intersecta<div class="opt-feedback"><strong>Incorrecto.</strong> El discriminante es \(\Delta = 25 - 24 = 1 > 0\); sí hay 2 raíces.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(f(x) = -2x^{2} + 8x - 6\), ¿cuál es el valor MÁXIMO?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es el vértice; calcula \(k = f(h)\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(2\)<div class="opt-feedback"><strong>Correcto.</strong> \(h = -8/(-4) = 2\); \(k = f(2) = -8 + 16 - 6 = 2\). Como \(a<0\), 2 es máximo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor absoluto de \(c\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(-6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(c\), pero el máximo es \(k\), no \(c\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El recorrido (rango) de \(f(x) = x^{2} - 4x\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(y \geq -4\)<div class="opt-feedback"><strong>Correcto.</strong> \(h=2\), \(k = 4 - 8 = -4\). Como \(a>0\), el rango es \(y \geq k = -4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(y \geq 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> El mínimo no es 0; es \(-4\) (vértice).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(y \leq -4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería si abriera hacia abajo, pero \(a=1>0\) abre arriba.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\mathbb{R}\)<div class="opt-feedback"><strong>Incorrecto.</strong> ℝ es el dominio, no el recorrido.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Para que la parábola \(y = x^{2} + bx + 4\) toque tangencialmente al eje x, el valor de \(b\) debe ser:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(b=0\), \(\Delta = -16 < 0\) y no toca el eje x.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4\) o \(-4\)<div class="opt-feedback"><strong>Correcto.</strong> Tangencial significa \(\Delta = 0\): \(b^{2} - 16 = 0 \Rightarrow b = \pm 4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(2^{2} - 16 = -12 < 0\), no es tangente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(16\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde el valor del discriminante con el de \(b\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si una parábola pasa por \((1, 0)\), \((3, 0)\) y \((0, 6)\), su ecuación es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f(x) = 2(x - 1)(x - 3)\)<div class="opt-feedback"><strong>Correcto.</strong> Raíces 1 y 3, así que \(f(x) = a(x-1)(x-3)\). Usando \(f(0) = 6\): \(a \cdot (-1)(-3) = 6 \Rightarrow a = 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f(x) = (x - 1)(x - 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esto da \(f(0) = 3\), no 6. Falta el factor \(a = 2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(f(x) = (x + 1)(x + 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Estas serían raíces \(-1\) y \(-3\), no \(1\) y \(3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(f(x) = 6(x - 1)(x - 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esto da \(f(0) = 18\), no 6.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">El dominio de toda función cuadrática es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \([0, +\infty)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esto sería el dominio de \(\sqrt{x}\); las cuadráticas aceptan cualquier número.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\mathbb{R}\)<div class="opt-feedback"><strong>Correcto.</strong> Cualquier número real se puede elevar al cuadrado y operar; el dominio es todo ℝ.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo enteros<div class="opt-feedback"><strong>Incorrecto.</strong> No hay restricción a enteros.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Solo positivos<div class="opt-feedback"><strong>Incorrecto.</strong> Los negativos también son válidos.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Elementos cuadráticos — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Elementos de la función cuadrática</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál es el vértice de \(f(x) = (x + 2)^{2} - 5\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((2,\, -5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvida invertir el signo: \((x+2)^{2} = (x - (-2))^{2}\), \(h = -2\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((-2,\, -5)\)<div class="opt-feedback"><strong>Correcto.</strong> En \(a(x-h)^{2}+k\): \(h = -2\), \(k = -5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((2,\, 5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia signos de ambas coordenadas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((-2,\, 5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo de \(k\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">¿Cuál es la intersección con el eje y de \(f(x) = -3x^{2} + 5\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((0,\, -3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-3\) es \(a\), no la intersección.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((0,\, 5)\)<div class="opt-feedback"><strong>Correcto.</strong> La intersección con eje y es \((0, c) = (0, 5)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((0,\, 0)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería \((0,0)\) solo si \(c=0\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((0,\, -5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo de \(c\) sin razón.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuántas intersecciones con el eje x tiene \(f(x) = x^{2} - 4x + 4\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Ninguna<div class="opt-feedback"><strong>Incorrecto.</strong> \(\Delta = 16 - 16 = 0\), sí toca el eje x (en un solo punto).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Una<div class="opt-feedback"><strong>Correcto.</strong> \(\Delta = 0\) significa una raíz doble. La parábola es tangente al eje x en su vértice.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Dos<div class="opt-feedback"><strong>Incorrecto.</strong> Para dos raíces \(\Delta\) debe ser estrictamente positivo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Infinitas<div class="opt-feedback"><strong>Incorrecto.</strong> Una parábola tiene máximo 2 intersecciones con el eje x.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">El eje de simetría de la parábola con vértice \((4, -2)\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(y = -2\)<div class="opt-feedback"><strong>Incorrecto.</strong> El eje de simetría es vertical, escrito como \(x = ...\), no \(y = ...\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x = -2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Toma la coordenada \(y\) del vértice, no \(x\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x = 4\)<div class="opt-feedback"><strong>Correcto.</strong> El eje de simetría pasa siempre por el vértice; es la recta vertical \(x = h = 4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(y = 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde la dirección (eje vertical es \(x=...\)).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Si \(f(x) = 2x^{2} - 12x + 7\), el valor MÍNIMO es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(7\)<div class="opt-feedback"><strong>Incorrecto.</strong> 7 es \(c\) (intersección con eje y), no el mínimo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-11\)<div class="opt-feedback"><strong>Correcto.</strong> \(h = 12/4 = 3\); \(k = f(3) = 18 - 36 + 7 = -11\). Como \(a>0\), es mínimo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(-7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia el signo de \(c\) sin razón.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor absoluto de \(b\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuál de las siguientes parábolas tiene vértice en \((1, -4)\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(f(x) = (x - 1)^{2} - 4\)<div class="opt-feedback"><strong>Correcto.</strong> Forma canónica con \(h = 1\) (signo invertido en paréntesis), \(k = -4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(f(x) = (x + 1)^{2} - 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría vértice en \((-1, -4)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(f(x) = (x - 1)^{2} + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría vértice en \((1, 4)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(f(x) = (x + 1)^{2} + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría vértice en \((-1, 4)\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Si la parábola \(y = x^{2} + bx + 9\) tiene su vértice sobre el eje x, entonces \(b\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Con \(b=0\) el vértice sería \((0, 9)\), arriba del eje x.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(6\) o \(-6\)<div class="opt-feedback"><strong>Correcto.</strong> Vértice sobre eje x ⇔ \(\Delta = 0 \Rightarrow b^{2} - 36 = 0 \Rightarrow b = \pm 6\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(c\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(3\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(3^{2} - 36 = -27 \neq 0\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">El recorrido (rango) de \(f(x) = -x^{2} + 6x - 5\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(y \leq 4\)<div class="opt-feedback"><strong>Correcto.</strong> Vértice: \(h = -6/(-2) = 3\); \(k = -9 + 18 - 5 = 4\). Como \(a<0\), 4 es máximo. Rango: \(y \leq 4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(y \geq 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Con \(a<0\) la parábola abre hacia abajo; 4 es máximo, no mínimo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(y \leq -5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el valor de \(c\), pero el límite del rango es \(k\), no \(c\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\mathbb{R}\)<div class="opt-feedback"><strong>Incorrecto.</strong> ℝ es el dominio, no el recorrido.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Para que \(f(x) = ax^{2} + 4x + 1\) NO tenga raíces reales, ¿qué valor de \(a\) se necesita?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a > 4\)<div class="opt-feedback"><strong>Correcto.</strong> No raíces ⇔ \(\Delta < 0 \Rightarrow 16 - 4a < 0 \Rightarrow a > 4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(a < 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la desigualdad: con \(a < 4\) sí habría raíces.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(a > 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> No basta con \(a > 0\); por ejemplo \(a=1\) sí tendría raíces.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(a = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Con \(a=0\) no es cuadrática.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Una parábola tiene su vértice en el origen y abre hacia abajo. ¿Cuál podría ser su ecuación?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(y = x^{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Abre hacia arriba, no hacia abajo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(y = -x^{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Vértice en \((0, 0)\) y \(a = -1 < 0\) ⇒ abre hacia abajo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(y = x^{2} + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Vértice en \((0, 1)\), no en el origen.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(y = -x^{2} - 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Vértice en \((0, -3)\), no en el origen.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Identificar los elementos de una parábola es como aprender a leer su "ADN": una vez que dominas el vértice, las intersecciones, el eje de simetría y la concavidad, puedes describir cualquier función cuadrática sin necesidad de hacer un cálculo extenso. Este es el conocimiento base para modelar problemas reales y resolver ecuaciones/inecuaciones cuadráticas.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Modelar problemas con ecuaciones cuadráticas</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Elementos cuadráticos · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  /* ====== Helper: dibuja parábolas/puntos/rectas en un canvas ====== */
+  function makePlotter(canvas, cfg){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var xmin = cfg.xRange[0], xmax = cfg.xRange[1];
+    var ymin = cfg.yRange[0], ymax = cfg.yRange[1];
+    var ppuX = W / (xmax - xmin);
+    var ppuY = H / (ymax - ymin);
+
+    function wx(x){ return (x - xmin) * ppuX; }
+    function wy(y){ return H - (y - ymin) * ppuY; }
+
+    function drawGrid(){
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(106,44,145,.1)';
+      ctx.lineWidth = 1;
+      for(var i = Math.ceil(xmin); i <= xmax; i++){
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+      }
+      for(var j = Math.ceil(ymin); j <= ymax; j++){
+        ctx.beginPath(); ctx.moveTo(0, wy(j)); ctx.lineTo(W, wy(j)); ctx.stroke();
+      }
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      if(xmin <= 0 && xmax >= 0){
+        ctx.beginPath(); ctx.moveTo(wx(0), 0); ctx.lineTo(wx(0), H); ctx.stroke();
+      }
+      if(ymin <= 0 && ymax >= 0){
+        ctx.beginPath(); ctx.moveTo(0, wy(0)); ctx.lineTo(W, wy(0)); ctx.stroke();
+      }
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '9px Inter, sans-serif';
+      var yLabel = (ymin <= 0 && ymax >= 0) ? wy(0) + 10 : H - 2;
+      var xLabel = (xmin <= 0 && xmax >= 0) ? wx(0) + 3 : 3;
+      for(var k = Math.ceil(xmin); k <= xmax; k++){
+        if(k === 0) continue;
+        ctx.fillText(k.toString(), wx(k) - 4, yLabel);
+      }
+      for(var m = Math.ceil(ymin); m <= ymax; m++){
+        if(m === 0) continue;
+        ctx.fillText(m.toString(), xLabel, wy(m) + 3);
+      }
+    }
+
+    function drawAxisOfSymmetry(h){
+      ctx.strokeStyle = 'rgba(212,175,55,.9)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(wx(h), 0); ctx.lineTo(wx(h), H); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawParabola(a, b, c, color, lineWidth){
+      ctx.strokeStyle = color || '#6A2C91';
+      ctx.lineWidth = lineWidth || 2.5;
+      ctx.beginPath();
+      var first = true;
+      for(var px = 0; px <= W; px++){
+        var x = px / ppuX + xmin;
+        var y = a*x*x + b*x + c;
+        if(y < ymin - 2 || y > ymax + 2){ first = true; continue; }
+        var py = wy(y);
+        if(first){ ctx.moveTo(px, py); first = false; }
+        else { ctx.lineTo(px, py); }
+      }
+      ctx.stroke();
+    }
+
+    function drawPoint(x, y, color, label){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.beginPath(); ctx.arc(wx(x), wy(y), 4, 0, 2*Math.PI); ctx.fill();
+      if(label){
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.fillText(label, wx(x) + 6, wy(y) - 5);
+      }
+    }
+
+    function drawVertex(h, k){
+      ctx.fillStyle = '#D4AF37';
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(wx(h), wy(k), 6, 0, 2*Math.PI);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = 'bold 10px Inter, sans-serif';
+      ctx.fillText('V(' + h + ',' + k + ')', wx(h) + 8, wy(k) - 7);
+    }
+
+    return {
+      ctx: ctx, wx: wx, wy: wy,
+      drawGrid: drawGrid,
+      drawAxisOfSymmetry: drawAxisOfSymmetry,
+      drawParabola: drawParabola,
+      drawPoint: drawPoint,
+      drawVertex: drawVertex
+    };
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    // ---- Página 1a: f(x) = x² - 6x + 10 ----
+    var c1a = document.getElementById('g1a');
+    if(c1a){
+      var p = makePlotter(c1a, {xRange:[-1, 7], yRange:[-1, 11]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(3);
+      p.drawParabola(1, -6, 10, '#6A2C91', 3);
+      p.drawPoint(0, 10, '#6A2C91', '(0, 10)');
+      p.drawVertex(3, 1);
+    }
+
+    // ---- Página 2a: f(x) = x² - 5x + 6 ----
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var p = makePlotter(c2a, {xRange:[-1, 6], yRange:[-2, 8]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(2.5);
+      p.drawParabola(1, -5, 6, '#6A2C91', 3);
+      p.drawPoint(2, 0, '#0B0F3F', 'r₁=2');
+      p.drawPoint(3, 0, '#0B0F3F', 'r₂=3');
+      p.drawPoint(0, 6, '#0B0F3F', '(0, 6)');
+      p.drawVertex(2.5, -0.25);
+    }
+
+    // ---- Página 2b: f(x) = x² + 2x + 5 (sin raíces) ----
+    var c2b = document.getElementById('g2b');
+    if(c2b){
+      var p = makePlotter(c2b, {xRange:[-5, 3], yRange:[-1, 11]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(-1);
+      p.drawParabola(1, 2, 5, '#6A2C91', 3);
+      p.drawPoint(0, 5, '#0B0F3F', '(0, 5)');
+      p.drawVertex(-1, 4);
+    }
+
+    // ---- Página 5a: f(x) = 2x² - 8x + 6 ----
+    var c5a = document.getElementById('g5a');
+    if(c5a){
+      var p = makePlotter(c5a, {xRange:[-1, 5], yRange:[-3, 8]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(2);
+      p.drawParabola(2, -8, 6, '#6A2C91', 3);
+      p.drawPoint(1, 0, '#0B0F3F', '(1, 0)');
+      p.drawPoint(3, 0, '#0B0F3F', '(3, 0)');
+      p.drawPoint(0, 6, '#0B0F3F', '(0, 6)');
+      p.drawVertex(2, -2);
+    }
+  }
+
+  /* ====== ANALIZADOR (Página 4) ====== */
+  function setupAnalyzer(){
+    var canvas = document.getElementById('analyzer-canvas');
+    if(!canvas) return;
+    var aInp = document.getElementById('ana-a');
+    var bInp = document.getElementById('ana-b');
+    var cInp = document.getElementById('ana-c');
+    var info = document.getElementById('analyzer-info');
+
+    function update(){
+      var a = parseFloat(aInp.value);
+      var b = parseFloat(bInp.value);
+      var c = parseFloat(cInp.value);
+
+      if(isNaN(a) || isNaN(b) || isNaN(c)){
+        info.innerHTML = '<span class="alert">⚠ Ingresa valores numéricos válidos.</span>';
+        return;
+      }
+      if(Math.abs(a) < 0.001){
+        info.innerHTML = '<span class="alert">⚠ Con a = 0, no es función cuadrática.</span>';
+        // Limpiar canvas
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#888'; ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('Coeficiente a debe ser distinto de 0', 150, 220);
+        return;
+      }
+
+      // Calcular vértice
+      var h = -b / (2*a);
+      var k = a*h*h + b*h + c;
+
+      // Auto-rango para centrar la parábola y vértice
+      var spanX = 10;
+      var xCenter = h;
+      var xmin = Math.floor(xCenter - spanX/2);
+      var xmax = Math.ceil(xCenter + spanX/2);
+      var spanY = 14;
+      var yCenter = (k + c) / 2;
+      var ymin = Math.floor(yCenter - spanY/2);
+      var ymax = Math.ceil(yCenter + spanY/2);
+      // Asegurar que ejes son visibles
+      if(xmin > 0) xmin = -1;
+      if(xmax < 0) xmax = 1;
+      if(ymin > 0) ymin = -1;
+      if(ymax < 0) ymax = 1;
+
+      var p = makePlotter(canvas, {xRange:[xmin, xmax], yRange:[ymin, ymax]});
+      p.drawGrid();
+      p.drawAxisOfSymmetry(h);
+      p.drawParabola(a, b, c, '#6A2C91', 3);
+
+      // Intersección eje y
+      p.drawPoint(0, c, '#6A2C91');
+
+      // Intersecciones eje x
+      var disc = b*b - 4*a*c;
+      var xIntStr = '';
+      if(disc > 0.001){
+        var sd = Math.sqrt(disc);
+        var x1 = (-b - sd)/(2*a);
+        var x2 = (-b + sd)/(2*a);
+        p.drawPoint(x1, 0, '#6A2C91');
+        p.drawPoint(x2, 0, '#6A2C91');
+        xIntStr = '(' + x1.toFixed(2) + ', 0) y (' + x2.toFixed(2) + ', 0)';
+      } else if(Math.abs(disc) <= 0.001){
+        var x0 = -b/(2*a);
+        p.drawPoint(x0, 0, '#6A2C91');
+        xIntStr = '(' + x0.toFixed(2) + ', 0) — raíz doble (tangente)';
+      } else {
+        xIntStr = 'No corta el eje x (Δ < 0)';
+      }
+
+      p.drawVertex(parseFloat(h.toFixed(2)), parseFloat(k.toFixed(2)));
+
+      // Info textual
+      var sign_b = b >= 0 ? '+' : '−';
+      var sign_c = c >= 0 ? '+' : '−';
+      var formula = 'f(x) = ' + a + 'x² ' + sign_b + ' ' + Math.abs(b) + 'x ' + sign_c + ' ' + Math.abs(c);
+      var concav = a > 0 ? 'hacia arriba ↑' : 'hacia abajo ↓';
+      var minMax = a > 0 ? 'MÍNIMO' : 'MÁXIMO';
+      var recorrido = a > 0 ? 'y ≥ ' + k.toFixed(2) + ' &nbsp;es decir&nbsp; [' + k.toFixed(2) + ', +∞)'
+                            : 'y ≤ ' + k.toFixed(2) + ' &nbsp;es decir&nbsp; (-∞, ' + k.toFixed(2) + ']';
+
+      info.innerHTML =
+        '<strong>Función:</strong> ' + formula + '<br>' +
+        '<strong>Concavidad:</strong> ' + concav + ' <span class="badge">' + minMax + '</span><br>' +
+        '<strong>Vértice:</strong> (' + h.toFixed(2) + ', ' + k.toFixed(2) + ')<br>' +
+        '<strong>Eje de simetría:</strong> x = ' + h.toFixed(2) + '<br>' +
+        '<strong>Intersección eje y:</strong> (0, ' + c + ')<br>' +
+        '<strong>Intersecciones eje x:</strong> ' + xIntStr + '<br>' +
+        '<strong>Discriminante:</strong> Δ = ' + disc.toFixed(2) + '<br>' +
+        '<strong>Valor ' + minMax.toLowerCase() + ':</strong> ' + k.toFixed(2) + '<br>' +
+        '<strong>Dominio:</strong> ℝ<br>' +
+        '<strong>Recorrido:</strong> ' + recorrido;
+    }
+
+    aInp.addEventListener('input', update);
+    bInp.addEventListener('input', update);
+    cInp.addEventListener('input', update);
+
+    var presetBtns = document.querySelectorAll('[data-ana]');
+    for(var i = 0; i < presetBtns.length; i++){
+      presetBtns[i].addEventListener('click', (function(btn){
+        return function(){
+          var vals = btn.dataset.ana.split(',');
+          aInp.value = vals[0]; bInp.value = vals[1]; cInp.value = vals[2];
+          update();
+        };
+      })(presetBtns[i]));
+    }
+
+    update();
+  }
+
+  /* ====== GALERÍA INTERACTIVA (Página 6) ====== */
+  var galleryData = [
+    {a:1, b:0, c:0, range:{x:[-4,4], y:[-2,10]}, label:'f(x) = x²'},
+    {a:-1, b:4, c:-3, range:{x:[-1,6], y:[-3,3]}, label:'f(x) = -x² + 4x - 3'},
+    {a:1, b:-2, c:-3, range:{x:[-3,5], y:[-5,7]}, label:'f(x) = x² - 2x - 3'},
+    {a:2, b:-8, c:6, range:{x:[-1,5], y:[-3,7]}, label:'f(x) = 2x² - 8x + 6'},
+    {a:-0.5, b:2, c:1, range:{x:[-2,6], y:[-3,5]}, label:'f(x) = -0,5x² + 2x + 1'},
+    {a:1, b:4, c:5, range:{x:[-6,2], y:[-1,9]}, label:'f(x) = x² + 4x + 5 (sin raíces)'}
+  ];
+  var galleryIndex = 0;
+  var galleryRevealed = false;
+
+  function renderGallery(){
+    var canvas = document.getElementById('gallery-canvas');
+    if(!canvas) return;
+    var d = galleryData[galleryIndex];
+    var p = makePlotter(canvas, {xRange:d.range.x, yRange:d.range.y});
+    p.drawGrid();
+    p.drawParabola(d.a, d.b, d.c, '#6A2C91', 3);
+
+    if(galleryRevealed){
+      var h = -d.b / (2*d.a);
+      var k = d.a*h*h + d.b*h + d.c;
+      p.drawAxisOfSymmetry(h);
+      // Re-draw parabola on top so it's not hidden by dashed line
+      p.drawParabola(d.a, d.b, d.c, '#6A2C91', 3);
+      // Intersección eje y
+      p.drawPoint(0, d.c, '#6A2C91');
+      // Intersecciones eje x
+      var disc = d.b*d.b - 4*d.a*d.c;
+      if(disc > 0.001){
+        var sd = Math.sqrt(disc);
+        var x1 = (-d.b - sd)/(2*d.a);
+        var x2 = (-d.b + sd)/(2*d.a);
+        p.drawPoint(x1, 0, '#6A2C91');
+        p.drawPoint(x2, 0, '#6A2C91');
+      } else if(Math.abs(disc) <= 0.001){
+        p.drawPoint(-d.b/(2*d.a), 0, '#6A2C91');
+      }
+      // Vértice
+      p.drawVertex(parseFloat(h.toFixed(2)), parseFloat(k.toFixed(2)));
+    }
+
+    document.getElementById('gallery-counter').textContent = 'Parábola ' + (galleryIndex + 1) + ' de ' + galleryData.length + ' — ' + d.label;
+
+    var info = document.getElementById('gallery-info');
+    if(!galleryRevealed){
+      info.innerHTML = '<div class="hidden-msg">Antes de revelar, intenta identificar: concavidad, vértice, eje de simetría, intersección con eje y, intersecciones con eje x.</div>';
+      document.getElementById('gallery-reveal').textContent = '👁 Mostrar elementos';
+    } else {
+      var h2 = -d.b / (2*d.a);
+      var k2 = d.a*h2*h2 + d.b*h2 + d.c;
+      var disc2 = d.b*d.b - 4*d.a*d.c;
+      var xIntStr2 = '';
+      if(disc2 > 0.001){
+        var sd2 = Math.sqrt(disc2);
+        xIntStr2 = '(' + ((-d.b - sd2)/(2*d.a)).toFixed(2) + ', 0) y (' + ((-d.b + sd2)/(2*d.a)).toFixed(2) + ', 0)';
+      } else if(Math.abs(disc2) <= 0.001){
+        xIntStr2 = '(' + (-d.b/(2*d.a)).toFixed(2) + ', 0) — raíz doble';
+      } else {
+        xIntStr2 = 'no corta';
+      }
+      var concav2 = d.a > 0 ? 'hacia arriba (mínimo)' : 'hacia abajo (máximo)';
+      info.innerHTML =
+        '<strong>Función:</strong> ' + d.label + '<br>' +
+        '<strong>Concavidad:</strong> ' + concav2 + '<br>' +
+        '<strong>Vértice:</strong> (' + h2.toFixed(2) + ', ' + k2.toFixed(2) + ')<br>' +
+        '<strong>Eje de simetría:</strong> x = ' + h2.toFixed(2) + '<br>' +
+        '<strong>Intersección eje y:</strong> (0, ' + d.c + ')<br>' +
+        '<strong>Intersecciones eje x:</strong> ' + xIntStr2 + '<br>' +
+        '<strong>Discriminante:</strong> Δ = ' + disc2.toFixed(2);
+      document.getElementById('gallery-reveal').textContent = '🙈 Ocultar elementos';
+    }
+  }
+
+  function setupGallery(){
+    var prevBtn = document.getElementById('gallery-prev');
+    var nextBtn = document.getElementById('gallery-next');
+    var revealBtn = document.getElementById('gallery-reveal');
+    if(!prevBtn) return;
+
+    prevBtn.addEventListener('click', function(){
+      galleryIndex = (galleryIndex - 1 + galleryData.length) % galleryData.length;
+      galleryRevealed = false;
+      renderGallery();
+    });
+    nextBtn.addEventListener('click', function(){
+      galleryIndex = (galleryIndex + 1) % galleryData.length;
+      galleryRevealed = false;
+      renderGallery();
+    });
+    revealBtn.addEventListener('click', function(){
+      galleryRevealed = !galleryRevealed;
+      renderGallery();
+    });
+
+    renderGallery();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupAnalyzer();
+    setupGallery();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

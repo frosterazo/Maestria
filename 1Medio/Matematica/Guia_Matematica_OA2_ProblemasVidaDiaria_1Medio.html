@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problemas de la vida diaria — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.15rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .data-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.92rem;}
+    .data-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .data-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .data-table tr:nth-child(even){background:#f8f4e9;}
+    .data-table td.center{text-align:center;}
+    .data-table td.right{text-align:right;font-family:monospace;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',monospace;text-align:center;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    .mode-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;}
+    .mode-toggle button.active{background:#6A2C91;color:#fff;}
+    .mode-toggle button:hover{background:#552072;color:#fff;}
+    .scenario-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    @media (max-width:560px){.scenario-toggle{grid-template-columns:1fr;}}
+    .scenario-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.82rem;font-family:'Inter',sans-serif;text-align:left;}
+    .scenario-toggle button.active{background:#6A2C91;color:#fff;}
+    .scenario-toggle button:hover{background:#552072;color:#fff;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button,.mode-toggle,.scenario-toggle{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Las potencias están en todas partes
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Potencias en la vida diaria y otras asignaturas</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">Notación científica</span>
+    <span class="chip">Ciencias · tecnología · finanzas</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-text">Aplicar las potencias de base racional y exponente entero para <strong>resolver problemas</strong> de la vida diaria y de otras asignaturas: notación científica, geometría, finanzas, ciencias naturales y tecnología.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Dónde aparecen las potencias en la vida real?</div>
+
+      <p>Las potencias no son solo un truco de matemática: están escondidas en casi todo lo que mides, comparas o calculas. Mira algunos ejemplos:</p>
+
+      <table class="data-table">
+        <thead><tr><th>Situación</th><th>Potencia involucrada</th></tr></thead>
+        <tbody>
+          <tr><td>Distancia Tierra-Sol</td><td>\(1,5 \cdot 10^{8}\) km</td></tr>
+          <tr><td>Tamaño de un átomo</td><td>\(1 \cdot 10^{-10}\) m</td></tr>
+          <tr><td>Capacidad de un disco duro de 1 TB</td><td>\(10^{12}\) bytes</td></tr>
+          <tr><td>Área de un cuadrado de lado \(a\)</td><td>\(a^2\)</td></tr>
+          <tr><td>Volumen de un cubo de arista \(a\)</td><td>\(a^3\)</td></tr>
+          <tr><td>Población mundial (≈ 2026)</td><td>\(8,2 \cdot 10^{9}\) habitantes</td></tr>
+          <tr><td>Magnitud de un terremoto (Richter)</td><td>Potencias de 10</td></tr>
+          <tr><td>Probabilidad de sacar 5 caras al lanzar una moneda</td><td>\(\left(\dfrac{1}{2}\right)^5\)</td></tr>
+        </tbody>
+      </table>
+
+      <p>En esta guía final del OA 2 aprenderás a usar tus potencias para <strong>describir, calcular y comparar</strong> cantidades en esos contextos.</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Notación científica
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Notación científica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Números enormes y minúsculos</span>
+    <span class="chip">Potencias de 10</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Para qué sirve?</div>
+
+      <p>Imagina escribir el número de moléculas en un litro de agua: \(33.500.000.000.000.000.000.000.000\). Engorroso y peligroso (¿cuántos ceros eran?). Por eso los científicos usan <strong>notación científica</strong>:</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Definición</div>
+        <div class="prop-formula">\(N \cdot 10^{n}\), &nbsp; con &nbsp; \(1 \leq N < 10\) &nbsp; y &nbsp; \(n \in \mathbb{Z}\)</div>
+        <div class="prop-words">Todo número se escribe como una "parte entera con un dígito" multiplicada por una potencia entera de 10.</div>
+      </div>
+
+      <div class="math-block">
+        <span class="math-step">\(3.450 = 3,45 \cdot 10^3\). (El número 3.450 tiene 4 cifras enteras → exponente \(3 = 4-1\).)</span>
+        <span class="math-step">\(0,0072 = 7,2 \cdot 10^{-3}\). (La primera cifra significativa está en la posición \(10^{-3}\) → exponente negativo.)</span>
+        <span class="math-step">\(150.000.000 = 1,5 \cdot 10^8\) (distancia Tierra-Sol).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo convertir un número a notación científica</div>
+
+      <ol class="steps-num">
+        <li>Mueve la coma hasta que quede <strong>una sola cifra antes</strong> (entre 1 y 9).</li>
+        <li>Cuenta cuántos lugares moviste la coma. Eso te da \(n\).</li>
+        <li>Si moviste hacia la <strong>izquierda</strong> (número grande) → \(n\) positivo.</li>
+        <li>Si moviste hacia la <strong>derecha</strong> (número pequeño) → \(n\) negativo.</li>
+      </ol>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(28.700\). Mueves la coma 4 lugares a la izquierda: \(2,87\). Por tanto \(28.700 = 2,87 \cdot 10^4\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(0,00056\). Mueves la coma 4 lugares a la derecha: \(5,6\). Por tanto \(0,00056 = 5,6 \cdot 10^{-4}\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Operar con notación científica</div>
+
+      <p>Como cada número es \(N \cdot 10^n\), aplicas las propiedades de potencias:</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Multiplicar:</strong> \((2 \cdot 10^3) \cdot (4 \cdot 10^5) = (2\cdot 4)\cdot 10^{3+5} = 8 \cdot 10^8\).</span>
+        <span class="math-step"><strong>Dividir:</strong> \(\dfrac{6 \cdot 10^9}{2 \cdot 10^4} = 3 \cdot 10^{5}\).</span>
+        <span class="math-step"><strong>Elevar:</strong> \((3 \cdot 10^4)^2 = 9 \cdot 10^8\).</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Ojo</span>
+        Si tras operar la parte \(N\) queda fuera del rango \([1, 10)\), <strong>reajusta</strong>. Ej.: \(30 \cdot 10^5 = 3 \cdot 10^6\) (la coma corrió un lugar, sumas 1 al exponente).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Geometría y volúmenes
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Potencias en Geometría</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">Áreas y volúmenes</span>
+    <span class="chip">Unidades cuadradas y cúbicas</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Áreas: el "al cuadrado"</div>
+
+      <p>El área de un <strong>cuadrado</strong> de lado \(a\) es \(a^2\). De ahí el "al cuadrado": dos veces la misma medida multiplicada (lado × lado).</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Una baldosa cuadrada de lado 0,3 m tiene área \((0,3)^2 = 0,09\) m².</span>
+        <span class="math-step"><strong>Ej.:</strong> Una sala cuadrada de 4 m de lado tiene área \(4^2 = 16\) m².</span>
+        <span class="math-step"><strong>Ej.:</strong> ¿Cuántas baldosas necesitas para cubrir la sala? \(\dfrac{16}{0,09} \approx 178\) baldosas.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Volúmenes: el "al cubo"</div>
+
+      <p>El volumen de un <strong>cubo</strong> de arista \(a\) es \(a^3\). Tres veces la misma medida (largo × ancho × alto).</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Un dado de 2 cm de arista tiene volumen \(2^3 = 8\) cm³.</span>
+        <span class="math-step"><strong>Ej.:</strong> Un cubo de hielo de 3 cm tiene volumen \(3^3 = 27\) cm³.</span>
+        <span class="math-step"><strong>Ej.:</strong> Una caja cúbica de 0,5 m de arista tiene volumen \((0,5)^3 = 0,125\) m³ = 125 L.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Conversión de unidades cuadradas y cúbicas</div>
+
+      <p>Cuando cambias de unidad, las potencias también cambian. ¡Cuidado!</p>
+      <div class="math-block">
+        <span class="math-step">\(1 \text{ m} = 100 \text{ cm} = 10^2 \text{ cm}\).</span>
+        <span class="math-step">\(1 \text{ m}^2 = (10^2)^2 \text{ cm}^2 = 10^4 \text{ cm}^2 = 10.000\) cm².</span>
+        <span class="math-step">\(1 \text{ m}^3 = (10^2)^3 \text{ cm}^3 = 10^6 \text{ cm}^3 = 1.000.000\) cm³ = 1.000 L.</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Truco</span>
+        Para áreas (unidad²) cuenta cuántos saltos hay entre unidades y eleva al cuadrado. Para volúmenes (unidad³), al cubo. Ej.: km² → m² son \(10^6\); km³ → m³ son \(10^9\).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Conversor notación científica
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Conversor de notación científica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Doble vía</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Conversor decimal ↔ notación científica</div>
+
+      <p>Ingresa un número en cualquier forma. La herramienta lo <strong>convierte automáticamente</strong> a la otra notación y muestra cómo se obtiene.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="mode-toggle">
+            <button id="btnModeStd" class="active" onclick="setConvMode('std')">Decimal → Científica</button>
+            <button id="btnModeSci" onclick="setConvMode('sci')">Científica → Decimal</button>
+          </div>
+
+          <div class="input-control" id="stdInput">
+            <label>Número decimal (ej.: 28700 o 0.00056):</label>
+            <input type="text" id="stdValue" value="28700" />
+          </div>
+          <div class="input-control" id="sciInput" style="display:none;">
+            <label>Parte N (1 ≤ N &lt; 10) y exponente n:</label>
+            <div style="display:flex;gap:.5rem;align-items:center;justify-content:center;">
+              <input type="number" id="sciN" value="2.87" step="0.01" style="width:90px;" />
+              <span style="font-size:1.2rem;color:#6A2C91;font-weight:700;">· 10^</span>
+              <input type="number" id="sciE" value="4" style="width:60px;" />
+            </div>
+          </div>
+
+          <div class="preset-buttons">
+            <button onclick="loadStd('28700')">28.700</button>
+            <button onclick="loadStd('150000000')">150.000.000</button>
+            <button onclick="loadStd('0.00056')">0,00056</button>
+            <button onclick="loadStd('0.0000001')">0,0000001</button>
+            <button onclick="loadSci(1.5,8)">1,5·10⁸</button>
+            <button onclick="loadSci(6.02,23)">6,02·10²³</button>
+            <button onclick="loadSci(9.11,-31)">9,11·10⁻³¹</button>
+          </div>
+
+          <button class="calc-button" onclick="convert()">Convertir →</button>
+        </div>
+
+        <div class="tool-display" id="convDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa un número y presiona <strong>Convertir</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Dato</span>
+        El número \(6,022 \cdot 10^{23}\) es la <strong>constante de Avogadro</strong>: la cantidad de moléculas en un mol de sustancia. Es uno de los más usados en química.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Aplicaciones tecnología y ciencias
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Aplicaciones en tecnología y ciencias</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">Datos · sismos · probabilidad</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Tamaños de almacenamiento digital</div>
+
+      <p>Tu celular, computador y discos duros se miden en bytes. Y los múltiplos crecen como potencias de 10 (en marketing) o de 2 (en informática estricta):</p>
+
+      <table class="data-table">
+        <thead><tr><th>Unidad</th><th>Bytes (potencia de 10)</th><th>Equivalente común</th></tr></thead>
+        <tbody>
+          <tr><td>1 KB (kilobyte)</td><td>\(10^3\)</td><td>Una página de texto</td></tr>
+          <tr><td>1 MB (megabyte)</td><td>\(10^6\)</td><td>1 canción comprimida</td></tr>
+          <tr><td>1 GB (gigabyte)</td><td>\(10^9\)</td><td>Película en calidad estándar</td></tr>
+          <tr><td>1 TB (terabyte)</td><td>\(10^{12}\)</td><td>Disco duro grande</td></tr>
+          <tr><td>1 PB (petabyte)</td><td>\(10^{15}\)</td><td>Centros de datos masivos</td></tr>
+        </tbody>
+      </table>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Si un video pesa \(800\) MB y tu disco tiene \(1\) TB libre, ¿cuántos videos caben?</span>
+        <span class="math-step">Convierto: \(1\) TB = \(10^{12}\) bytes; \(800\) MB = \(8 \cdot 10^8\) bytes.</span>
+        <span class="math-step">\(\dfrac{10^{12}}{8 \cdot 10^8} = \dfrac{1}{8} \cdot 10^{4} = 0,125 \cdot 10^4 = 1.250\) videos.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Magnitud de terremotos (Richter)</div>
+
+      <p>La escala de Richter es <strong>logarítmica en base 10</strong>: cada grado representa <strong>10 veces más amplitud</strong> de la onda sísmica y libera unas <strong>32 veces más energía</strong>.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Magnitud</th><th>Amplitud relativa</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td>3,0</td><td>\(10^3\)</td><td>Sismo apenas perceptible</td></tr>
+          <tr><td>5,0</td><td>\(10^5\)</td><td>Sismo moderado, sentido por todos</td></tr>
+          <tr><td>7,0</td><td>\(10^7\)</td><td>Terremoto destructivo</td></tr>
+          <tr><td>8,8</td><td>\(10^{8,8}\)</td><td>Terremoto del 27/F 2010 (Chile)</td></tr>
+          <tr><td>9,5</td><td>\(10^{9,5}\)</td><td>Valdivia 1960 (el mayor registrado)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="math-block">
+        <span class="math-step">Un sismo de magnitud 7 es \(\dfrac{10^7}{10^5} = 10^2 = 100\) veces más fuerte (en amplitud) que uno de 5.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Probabilidad de eventos repetidos</div>
+
+      <p>Cuando un evento aleatorio se repite varias veces <strong>de forma independiente</strong>, la probabilidad se multiplica:</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Probabilidad de sacar 5 caras seguidas al lanzar una moneda:</span>
+        <span class="math-step">\(P = \left(\dfrac{1}{2}\right)^5 = \dfrac{1}{32} \approx 0,03125 = 3,125\%\).</span>
+        <span class="math-step"><strong>Ej.:</strong> Probabilidad de sacar 3 veces el 6 en un dado:</span>
+        <span class="math-step">\(P = \left(\dfrac{1}{6}\right)^3 = \dfrac{1}{216} \approx 0,46\%\).</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Resolutor de problemas
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Resolutor de situaciones reales</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Problemas guiados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resolutor de situaciones</div>
+
+      <p>Selecciona un tipo de problema, ingresa los datos y la herramienta lo resuelve <strong>paso a paso</strong> aplicando la potencia correcta.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="scenario-toggle">
+            <button id="btnSC1" class="active" onclick="setScenario('vol')">Volumen del cubo</button>
+            <button id="btnSC2" onclick="setScenario('area')">Área del cuadrado</button>
+            <button id="btnSC3" onclick="setScenario('moneda')">Probabilidad moneda</button>
+            <button id="btnSC4" onclick="setScenario('almacen')">Almacenamiento</button>
+          </div>
+
+          <div class="input-control" id="inpVol">
+            <label>Arista del cubo:</label>
+            <input type="number" id="volA" value="5" step="0.1" />
+          </div>
+          <div class="input-control" id="inpArea" style="display:none;">
+            <label>Lado del cuadrado:</label>
+            <input type="number" id="areaA" value="4" step="0.1" />
+          </div>
+          <div class="input-control" id="inpMoneda" style="display:none;">
+            <label>Número de lanzamientos:</label>
+            <input type="number" id="monedaN" value="5" />
+          </div>
+          <div class="input-control" id="inpAlmacen" style="display:none;">
+            <label>Tamaño total (TB) y peso video (MB):</label>
+            <div style="display:flex;gap:.5rem;">
+              <input type="number" id="almTB" value="1" />
+              <input type="number" id="almMB" value="800" />
+            </div>
+          </div>
+
+          <button class="calc-button" onclick="solveScenario()">Resolver →</button>
+        </div>
+
+        <div class="tool-display" id="scDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Elige un tipo de problema y presiona <strong>Resolver</strong>.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas vida diaria — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El número \(45.000\) en notación científica es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(45 \cdot 10^3\)<div class="opt-feedback"><strong>Incorrecto.</strong> La parte \(N\) debe estar entre 1 y 10.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4,5 \cdot 10^4\)<div class="opt-feedback"><strong>Correcto.</strong> Moviste la coma 4 lugares a la izquierda.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(0,45 \cdot 10^5\)<div class="opt-feedback"><strong>Incorrecto.</strong> La parte \(N\) debe ser ≥ 1.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(4,5 \cdot 10^{-4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Para números grandes, el exponente es positivo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Un cubo de arista 4 cm tiene volumen:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 12 cm³<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste lado por 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 16 cm³<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el área de una cara, no el volumen.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 64 cm³<div class="opt-feedback"><strong>Correcto.</strong> \(4^3 = 64\) cm³.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 256 cm³<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(4^4\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El número \(0,003\) en notación científica es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3 \cdot 10^{-3}\)<div class="opt-feedback"><strong>Correcto.</strong> Moviste la coma 3 lugares a la derecha.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(3 \cdot 10^{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 3.000.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(0,3 \cdot 10^{-2}\)<div class="opt-feedback"><strong>Equivalente</strong>, pero \(N\) debe ser ≥ 1.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(30 \cdot 10^{-4}\)<div class="opt-feedback"><strong>Equivalente</strong>, pero \(N\) debe ser &lt; 10.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál es la probabilidad de sacar 4 caras seguidas con una moneda?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\dfrac{1}{2}\cdot 2\); no multiplicaste 4 veces.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 3 caras (\(\left(\dfrac{1}{2}\right)^3\)).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{1}{16}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\left(\dfrac{1}{2}\right)^4 = \dfrac{1}{16}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{32}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso son 5 caras.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">\((2 \cdot 10^4) \cdot (3 \cdot 10^5)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(5 \cdot 10^9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste las partes \(N\) en vez de multiplicarlas.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(6 \cdot 10^9\)<div class="opt-feedback"><strong>Correcto.</strong> \((2 \cdot 3) \cdot 10^{4+5} = 6 \cdot 10^9\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(6 \cdot 10^{20}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste los exponentes.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(5 \cdot 10^{20}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Doble error: \(N\) y exponente.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuántos cm³ caben en 1 m³?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 1 m en cm.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 1 m² en cm².</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 1.000.000<div class="opt-feedback"><strong>Correcto.</strong> \((10^2)^3 = 10^6 = 1.000.000\) cm³.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 1 m³ en litros.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Un terremoto de magnitud 8 es ¿cuántas veces más fuerte (en amplitud) que uno de magnitud 6?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 2 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste magnitudes; pero la escala es exponencial.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es de 8 vs 7.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 100 veces<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{10^8}{10^6} = 10^2 = 100\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1.000 veces<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería de 8 vs 5.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si una baldosa cuadrada mide 0,4 m de lado, ¿cuántas baldosas se necesitan para cubrir un piso de 24 m²?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 60<div class="opt-feedback"><strong>Incorrecto.</strong> Dividiste por 0,4 (lado) en vez de \((0,4)^2\) (área).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 150<div class="opt-feedback"><strong>Correcto.</strong> Área baldosa: \((0,4)^2 = 0,16\) m². \(\dfrac{24}{0,16} = 150\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 240<div class="opt-feedback"><strong>Incorrecto.</strong> Dividiste por 0,1, no por 0,16.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 9,6<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Un disco de 1 TB se llenó con videos de 400 MB cada uno. ¿Cuántos videos caben (aprox.)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 250<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 2.500<div class="opt-feedback"><strong>Correcto.</strong> \(1\) TB = \(10^{12}\) B; \(400\) MB = \(4 \cdot 10^8\) B. \(\dfrac{10^{12}}{4 \cdot 10^8} = 2.500\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 25.000<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste con MB en lugar de TB.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 400<div class="opt-feedback"><strong>Incorrecto.</strong> Repetiste el dato.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">La masa de un electrón es \(9,11 \cdot 10^{-31}\) kg. ¿Cuál es la masa de un millón de electrones?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(9,11 \cdot 10^{-37}\) kg<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste exponentes en vez de sumarlos.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(9,11 \cdot 10^{-25}\) kg<div class="opt-feedback"><strong>Correcto.</strong> Un millón = \(10^6\); \(9,11 \cdot 10^{-31} \cdot 10^6 = 9,11 \cdot 10^{-25}\) kg.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(9,11 \cdot 10^{31}\) kg<div class="opt-feedback"><strong>Incorrecto.</strong> Cambiaste el signo del exponente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(9,11 \cdot 10^{-30}\) kg<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería 10 electrones, no un millón.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Problemas vida diaria — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Aplicaciones de potencias</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">\(7.200.000\) en notación científica es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(72 \cdot 10^5\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(N\) debe ser menor que 10.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(7,2 \cdot 10^6\)<div class="opt-feedback"><strong>Correcto.</strong> Moviste la coma 6 lugares.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(7,2 \cdot 10^7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Contaste un cero de más.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(0,72 \cdot 10^7\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(N\) debe ser al menos 1.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\(0,000045\) en notación científica es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(4,5 \cdot 10^{-4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Contaste un lugar de menos.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(4,5 \cdot 10^{-5}\)<div class="opt-feedback"><strong>Correcto.</strong> Moviste la coma 5 lugares a la derecha.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(45 \cdot 10^{-6}\)<div class="opt-feedback"><strong>Equivalente</strong>, pero \(N\) debe ser menor que 10.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(4,5 \cdot 10^{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es número pequeño → exponente negativo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">El volumen de un cubo de arista 0,5 m es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 1,5 m³<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste lado por 3.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 0,25 m³<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el área de una cara.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0,125 m³<div class="opt-feedback"><strong>Correcto.</strong> \((0,5)^3 = 0,125\) m³.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 1 m³<div class="opt-feedback"><strong>Incorrecto.</strong> No es así.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\(\dfrac{8 \cdot 10^7}{2 \cdot 10^3}\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(6 \cdot 10^4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste las partes \(N\); deben dividirse.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(4 \cdot 10^4\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{8}{2} = 4\); \(10^{7-3} = 10^4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4 \cdot 10^{10}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste exponentes.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(16 \cdot 10^{21}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste en todo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál es la probabilidad de obtener 3 veces el número 6 al lanzar un dado?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{18}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste base por exponente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3}{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Pensaste solo en un lanzamiento.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{1}{216}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\left(\dfrac{1}{6}\right)^3 = \dfrac{1}{216}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{36}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso son 2 veces el 6.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">El área de un cuadrado se cuadruplica cuando su lado:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Se cuadruplica.<div class="opt-feedback"><strong>Incorrecto.</strong> El área crecería 16 veces (\(4^2\)).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Se duplica.<div class="opt-feedback"><strong>Correcto.</strong> Si lado pasa de \(a\) a \(2a\), área pasa de \(a^2\) a \((2a)^2 = 4a^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Se triplica.<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(9a^2\), nueve veces.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Aumenta en 4 unidades.<div class="opt-feedback"><strong>Incorrecto.</strong> No es proporcional al lado.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Un disco de 2 TB. ¿Cuántos GB son?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 20<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 200<div class="opt-feedback"><strong>Incorrecto.</strong> Eso son 0,2 TB.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 2.000<div class="opt-feedback"><strong>Correcto.</strong> \(2 \cdot 10^{12}\) B = \(2 \cdot 10^3\) GB = 2.000 GB.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 2.000.000<div class="paes-l opt-feedback"><strong>Incorrecto.</strong> Eso son 2.000 TB.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Un terremoto de magnitud 7 es ¿cuántas veces más fuerte (amplitud) que uno de magnitud 4?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste magnitudes; pero la escala es exponencial.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es diferencia de 2 grados.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 1.000<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{10^7}{10^4} = 10^3 = 1.000\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 10.000<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es diferencia de 4 grados.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Una caja cúbica tiene capacidad de 8 litros. ¿Cuánto mide su arista?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 4 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Dividiste por 2.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 20 cm<div class="opt-feedback"><strong>Correcto.</strong> 8 L = 8.000 cm³; \(\sqrt[3]{8.000} = 20\) cm.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 200 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 80 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Si la masa de un protón es \(1,67 \cdot 10^{-27}\) kg, la masa de \(10^{6}\) protones es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(1,67 \cdot 10^{-33}\) kg<div class="opt-feedback"><strong>Incorrecto.</strong> Restaste exponentes en vez de sumarlos.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(1,67 \cdot 10^{-21}\) kg<div class="opt-feedback"><strong>Correcto.</strong> \(10^{-27} \cdot 10^{6} = 10^{-21}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(1,67 \cdot 10^{27}\) kg<div class="opt-feedback"><strong>Incorrecto.</strong> Cambiaste el signo del exponente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1,67 \cdot 10^{-6}\) kg<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el exponente original.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Completaste el OA 2 entero. Ya sabes leer, calcular y combinar potencias de base racional y exponente entero, modelar crecimiento y decrecimiento, y aplicarlas a problemas reales en notación científica, geometría, finanzas, ciencias y tecnología.</p>
+    <p>Las potencias son una herramienta poderosa que aparecerá una y otra vez en raíces, álgebra, funciones exponenciales y logaritmos. Lo que aprendiste aquí es la base.</p>
+    <span class="next-pill">Próximo: OA 3 — Raíces enésimas</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Problemas vida diaria · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Conversor notación científica ---------- */
+let convMode = 'std';
+function setConvMode(m){
+  convMode = m;
+  document.getElementById('btnModeStd').classList.toggle('active', m==='std');
+  document.getElementById('btnModeSci').classList.toggle('active', m==='sci');
+  document.getElementById('stdInput').style.display = m==='std'?'block':'none';
+  document.getElementById('sciInput').style.display = m==='sci'?'block':'none';
+  convert();
+}
+function loadStd(v){
+  setConvMode('std');
+  document.getElementById('stdValue').value = v;
+  convert();
+}
+function loadSci(n,e){
+  setConvMode('sci');
+  document.getElementById('sciN').value = n;
+  document.getElementById('sciE').value = e;
+  convert();
+}
+
+function toSci(num){
+  if(num===0) return {n:0, e:0};
+  const sign = num<0?-1:1;
+  num = Math.abs(num);
+  let e = Math.floor(Math.log10(num));
+  let n = num / Math.pow(10,e);
+  // Corregir errores numéricos
+  if(n >= 10){ n /= 10; e += 1; }
+  if(n < 1){ n *= 10; e -= 1; }
+  return {n: sign*n, e};
+}
+
+function convert(){
+  const out = document.getElementById('convDisplay');
+  if(convMode==='std'){
+    const raw = document.getElementById('stdValue').value.trim().replace(',','.');
+    const num = parseFloat(raw);
+    if(isNaN(num)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa un número válido.</p>'; return; }
+    if(num===0){
+      out.innerHTML = `<div style="text-align:center;font-size:1.3rem;color:#0B0F3F;">El cero no se representa en notación científica.</div>`;
+      return;
+    }
+    const {n,e} = toSci(num);
+    const nFmt = parseFloat(n.toPrecision(6));
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.05rem;margin-bottom:.5rem;"><b>Número original:</b> ${num.toLocaleString('es-CL',{useGrouping:true,maximumFractionDigits:10})}</div>
+      <div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.7rem;border-radius:0 6px 6px 0;margin-bottom:.5rem;">
+        <b style="color:#6A2C91;">Proceso:</b> mueves la coma ${Math.abs(e)} lugar(es) ${e>0?'a la izquierda':'a la derecha'} hasta que quede una sola cifra entera ≥ 1 y &lt; 10.
+      </div>
+      <div style="text-align:center;"><span class="math-result" style="font-size:1.3rem;">${nFmt} · 10<sup>${e}</sup></span></div>
+    `;
+  } else {
+    const n = parseFloat(document.getElementById('sciN').value);
+    const e = parseInt(document.getElementById('sciE').value);
+    if(isNaN(n)||isNaN(e)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa N y exponente.</p>'; return; }
+    const val = n * Math.pow(10,e);
+    const display = e>=0 && e<=15 ? val.toLocaleString('es-CL',{maximumFractionDigits:10}) : val.toExponential(6);
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.05rem;margin-bottom:.5rem;"><b>Notación científica:</b> ${n} · 10<sup>${e}</sup></div>
+      <div style="background:#f8f9ff;border-left:3px solid #6A2C91;padding:.7rem;border-radius:0 6px 6px 0;margin-bottom:.5rem;">
+        <b style="color:#6A2C91;">Proceso:</b> mueves la coma ${Math.abs(e)} lugar(es) ${e>0?'a la derecha':'a la izquierda'}.
+      </div>
+      <div style="text-align:center;"><span class="math-result" style="font-size:1.2rem;">${display}</span></div>
+    `;
+  }
+}
+
+/* ---------- Resolutor de escenarios ---------- */
+let curSc = 'vol';
+function setScenario(s){
+  curSc = s;
+  ['SC1','SC2','SC3','SC4'].forEach((b,i)=>{
+    document.getElementById('btn'+b).classList.toggle('active', i===['vol','area','moneda','almacen'].indexOf(s));
+  });
+  document.getElementById('inpVol').style.display = s==='vol'?'block':'none';
+  document.getElementById('inpArea').style.display = s==='area'?'block':'none';
+  document.getElementById('inpMoneda').style.display = s==='moneda'?'block':'none';
+  document.getElementById('inpAlmacen').style.display = s==='almacen'?'block':'none';
+  solveScenario();
+}
+function solveScenario(){
+  const out = document.getElementById('scDisplay');
+  let html='';
+  if(curSc==='vol'){
+    const a = parseFloat(document.getElementById('volA').value);
+    if(isNaN(a)||a<=0){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa una arista válida.</p>'; return; }
+    const v = Math.pow(a,3);
+    html = `
+      <div style="text-align:center;font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Volumen de un cubo</div>
+      <div style="font-size:.95rem;color:#0B0F3F;line-height:1.7;">
+        <b>Datos:</b> arista = ${a}<br>
+        <b>Fórmula:</b> \\(V = a^3\\)<br>
+        <b>Cálculo:</b> \\(V = ${a}^3 = ${v}\\)
+      </div>
+      <div style="text-align:center;margin-top:.6rem;"><span class="math-result">V = ${v} unidades³</span></div>
+    `;
+  } else if(curSc==='area'){
+    const a = parseFloat(document.getElementById('areaA').value);
+    if(isNaN(a)||a<=0){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa un lado válido.</p>'; return; }
+    const ar = Math.pow(a,2);
+    html = `
+      <div style="text-align:center;font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Área de un cuadrado</div>
+      <div style="font-size:.95rem;color:#0B0F3F;line-height:1.7;">
+        <b>Datos:</b> lado = ${a}<br>
+        <b>Fórmula:</b> \\(A = a^2\\)<br>
+        <b>Cálculo:</b> \\(A = ${a}^2 = ${ar}\\)
+      </div>
+      <div style="text-align:center;margin-top:.6rem;"><span class="math-result">A = ${ar} unidades²</span></div>
+    `;
+  } else if(curSc==='moneda'){
+    const n = parseInt(document.getElementById('monedaN').value);
+    if(isNaN(n)||n<=0){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa un número de lanzamientos válido.</p>'; return; }
+    const denom = Math.pow(2,n);
+    const pct = (1/denom*100).toFixed(4);
+    html = `
+      <div style="text-align:center;font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Probabilidad de ${n} caras seguidas</div>
+      <div style="font-size:.95rem;color:#0B0F3F;line-height:1.7;">
+        <b>Cada lanzamiento:</b> P(cara) = \\(\\dfrac{1}{2}\\)<br>
+        <b>Eventos independientes:</b> se multiplican las probabilidades.<br>
+        <b>Cálculo:</b> \\(P = \\left(\\dfrac{1}{2}\\right)^{${n}} = \\dfrac{1}{${denom}}\\)
+      </div>
+      <div style="text-align:center;margin-top:.6rem;"><span class="math-result">P = 1/${denom} ≈ ${pct} %</span></div>
+    `;
+  } else if(curSc==='almacen'){
+    const tb = parseFloat(document.getElementById('almTB').value);
+    const mb = parseFloat(document.getElementById('almMB').value);
+    if(isNaN(tb)||isNaN(mb)||tb<=0||mb<=0){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa valores válidos.</p>'; return; }
+    const bytesTotal = tb * 1e12;
+    const bytesVideo = mb * 1e6;
+    const cant = Math.floor(bytesTotal / bytesVideo);
+    html = `
+      <div style="text-align:center;font-weight:700;color:#6A2C91;margin-bottom:.4rem;">¿Cuántos videos caben?</div>
+      <div style="font-size:.95rem;color:#0B0F3F;line-height:1.7;">
+        <b>Capacidad total:</b> ${tb} TB = \\(${tb} \\cdot 10^{12}\\) bytes<br>
+        <b>Cada video:</b> ${mb} MB = \\(${mb} \\cdot 10^{6}\\) bytes<br>
+        <b>Cálculo:</b> \\(\\dfrac{${tb} \\cdot 10^{12}}{${mb} \\cdot 10^{6}} = ${cant.toLocaleString('es-CL')}\\)
+      </div>
+      <div style="text-align:center;margin-top:.6rem;"><span class="math-result">${cant.toLocaleString('es-CL')} videos</span></div>
+    `;
+  }
+  out.innerHTML = html;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  convert();
+  solveScenario();
+});
+</script>
+
+</body>
+</html>

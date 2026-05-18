@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propiedades de la operatoria — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin:.8rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:10px;padding:.9rem 1rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.35rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;margin-bottom:.3rem;display:block;}
+    .prop-card .prop-ex{font-size:.88rem;color:#444;}
+
+    .prop-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.92rem;}
+    .prop-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:center;font-weight:700;}
+    .prop-table td{padding:.5rem;border:1px solid #ddd;text-align:center;vertical-align:middle;}
+    .prop-table tr:nth-child(even){background:#f8f4e9;}
+    .check-y{color:#0B0F3F;font-weight:700;font-size:1.15rem;}
+    .check-n{color:#aaa;font-weight:400;font-size:1.15rem;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=number]{width:80px;padding:.45rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;font-weight:700;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .three-vars{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;}
+    .prop-selector{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.7rem;}
+    .prop-selector button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.82rem;font-family:'Inter',sans-serif;}
+    .prop-selector button.active{background:#6A2C91;color:#fff;}
+    .prop-selector button:hover{background:#552072;color:#fff;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .verify-result{margin-top:.7rem;padding:.7rem .9rem;border-radius:8px;background:#f8f9ff;border-left:4px solid #6A2C91;font-size:.95rem;line-height:1.7;}
+
+    canvas.area-canvas{width:100%;height:260px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.calc-button,.prop-selector{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué son las propiedades?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Propiedades de la operatoria en ℚ</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Conmutativa</span>
+    <span class="chip">Asociativa</span>
+    <span class="chip">Distributiva</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Identificar y aplicar las propiedades de la suma y la multiplicación en ℚ (conmutativa, asociativa, distributiva, elementos neutros e inversos) para <strong>simplificar</strong> cálculos.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Para qué sirven las propiedades?</div>
+
+      <p>Las propiedades son <strong>reglas</strong> que cumplen las operaciones (suma y multiplicación). Permiten <strong>reordenar</strong>, <strong>agrupar</strong> y <strong>simplificar</strong> sin alterar el resultado. Bien usadas, hacen los cálculos mucho más rápidos.</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> ¿Cuánto es \(25 + 47 + 75\)?</span>
+        <span class="math-step">Con conmutativa y asociativa: \(25+75+47 = (25+75)+47 = 100+47 = 147\).</span>
+        <span class="math-step">Sin propiedades: \(25+47 = 72\); \(72+75 = 147\). Da igual, pero el primer camino es mucho más fácil.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Las 6 propiedades fundamentales</div>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Conmutativa</span>
+          <span class="prop-eq">\(a + b = b + a\)<br>\(a \cdot b = b \cdot a\)</span>
+          <span class="prop-ex">"El orden no altera el resultado".</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Asociativa</span>
+          <span class="prop-eq">\((a+b)+c = a+(b+c)\)<br>\((a \cdot b) \cdot c = a \cdot (b \cdot c)\)</span>
+          <span class="prop-ex">"Puedes agrupar como quieras".</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Distributiva</span>
+          <span class="prop-eq">\(a \cdot (b+c) = a \cdot b + a \cdot c\)</span>
+          <span class="prop-ex">"La multiplicación se reparte sobre la suma".</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Elemento neutro</span>
+          <span class="prop-eq">\(a + 0 = a\)<br>\(a \cdot 1 = a\)</span>
+          <span class="prop-ex">"Sumar 0 o multiplicar por 1 no cambia el valor".</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Inverso aditivo</span>
+          <span class="prop-eq">\(a + (-a) = 0\)</span>
+          <span class="prop-ex">"Cada número tiene un opuesto que lo anula".</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Inverso multiplicativo</span>
+          <span class="prop-eq">\(a \cdot \dfrac{1}{a} = 1\), \(a \neq 0\)</span>
+          <span class="prop-ex">"Cada número (≠ 0) tiene un recíproco que lo lleva a 1".</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Conmutativa y Asociativa
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Propiedad conmutativa y asociativa</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Reordenar</span>
+    <span class="chip">Reagrupar</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Propiedad conmutativa</div>
+
+      <div class="math-box">\(a + b = b + a\) &nbsp;y&nbsp; \(a \cdot b = b \cdot a\)</div>
+      <p>El <strong>orden</strong> de los sumandos (o de los factores) no altera la suma (o el producto).</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Suma:</strong> \(\dfrac{2}{3} + \dfrac{1}{4} = \dfrac{1}{4} + \dfrac{2}{3} = \dfrac{11}{12}\) ✔</span>
+        <span class="math-step"><strong>Producto:</strong> \(\dfrac{2}{3} \cdot \dfrac{1}{4} = \dfrac{1}{4} \cdot \dfrac{2}{3} = \dfrac{1}{6}\) ✔</span>
+      </div>
+
+      <div class="card card-warn">
+        <span class="card-label">No conmutan</span>
+        La <strong>resta</strong> y la <strong>división</strong> <u>no son conmutativas</u>: \(5-3 = 2\), pero \(3-5 = -2\). \(8 \div 2 = 4\), pero \(2 \div 8 = 0,25\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Propiedad asociativa</div>
+
+      <div class="math-box">\((a+b)+c = a+(b+c)\) &nbsp;y&nbsp; \((a \cdot b) \cdot c = a \cdot (b \cdot c)\)</div>
+      <p>La forma de <strong>agrupar</strong> tres o más términos no altera el resultado.</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Suma:</strong> \((2+3)+4 = 5+4 = 9\). También \(2+(3+4) = 2+7 = 9\). ✔</span>
+        <span class="math-step"><strong>Producto:</strong> \((2 \cdot 5) \cdot 7 = 70\). También \(2 \cdot (5 \cdot 7) = 70\). ✔</span>
+      </div>
+
+      <div class="card card-warn">
+        <span class="card-label">No asocian</span>
+        Resta y división <u>no son asociativas</u>: \((10-4)-2 = 4\), pero \(10-(4-2) = 8\). Por eso usamos paréntesis o resolvemos siempre de izquierda a derecha.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Conmutativa + Asociativa: el truco del cálculo rápido</div>
+
+      <p>Usa estas dos propiedades para <strong>reordenar y agrupar</strong> términos "amigables":</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(\dfrac{1}{3} + \dfrac{5}{7} + \dfrac{2}{3}\)</span>
+        <span class="math-step">Conmutativa: \(\dfrac{1}{3} + \dfrac{2}{3} + \dfrac{5}{7}\).</span>
+        <span class="math-step">Asociativa: \(\left(\dfrac{1}{3} + \dfrac{2}{3}\right) + \dfrac{5}{7} = 1 + \dfrac{5}{7} = \dfrac{12}{7}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{12}{7}\)</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Distributiva
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Propiedad distributiva</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Repartir</span>
+    <span class="chip">Factorizar</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Propiedad distributiva</div>
+
+      <div class="math-box">\(a \cdot (b + c) = a \cdot b + a \cdot c\)</div>
+      <p>El factor que multiplica al paréntesis se <strong>reparte</strong> sobre cada sumando. También funciona con resta: \(a \cdot (b-c) = a \cdot b - a \cdot c\).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Visualización con áreas</div>
+
+      <p>Si tienes un rectángulo de altura \(a\) y base \((b+c)\), su área puede calcularse de dos formas:</p>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>Como un solo rectángulo: <strong>área = \(a \cdot (b+c)\)</strong>.</li>
+        <li>Como dos rectángulos pegados: <strong>área = \(a \cdot b + a \cdot c\)</strong>.</li>
+      </ul>
+      <p>Ambas formas dan lo mismo. Por eso la distributiva "funciona".</p>
+
+      <canvas id="distCanvas" class="area-canvas" width="900" height="280"></canvas>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Aplicación numérica</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(7 \cdot 102 = 7 \cdot (100 + 2) = 7 \cdot 100 + 7 \cdot 2 = 700 + 14 = 714\).</span>
+        <span class="math-step"><strong>Ej.:</strong> \(9 \cdot 27 = 9 \cdot (30 - 3) = 9 \cdot 30 - 9 \cdot 3 = 270 - 27 = 243\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Distributiva con fracciones</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(\dfrac{1}{2} \cdot \left(\dfrac{2}{3} + \dfrac{4}{5}\right)\)</span>
+        <span class="math-step">Distributiva: \(\dfrac{1}{2} \cdot \dfrac{2}{3} + \dfrac{1}{2} \cdot \dfrac{4}{5} = \dfrac{1}{3} + \dfrac{2}{5}\).</span>
+        <span class="math-step">Común denominador 15: \(\dfrac{5}{15} + \dfrac{6}{15} = \dfrac{11}{15}\).</span>
+        <span class="math-step"><span class="math-result">Resultado: \(\dfrac{11}{15}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">5</span>Distributiva al revés: "factorizar"</div>
+
+      <p>Si vemos un factor común, podemos "sacarlo":</p>
+      <div class="math-block">
+        <span class="math-step">\(7 \cdot 12 + 7 \cdot 8 = 7 \cdot (12 + 8) = 7 \cdot 20 = 140\)</span>
+        <span class="math-step">\(\dfrac{3}{5} \cdot 4 + \dfrac{3}{5} \cdot 6 = \dfrac{3}{5} \cdot (4+6) = \dfrac{3}{5} \cdot 10 = 6\)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Verificador
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Verificador de propiedades</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Verifica numéricamente</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Verificador de propiedades</div>
+
+      <p>Ingresa tres valores (\(a\), \(b\), \(c\)) y la herramienta verificará <strong>numéricamente</strong> que se cumplen las propiedades.</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Valores:</label>
+            <div class="three-vars">
+              <div>a = <input type="number" id="varA" value="2" step="0.5" /></div>
+              <div>b = <input type="number" id="varB" value="3" step="0.5" /></div>
+              <div>c = <input type="number" id="varC" value="5" step="0.5" /></div>
+            </div>
+          </div>
+
+          <div class="prop-selector">
+            <button id="btnConmS" class="active" onclick="setProp('conmS')">Conmutativa (+)</button>
+            <button id="btnConmP" onclick="setProp('conmP')">Conmutativa (·)</button>
+            <button id="btnAsocS" onclick="setProp('asocS')">Asociativa (+)</button>
+            <button id="btnAsocP" onclick="setProp('asocP')">Asociativa (·)</button>
+            <button id="btnDist" onclick="setProp('dist')">Distributiva</button>
+            <button id="btnNeut" onclick="setProp('neut')">Neutros</button>
+          </div>
+
+          <button class="calc-button" onclick="verifyProp()">Verificar →</button>
+        </div>
+
+        <div class="tool-display" id="verifyDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Elige una propiedad y presiona <strong>Verificar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Neutros e inversos
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Elementos neutros e inversos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Neutros</span>
+    <span class="chip">Recíprocos</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Elemento neutro</div>
+
+      <p>Es el número que, al operar con cualquier otro, lo deja <strong>igual</strong>.</p>
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Neutro de la suma: 0</span>
+          <span class="prop-eq">\(a + 0 = a\)</span>
+          <span class="prop-ex">Ej.: \(\dfrac{3}{5} + 0 = \dfrac{3}{5}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Neutro del producto: 1</span>
+          <span class="prop-eq">\(a \cdot 1 = a\)</span>
+          <span class="prop-ex">Ej.: \(-\dfrac{7}{2} \cdot 1 = -\dfrac{7}{2}\).</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Inverso aditivo (opuesto)</div>
+
+      <div class="math-box">\(a + (-a) = 0\)</div>
+      <p>El opuesto de un número es el mismo número con signo cambiado. Al sumarlos, dan 0.</p>
+      <div class="math-block">
+        <span class="math-step">Opuesto de \(5\) → \(-5\). \(5+(-5)=0\). ✔</span>
+        <span class="math-step">Opuesto de \(-\dfrac{2}{3}\) → \(\dfrac{2}{3}\). \(-\dfrac{2}{3}+\dfrac{2}{3}=0\). ✔</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Inverso multiplicativo (recíproco)</div>
+
+      <div class="math-box">\(a \cdot \dfrac{1}{a} = 1\), &nbsp; con \(a \neq 0\)</div>
+      <p>El recíproco de una fracción es la <strong>misma fracción "dada vuelta"</strong>: se intercambian numerador y denominador.</p>
+      <div class="math-block">
+        <span class="math-step">Recíproco de \(\dfrac{3}{4}\) → \(\dfrac{4}{3}\). \(\dfrac{3}{4} \cdot \dfrac{4}{3} = 1\). ✔</span>
+        <span class="math-step">Recíproco de \(5 = \dfrac{5}{1}\) → \(\dfrac{1}{5}\). \(5 \cdot \dfrac{1}{5} = 1\). ✔</span>
+        <span class="math-step">Recíproco de \(-\dfrac{2}{7}\) → \(-\dfrac{7}{2}\). \(-\dfrac{2}{7} \cdot -\dfrac{7}{2} = 1\). ✔</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Tabla resumen</div>
+
+      <table class="prop-table">
+        <thead><tr><th>Propiedad</th><th>Suma (+)</th><th>Resta (−)</th><th>Producto (·)</th><th>División (÷)</th></tr></thead>
+        <tbody>
+          <tr><td>Conmutativa</td><td><span class="check-y">✔</span></td><td><span class="check-n">✘</span></td><td><span class="check-y">✔</span></td><td><span class="check-n">✘</span></td></tr>
+          <tr><td>Asociativa</td><td><span class="check-y">✔</span></td><td><span class="check-n">✘</span></td><td><span class="check-y">✔</span></td><td><span class="check-n">✘</span></td></tr>
+          <tr><td>Distributiva sobre +</td><td>—</td><td>—</td><td><span class="check-y">✔</span></td><td>—</td></tr>
+          <tr><td>Elemento neutro</td><td>0</td><td>—</td><td>1</td><td>—</td></tr>
+          <tr><td>Inverso</td><td>\(-a\)</td><td>—</td><td>\(\dfrac{1}{a}\) (a≠0)</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Identificador
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Identificador de propiedades</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">¿Qué propiedad es?</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Identificador de propiedades</div>
+
+      <p>Aparece una igualdad. Tú decides <strong>qué propiedad</strong> se aplicó para pasar del lado izquierdo al derecho. Haz clic en la opción correcta.</p>
+
+      <div id="identifierContainer"></div>
+
+      <button class="calc-button" onclick="nextIdentifier()">Nuevo desafío →</button>
+
+      <div class="card card-tip">
+        <span class="card-label">Estrategia</span>
+        Pregúntate: ¿se cambió el <strong>orden</strong> de los términos? → conmutativa. ¿Se reagruparon los <strong>paréntesis</strong>? → asociativa. ¿Se <strong>repartió</strong> un factor? → distributiva.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Propiedades — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Qué propiedad justifica \(\dfrac{2}{5} + \dfrac{3}{7} = \dfrac{3}{7} + \dfrac{2}{5}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Conmutativa de la suma.<div class="opt-feedback"><strong>Correcto.</strong> Cambió el orden de los sumandos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Asociativa de la suma.<div class="opt-feedback"><strong>Incorrecto.</strong> No se reagruparon paréntesis.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Distributiva.<div class="opt-feedback"><strong>Incorrecto.</strong> No hubo multiplicación sobre suma.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Elemento neutro.<div class="opt-feedback"><strong>Incorrecto.</strong> No apareció el 0.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es el recíproco de \(-\dfrac{3}{7}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{3}{7}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el opuesto, no el recíproco.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(-\dfrac{7}{3}\)<div class="opt-feedback"><strong>Correcto.</strong> Se "da vuelta" y se conserva el signo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{7}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambiaste el signo de más.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 0<div class="opt-feedback"><strong>Incorrecto.</strong> El recíproco al multiplicar da 1, no 0.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Aplica distributiva: \(\dfrac{2}{3}(6+9)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{2}{3} \cdot 6 + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta multiplicar el \(\dfrac{2}{3}\) también al 9.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{2}{3}\cdot 6 + \dfrac{2}{3}\cdot 9 = 4 + 6 = 10\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 15<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por \(\dfrac{2}{3}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{2}{3} + 6 + 9 = 15{,}\overline{6}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es así la distributiva.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Calcula \(\dfrac{3}{8} + \dfrac{5}{6} + \dfrac{5}{8}\) usando propiedades.</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{13}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el sumando \(\dfrac{5}{6}\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{11}{6}\)<div class="opt-feedback"><strong>Correcto.</strong> Reordeno: \(\dfrac{3}{8}+\dfrac{5}{8} = 1\); luego \(1+\dfrac{5}{6}=\dfrac{11}{6}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{13}{24}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> Solo sumaste las primeras dos fracciones.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Encuentra el opuesto y el recíproco de \(-\dfrac{5}{8}\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Opuesto \(\dfrac{5}{8}\), recíproco \(-\dfrac{8}{5}\).<div class="opt-feedback"><strong>Correcto.</strong> Opuesto: cambia signo. Recíproco: "da vuelta" la fracción, conservando signo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Opuesto \(-\dfrac{8}{5}\), recíproco \(\dfrac{5}{8}\).<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste opuesto con recíproco.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Opuesto \(\dfrac{5}{8}\), recíproco \(\dfrac{8}{5}\).<div class="opt-feedback"><strong>Incorrecto.</strong> El recíproco mantiene el signo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Ambos son \(\dfrac{5}{8}\).<div class="opt-feedback"><strong>Incorrecto.</strong> Son operaciones distintas.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Factoriza: \(\dfrac{1}{4} \cdot 7 + \dfrac{1}{4} \cdot 5\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{12}{16}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo incorrecto.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 3<div class="opt-feedback"><strong>Correcto.</strong> Factor común \(\dfrac{1}{4}\) → \(\dfrac{1}{4}(7+5) = \dfrac{12}{4} = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 12<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el factor \(\dfrac{1}{4}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{35}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste cuando había que sumar.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Calcula \(25 \cdot 4 \cdot 3 \cdot 25\) de forma eficiente.</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 7500<div class="opt-feedback"><strong>Correcto.</strong> Reordeno: \(25 \cdot 25 \cdot 4 \cdot 3 = 625 \cdot 12 = 7500\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 750<div class="opt-feedback"><strong>Incorrecto.</strong> Error de magnitud.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 2500<div class="opt-feedback"><strong>Incorrecto.</strong> Solo \(25 \cdot 25 \cdot 4\), olvidaste el 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5000<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál afirmación es FALSA?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> La suma es conmutativa.<div class="opt-feedback"><strong>Verdadera.</strong></div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> La resta es asociativa.<div class="opt-feedback"><strong>Falsa (esa es la respuesta).</strong> \((10-3)-2 \neq 10-(3-2)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> El neutro del producto es 1.<div class="opt-feedback"><strong>Verdadera.</strong></div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Cada racional no nulo tiene recíproco.<div class="opt-feedback"><strong>Verdadera.</strong></div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Factorizando \(7 \cdot 18 + 7 \cdot 22\) se obtiene:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 280<div class="opt-feedback"><strong>Correcto.</strong> \(7(18+22) = 7 \cdot 40 = 280\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 154<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el segundo término.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el factor 7.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 196<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Una forma rápida de calcular \(99 \cdot 7\) usando distributiva es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((99+1) \cdot 7 = 700\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste de más; el resultado real es 693.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((100 - 1) \cdot 7 = 700 - 7 = 693\)<div class="opt-feedback"><strong>Correcto.</strong> Descompones 99 y repartes.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(99 \cdot 7 = 7^2 \cdot 99\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 7 de más.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(99 + 99 + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso no es multiplicación.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Propiedades — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Propiedades de la operatoria</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">La igualdad \((2+3)+4=2+(3+4)\) ilustra la propiedad:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Conmutativa.<div class="opt-feedback"><strong>Incorrecto.</strong> No cambia el orden, solo la agrupación.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Asociativa.<div class="opt-feedback"><strong>Correcto.</strong> Cambia la forma de asociar paréntesis.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Distributiva.<div class="opt-feedback"><strong>Incorrecto.</strong> No hay multiplicación sobre suma.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Neutro aditivo.<div class="opt-feedback"><strong>Incorrecto.</strong> No aparece el 0.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">El inverso multiplicativo de \(\dfrac{4}{9}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-\dfrac{4}{9}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el opuesto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{9}{4}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{4}{9} \cdot \dfrac{9}{4} = 1\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 0<div class="opt-feedback"><strong>Incorrecto.</strong> El recíproco da 1, no 0.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 1<div class="opt-feedback"><strong>Incorrecto.</strong> 1 es el neutro.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Qué propiedad se aplica en \(5 \cdot (8 + 2) = 5 \cdot 8 + 5 \cdot 2\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Conmutativa.<div class="opt-feedback"><strong>Incorrecto.</strong> Reparte un factor, no cambia orden.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Asociativa.<div class="opt-feedback"><strong>Incorrecto.</strong> No reagrupa, reparte.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Distributiva.<div class="opt-feedback"><strong>Correcto.</strong> El 5 se repartió sobre 8 y 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Neutro multiplicativo.<div class="opt-feedback"><strong>Incorrecto.</strong> No aparece el 1.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuál afirmación es FALSA?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> La suma es conmutativa.<div class="opt-feedback"><strong>Verdadera.</strong></div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> La resta es asociativa.<div class="opt-feedback"><strong>Falsa (esa es la respuesta).</strong> \((10-3)-2 \neq 10-(3-2)\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> El neutro del producto es 1.<div class="opt-feedback"><strong>Verdadera.</strong></div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Cada racional no nulo tiene recíproco.<div class="opt-feedback"><strong>Verdadera.</strong></div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Factorizando \(7 \cdot 18 + 7 \cdot 22\) se obtiene:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 280<div class="opt-feedback"><strong>Correcto.</strong> \(7(18+22) = 7 \cdot 40 = 280\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 154<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el segundo término.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 40<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el factor 7.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 196<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Sabiendo que \(a + b = b + a\), esta igualdad es válida en:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Solo en ℕ.<div class="opt-feedback"><strong>Incorrecto.</strong> Es válida en ℤ y ℚ también.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Solo en ℤ.<div class="opt-feedback"><strong>Incorrecto.</strong> Es válida en ℕ y ℚ también.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> En ℕ, ℤ y ℚ.<div class="opt-feedback"><strong>Correcto.</strong> La conmutativa vale en los tres.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> En ningún conjunto.<div class="opt-feedback"><strong>Incorrecto.</strong> Es una propiedad universal.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Cuál de las siguientes igualdades es <strong>incorrecta</strong>?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(3 \cdot 1 = 3\)<div class="opt-feedback"><strong>Correcta</strong> (neutro multiplicativo).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(3 + 1 = 3\)<div class="opt-feedback"><strong>Incorrecta (esa es la respuesta).</strong> El neutro de la suma es 0.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(3 + 0 = 3\)<div class="opt-feedback"><strong>Correcta</strong> (neutro aditivo).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(3 + (-3) = 0\)<div class="opt-feedback"><strong>Correcta</strong> (inverso aditivo).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Aplicando distributiva, \(\dfrac{1}{3}(6 - 12)\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2 - 12 = -10\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar al segundo término.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(2 - 4 = -2\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{1}{3}\cdot 6 = 2\); \(\dfrac{1}{3}\cdot 12 = 4\); \(2-4=-2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(-6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el factor \(\dfrac{1}{3}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{3} \cdot (-6)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta resolver: da \(-2\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Si \(a \cdot \dfrac{1}{a} = 1\), entonces \(a\) debe ser:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Cualquier número.<div class="opt-feedback"><strong>Incorrecto.</strong> Si \(a=0\), \(\dfrac{1}{a}\) no existe.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Cualquier racional distinto de 0.<div class="opt-feedback"><strong>Correcto.</strong> No se puede dividir por cero.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Solo positivo.<div class="opt-feedback"><strong>Incorrecto.</strong> Negativos ≠ 0 también funcionan.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Solo entero.<div class="opt-feedback"><strong>Incorrecto.</strong> Cualquier racional (≠ 0) tiene recíproco.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Una forma rápida de calcular \(99 \cdot 7\) usando distributiva es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((99+1) \cdot 7 = 700\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste de más; el real es 693.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((100 - 1) \cdot 7 = 700 - 7 = 693\)<div class="opt-feedback"><strong>Correcto.</strong> Descompones 99 y repartes.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(99 \cdot 7 = 7^2 \cdot 99\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 7 de más.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(99 + 99 + 7\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso no es multiplicación.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Las propiedades no son adornos: son <strong>atajos</strong> que vuelven los cálculos más rápidos y elegantes. Reordenar, agrupar, repartir y factorizar son las cuatro armas que más usarás en álgebra.</p>
+    <p>La distributiva, en especial, es la base de toda la factorización y de la resolución de ecuaciones. Tenerla clara aquí te dará ventaja desde la primera ecuación.</p>
+    <span class="next-pill">Próximo: Lenguaje matemático</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Propiedades · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Canvas distributiva ---------- */
+function drawDistributiva(){
+  const cv = document.getElementById('distCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  const a = 3, b = 4, c = 2;
+  const unit = 50;
+  const padX = 60, padY = 50;
+  const x0 = padX, y0 = padY;
+  const rectW = (b+c)*unit, rectH = a*unit;
+
+  ctx.fillStyle = 'rgba(106,44,145,.25)';
+  ctx.fillRect(x0, y0, b*unit, rectH);
+  ctx.strokeStyle = '#6A2C91';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(x0, y0, b*unit, rectH);
+
+  ctx.fillStyle = 'rgba(212,175,55,.35)';
+  ctx.fillRect(x0+b*unit, y0, c*unit, rectH);
+  ctx.strokeStyle = '#D4AF37';
+  ctx.strokeRect(x0+b*unit, y0, c*unit, rectH);
+
+  ctx.fillStyle = '#0B0F3F';
+  ctx.font = 'bold 18px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(`a · b = ${a*b}`, x0+b*unit/2, y0+rectH/2);
+  ctx.fillText(`a · c = ${a*c}`, x0+b*unit+c*unit/2, y0+rectH/2);
+
+  ctx.fillStyle = '#6A2C91';
+  ctx.font = 'bold 16px Inter, sans-serif';
+  ctx.save();
+  ctx.translate(x0-22, y0+rectH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText(`a = ${a}`, 0, 0);
+  ctx.restore();
+
+  ctx.fillStyle = '#6A2C91';
+  ctx.fillText(`b = ${b}`, x0+b*unit/2, y0+rectH+22);
+  ctx.fillStyle = '#9b7c1c';
+  ctx.fillText(`c = ${c}`, x0+b*unit+c*unit/2, y0+rectH+22);
+
+  ctx.strokeStyle = '#0B0F3F';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(x0, y0+rectH+40);
+  ctx.lineTo(x0, y0+rectH+48);
+  ctx.lineTo(x0+rectW, y0+rectH+48);
+  ctx.lineTo(x0+rectW, y0+rectH+40);
+  ctx.stroke();
+  ctx.fillStyle = '#0B0F3F';
+  ctx.fillText(`b + c = ${b+c}`, x0+rectW/2, y0+rectH+62);
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#6A2C91';
+  ctx.font = 'bold 14px Inter, sans-serif';
+  const tx = x0+rectW+40;
+  ctx.fillText(`a · (b+c)`, tx, y0+30);
+  ctx.fillStyle = '#0B0F3F';
+  ctx.font = '13px Inter, sans-serif';
+  ctx.fillText(`= ${a} · ${b+c} = ${a*(b+c)}`, tx, y0+50);
+
+  ctx.fillStyle = '#9b7c1c';
+  ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillText(`a·b + a·c`, tx, y0+90);
+  ctx.fillStyle = '#0B0F3F';
+  ctx.font = '13px Inter, sans-serif';
+  ctx.fillText(`= ${a*b} + ${a*c} = ${a*b+a*c}`, tx, y0+110);
+
+  ctx.fillStyle = '#D4AF37';
+  ctx.font = 'bold 14px Inter, sans-serif';
+  ctx.fillText(`✔ Ambas dan ${a*(b+c)}`, tx, y0+155);
+}
+
+/* ---------- Verificador ---------- */
+let activeProp = 'conmS';
+function setProp(p){
+  activeProp = p;
+  document.querySelectorAll('.prop-selector button').forEach(b=>b.classList.remove('active'));
+  const map = {conmS:'btnConmS', conmP:'btnConmP', asocS:'btnAsocS', asocP:'btnAsocP', dist:'btnDist', neut:'btnNeut'};
+  document.getElementById(map[p]).classList.add('active');
+  verifyProp();
+}
+function verifyProp(){
+  const a = parseFloat(document.getElementById('varA').value);
+  const b = parseFloat(document.getElementById('varB').value);
+  const c = parseFloat(document.getElementById('varC').value);
+  const out = document.getElementById('verifyDisplay');
+  if(isNaN(a)||isNaN(b)||isNaN(c)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa los tres valores.</p>'; return; }
+
+  let html = '';
+  if(activeProp==='conmS'){
+    const l = a+b, r = b+a;
+    html = `<div style="font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Conmutativa de la suma</div>
+      <div class="verify-result">
+        <b>Izq.:</b> a + b = ${a} + ${b} = <b>${l}</b><br>
+        <b>Der.:</b> b + a = ${b} + ${a} = <b>${r}</b><br>
+        <span class="math-result">${l===r?'✔ Se cumple':'✘ NO se cumple'}</span>
+      </div>`;
+  } else if(activeProp==='conmP'){
+    const l = a*b, r = b*a;
+    html = `<div style="font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Conmutativa del producto</div>
+      <div class="verify-result">
+        <b>Izq.:</b> a · b = ${a} · ${b} = <b>${l}</b><br>
+        <b>Der.:</b> b · a = ${b} · ${a} = <b>${r}</b><br>
+        <span class="math-result">${l===r?'✔ Se cumple':'✘ NO se cumple'}</span>
+      </div>`;
+  } else if(activeProp==='asocS'){
+    const l = (a+b)+c, r = a+(b+c);
+    html = `<div style="font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Asociativa de la suma</div>
+      <div class="verify-result">
+        <b>(a+b)+c</b> = (${a}+${b})+${c} = ${a+b}+${c} = <b>${l}</b><br>
+        <b>a+(b+c)</b> = ${a}+(${b}+${c}) = ${a}+${b+c} = <b>${r}</b><br>
+        <span class="math-result">${l===r?'✔ Se cumple':'✘ NO se cumple'}</span>
+      </div>`;
+  } else if(activeProp==='asocP'){
+    const l = (a*b)*c, r = a*(b*c);
+    html = `<div style="font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Asociativa del producto</div>
+      <div class="verify-result">
+        <b>(a·b)·c</b> = ${a*b}·${c} = <b>${l}</b><br>
+        <b>a·(b·c)</b> = ${a}·${b*c} = <b>${r}</b><br>
+        <span class="math-result">${l===r?'✔ Se cumple':'✘ NO se cumple'}</span>
+      </div>`;
+  } else if(activeProp==='dist'){
+    const l = a*(b+c), r = a*b + a*c;
+    html = `<div style="font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Distributiva</div>
+      <div class="verify-result">
+        <b>a · (b+c)</b> = ${a}·${b+c} = <b>${l}</b><br>
+        <b>a·b + a·c</b> = ${a*b} + ${a*c} = <b>${r}</b><br>
+        <span class="math-result">${l===r?'✔ Se cumple':'✘ NO se cumple'}</span>
+      </div>`;
+  } else if(activeProp==='neut'){
+    const s = a+0, p = a*1;
+    html = `<div style="font-weight:700;color:#6A2C91;margin-bottom:.4rem;">Elementos neutros</div>
+      <div class="verify-result">
+        <b>a + 0:</b> ${a} + 0 = <b>${s}</b> ${s===a?'✔':'✘'}<br>
+        <b>a · 1:</b> ${a} · 1 = <b>${p}</b> ${p===a?'✔':'✘'}<br>
+        <span class="math-result">${(s===a && p===a)?'✔ Ambos se cumplen':'✘'}</span>
+      </div>`;
+  }
+  out.innerHTML = html;
+}
+
+/* ---------- Identificador ---------- */
+const identifierProblems = [
+  {eq: '\\(5 + 7 = 7 + 5\\)', answer:'Conmutativa de la suma'},
+  {eq: '\\((2 \\cdot 3) \\cdot 4 = 2 \\cdot (3 \\cdot 4)\\)', answer:'Asociativa del producto'},
+  {eq: '\\(4 \\cdot (3 + 5) = 4 \\cdot 3 + 4 \\cdot 5\\)', answer:'Distributiva'},
+  {eq: '\\(\\dfrac{2}{3} \\cdot 1 = \\dfrac{2}{3}\\)', answer:'Neutro multiplicativo'},
+  {eq: '\\(7 + (-7) = 0\\)', answer:'Inverso aditivo'},
+  {eq: '\\(\\dfrac{3}{4} \\cdot \\dfrac{4}{3} = 1\\)', answer:'Inverso multiplicativo'},
+  {eq: '\\((1+2)+3 = 1+(2+3)\\)', answer:'Asociativa de la suma'},
+  {eq: '\\(0 + 9 = 9\\)', answer:'Neutro aditivo'},
+];
+const allOptions = ['Conmutativa de la suma','Conmutativa del producto','Asociativa de la suma','Asociativa del producto','Distributiva','Neutro aditivo','Neutro multiplicativo','Inverso aditivo','Inverso multiplicativo'];
+let identifierIdx = 0;
+function renderIdentifier(){
+  const p = identifierProblems[identifierIdx];
+  const cont = document.getElementById('identifierContainer');
+  const others = allOptions.filter(o=>o!==p.answer);
+  for(let i=others.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[others[i],others[j]]=[others[j],others[i]];}
+  const opts = [p.answer, others[0], others[1], others[2]];
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  const letters=['A','B','C','D'];
+  let html = `<div class="ex-item"><div style="font-size:1.1rem;margin-bottom:.6rem;text-align:center;"><b>Igualdad:</b> ${p.eq}</div>
+    <div style="font-size:.9rem;color:#444;margin-bottom:.5rem;">¿Qué propiedad la justifica?</div>
+    <div class="opts">`;
+  opts.forEach((o,i)=>{
+    const isCorrect = o===p.answer;
+    html += `<div class="opt ${isCorrect?'opt-correct':'opt-incorrect'}" onclick="this.classList.add('revealed')"><span class="opt-letter">${letters[i]}</span> ${o}<div class="opt-feedback"><strong>${isCorrect?'Correcto.':'Incorrecto.'}</strong> ${isCorrect?'Esa es la propiedad usada.':'La correcta es: '+p.answer+'.'}</div></div>`;
+  });
+  html += '</div></div>';
+  cont.innerHTML = html;
+  if(window.renderMathInElement){
+    renderMathInElement(cont,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+function nextIdentifier(){ identifierIdx = (identifierIdx+1)%identifierProblems.length; renderIdentifier(); }
+
+document.addEventListener('DOMContentLoaded',()=>{
+  drawDistributiva();
+  verifyProp();
+  renderIdentifier();
+});
+</script>
+
+</body>
+</html>

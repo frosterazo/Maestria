@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astronomía en Chile — Ciencias Naturales 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Barra de puntaje ── */
+    .score-bar{position:fixed;top:0;left:0;right:0;z-index:999;background:#0B0F3F;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:8px 24px;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+    .sb-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;}
+    .sb-pts{font-size:20px;font-weight:800;color:#D4AF37;line-height:1;}
+    .btn-pdf-bar{background:#D4AF37;color:#0B0F3F;border:none;padding:7px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap;}
+    body{padding-top:52px;}
+    @media print{.score-bar{display:none!important;}body{padding-top:0;}.pdf-sol{display:block!important;}.no-print{display:none!important;}}
+    /* ── Alternativas ── */
+    .btn-opt{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0;padding:10px 14px;background:#F8F4E9;border:2px solid #d8d0c8;border-radius:8px;cursor:pointer;font-size:11pt;text-align:left;transition:border-color .15s,background .15s;}
+    .btn-opt:hover{background:#f0e8d8;border-color:#D4AF37;}
+    .opt-letter-b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;border-radius:50%;background:#0B0F3F;color:#D4AF37;font-weight:800;font-size:12px;}
+    .opt-selected-ok{background:#d4edda!important;border-color:#1a7a3c!important;}
+    .opt-selected-err{background:#f8d7da!important;border-color:#c0392b!important;}
+    .opt-correct-reveal{background:#fff3cd!important;border-color:#D4AF37!important;}
+    /* ── Retroalimentación ── */
+    .q-feedback{display:none;border-radius:7px;padding:8px 13px;margin:6px 0 4px;font-size:11pt;line-height:1.5;}
+    .fb-ok{display:block!important;background:#d4edda;color:#155724;border-left:4px solid #1a7a3c;}
+    .fb-err{display:block!important;background:#f8d7da;color:#721c24;border-left:4px solid #c0392b;}
+    /* ── Solucionario (oculto en pantalla) ── */
+    .pdf-sol{display:none;}
+    .obs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:.85rem; margin:1rem 0; }
+    .obs-card { background:#fff; border:2px solid #e8eaf0; border-radius:12px; padding:1rem; }
+    .obs-card .obs-name { font-weight:700; color:#0B0F3F; font-size:.95rem; margin-bottom:.25rem; }
+    .obs-card .obs-loc { font-size:.8rem; color:#6A2C91; font-weight:600; }
+    .obs-card .obs-data { font-size:.82rem; color:#444; margin-top:.35rem; }
+    .space-box { background:#0B0F3F; border-radius:12px; padding:1rem; margin:1rem 0; text-align:center; }
+    .fact-row { display:flex; flex-wrap:wrap; gap:.75rem; margin:1rem 0; }
+    .fact-pill { background:#0B0F3F; color:#D4AF37; border-radius:20px; padding:.35rem 1rem; font-size:.85rem; font-weight:600; }
+  </style>
+</head>
+<body>
+
+<!-- SCORE BAR -->
+<div class="score-bar" id="scorebar">
+  <span class="sb-label">Progreso</span>
+  <span class="sb-pts" id="sbpts">0 / 20</span>
+  <button class="btn-pdf-bar" onclick="exportPDF()">Exportar PDF</button>
+</div>
+
+<!-- ============================================================
+     PÁGINA 1 — TEORÍA
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Ciencias de la Tierra — Astronomía<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Ciencias de la Tierra</div>
+    <h2>Astronomía en Chile — Observatorios y Cielo</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">🔭 Observatorios</span>
+    <span class="chip">🌌 Chile Astronómico</span>
+    <span class="chip">Página 1 de 3</span>
+  </div>
+
+  <div class="oa-box">
+    <span class="oa-badge">OA 9</span>
+    <span class="oa-text">Reconocer la importancia de Chile como potencia astronómica mundial, identificar los principales observatorios y explicar las condiciones naturales que los hacen posibles.</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── Chile potencia astronómica ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Chile: capital mundial de la astronomía</div>
+
+      <div class="card card-def">
+        <strong>Chile alberga el 70% de la infraestructura astronómica del mundo</strong> y alcanzará el 60–70% de la observación astronómica global al 2030, gracias a la construcción de los mayores telescopios jamás construidos (ELT, GMT, LSST/Vera Rubin).
+      </div>
+
+      <div class="fact-row">
+        <span class="fact-pill">70% observación mundial</span>
+        <span class="fact-pill">+30 observatorios activos</span>
+        <span class="fact-pill">Atacama: 300+ noches despejadas/año</span>
+        <span class="fact-pill">Hemisferio sur privilegiado</span>
+      </div>
+
+      <div class="two-col">
+        <div class="col-card">
+          <strong>¿Por qué Chile?</strong><br>
+          La ubicación en el hemisferio sur permite observar el centro galáctico, la Vía Láctea y objetos como las Nubes de Magallanes que no son visibles desde el norte. Además, la cordillera de los Andes actúa de barrera contra la humedad del Atlántico.
+        </div>
+        <div class="col-card">
+          <strong>Condición astronómica</strong><br>
+          La calidad del cielo se mide por el "seeing" (estabilidad del aire) y la transparencia. El desierto de Atacama ofrece las mejores condiciones del mundo: altitud, sequedad, mínima contaminación lumínica y atmósfera estable.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Condiciones naturales ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Condiciones naturales que hacen posible la astronomía</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Condición</th><th>Por qué importa</th><th>Lugar en Chile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cielos despejados</strong></td>
+            <td>Más de 300 noches claras al año → máximo tiempo de observación</td>
+            <td>Desierto de Atacama (II Región)</td>
+          </tr>
+          <tr>
+            <td><strong>Baja humedad</strong></td>
+            <td>El vapor de agua absorbe radiación infrarroja y submilimétrica</td>
+            <td>Atacama, Llano de Chajnantor (5 000 m)</td>
+          </tr>
+          <tr>
+            <td><strong>Alta altitud</strong></td>
+            <td>Menos atmósfera → menos distorsión y absorción de señales</td>
+            <td>Cerro Armazones (3 046 m), Cerro Paranal (2 635 m)</td>
+          </tr>
+          <tr>
+            <td><strong>Mínima contaminación lumínica</strong></td>
+            <td>Baja densidad poblacional → cielos oscuros</td>
+            <td>Regiones de Atacama y Antofagasta</td>
+          </tr>
+          <tr>
+            <td><strong>Seeing excelente</strong></td>
+            <td>Corrientes de aire estables → imágenes nítidas</td>
+            <td>Cerro Paranal: seeing ≈ 0,65 arcsec</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Contaminación lumínica:</strong> La luz artificial de las ciudades ilumina el cielo nocturno haciendo difícil observar objetos tenues. Chile tiene legislación de protección de cielos oscuros para el norte del país desde 1999 (Decreto 43).
+      </div>
+    </div>
+
+    <!-- ─── Principales observatorios ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Principales observatorios de Chile</div>
+
+      <!-- SVG mapa simplificado norte de Chile -->
+      <div class="space-box">
+        <svg viewBox="0 0 320 200" width="100%" style="max-width:320px;" aria-label="Mapa esquemático del norte de Chile con ubicación de observatorios">
+          <rect width="320" height="200" fill="#050820"/>
+          <!-- Silueta simplificada norte de Chile (franja vertical) -->
+          <path d="M80,5 L160,5 L175,40 L170,80 L165,120 L160,160 L155,195 L85,195 L80,160 L75,120 L70,80 L72,40 Z" fill="#2d4a1e" opacity=".6" stroke="#3a6b26" stroke-width="1"/>
+          <!-- Océano Pacífico (izquierda) -->
+          <rect x="0" y="0" width="80" height="200" fill="#0a1a3a" opacity=".7"/>
+          <text x="35" y="100" text-anchor="middle" fill="#3a6b8a" font-size="9" font-family="Inter" transform="rotate(-90,35,100)">Océano Pacífico</text>
+          <!-- Atacama (color desierto) -->
+          <path d="M80,5 L160,5 L175,40 L170,80 L165,120 L155,195 L85,195 L80,160 L75,120 L70,80 L72,40 Z" fill="#8B6914" opacity=".35"/>
+          <!-- Cordillera (derecha) -->
+          <path d="M155,0 L200,0 L200,200 L155,200 L160,160 L165,120 L170,80 L175,40 Z" fill="#4a4a6a" opacity=".5"/>
+          <text x="178" y="100" text-anchor="middle" fill="#9999bb" font-size="8" font-family="Inter" transform="rotate(-90,178,100)">Andes</text>
+
+          <!-- Marcadores observatorios -->
+          <!-- ALMA (Chajnantor, ~lat 23°S) -->
+          <circle cx="163" cy="80" r="5" fill="#D4AF37"/>
+          <polygon points="163,68 158,78 168,78" fill="#D4AF37"/>
+          <text x="215" y="83" fill="#D4AF37" font-size="8" font-family="Inter" font-weight="700">ALMA</text>
+          <text x="215" y="92" fill="#aaa" font-size="7" font-family="Inter">Chajnantor 5 000m</text>
+
+          <!-- Paranal / VLT (~lat 24.6°S) -->
+          <circle cx="90" cy="95" r="5" fill="#6A2C91"/>
+          <polygon points="90,83 85,93 95,93" fill="#6A2C91"/>
+          <text x="10" y="93" fill="#c07fe0" font-size="8" font-family="Inter" font-weight="700">VLT</text>
+          <text x="10" y="102" fill="#aaa" font-size="7" font-family="Inter">Paranal</text>
+
+          <!-- ELT (Armazones ~lat 24.7°S) -->
+          <circle cx="140" cy="100" r="5" fill="#c0392b"/>
+          <polygon points="140,88 135,98 145,98" fill="#c0392b"/>
+          <text x="215" y="103" fill="#ff8888" font-size="8" font-family="Inter" font-weight="700">ELT</text>
+          <text x="215" y="112" fill="#aaa" font-size="7" font-family="Inter">Armazones 3 046m</text>
+
+          <!-- La Silla (~lat 29.3°S) -->
+          <circle cx="100" cy="145" r="5" fill="#4A9EFF"/>
+          <polygon points="100,133 95,143 105,143" fill="#4A9EFF"/>
+          <text x="15" y="143" fill="#4A9EFF" font-size="8" font-family="Inter" font-weight="700">La Silla</text>
+          <text x="15" y="152" fill="#aaa" font-size="7" font-family="Inter">ESO</text>
+
+          <!-- Vera Rubin (Cerro Pachón ~lat 30°S) -->
+          <circle cx="115" cy="155" r="5" fill="#1a7a3c"/>
+          <polygon points="115,143 110,153 120,153" fill="#1a7a3c"/>
+          <text x="215" y="155" fill="#5ec87e" font-size="8" font-family="Inter" font-weight="700">LSST</text>
+          <text x="215" y="164" fill="#aaa" font-size="7" font-family="Inter">Vera Rubin</text>
+
+          <!-- Título -->
+          <text x="160" y="15" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter" font-weight="700">Norte de Chile</text>
+          <text x="160" y="25" text-anchor="middle" fill="#D4AF37" font-size="8" font-family="Inter">Principales observatorios</text>
+        </svg>
+        <p style="font-size:.75rem;color:#aaa;margin-top:.5rem;">Mapa esquemático (no a escala). Los principales observatorios se ubican en el norte árido de Chile, entre los 23° y 30° de latitud sur.</p>
+      </div>
+
+      <div class="obs-grid">
+        <div class="obs-card">
+          <div class="obs-name">VLT — Very Large Telescope</div>
+          <div class="obs-loc">Cerro Paranal, Antofagasta · 2 635 m</div>
+          <div class="obs-data">4 telescopios de 8,2 m (ESO). Puede operar como interferómetro (VLTI). Observó la primera imagen de un planeta fuera del Sistema Solar.</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-name">ALMA — Atacama Large Millimeter Array</div>
+          <div class="obs-loc">Llano de Chajnantor · 5 058 m</div>
+          <div class="obs-data">66 antenas de radio. Observa en ondas milimétricas. Primera imagen directa del agujero negro M87* (publicada en 2019 junto con EHT).</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-name">ELT — Extremely Large Telescope</div>
+          <div class="obs-loc">Cerro Armazones · 3 046 m</div>
+          <div class="obs-data">Espejo primario de 39,3 m (en construcción, operación ≈2028). Será el mayor telescopio óptico del mundo.</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-name">Observatorio La Silla</div>
+          <div class="obs-loc">Región de Coquimbo · 2 400 m</div>
+          <div class="obs-data">ESO. 14 telescopios. Histórico: aquí se confirmó la expansión acelerada del universo (Premio Nobel 2011).</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-name">Vera C. Rubin / LSST</div>
+          <div class="obs-loc">Cerro Pachón · 2 715 m</div>
+          <div class="obs-data">Telescopio de 8,4 m con la cámara digital más grande del mundo (3 200 megapíxeles). Fotografiará todo el cielo sur cada 3 días durante 10 años.</div>
+        </div>
+        <div class="obs-card">
+          <div class="obs-name">Observatorio Cerro Tololo (CTIO)</div>
+          <div class="obs-loc">Región de Coquimbo · 2 207 m</div>
+          <div class="obs-data">NOAO (EE.UU.). Telescopio Blanco (4 m). Primera medición de la tasa de expansión acelerada del universo con supernovas Tipo Ia.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Aporte a la ciencia ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Descubrimientos realizados desde Chile</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Descubrimiento</th><th>Observatorio</th><th>Año</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Expansión acelerada del universo (materia oscura)</td><td>La Silla / CTIO</td><td>1998</td></tr>
+          <tr><td>Primer exoplaneta confirmado con imagen directa</td><td>Paranal VLT</td><td>2004</td></tr>
+          <tr><td>Imágenes de alta resolución de SN 1987A (supernova cercana)</td><td>La Silla</td><td>1987</td></tr>
+          <tr><td>Primera imagen de un agujero negro supermasivo (M87*)</td><td>ALMA (parte del EHT)</td><td>2019</td></tr>
+          <tr><td>Detección de discos protoplanetarios en formación</td><td>ALMA</td><td>2014–presente</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Tratados internacionales:</strong> Chile ha firmado convenios con ESO (Europa), NOAO (EE.UU.), NAOJ (Japón) y otros, a cambio de los cuales obtiene un porcentaje del tiempo de observación para astrónomos nacionales (generalmente 10%).
+      </div>
+
+      <div class="meta-box">
+        <strong>Metacognición:</strong> ¿Sabías que la mayoría de los grandes telescopios están en territorio chileno? ¿Por qué crees que Chile no construyó esos telescopios con recursos propios? Reflexiona sobre la geopolítica de la ciencia y el rol de Chile como sede.
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Astronomía en Chile · Página 1 de 3</div>
+  </div>
+</div><!-- /page1 -->
+
+<!-- ============================================================
+     PÁGINA 2 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Ciencias de la Tierra — Astronomía<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Ciencias de la Tierra</div>
+    <h2>Astronomía en Chile — Ejercicios</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+    <span class="chip">Página 2 de 3</span>
+  </div>
+
+  <!-- BÁSICO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-b">Básico</span>
+      <span>Ejercicios 1 – 3</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E1 -->
+      <div class="ex-item" id="ei1">
+        <div class="ex-header-row">
+          <span class="ex-num-label">1</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">¿Qué porcentaje aproximado de la infraestructura astronómica mundial se encuentra en Chile?</div>
+        <div class="btn-opt" onclick="pick('e1','A')" id="e1A"><span class="opt-letter-b">A</span> 10%</div>
+        <div class="btn-opt" onclick="pick('e1','B')" id="e1B"><span class="opt-letter-b">B</span> 30%</div>
+        <div class="btn-opt" onclick="pick('e1','C')" id="e1C"><span class="opt-letter-b">C</span> 70%</div>
+        <div class="btn-opt" onclick="pick('e1','D')" id="e1D"><span class="opt-letter-b">D</span> 90%</div>
+        <div class="q-feedback" id="fb_e1"></div>
+      </div>
+
+      <!-- E2 -->
+      <div class="ex-item" id="ei2">
+        <div class="ex-header-row">
+          <span class="ex-num-label">2</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">¿En cuál región de Chile se concentra la mayor cantidad de observatorios astronómicos de clase mundial?</div>
+        <div class="btn-opt" onclick="pick('e2','A')" id="e2A"><span class="opt-letter-b">A</span> Región de Los Lagos (sur de Chile).</div>
+        <div class="btn-opt" onclick="pick('e2','B')" id="e2B"><span class="opt-letter-b">B</span> Región Metropolitana (Santiago).</div>
+        <div class="btn-opt" onclick="pick('e2','C')" id="e2C"><span class="opt-letter-b">C</span> Norte de Chile (Atacama, Antofagasta y Coquimbo).</div>
+        <div class="btn-opt" onclick="pick('e2','D')" id="e2D"><span class="opt-letter-b">D</span> Isla de Pascua (ubicación ecuatorial).</div>
+        <div class="q-feedback" id="fb_e2"></div>
+      </div>
+
+      <!-- E3 -->
+      <div class="ex-item" id="ei3">
+        <div class="ex-header-row">
+          <span class="ex-num-label">3</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">¿Cuál es la función principal del telescopio ALMA?</div>
+        <div class="btn-opt" onclick="pick('e3','A')" id="e3A"><span class="opt-letter-b">A</span> Observar en luz visible con el mayor espejo óptico del mundo.</div>
+        <div class="btn-opt" onclick="pick('e3','B')" id="e3B"><span class="opt-letter-b">B</span> Observar en ondas de radio milimétricas y submilimétricas.</div>
+        <div class="btn-opt" onclick="pick('e3','C')" id="e3C"><span class="opt-letter-b">C</span> Medir la temperatura de la superficie de los planetas del Sistema Solar.</div>
+        <div class="btn-opt" onclick="pick('e3','D')" id="e3D"><span class="opt-letter-b">D</span> Detectar ondas gravitacionales emitidas por agujeros negros.</div>
+        <div class="q-feedback" id="fb_e3"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INTERMEDIO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-m">Intermedio</span>
+      <span>Ejercicios 4 – 7</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E4 -->
+      <div class="ex-item" id="ei4">
+        <div class="ex-header-row">
+          <span class="ex-num-label">4</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">¿Por qué los observatorios astronómicos se ubican en zonas con escasa humedad atmosférica?</div>
+        <div class="btn-opt" onclick="pick('e4','A')" id="e4A"><span class="opt-letter-b">A</span> La humedad atrae nubes, y las nubes bloquean la visión del cielo nocturno.</div>
+        <div class="btn-opt" onclick="pick('e4','B')" id="e4B"><span class="opt-letter-b">B</span> La humedad absorbe radiación infrarroja y submilimétrica, además de generar nubes que bloquean la observación.</div>
+        <div class="btn-opt" onclick="pick('e4','C')" id="e4C"><span class="opt-letter-b">C</span> La humedad daña los espejos metálicos de los telescopios.</div>
+        <div class="btn-opt" onclick="pick('e4','D')" id="e4D"><span class="opt-letter-b">D</span> La humedad cambia la frecuencia de la luz que se observa.</div>
+        <div class="q-feedback" id="fb_e4"></div>
+      </div>
+
+      <!-- E5 -->
+      <div class="ex-item" id="ei5">
+        <div class="ex-header-row">
+          <span class="ex-num-label">5</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">El ELT (Extremely Large Telescope) tendrá un espejo de 39,3 m. ¿Cuál es la principal ventaja de un espejo de mayor diámetro?</div>
+        <div class="btn-opt" onclick="pick('e5','A')" id="e5A"><span class="opt-letter-b">A</span> El telescopio funciona más rápido y puede fotografiar más objetos por noche.</div>
+        <div class="btn-opt" onclick="pick('e5','B')" id="e5B"><span class="opt-letter-b">B</span> Mayor área de captación de luz → puede detectar objetos más tenues y distantes, con mayor resolución.</div>
+        <div class="btn-opt" onclick="pick('e5','C')" id="e5C"><span class="opt-letter-b">C</span> Elimina por completo la necesidad de estar en zonas de cielo oscuro.</div>
+        <div class="btn-opt" onclick="pick('e5','D')" id="e5D"><span class="opt-letter-b">D</span> Permite observar en más tipos de ondas del espectro electromagnético.</div>
+        <div class="q-feedback" id="fb_e5"></div>
+      </div>
+
+      <!-- E6 -->
+      <div class="ex-item" id="ei6">
+        <div class="ex-header-row">
+          <span class="ex-num-label">6</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">¿Por qué es ventajoso para la astronomía observar desde el hemisferio sur?</div>
+        <div class="btn-opt" onclick="pick('e6','A')" id="e6A"><span class="opt-letter-b">A</span> El hemisferio sur tiene menor cantidad de estrellas, facilitando las observaciones.</div>
+        <div class="btn-opt" onclick="pick('e6','B')" id="e6B"><span class="opt-letter-b">B</span> Desde el sur se puede observar el centro galáctico y objetos únicos como las Nubes de Magallanes.</div>
+        <div class="btn-opt" onclick="pick('e6','C')" id="e6C"><span class="opt-letter-b">C</span> La rotación terrestre es más lenta en el hemisferio sur, facilitando exposiciones largas.</div>
+        <div class="btn-opt" onclick="pick('e6','D')" id="e6D"><span class="opt-letter-b">D</span> El hemisferio sur tiene menos contaminación lumínica global que el norte.</div>
+        <div class="q-feedback" id="fb_e6"></div>
+      </div>
+
+      <!-- E7 -->
+      <div class="ex-item" id="ei7">
+        <div class="ex-header-row">
+          <span class="ex-num-label">7</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">Chile obtiene un porcentaje del tiempo de observación en los grandes telescopios a cambio de:</div>
+        <div class="btn-opt" onclick="pick('e7','A')" id="e7A"><span class="opt-letter-b">A</span> Financiar la totalidad de la construcción de los telescopios.</div>
+        <div class="btn-opt" onclick="pick('e7','B')" id="e7B"><span class="opt-letter-b">B</span> Ceder el territorio y las condiciones naturales de sus cielos para la instalación.</div>
+        <div class="btn-opt" onclick="pick('e7','C')" id="e7C"><span class="opt-letter-b">C</span> Aportar los científicos y la tecnología de punta para operar los telescopios.</div>
+        <div class="btn-opt" onclick="pick('e7','D')" id="e7D"><span class="opt-letter-b">D</span> Proveer los materiales de construcción producidos en Chile.</div>
+        <div class="q-feedback" id="fb_e7"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AVANZADO -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-a">Avanzado</span>
+      <span>Ejercicios 8 – 10</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- E8 -->
+      <div class="ex-item" id="ei8">
+        <div class="ex-header-row">
+          <span class="ex-num-label">8</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">ALMA se ubica a 5 058 m de altitud en el Llano de Chajnantor. ¿Por qué esta altitud extrema es necesaria para las observaciones milimétricas?</div>
+        <div class="btn-opt" onclick="pick('e8','A')" id="e8A"><span class="opt-letter-b">A</span> A mayor altitud hay mayor temperatura, mejorando la sensibilidad de los detectores.</div>
+        <div class="btn-opt" onclick="pick('e8','B')" id="e8B"><span class="opt-letter-b">B</span> Por encima de los 5 000 m, la atmósfera contiene muy poco vapor de agua que absorbe las ondas milimétricas.</div>
+        <div class="btn-opt" onclick="pick('e8','C')" id="e8C"><span class="opt-letter-b">C</span> La rotación terrestre es más lenta a mayor altitud, permitiendo exposiciones más largas.</div>
+        <div class="btn-opt" onclick="pick('e8','D')" id="e8D"><span class="opt-letter-b">D</span> El campo magnético es más débil en altitud, reduciendo interferencias en las antenas.</div>
+        <div class="q-feedback" id="fb_e8"></div>
+      </div>
+
+      <!-- E9 -->
+      <div class="ex-item" id="ei9">
+        <div class="ex-header-row">
+          <span class="ex-num-label">9</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">La contaminación lumínica amenaza los observatorios del norte de Chile. ¿Cuál de las siguientes medidas sería más efectiva para reducirla?</div>
+        <div class="btn-opt" onclick="pick('e9','A')" id="e9A"><span class="opt-letter-b">A</span> Pintar los telescopios con materiales reflectantes para compensar la luz artificial.</div>
+        <div class="btn-opt" onclick="pick('e9','B')" id="e9B"><span class="opt-letter-b">B</span> Obligar a que la iluminación artificial en ciudades cercanas esté apuntada hacia abajo, use espectros eficientes y sea de baja intensidad.</div>
+        <div class="btn-opt" onclick="pick('e9','C')" id="e9C"><span class="opt-letter-b">C</span> Trasladar los observatorios a la cordillera andina más alta para alejarse de la contaminación.</div>
+        <div class="btn-opt" onclick="pick('e9','D')" id="e9D"><span class="opt-letter-b">D</span> Construir domes más grandes que aíslen completamente los telescopios de la luz ambiental.</div>
+        <div class="q-feedback" id="fb_e9"></div>
+      </div>
+
+      <!-- E10 -->
+      <div class="ex-item" id="ei10">
+        <div class="ex-header-row">
+          <span class="ex-num-label">10</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">El Observatorio Vera C. Rubin/LSST fotografiará todo el cielo sur cada 3 días por 10 años. Una consecuencia directa de este tipo de survey es:</div>
+        <div class="btn-opt" onclick="pick('e10','A')" id="e10A"><span class="opt-letter-b">A</span> Detectar objetos transitorios como asteroides peligrosos, supernovas y estrellas variables.</div>
+        <div class="btn-opt" onclick="pick('e10','B')" id="e10B"><span class="opt-letter-b">B</span> Reemplazar la necesidad de todos los demás telescopios del mundo.</div>
+        <div class="btn-opt" onclick="pick('e10','C')" id="e10C"><span class="opt-letter-b">C</span> Reducir la contaminación lumínica al monitorear las fuentes de luz artificial.</div>
+        <div class="btn-opt" onclick="pick('e10','D')" id="e10D"><span class="opt-letter-b">D</span> Observar exoplanetas con la misma resolución que el ELT.</div>
+        <div class="q-feedback" id="fb_e10"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="autoeval">
+    <strong>¿Cómo te fue?</strong> ¿Puedes nombrar 3 observatorios en Chile y decir en qué parte del espectro EM opera cada uno? Esa es la pregunta PAES más común en este tema.
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Astronomía en Chile · Página 2 de 3</div>
+  </div>
+</div><!-- /page2 -->
+
+<!-- ============================================================
+     PÁGINA 3 — PAES + SOLUCIONARIO + CIERRE
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="../../logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Ciencias Naturales · 1° Año Medio<br>
+      Eje: Ciencias de la Tierra — Astronomía<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <div class="subject-pill">Ciencias Naturales · Ciencias de la Tierra</div>
+    <h2>Astronomía en Chile — Preguntas PAES</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🎯 Estilo PAES</span>
+    <span class="chip">10 preguntas</span>
+    <span class="chip">Página 3 de 3</span>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <span class="paes-badge">PAES</span>
+      Preguntas estilo PAES — Astronomía en Chile
+    </div>
+    <div class="paes-body">
+
+      <!-- P1 -->
+      <div class="paes-item" id="pi1">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál de las siguientes condiciones es la MÁS importante para que Chile sea sede de observatorios astronómicos de clase mundial?</div>
+        <div class="btn-opt" onclick="pick('p1','A')" id="p1A"><span class="opt-letter-b">A</span> Estabilidad política y económica del país.</div>
+        <div class="btn-opt" onclick="pick('p1','B')" id="p1B"><span class="opt-letter-b">B</span> Gran cantidad de noches despejadas, baja humedad, alta altitud y mínima contaminación lumínica.</div>
+        <div class="btn-opt" onclick="pick('p1','C')" id="p1C"><span class="opt-letter-b">C</span> Disponibilidad de mano de obra calificada en astronomía.</div>
+        <div class="btn-opt" onclick="pick('p1','D')" id="p1D"><span class="opt-letter-b">D</span> Cercanía al Ecuador geográfico para mayor cobertura del cielo.</div>
+        <div class="q-feedback" id="fb_p1"></div>
+      </div>
+
+      <!-- P2 -->
+      <div class="paes-item" id="pi2">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">El observatorio ALMA observa en ondas milimétricas. ¿Por qué estas observaciones no pueden realizarse eficientemente desde el nivel del mar?</div>
+        <div class="btn-opt" onclick="pick('p2','A')" id="p2A"><span class="opt-letter-b">A</span> El ruido del mar interfiere con las señales de radio.</div>
+        <div class="btn-opt" onclick="pick('p2','B')" id="p2B"><span class="opt-letter-b">B</span> El vapor de agua en la atmósfera a nivel del mar absorbe fuertemente las ondas milimétricas.</div>
+        <div class="btn-opt" onclick="pick('p2','C')" id="p2C"><span class="opt-letter-b">C</span> Las antenas necesitan mayor altitud para aumentar su potencia de transmisión.</div>
+        <div class="btn-opt" onclick="pick('p2','D')" id="p2D"><span class="opt-letter-b">D</span> El campo gravitacional es demasiado fuerte a nivel del mar y deforma las antenas.</div>
+        <div class="q-feedback" id="fb_p2"></div>
+      </div>
+
+      <!-- P3 -->
+      <div class="paes-item" id="pi3">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál de los siguientes objetos es EXCLUSIVO de la observación desde el hemisferio sur?</div>
+        <div class="btn-opt" onclick="pick('p3','A')" id="p3A"><span class="opt-letter-b">A</span> La Luna.</div>
+        <div class="btn-opt" onclick="pick('p3','B')" id="p3B"><span class="opt-letter-b">B</span> El planeta Marte.</div>
+        <div class="btn-opt" onclick="pick('p3','C')" id="p3C"><span class="opt-letter-b">C</span> Las Nubes de Magallanes (galaxias satélites de la Vía Láctea).</div>
+        <div class="btn-opt" onclick="pick('p3','D')" id="p3D"><span class="opt-letter-b">D</span> La constelación de Orión.</div>
+        <div class="q-feedback" id="fb_p3"></div>
+      </div>
+
+      <!-- P4 -->
+      <div class="paes-item" id="pi4">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">La contaminación lumínica afecta la calidad de las observaciones astronómicas porque:</div>
+        <div class="btn-opt" onclick="pick('p4','A')" id="p4A"><span class="opt-letter-b">A</span> La luz artificial eleva la temperatura local y distorsiona el aire.</div>
+        <div class="btn-opt" onclick="pick('p4','B')" id="p4B"><span class="opt-letter-b">B</span> Ilumina el cielo nocturno, reduciendo el contraste entre los objetos celestes y el fondo del cielo.</div>
+        <div class="btn-opt" onclick="pick('p4','C')" id="p4C"><span class="opt-letter-b">C</span> Los fotones artificiales dañan los sensores CCD de los telescopios.</div>
+        <div class="btn-opt" onclick="pick('p4','D')" id="p4D"><span class="opt-letter-b">D</span> La radiación ultravioleta de la luz artificial interfiere con las ondas de radio.</div>
+        <div class="q-feedback" id="fb_p4"></div>
+      </div>
+
+      <!-- P5 -->
+      <div class="paes-item" id="pi5">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">El VLT (Very Large Telescope) tiene 4 espejos de 8,2 m que pueden combinarse en un interferómetro. ¿Cuál es la ventaja del modo interferómetro?</div>
+        <div class="btn-opt" onclick="pick('p5','A')" id="p5A"><span class="opt-letter-b">A</span> Aumenta la sensibilidad a la luz en ondas de radio.</div>
+        <div class="btn-opt" onclick="pick('p5','B')" id="p5B"><span class="opt-letter-b">B</span> Combina las señales para lograr una resolución equivalente a un telescopio del tamaño de la separación entre ellos.</div>
+        <div class="btn-opt" onclick="pick('p5','C')" id="p5C"><span class="opt-letter-b">C</span> Multiplica la luminosidad colectada en 4 veces.</div>
+        <div class="btn-opt" onclick="pick('p5','D')" id="p5D"><span class="opt-letter-b">D</span> Permite observar los 4 cuadrantes del cielo simultáneamente.</div>
+        <div class="q-feedback" id="fb_p5"></div>
+      </div>
+
+      <!-- P6 -->
+      <div class="paes-item" id="pi6">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Cuál fue el importante descubrimiento realizado con telescopios en Chile (La Silla / CTIO) que mereció el Premio Nobel de Física 2011?</div>
+        <div class="btn-opt" onclick="pick('p6','A')" id="p6A"><span class="opt-letter-b">A</span> El primer exoplaneta orbitando una estrella similar al Sol.</div>
+        <div class="btn-opt" onclick="pick('p6','B')" id="p6B"><span class="opt-letter-b">B</span> La expansión acelerada del universo, descubierta a partir de supernovas Tipo Ia.</div>
+        <div class="btn-opt" onclick="pick('p6','C')" id="p6C"><span class="opt-letter-b">C</span> La primera imagen directa de un agujero negro supermasivo.</div>
+        <div class="btn-opt" onclick="pick('p6','D')" id="p6D"><span class="opt-letter-b">D</span> El descubrimiento de las ondas gravitacionales predichas por Einstein.</div>
+        <div class="q-feedback" id="fb_p6"></div>
+      </div>
+
+      <!-- P7 -->
+      <div class="paes-item" id="pi7">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿Qué significa que un observatorio tenga un "seeing" de 0,65 segundos de arco?</div>
+        <div class="btn-opt" onclick="pick('p7','A')" id="p7A"><span class="opt-letter-b">A</span> Solo puede observar 0,65% del cielo en cada sesión de observación.</div>
+        <div class="btn-opt" onclick="pick('p7','B')" id="p7B"><span class="opt-letter-b">B</span> La imagen mínima detectable por el telescopio es de 0,65 segundos de arco, indicando aire atmosférico muy estable.</div>
+        <div class="btn-opt" onclick="pick('p7','C')" id="p7C"><span class="opt-letter-b">C</span> El telescopio solo funciona 0,65 horas por noche en condiciones óptimas.</div>
+        <div class="btn-opt" onclick="pick('p7','D')" id="p7D"><span class="opt-letter-b">D</span> La resolución máxima es 0,65 metros en los objetos observados.</div>
+        <div class="q-feedback" id="fb_p7"></div>
+      </div>
+
+      <!-- P8 -->
+      <div class="paes-item" id="pi8">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">¿Por qué la cordillera de los Andes es importante para las condiciones astronómicas del norte de Chile?</div>
+        <div class="btn-opt" onclick="pick('p8','A')" id="p8A"><span class="opt-letter-b">A</span> Genera corrientes de aire frío que mejoran el "seeing".</div>
+        <div class="btn-opt" onclick="pick('p8','B')" id="p8B"><span class="opt-letter-b">B</span> Actúa como barrera que impide que la humedad del Atlántico llegue al desierto de Atacama.</div>
+        <div class="btn-opt" onclick="pick('p8','C')" id="p8C"><span class="opt-letter-b">C</span> Su elevada altitud bloquea la contaminación lumínica de Argentina.</div>
+        <div class="btn-opt" onclick="pick('p8','D')" id="p8D"><span class="opt-letter-b">D</span> Canaliza el viento del Pacífico hacia los observatorios, reduciendo la temperatura.</div>
+        <div class="q-feedback" id="fb_p8"></div>
+      </div>
+
+      <!-- P9 -->
+      <div class="paes-item" id="pi9">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">Un estudiante afirma: "Con los telescopios del norte de Chile podemos ver el universo en tiempo real." ¿Por qué esta afirmación es incorrecta?</div>
+        <div class="btn-opt" onclick="pick('p9','A')" id="p9A"><span class="opt-letter-b">A</span> Los telescopios no tienen conectividad a internet para transmitir en vivo.</div>
+        <div class="btn-opt" onclick="pick('p9','B')" id="p9B"><span class="opt-letter-b">B</span> La luz viaja a velocidad finita: lo que vemos de objetos lejanos es como eran hace millones (o miles de millones) de años.</div>
+        <div class="btn-opt" onclick="pick('p9','C')" id="p9C"><span class="opt-letter-b">C</span> Solo los telescopios espaciales pueden capturar imágenes en tiempo real.</div>
+        <div class="btn-opt" onclick="pick('p9','D')" id="p9D"><span class="opt-letter-b">D</span> El tiempo de exposición fotográfica tarda días, no es en tiempo real.</div>
+        <div class="q-feedback" id="fb_p9"></div>
+      </div>
+
+      <!-- P10 -->
+      <div class="paes-item" id="pi10">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">¿Cuál de las siguientes afirmaciones sobre la astronomía en Chile es <strong>incorrecta</strong>?</div>
+        <div class="btn-opt" onclick="pick('p10','A')" id="p10A"><span class="opt-letter-b">A</span> Chile tendrá el 60–70% de la capacidad observacional global al 2030.</div>
+        <div class="btn-opt" onclick="pick('p10','B')" id="p10B"><span class="opt-letter-b">B</span> El desierto de Atacama tiene más de 300 noches despejadas al año.</div>
+        <div class="btn-opt" onclick="pick('p10','C')" id="p10C"><span class="opt-letter-b">C</span> Chile financia con recursos propios la totalidad de los grandes telescopios instalados en su territorio.</div>
+        <div class="btn-opt" onclick="pick('p10','D')" id="p10D"><span class="opt-letter-b">D</span> Chile obtiene tiempo de observación gratuito en los telescopios como parte de los acuerdos.</div>
+        <div class="q-feedback" id="fb_p10"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOLUCIONARIO -->
+  <div class="sol-wrap pdf-sol" id="solucionario">
+    <div class="paes-head" style="margin-bottom:1rem;">
+      <span class="paes-badge" style="background:#1a7a3c;">SOL</span>
+      Solucionario completo
+    </div>
+
+    <div style="margin-bottom:1rem;"><strong>Ejercicios (E1–E10):</strong></div>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-col-title">Básico</div>
+        <div class="sol-item"><span class="sn">E1</span><span class="sc">C</span> Chile alberga ≈70% de la infraestructura astronómica mundial, cifra que seguirá aumentando con ELT, GMT y LSST.</div>
+        <div class="sol-item"><span class="sn">E2</span><span class="sc">C</span> Norte árido: Atacama (II Región), Antofagasta y Coquimbo. Condiciones ideales de cielo.</div>
+        <div class="sol-item"><span class="sn">E3</span><span class="sc">B</span> ALMA: 66 antenas de radio. Observa en longitudes de onda milimétricas y submilimétricas. No es óptico.</div>
+      </div>
+      <div>
+        <div class="sol-col-title">Intermedio</div>
+        <div class="sol-item"><span class="sn">E4</span><span class="sc">B</span> Humedad absorbe IR y ondas milimétricas; también genera nubes. Doble efecto negativo para la astronomía.</div>
+        <div class="sol-item"><span class="sn">E5</span><span class="sc">B</span> Mayor área = más fotones capturados = objetos más tenues y lejanos detectables, y mayor resolución angular.</div>
+        <div class="sol-item"><span class="sn">E6</span><span class="sc">B</span> Hemisferio sur: centro galáctico visible, Nubes de Magallanes, Centauro A. Objetos únicos para la cosmología.</div>
+        <div class="sol-item"><span class="sn">E7</span><span class="sc">B</span> Chile aporta el territorio y las condiciones naturales (soberanía del suelo y el cielo). Los países/agencias pagan con tiempo de observación (~10%).</div>
+      </div>
+      <div>
+        <div class="sol-col-title">Avanzado</div>
+        <div class="sol-item"><span class="sn">E8</span><span class="sc">B</span> A 5 000 m, el contenido de vapor de agua es mínimo → transparente a ondas milimétricas. La temperatura no mejora los detectores.</div>
+        <div class="sol-item"><span class="sn">E9</span><span class="sc">B</span> Regulación de la iluminación pública (apuntada abajo, espectro eficiente como LED ámbar de baja temperatura) es la solución más efectiva y ya aplicada en el norte de Chile.</div>
+        <div class="sol-item"><span class="sn">E10</span><span class="sc">A</span> Survey continuo cada 3 días → ideal para transitorios: asteroides que cruzan la Tierra, supernovas recientes, gamma-ray bursts, estrellas variables.</div>
+      </div>
+    </div>
+
+    <div style="margin:1.5rem 0 .5rem;"><strong>PAES (P1–P10):</strong></div>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-item"><span class="sn">P1</span><span class="sc">B</span> Las condiciones naturales (cielo, humedad, altitud, contaminación) son los factores determinantes. La estabilidad política importa pero no es la razón astronómica.</div>
+        <div class="sol-item"><span class="sn">P2</span><span class="sc">B</span> Vapor de agua absorbe las ondas milimétricas. Por eso ALMA está a 5 058 m donde hay <1 mm de agua precipitable.</div>
+        <div class="sol-item"><span class="sn">P3</span><span class="sc">C</span> Las Nubes de Magallanes son galaxias satélites visibles solo desde el hemisferio sur. Luna, Marte y Orión se ven desde ambos hemisferios.</div>
+        <div class="sol-item"><span class="sn">P4</span><span class="sc">B</span> Luz artificial dispersa en la atmósfera → brillo de fondo del cielo aumenta → contraste con objetos tenues disminuye.</div>
+      </div>
+      <div>
+        <div class="sol-item"><span class="sn">P5</span><span class="sc">B</span> Interferometría: combinar señales de múltiples telescopios separados → resolución equivalente a telescopio del tamaño de la línea de base (separación).</div>
+        <div class="sol-item"><span class="sn">P6</span><span class="sc">B</span> Expansión acelerada: Saul Perlmutter, Brian Schmidt y Adam Riess estudiaron supernovas Tipo Ia desde La Silla y CTIO. Nobel 2011.</div>
+        <div class="sol-item"><span class="sn">P7</span><span class="sc">B</span> Seeing = borrosidad atmosférica mínima detectable. Menos segundos de arco = mejor seeing = imágenes más nítidas. 0,65" es excelente.</div>
+      </div>
+      <div>
+        <div class="sol-item"><span class="sn">P8</span><span class="sc">B</span> Los Andes bloquean la humedad del Atlántico y del Amazonas → el desierto de Atacama es el más árido del mundo.</div>
+        <div class="sol-item"><span class="sn">P9</span><span class="sc">B</span> La luz viaja a 3×10⁸ m/s. Al observar galaxias a 1 000 millones de años luz, vemos cómo eran hace 1 000 millones de años.</div>
+        <div class="sol-item"><span class="sn">P10</span><span class="sc">C</span> Incorrecta: los grandes telescopios son financiados por consorcios internacionales (ESO, NRAO, etc.). Chile no los financia; aporta el territorio y recibe tiempo de observación.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="closing">
+    <div class="next-pill">¡Guía completada!</div>
+    <p>Chile es una potencia astronómica gracias a sus condiciones naturales únicas. Conocer los observatorios y sus tecnologías es un orgullo nacional y un tema frecuente en PAES Ciencias.</p>
+    <p style="margin-top:.75rem;">
+      <a href="https://www.MaestriaAI.cl" target="_blank" style="color:#D4AF37;font-weight:700;">www.MaestriaAI.cl</a> ·
+      <a href="https://instagram.com/Maestria.app" target="_blank" style="color:#D4AF37;font-weight:700;">@Maestria.app</a>
+    </p>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Ciencias Naturales 1° Medio · Astronomía en Chile · Página 3 de 3</div>
+  </div>
+</div><!-- /page3 -->
+
+<script>
+(function(){
+  const GUIDE_ID = 'maestria_AstronomiaChile';
+  const TOTAL = 20;
+  const ANSWERS = {
+    e1:'C',e2:'C',e3:'B',e4:'B',e5:'B',e6:'B',e7:'B',e8:'B',e9:'B',e10:'A',
+    p1:'B',p2:'B',p3:'C',p4:'B',p5:'B',p6:'B',p7:'B',p8:'B',p9:'B',p10:'C'
+  };
+  const FEEDBACK = {
+    e1:{C:'Correcto. Chile alberga ≈70% de la infraestructura astronómica mundial.',A:'Incorrecto. 10% es una subestimación considerable.',B:'Incorrecto. 30% subestima el liderazgo astronómico de Chile.',D:'Incorrecto. 90% sobreestima; el valor real es alrededor del 70%.'},
+    e2:{C:'Correcto. Norte árido: II Región (Antofagasta), Región de Atacama y Coquimbo. Condiciones únicas de cielo.',A:'Incorrecto. El sur de Chile tiene lluvia frecuente y cielos nublados, lo opuesto de lo ideal.',B:'Incorrecto. Santiago tiene contaminación lumínica y smog que impiden la observación profesional.',D:'Incorrecto. Isla de Pascua tiene alta humedad y cielos no óptimos para astronomía de clase mundial.'},
+    e3:{B:'Correcto. ALMA: 66 antenas para radio milimétrica/submilimétrica. Ubicado a 5 058 m en Chajnantor.',A:'Incorrecto. ALMA no es óptico; trabaja en radio. El mayor óptico será el ELT.',C:'Incorrecto. ALMA estudia formación estelar, discos protoplanetarios, galaxias lejanas, no temperaturas de planetas.',D:'Incorrecto. Las ondas gravitacionales se detectan con LIGO/Virgo (interferómetros láser), no con ALMA.'},
+    e4:{B:'Correcto. El vapor de agua absorbe IR y ondas milimétricas (crítico para ALMA), además de generar nubes.',A:'Incorrecto. Solo las nubes son un problema, pero la humedad también absorbe tipos específicos de radiación.',C:'Incorrecto. Los espejos están protegidos; la corrosión no es la razón principal.',D:'Incorrecto. La humedad no cambia la frecuencia de la luz observada.'},
+    e5:{B:'Correcto. Mayor diámetro → mayor área → más fotones → objetos más débiles y distantes detectables + mayor resolución angular.',A:'Incorrecto. La velocidad de captura depende más del campo visual y del sensor, no del diámetro primario.',C:'Incorrecto. El cielo oscuro sigue siendo fundamental incluso con espejos grandes.',D:'Incorrecto. El rango espectral depende del tipo de detector y filtros, no del tamaño del espejo.'},
+    e6:{B:'Correcto. Desde el sur: centro galáctico, Nubes de Magallanes (galaxias satélites invisibles desde el norte), nebulosas del hemisferio sur.',A:'Incorrecto. El hemisferio sur tiene muchas estrellas; el centro galáctico tiene mayor densidad estelar.',C:'Incorrecto. La velocidad de rotación es la misma en ambos hemisferios.',D:'Incorrecto. La contaminación lumínica global afecta ambos hemisferios; el norte tiene más por mayor densidad urbana, pero no es la razón astronómica principal.'},
+    e7:{B:'Correcto. El modelo de concesión: Chile cede el uso del suelo y las condiciones naturales; los consorcios internacionales construyen y Chile recibe ~10% del tiempo.',A:'Incorrecto. Chile no financia los grandes telescopios.',C:'Incorrecto. Los científicos y tecnólogos son mayormente de los países que construyen, aunque Chile tiene astrónomos que usan el tiempo asignado.',D:'Incorrecto. Los materiales de construcción se importan; no es el aporte principal de Chile.'},
+    e8:{B:'Correcto. A 5 000 m, la columna de vapor de agua (precipitable water vapor, PWV) es < 1 mm → mínima absorción de ondas milimétricas.',A:'Incorrecto. Mayor altitud → menor temperatura. Los detectores suelen funcionar mejor fríos, pero ese no es el motivo principal.',C:'Incorrecto. La velocidad de rotación es la misma a cualquier altitud.',D:'Incorrecto. El campo magnético terrestre es prácticamente igual a esas altitudes y no afecta las antenas radio.'},
+    e9:{B:'Correcto. La legislación chilena (Decreto 43 y normas posteriores) regula la iluminación en el norte: apuntada hacia abajo, temperatura de color baja, baja potencia.',A:'Incorrecto. Reflectividad del telescopio no ayuda; la contaminación es del cielo exterior.',C:'Incorrecto. Los observatorios ya están en alta montaña; trasladarlos no elimina la contaminación de ciudades cercanas.',D:'Incorrecto. Los domes tienen aberturas necesarias para observar; no pueden aislar de la contaminación ambiental.'},
+    e10:{A:'Correcto. Survey continuo → ideal para transitorios: NEOs (asteroides cercanos), supernovas, estrellas en erupción, GRBs. Cubre el cielo sur completo cada 3 días.',B:'Incorrecto. Vera Rubin complementa; cada telescopio tiene una especialidad distinta.',C:'Incorrecto. Monitorear contaminación no es el objetivo del LSST.',D:'Incorrecto. Vera Rubin es un survey amplio (campo grande); el ELT tiene menor campo pero mayor resolución para exoplanetas.'},
+    p1:{B:'Correcto. Las condiciones naturales son los factores determinantes: cielo, humedad, altitud, oscuridad. Ningún otro país tiene esta combinación.',A:'Incorrecto. La estabilidad política es una condición necesaria para contratos a largo plazo, pero no la razón astronómica principal.',C:'Incorrecto. La mano de obra local es relevante pero no es el factor diferenciador frente a otros países.',D:'Incorrecto. Chile está entre 23° y 30° latitud sur, lejos del Ecuador. No es la cercanía ecuatorial lo que importa, sino la ubicación en el hemisferio sur con esas condiciones.'},
+    p2:{B:'Correcto. El vapor de agua absorbe fuertemente en mm y submm. A nivel del mar hay ~20 mm de agua precipitable; en Chajnantor < 1 mm.',A:'Incorrecto. El ruido del mar no interfiere con señales de radio astronómicas a esas frecuencias.',C:'Incorrecto. Las antenas no transmiten; reciben. La altitud ayuda por la baja humedad, no por la potencia.',D:'Incorrecto. La diferencia de gravedad entre el nivel del mar y 5 000 m no deforma las antenas modernamente diseñadas.'},
+    p3:{C:'Correcto. Las Nubes de Magallanes (Grande y Pequeña) solo son visibles desde el hemisferio sur. Son galaxias satélites de la Vía Láctea.',A:'Incorrecto. La Luna se ve desde ambos hemisferios.',B:'Incorrecto. Marte se ve desde ambos hemisferios.',D:'Incorrecto. Orión es visible desde ambos hemisferios en distintas épocas del año.'},
+    p4:{B:'Correcto. La luz artificial se dispersa en la atmósfera (Rayleigh + aerosoles) → el fondo del cielo se ilumina → menor contraste para detectar objetos tenues.',A:'Incorrecto. El calor de la luz artificial es mínimo comparado con el calentamiento diurno.',C:'Incorrecto. Los sensores CCD pueden saturarse, pero la contaminación lumínica no los "daña" permanentemente.',D:'Incorrecto. La radiación UV de la luz artificial no interfiere con señales de radio.'},
+    p5:{B:'Correcto. Interferometría: línea de base larga = resolución angular equivalente a un telescopio gigante. VLTI puede tener líneas de base de hasta 200 m.',A:'Incorrecto. El interferómetro óptico no aumenta la sensibilidad en radio.',C:'Incorrecto. Combinar 4 señales puede aumentar el área efectiva, pero el principal beneficio es la resolución.',D:'Incorrecto. Cada telescopio apunta en la misma dirección al mismo tiempo, no en 4 cuadrantes.'},
+    p6:{B:'Correcto. Perlmutter, Schmidt y Riess midieron supernovas Tipo Ia desde La Silla y CTIO → universo se expande aceleradamente → Premio Nobel 2011.',A:'Incorrecto. El primer exoplaneta confirmado desde Chile fue posterior y con VLT.',C:'Incorrecto. Primera imagen de M87*: Event Horizon Telescope (2019), incluyendo ALMA pero no solo en Chile.',D:'Incorrecto. Las ondas gravitacionales: LIGO/Virgo (EE.UU./Italia), Premio Nobel 2017.'},
+    p7:{B:'Correcto. El seeing mide la borrosidad mínima causada por la turbulencia atmosférica. Un seeing de 0,65" indica aire muy estable. Menor valor = mejor imagen.',A:'Incorrecto. El seeing no mide porcentaje del cielo observable.',C:'Incorrecto. El seeing no está relacionado con el tiempo de operación.',D:'Incorrecto. Los segundos de arco son unidades angulares, no de distancia lineal.'},
+    p8:{B:'Correcto. Los Andes bloquean el flujo de humedad del océano Atlántico y de la cuenca amazónica → Atacama es el desierto más árido del mundo.',A:'Incorrecto. Las corrientes de montaña pueden perturbar el seeing; no lo mejoran en general.',C:'Incorrecto. La contaminación lumínica de Argentina no es el problema principal; las ciudades argentinas no están cerca.',D:'Incorrecto. El viento del Pacífico (Corriente de Humboldt) es frío y seco; los Andes no lo canalizan hacia los observatorios.'},
+    p9:{B:'Correcto. Velocidad de la luz finita: c = 3×10⁸ m/s. La luz de una galaxia a 13 000 millones de a.l. tardó 13 000 millones de años en llegar → vemos el pasado.',A:'Incorrecto. Los telescopios sí transmiten datos digitalmente, pero eso no es el punto.',C:'Incorrecto. Los telescopios espaciales tampoco ven en "tiempo real" objetos lejanos.',D:'Incorrecto. Las exposiciones pueden durar horas, pero incluso con exposición instantánea seguiríamos viendo el pasado.'},
+    p10:{C:'Correcto (la afirmación es INCORRECTA). Los grandes telescopios son financiados por ESO (Europa), NRAO (EE.UU.), NAOJ (Japón), etc. Chile no los financia. A, B y D son correctas.',A:'Incorrecto: sí es correcta (Chile tendrá 60–70% al 2030 con ELT, GMT, LSST operativos).',B:'Incorrecto: sí es correcta (Atacama: +300 noches despejadas/año).',D:'Incorrecto: sí es correcta (Chile recibe ~10% de tiempo de observación en cada telescopio instalado).'}
+  };
+
+  let score = parseInt(localStorage.getItem(GUIDE_ID+'_score')||'0');
+  let answered = JSON.parse(localStorage.getItem(GUIDE_ID+'_ans')||'{}');
+
+  function save(){
+    localStorage.setItem(GUIDE_ID+'_score', score);
+    localStorage.setItem(GUIDE_ID+'_ans', JSON.stringify(answered));
+  }
+  function updateBar(){
+    document.getElementById('sbpts').textContent = score+' / '+TOTAL;
+  }
+  function pick(q, opt){
+    if(answered[q]) return;
+    answered[q] = opt;
+    const correct = ANSWERS[q];
+    const isOk = opt === correct;
+    if(isOk) score++;
+    save(); updateBar();
+    ['A','B','C','D'].forEach(l=>{
+      const el = document.getElementById(q+l);
+      if(!el) return;
+      el.classList.remove('opt-selected-ok','opt-selected-err','opt-correct-reveal');
+      if(l===opt) el.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+      if(!isOk && l===correct) el.classList.add('opt-correct-reveal');
+    });
+    const fb = document.getElementById('fb_'+q);
+    if(fb){
+      const msg = FEEDBACK[q] && FEEDBACK[q][opt] ? FEEDBACK[q][opt] : (isOk?'Correcto.':'Incorrecto.');
+      fb.textContent = msg;
+      fb.className = 'q-feedback '+(isOk?'fb-ok':'fb-err');
+    }
+  }
+  function restore(){
+    Object.keys(answered).forEach(q=>{
+      const opt = answered[q];
+      const correct = ANSWERS[q];
+      const isOk = opt === correct;
+      ['A','B','C','D'].forEach(l=>{
+        const el = document.getElementById(q+l);
+        if(!el) return;
+        if(l===opt) el.classList.add(isOk?'opt-selected-ok':'opt-selected-err');
+        if(!isOk && l===correct) el.classList.add('opt-correct-reveal');
+      });
+      const fb = document.getElementById('fb_'+q);
+      if(fb){
+        const msg = FEEDBACK[q] && FEEDBACK[q][opt] ? FEEDBACK[q][opt] : (isOk?'Correcto.':'Incorrecto.');
+        fb.textContent = msg;
+        fb.className = 'q-feedback '+(isOk?'fb-ok':'fb-err');
+      }
+    });
+    updateBar();
+  }
+  function exportPDF(){
+    document.getElementById('solucionario').style.display='block';
+    window.print();
+  }
+  window.pick = pick;
+  window.exportPDF = exportPDF;
+  restore();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introducción a sistemas — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.15rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .sys-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.93rem;}
+    .sys-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .sys-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .sys-table tr:nth-child(even){background:#f8f4e9;}
+    .sys-table td.center{text-align:center;}
+
+    .sol-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin:.8rem 0;}
+    @media (max-width:760px){.sol-types{grid-template-columns:1fr;}}
+    .sol-card{background:#F8F4E9;border:2px solid #D4AF37;border-radius:10px;padding:.8rem;text-align:center;}
+    .sol-card .sol-title{color:#6A2C91;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;margin-bottom:.3rem;}
+    .sol-card .sol-desc{font-size:.85rem;color:#0B0F3F;margin-top:.4rem;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.55rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .5rem;font-size:.72rem;margin-right:.5rem;font-weight:700;letter-spacing:.5px;}
+
+    canvas.sys-canvas{width:100%;height:340px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — ¿Qué es un sistema?
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Introducción a sistemas y método gráfico</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Sistema 2x2</span>
+    <span class="chip">Método gráfico</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 4</span>
+    <span class="oa-text">Reconocer <strong>sistemas de ecuaciones lineales 2×2</strong>, resolverlos <strong>gráficamente</strong> e identificar los tres tipos de solución posibles: <strong>única, ninguna o infinitas</strong>.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Ecuación lineal con dos variables</div>
+
+      <p>Hasta ahora habías visto ecuaciones con <strong>una</strong> variable, como \(2x + 3 = 11\), cuya solución es un único número (\(x = 4\)). Pero también existen ecuaciones con <strong>dos variables</strong>:</p>
+
+      <div class="math-box">\(2x + y = 10\)</div>
+
+      <p>Esta ecuación tiene <strong>infinitas soluciones</strong>: cualquier pareja \((x, y)\) que cumpla la igualdad. Por ejemplo:</p>
+
+      <table class="sys-table">
+        <thead><tr><th>x</th><th>y</th><th>Verificación</th></tr></thead>
+        <tbody>
+          <tr><td class="center">0</td><td class="center">10</td><td>\(2(0) + 10 = 10\) ✔</td></tr>
+          <tr><td class="center">1</td><td class="center">8</td><td>\(2(1) + 8 = 10\) ✔</td></tr>
+          <tr><td class="center">3</td><td class="center">4</td><td>\(2(3) + 4 = 10\) ✔</td></tr>
+          <tr><td class="center">5</td><td class="center">0</td><td>\(2(5) + 0 = 10\) ✔</td></tr>
+        </tbody>
+      </table>
+
+      <p>Si dibujáramos todas estas soluciones en el plano cartesiano, formarían una <strong>recta</strong>. Por eso se llama "ecuación lineal".</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¿Qué es un sistema de ecuaciones?</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Sistema de ecuaciones 2×2</div>
+        <div class="prop-formula">\(\begin{cases} ax + by = c \\ dx + ey = f \end{cases}\)</div>
+        <div class="prop-words">Dos ecuaciones lineales que se cumplen <strong>al mismo tiempo</strong>. La solución es la pareja \((x, y)\) que satisface ambas.</div>
+      </div>
+
+      <p>"2×2" significa <strong>2 ecuaciones y 2 incógnitas</strong>. La solución del sistema, si existe, es <strong>única</strong> en la mayoría de los casos.</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> \(\begin{cases} x + y = 7 \\ x - y = 1 \end{cases}\)</span>
+        <span class="math-step">La solución es \(x = 4, y = 3\) porque cumple <em>ambas</em>:</span>
+        <span class="math-step">\(4 + 3 = 7\) ✔ y \(4 - 3 = 1\) ✔.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Representación gráfica
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cada ecuación es una recta</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Plano cartesiano</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Forma explícita: \(y = mx + n\)</div>
+
+      <p>Para graficar una ecuación lineal, conviene <strong>despejar \(y\)</strong>, dejándola en forma explícita \(y = mx + n\), donde:</p>
+      <ul>
+        <li>\(m\) es la <strong>pendiente</strong> (cuánto sube por cada unidad que avanza en \(x\)).</li>
+        <li>\(n\) es la <strong>ordenada al origen</strong> (donde la recta cruza el eje Y, \(x=0\)).</li>
+      </ul>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Despeja \(y\) en \(2x + y = 10\).</span>
+        <span class="math-step">\(y = -2x + 10\). Pendiente \(m = -2\), ordenada al origen \(n = 10\).</span>
+        <span class="math-step"><strong>Ej.:</strong> Despeja \(y\) en \(3x - 2y = 6\).</span>
+        <span class="math-step">\(-2y = 6 - 3x\) → \(y = \dfrac{3x - 6}{2}\) → \(y = \dfrac{3}{2}x - 3\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo graficar paso a paso</div>
+
+      <ol class="steps-num">
+        <li><strong>Despeja \(y\)</strong> en cada ecuación si no está despejada.</li>
+        <li>Construye una <strong>tabla con 2 puntos</strong> (mínimo) por ecuación: elige dos valores de \(x\) cualquiera y calcula los \(y\).</li>
+        <li>Marca los puntos en el plano cartesiano y une cada par con una recta.</li>
+        <li>El <strong>punto donde se cruzan</strong> las dos rectas es la solución del sistema.</li>
+      </ol>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.:</strong> Resuelve gráficamente \(\begin{cases} x + y = 7 \\ x - y = 1 \end{cases}\).</span>
+        <span class="math-step">Despejo \(y\): \(y = -x + 7\) y \(y = x - 1\).</span>
+        <span class="math-step">Tabla de la primera: \((0, 7), (7, 0)\).</span>
+        <span class="math-step">Tabla de la segunda: \((0, -1), (4, 3)\).</span>
+        <span class="math-step">Al dibujar, las dos rectas se cruzan en \((4, 3)\).</span>
+        <span class="math-step"><span class="math-result">Solución: \((x, y) = (4, 3)\)</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Tres tipos de solución
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Los tres tipos de solución</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Compatible · incompatible</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Cuántas soluciones puede tener un sistema?</div>
+
+      <p>Cuando dibujas dos rectas en un mismo plano, hay exactamente <strong>tres posibilidades</strong>:</p>
+
+      <div class="sol-types">
+        <div class="sol-card">
+          <div class="sol-title">1) Una solución</div>
+          <div style="color:#0B0F3F;font-weight:700;">Rectas que se cortan</div>
+          <div class="sol-desc">Sistema <strong>compatible determinado</strong>. Las pendientes son distintas.</div>
+        </div>
+        <div class="sol-card">
+          <div class="sol-title">2) Ninguna solución</div>
+          <div style="color:#0B0F3F;font-weight:700;">Rectas paralelas</div>
+          <div class="sol-desc">Sistema <strong>incompatible</strong>. Misma pendiente, distinta ordenada al origen.</div>
+        </div>
+        <div class="sol-card">
+          <div class="sol-title">3) Infinitas soluciones</div>
+          <div style="color:#0B0F3F;font-weight:700;">Rectas coincidentes</div>
+          <div class="sol-desc">Sistema <strong>compatible indeterminado</strong>. Son la misma recta.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo identificar cada caso</div>
+
+      <p>Llevemos cada ecuación a la forma \(y = mx + n\) y comparemos:</p>
+
+      <table class="sys-table">
+        <thead><tr><th>Caso</th><th>Pendientes \(m\)</th><th>Ord. al origen \(n\)</th><th>Tipo</th></tr></thead>
+        <tbody>
+          <tr><td class="center"><strong>1</strong></td><td>\(m_1 \neq m_2\)</td><td>Cualquier valor</td><td><strong>Única solución</strong></td></tr>
+          <tr><td class="center"><strong>2</strong></td><td>\(m_1 = m_2\)</td><td>\(n_1 \neq n_2\)</td><td><strong>Sin solución</strong> (paralelas)</td></tr>
+          <tr><td class="center"><strong>3</strong></td><td>\(m_1 = m_2\)</td><td>\(n_1 = n_2\)</td><td><strong>Infinitas</strong> (coincidentes)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1 (única):</strong> \(\begin{cases} y = 2x + 1 \\ y = -x + 4 \end{cases}\). Pendientes \(2 \neq -1\). Tiene <strong>una</strong> solución.</span>
+        <span class="math-step"><strong>Ej. 2 (sin solución):</strong> \(\begin{cases} y = 3x + 1 \\ y = 3x - 5 \end{cases}\). Misma pendiente, distinta ordenada. <strong>Paralelas</strong>.</span>
+        <span class="math-step"><strong>Ej. 3 (infinitas):</strong> \(\begin{cases} y = 2x - 1 \\ 2y = 4x - 2 \end{cases}\). Despejando la 2ª: \(y = 2x - 1\). ¡Es la misma!</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">En el método gráfico</span>
+        Si las rectas se ven paralelas → no hay solución. Si se ven encima → infinitas. Si se cruzan en un único punto → esa intersección es la solución.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Graficador
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Graficador de sistemas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Resuelve visualmente</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Graficador 2×2</div>
+
+      <p>Ingresa los coeficientes de un sistema \(\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}\). La herramienta dibuja las dos rectas, identifica el tipo de solución y, si es única, muestra el punto de intersección.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Para el sistema \(\begin{cases} x + y = 7 \\ x - y = 1 \end{cases}\), pon \(a_1=1, b_1=1, c_1=7\) y \(a_2=1, b_2=-1, c_2=1\).</li>
+          <li>Los presets violetas tienen ejemplos de los tres tipos de solución.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Ecuación 1: \(a_1 x + b_1 y = c_1\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₁</label><input type="number" id="a1" value="1" /></div>
+              <div><label style="font-size:.78rem;">b₁</label><input type="number" id="b1" value="1" /></div>
+              <div><label style="font-size:.78rem;">c₁</label><input type="number" id="c1" value="7" /></div>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Ecuación 2: \(a_2 x + b_2 y = c_2\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₂</label><input type="number" id="a2" value="1" /></div>
+              <div><label style="font-size:.78rem;">b₂</label><input type="number" id="b2" value="-1" /></div>
+              <div><label style="font-size:.78rem;">c₂</label><input type="number" id="c2" value="1" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadSys(1,1,7,1,-1,1)">x+y=7; x−y=1</button>
+            <button onclick="loadSys(2,1,8,1,-1,1)">2x+y=8; x−y=1</button>
+            <button onclick="loadSys(3,1,9,3,1,3)">Paralelas (sin sol.)</button>
+            <button onclick="loadSys(1,1,5,2,2,10)">Coincidentes (∞)</button>
+            <button onclick="loadSys(2,-3,6,1,1,2)">2x−3y=6; x+y=2</button>
+          </div>
+          <button class="calc-button" onclick="graphSystem()">Graficar →</button>
+        </div>
+
+        <div class="tool-display" id="sysDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los coeficientes y presiona <strong>Graficar</strong>.</p>
+        </div>
+      </div>
+
+      <canvas id="sysCanvas" class="sys-canvas" width="900" height="340" style="margin-top:1rem;"></canvas>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Cómo armar un sistema
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cómo armar un sistema desde un problema</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Aplicación</span>
+    <span class="chip">Traducción al álgebra</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Estrategia general</div>
+
+      <ol class="steps-num">
+        <li><strong>Define las variables</strong>: dale una letra (\(x\), \(y\)) a cada cantidad desconocida.</li>
+        <li><strong>Traduce</strong> cada condición del problema en una ecuación.</li>
+        <li>Tendrás <strong>dos ecuaciones</strong> con \(x\) y \(y\) → es tu sistema 2×2.</li>
+        <li>Resuelve gráficamente (o por los métodos algebraicos que verás en las próximas guías).</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Ejemplo: edades</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        La edad de Pablo más la edad de Ana suman 30 años. Pablo es 4 años mayor que Ana. ¿Cuántos años tiene cada uno?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1.</strong> Variables: \(x\) = edad de Pablo, \(y\) = edad de Ana.</span>
+        <span class="math-step"><strong>Paso 2.</strong> Primera condición: "suman 30" → \(x + y = 30\).</span>
+        <span class="math-step">Segunda condición: "Pablo 4 más que Ana" → \(x = y + 4\), o bien \(x - y = 4\).</span>
+        <span class="math-step"><strong>Sistema:</strong> \(\begin{cases} x + y = 30 \\ x - y = 4 \end{cases}\)</span>
+        <span class="math-step">Despejando y graficando, ambas rectas se cruzan en \((17, 13)\).</span>
+        <span class="math-step"><span class="math-result">Pablo tiene 17 años y Ana 13. ✔ \(17+13=30\), \(17-13=4\).</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo: dinero</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        En una feria, 3 manzanas y 2 plátanos cuestan \$1.200. 1 manzana y 4 plátanos cuestan \$1.000. ¿Cuánto cuesta cada fruta?
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Variables:</strong> \(x\) = precio manzana, \(y\) = precio plátano.</span>
+        <span class="math-step"><strong>Sistema:</strong> \(\begin{cases} 3x + 2y = 1.200 \\ x + 4y = 1.000 \end{cases}\)</span>
+        <span class="math-step">Resolviendo (gráfica o algebraicamente): \(x = 280, y = 180\).</span>
+        <span class="math-step"><span class="math-result">Manzana: \$280; plátano: \$180.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Verificación</span>
+        \(3(280) + 2(180) = 840 + 360 = 1.200\) ✔ y \(280 + 4(180) = 280 + 720 = 1.000\) ✔.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Clasificador
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Clasificador de soluciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">¿Cuántas soluciones?</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Clasificador antes de resolver</div>
+
+      <p>Antes de gastar tiempo resolviendo un sistema, conviene saber <strong>cuántas soluciones</strong> tiene. Esta herramienta calcula las pendientes y ordenadas al origen de las dos rectas y te dice de inmediato el tipo de solución.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Ingresa los coeficientes \(a, b, c\) de cada ecuación \(ax + by = c\).</li>
+          <li>La herramienta calcula \(m\) (pendiente) y \(n\) (ordenada) en cada caso.</li>
+          <li>Compara y te dice: <em>única solución</em>, <em>sin solución</em> o <em>infinitas</em>.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Ecuación 1: \(a_1 x + b_1 y = c_1\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₁</label><input type="number" id="ca1" value="2" /></div>
+              <div><label style="font-size:.78rem;">b₁</label><input type="number" id="cb1" value="3" /></div>
+              <div><label style="font-size:.78rem;">c₁</label><input type="number" id="cc1" value="6" /></div>
+            </div>
+          </div>
+          <div class="input-control">
+            <label>Ecuación 2: \(a_2 x + b_2 y = c_2\)</label>
+            <div class="input-row-3">
+              <div><label style="font-size:.78rem;">a₂</label><input type="number" id="ca2" value="4" /></div>
+              <div><label style="font-size:.78rem;">b₂</label><input type="number" id="cb2" value="6" /></div>
+              <div><label style="font-size:.78rem;">c₂</label><input type="number" id="cc2" value="12" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadClf(1,1,5,1,-1,3)">Única solución</button>
+            <button onclick="loadClf(2,3,6,4,6,12)">Coincidentes</button>
+            <button onclick="loadClf(2,3,6,4,6,7)">Paralelas</button>
+            <button onclick="loadClf(1,-2,4,3,1,5)">Otra única</button>
+            <button onclick="loadClf(2,4,8,1,2,4)">Otra coincidentes</button>
+          </div>
+          <button class="calc-button" onclick="classifySys()">Clasificar →</button>
+        </div>
+
+        <div class="tool-display" id="clfDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los coeficientes y presiona <strong>Clasificar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Intro sistemas — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál pareja \((x, y)\) es solución de \(x + y = 10\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((5, 6)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(5 + 6 = 11\), no 10.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((3, 7)\)<div class="opt-feedback"><strong>Correcto.</strong> \(3 + 7 = 10\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((10, 10)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(10 + 10 = 20\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((4, 5)\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(4 + 5 = 9\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Qué solución tiene gráficamente un sistema cuyas rectas son paralelas?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Una sola.<div class="opt-feedback"><strong>Incorrecto.</strong> Rectas paralelas no se cortan.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Ninguna.<div class="opt-feedback"><strong>Correcto.</strong> El sistema es incompatible.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Infinitas.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es si son coincidentes.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Dos.<div class="opt-feedback"><strong>Incorrecto.</strong> Un sistema 2×2 no tiene exactamente 2 soluciones.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Despeja \(y\) en \(2x + y = 8\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(y = 2x + 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta cambiar signo al pasar el \(2x\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(y = -2x + 8\)<div class="opt-feedback"><strong>Correcto.</strong> Restas \(2x\) a ambos lados.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(y = 8 - 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste la \(x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(y = 2x - 8\)<div class="opt-feedback"><strong>Incorrecto.</strong> Doble error de signo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Verifica si \((2, 5)\) es solución de \(\begin{cases} 3x + y = 11 \\ x + 2y = 12 \end{cases}\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Solo cumple la primera.<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica de nuevo la segunda.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Sí, cumple ambas.<div class="opt-feedback"><strong>Correcto.</strong> \(3(2)+5=11\) ✔ y \(2 + 2(5) = 12\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo cumple la segunda.<div class="opt-feedback"><strong>Incorrecto.</strong> Cumple las dos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No cumple ninguna.<div class="opt-feedback"><strong>Incorrecto.</strong> Cumple las dos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El sistema \(\begin{cases} y = 2x + 1 \\ y = 2x - 4 \end{cases}\) tiene:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Una sola solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Misma pendiente, distinta ordenada → paralelas.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Ninguna solución.<div class="opt-feedback"><strong>Correcto.</strong> Pendientes iguales (\(m=2\)) pero \(n_1 = 1 \neq -4 = n_2\) → rectas paralelas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Infinitas soluciones.<div class="opt-feedback"><strong>Incorrecto.</strong> Las ordenadas son distintas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Una solución en \((1, -3)\).<div class="opt-feedback"><strong>Incorrecto.</strong> No hay intersección.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">El sistema \(\begin{cases} y = 3x - 1 \\ 2y = 6x - 2 \end{cases}\) tiene:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Una sola solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Las dos ecuaciones son equivalentes.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Ninguna solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Las rectas son la misma.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Infinitas soluciones.<div class="opt-feedback"><strong>Correcto.</strong> La segunda dividida por 2 da \(y = 3x - 1\): es la misma recta.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Exactamente dos.<div class="opt-feedback"><strong>Incorrecto.</strong> Un sistema lineal no tiene 2 soluciones.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">En un sistema, las pendientes son distintas. El sistema es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Compatible determinado (una única solución).<div class="opt-feedback"><strong>Correcto.</strong> Pendientes distintas → rectas se cortan en un punto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Incompatible (sin solución).<div class="opt-feedback"><strong>Incorrecto.</strong> Esto requiere pendientes iguales con ordenadas distintas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Compatible indeterminado (infinitas).<div class="opt-feedback"><strong>Incorrecto.</strong> Esto requiere que las ecuaciones sean equivalentes.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Depende de las ordenadas.<div class="opt-feedback"><strong>Incorrecto.</strong> Con pendientes distintas, las ordenadas no afectan el tipo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">La suma de dos números es 20 y su diferencia es 4. ¿Cuáles son?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 10 y 10<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia daría 0.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 12 y 8<div class="opt-feedback"><strong>Correcto.</strong> Suma: 20, diferencia: 4 ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 14 y 6<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia daría 8.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 16 y 4<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia daría 12.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">El sistema \(\begin{cases} x + y = 5 \\ 2x + 2y = 10 \end{cases}\) tiene:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Una solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Las ecuaciones son proporcionales.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Ninguna solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Son la misma recta.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Infinitas soluciones.<div class="opt-feedback"><strong>Correcto.</strong> La segunda es exactamente el doble de la primera.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Exactamente dos.<div class="opt-feedback"><strong>Incorrecto.</strong> Las soluciones son infinitas, no dos.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En un kiosko, 2 jugos y 3 galletas cuestan \$2.700; 1 jugo y 1 galleta cuestan \$1.100. ¿Qué sistema modela el problema, siendo \(x\) = precio del jugo, \(y\) = precio de la galleta?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\begin{cases} 2x + 3y = 1.100 \\ x + y = 2.700 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambiaste los totales.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\begin{cases} 2x + 3y = 2.700 \\ x + y = 1.100 \end{cases}\)<div class="opt-feedback"><strong>Correcto.</strong> 2 jugos + 3 galletas son \$2.700; 1 jugo + 1 galleta son \$1.100.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\begin{cases} 3x + 2y = 2.700 \\ x + y = 1.100 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste cantidades.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\begin{cases} 2x + 3y = 2.700 \\ x - y = 1.100 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> La segunda es suma, no diferencia.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Intro sistemas — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Sistemas lineales y gráficos</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuántas soluciones tiene una ecuación lineal con dos variables, como \(x + y = 5\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Una<div class="opt-feedback"><strong>Incorrecto.</strong> Una sola ecuación con 2 incógnitas tiene infinitas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Ninguna<div class="opt-feedback"><strong>Incorrecto.</strong> Hay muchas parejas que cumplen.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Infinitas<div class="opt-feedback"><strong>Correcto.</strong> Todos los puntos de la recta \(y = 5 - x\) son solución.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Cinco<div class="opt-feedback"><strong>Incorrecto.</strong> El número 5 es el resultado, no la cantidad de soluciones.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">¿Cuál pareja resuelve el sistema \(\begin{cases} x + y = 6 \\ x - y = 2 \end{cases}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((3, 3)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia daría 0.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((4, 2)\)<div class="opt-feedback"><strong>Correcto.</strong> \(4+2=6\) ✔ y \(4-2=2\) ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((5, 1)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia daría 4.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((6, 0)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Diferencia daría 6.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Si dos rectas tienen la misma pendiente y la misma ordenada al origen, el sistema:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Tiene una sola solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es si las pendientes son distintas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> No tiene solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso requiere ordenadas distintas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Tiene infinitas soluciones.<div class="opt-feedback"><strong>Correcto.</strong> Las dos ecuaciones representan la misma recta.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Es imposible.<div class="opt-feedback"><strong>Incorrecto.</strong> Sí existe ese caso.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuál sistema NO tiene solución?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\begin{cases} y = x + 1 \\ y = -x + 3 \end{cases}\)<div class="opt-feedback"><strong>Tiene una solución.</strong> Pendientes distintas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\begin{cases} y = 2x + 1 \\ y = 2x + 5 \end{cases}\)<div class="opt-feedback"><strong>Correcto.</strong> Misma pendiente, ordenadas distintas → paralelas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\begin{cases} y = 2x \\ y = 3x \end{cases}\)<div class="opt-feedback"><strong>Tiene una solución.</strong> Pendientes distintas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\begin{cases} y = x \\ y = x \end{cases}\)<div class="opt-feedback"><strong>Tiene infinitas.</strong> Son la misma recta.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">La forma despejada de \(3x + 2y = 12\) en \(y\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(y = 3x + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(y = -\dfrac{3}{2}x + 6\)<div class="opt-feedback"><strong>Correcto.</strong> Resto \(3x\): \(2y = 12 - 3x\). Divido por 2: \(y = -\dfrac{3}{2}x + 6\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(y = -3x + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste dividir por 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(y = \dfrac{3}{2}x - 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signos.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">El sistema \(\begin{cases} x + y = 10 \\ 2x + 2y = 25 \end{cases}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Compatible determinado.<div class="opt-feedback"><strong>Incorrecto.</strong> Pendientes iguales.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Incompatible (sin solución).<div class="opt-feedback"><strong>Correcto.</strong> La 2ª dividida por 2 sería \(x+y=12{,}5\), distinta de \(x+y=10\). Paralelas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Compatible indeterminado.<div class="opt-feedback"><strong>Incorrecto.</strong> Las ordenadas son distintas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> No se puede clasificar.<div class="opt-feedback"><strong>Incorrecto.</strong> Sí se puede.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">La diferencia entre dos números es 6 y su suma es 22. ¿Qué sistema modela el problema?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\begin{cases} x - y = 22 \\ x + y = 6 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambiaste suma y diferencia.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\begin{cases} x + y = 22 \\ x - y = 6 \end{cases}\)<div class="opt-feedback"><strong>Correcto.</strong> Suma 22, diferencia 6.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\begin{cases} x + y = 6 \\ x - y = 22 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambiados.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\begin{cases} xy = 22 \\ x/y = 6 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> No es producto ni cociente.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si gráficamente las dos rectas se cortan en \((3, -1)\), la solución del sistema es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x = 3, y = -1\)<div class="opt-feedback"><strong>Correcto.</strong> El punto de intersección es la solución.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x = -1, y = 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste las coordenadas.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> No tiene solución.<div class="opt-feedback"><strong>Incorrecto.</strong> Hay intersección.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x = 3, y = 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el signo negativo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">En un taller, 2 mesas y 3 sillas cuestan \$95.000; 1 mesa y 1 silla cuestan \$40.000. ¿Cuál es el sistema?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\begin{cases} 2x + 3y = 95.000 \\ x + y = 40.000 \end{cases}\)<div class="opt-feedback"><strong>Correcto.</strong> \(x\)=mesa, \(y\)=silla.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\begin{cases} 3x + 2y = 95.000 \\ x + y = 40.000 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambiaste cantidades.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\begin{cases} 2x + 3y = 40.000 \\ x + y = 95.000 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Intercambiaste los totales.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\begin{cases} 2x + 3y = 95.000 \\ x - y = 40.000 \end{cases}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Debe ser suma, no diferencia.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Un sistema 2×2 con rectas <strong>coincidentes</strong> es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Compatible determinado.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es para una única solución.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Incompatible.<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es para paralelas (sin solución).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Compatible indeterminado.<div class="opt-feedback"><strong>Correcto.</strong> Infinitas soluciones porque son la misma recta.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Sin clasificación.<div class="opt-feedback"><strong>Incorrecto.</strong> Sí tiene clasificación.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya entiendes qué es un sistema de ecuaciones, cómo resolverlo gráficamente y los tres tipos de solución (única, ninguna, infinitas). También sabes traducir un problema verbal a un sistema.</p>
+    <p>El método gráfico es <strong>intuitivo</strong> pero no siempre exacto. En las próximas guías verás métodos <strong>algebraicos</strong> que te dan la solución exacta sin necesidad de dibujar.</p>
+    <span class="next-pill">Próximo: Método de sustitución</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Intro sistemas · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Graficador de sistemas ---------- */
+function loadSys(a1,b1,c1,a2,b2,c2){
+  document.getElementById('a1').value=a1;document.getElementById('b1').value=b1;document.getElementById('c1').value=c1;
+  document.getElementById('a2').value=a2;document.getElementById('b2').value=b2;document.getElementById('c2').value=c2;
+  graphSystem();
+}
+
+function getLineInfo(a,b,c){
+  // ax + by = c → y = -a/b x + c/b (si b!=0)
+  if(b === 0){
+    if(a === 0) return {vertical:false, horizontal:false, none:true};
+    return {vertical:true, x: c/a};
+  }
+  return {vertical:false, m: -a/b, n: c/b};
+}
+
+function graphSystem(){
+  const a1=parseFloat(document.getElementById('a1').value);
+  const b1=parseFloat(document.getElementById('b1').value);
+  const c1=parseFloat(document.getElementById('c1').value);
+  const a2=parseFloat(document.getElementById('a2').value);
+  const b2=parseFloat(document.getElementById('b2').value);
+  const c2=parseFloat(document.getElementById('c2').value);
+  const out=document.getElementById('sysDisplay');
+  const cv=document.getElementById('sysCanvas');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  if([a1,b1,c1,a2,b2,c2].some(isNaN)){
+    out.innerHTML='<p style="color:#a44;">⚠ Ingresa los seis coeficientes.</p>';
+    return;
+  }
+
+  // Determinar tipo
+  // Determinante: a1*b2 - a2*b1
+  const det = a1*b2 - a2*b1;
+  let tipo='', sol=null, html='';
+  if(Math.abs(det) > 1e-9){
+    // Solución única
+    const x = (c1*b2 - c2*b1) / det;
+    const y = (a1*c2 - a2*c1) / det;
+    sol = {x,y};
+    tipo = 'Una única solución';
+    html = `
+      <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.5rem;border-radius:8px;margin-bottom:.4rem;color:#0B0F3F;text-align:center;">
+        <b style="color:#6A2C91;">${tipo}</b>
+      </div>
+      <div class="resolver-step"><span class="step-label">Sistema</span>\\(\\begin{cases} ${a1}x ${b1>=0?'+':'-'} ${Math.abs(b1)}y = ${c1} \\\\ ${a2}x ${b2>=0?'+':'-'} ${Math.abs(b2)}y = ${c2} \\end{cases}\\)</div>
+      <div class="resolver-step"><span class="step-label">Análisis</span>Las pendientes son distintas, las rectas se cortan.</div>
+      <div style="margin-top:.5rem;text-align:center;"><span class="math-result" style="font-size:1.15rem;">x = ${x.toFixed(3)}, y = ${y.toFixed(3)}</span></div>
+    `;
+  } else {
+    // Sistema sin solución o infinitas
+    // Comparar si son proporcionales: a1/a2 = b1/b2 = c1/c2
+    const proporcionalC = (a1*c2 - a2*c1 === 0) && (b1*c2 - b2*c1 === 0);
+    if(proporcionalC){
+      tipo = 'Infinitas soluciones (coincidentes)';
+      html = `
+        <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.5rem;border-radius:8px;margin-bottom:.4rem;color:#0B0F3F;text-align:center;">
+          <b style="color:#6A2C91;">${tipo}</b>
+        </div>
+        <div class="resolver-step"><span class="step-label">Sistema</span>Las dos ecuaciones representan la misma recta.</div>
+      `;
+    } else {
+      tipo = 'Sin solución (rectas paralelas)';
+      html = `
+        <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.5rem;border-radius:8px;margin-bottom:.4rem;color:#0B0F3F;text-align:center;">
+          <b style="color:#6A2C91;">${tipo}</b>
+        </div>
+        <div class="resolver-step"><span class="step-label">Sistema</span>Misma pendiente, distinta ordenada al origen.</div>
+      `;
+    }
+  }
+  out.innerHTML = html;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+
+  // Dibujar canvas
+  // Rango: que incluya la solución si existe, sino fijo
+  let xMin=-10,xMax=10,yMin=-10,yMax=10;
+  if(sol){
+    const pad = 5;
+    xMin = Math.min(-pad, sol.x - pad);
+    xMax = Math.max(pad, sol.x + pad);
+    yMin = Math.min(-pad, sol.y - pad);
+    yMax = Math.max(pad, sol.y + pad);
+  }
+  const padL=40,padR=20,padT=20,padB=30;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const xToPx = x => padL + (x - xMin)/(xMax-xMin) * plotW;
+  const yToPx = y => padT + (yMax - y)/(yMax-yMin) * plotH;
+
+  // Cuadrícula
+  ctx.strokeStyle='#eee'; ctx.lineWidth=1;
+  for(let x=Math.ceil(xMin);x<=Math.floor(xMax);x++){
+    const px=xToPx(x);
+    ctx.beginPath(); ctx.moveTo(px,padT); ctx.lineTo(px,padT+plotH); ctx.stroke();
+  }
+  for(let y=Math.ceil(yMin);y<=Math.floor(yMax);y++){
+    const py=yToPx(y);
+    ctx.beginPath(); ctx.moveTo(padL,py); ctx.lineTo(padL+plotW,py); ctx.stroke();
+  }
+  // Ejes
+  ctx.strokeStyle='#0B0F3F'; ctx.lineWidth=1.5;
+  if(0>=xMin && 0<=xMax){
+    const px=xToPx(0);
+    ctx.beginPath(); ctx.moveTo(px,padT); ctx.lineTo(px,padT+plotH); ctx.stroke();
+  }
+  if(0>=yMin && 0<=yMax){
+    const py=yToPx(0);
+    ctx.beginPath(); ctx.moveTo(padL,py); ctx.lineTo(padL+plotW,py); ctx.stroke();
+  }
+  // Marcas
+  ctx.fillStyle='#444'; ctx.font='10px Inter, sans-serif'; ctx.textAlign='center';
+  for(let x=Math.ceil(xMin);x<=Math.floor(xMax);x++){
+    if(x===0) continue;
+    ctx.fillText(x, xToPx(x), yToPx(0)+12);
+  }
+  ctx.textAlign='right';
+  for(let y=Math.ceil(yMin);y<=Math.floor(yMax);y++){
+    if(y===0) continue;
+    ctx.fillText(y, xToPx(0)-4, yToPx(y)+3);
+  }
+
+  // Función para dibujar recta ax+by=c
+  function drawLine(a,b,c,color){
+    ctx.strokeStyle=color; ctx.lineWidth=2.5;
+    ctx.beginPath();
+    if(b !== 0){
+      const y1 = (c - a*xMin)/b;
+      const y2 = (c - a*xMax)/b;
+      ctx.moveTo(xToPx(xMin), yToPx(y1));
+      ctx.lineTo(xToPx(xMax), yToPx(y2));
+    } else if(a !== 0){
+      const x = c/a;
+      ctx.moveTo(xToPx(x), yToPx(yMin));
+      ctx.lineTo(xToPx(x), yToPx(yMax));
+    }
+    ctx.stroke();
+  }
+
+  drawLine(a1,b1,c1,'#6A2C91');
+  drawLine(a2,b2,c2,'#D4AF37');
+
+  // Punto solución
+  if(sol){
+    const px = xToPx(sol.x), py = yToPx(sol.y);
+    ctx.fillStyle='#0B0F3F';
+    ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle='#0B0F3F'; ctx.font='bold 12px Inter, sans-serif'; ctx.textAlign='left';
+    ctx.fillText(`(${sol.x.toFixed(2)}, ${sol.y.toFixed(2)})`, px+10, py-8);
+  }
+
+  // Leyenda
+  ctx.fillStyle='#6A2C91'; ctx.font='bold 12px Inter, sans-serif'; ctx.textAlign='left';
+  ctx.fillText('— Recta 1', padL+5, padT+15);
+  ctx.fillStyle='#D4AF37';
+  ctx.fillText('— Recta 2', padL+5, padT+32);
+}
+
+/* ---------- Clasificador ---------- */
+function loadClf(a1,b1,c1,a2,b2,c2){
+  document.getElementById('ca1').value=a1;document.getElementById('cb1').value=b1;document.getElementById('cc1').value=c1;
+  document.getElementById('ca2').value=a2;document.getElementById('cb2').value=b2;document.getElementById('cc2').value=c2;
+  classifySys();
+}
+function classifySys(){
+  const a1=parseFloat(document.getElementById('ca1').value);
+  const b1=parseFloat(document.getElementById('cb1').value);
+  const c1=parseFloat(document.getElementById('cc1').value);
+  const a2=parseFloat(document.getElementById('ca2').value);
+  const b2=parseFloat(document.getElementById('cb2').value);
+  const c2=parseFloat(document.getElementById('cc2').value);
+  const out=document.getElementById('clfDisplay');
+  if([a1,b1,c1,a2,b2,c2].some(isNaN)){
+    out.innerHTML='<p style="color:#a44;">⚠ Ingresa los seis coeficientes.</p>';
+    return;
+  }
+
+  // Pendientes y ordenadas (cuando b != 0)
+  let m1='∄', n1='∄', m2='∄', n2='∄';
+  if(b1 !== 0){ m1 = -a1/b1; n1 = c1/b1; }
+  if(b2 !== 0){ m2 = -a2/b2; n2 = c2/b2; }
+
+  const det = a1*b2 - a2*b1;
+  let tipo, expl, color;
+  if(Math.abs(det) > 1e-9){
+    tipo='Una única solución'; color='#6A2C91';
+    expl=`Las pendientes son distintas (\\(m_1 \\neq m_2\\)). Las rectas se cortan en un único punto.`;
+  } else {
+    const proporcionalC = (a1*c2 - a2*c1 === 0) && (b1*c2 - b2*c1 === 0);
+    if(proporcionalC){
+      tipo='Infinitas soluciones'; color='#D4AF37';
+      expl='Misma pendiente y misma ordenada al origen: las rectas <strong>coinciden</strong>.';
+    } else {
+      tipo='Sin solución'; color='#9b7c1c';
+      expl='Misma pendiente pero distinta ordenada al origen: rectas <strong>paralelas</strong>.';
+    }
+  }
+
+  out.innerHTML = `
+    <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.5rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;text-align:center;">
+      <b style="color:${color};">${tipo}</b>
+    </div>
+    <div class="resolver-step"><span class="step-label">Sistema</span>\\(\\begin{cases} ${a1}x ${b1>=0?'+':'-'} ${Math.abs(b1)}y = ${c1} \\\\ ${a2}x ${b2>=0?'+':'-'} ${Math.abs(b2)}y = ${c2} \\end{cases}\\)</div>
+    <div class="resolver-step"><span class="step-label">Recta 1</span>Pendiente \\(m_1 = ${typeof m1==='number'?m1.toFixed(3):m1}\\), ordenada al origen \\(n_1 = ${typeof n1==='number'?n1.toFixed(3):n1}\\)</div>
+    <div class="resolver-step"><span class="step-label">Recta 2</span>Pendiente \\(m_2 = ${typeof m2==='number'?m2.toFixed(3):m2}\\), ordenada al origen \\(n_2 = ${typeof n2==='number'?n2.toFixed(3):n2}\\)</div>
+    <div class="resolver-step"><span class="step-label">Análisis</span>${expl}</div>
+  `;
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  graphSystem();
+  classifySys();
+});
+</script>
+
+</body>
+</html>

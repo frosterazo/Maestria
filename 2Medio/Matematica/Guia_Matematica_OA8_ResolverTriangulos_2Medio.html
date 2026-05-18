@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resolver triángulos rectángulos — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* SOH CAH TOA box */
+    .sohcahtoa{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0;}
+    @media (max-width:600px){.sohcahtoa{grid-template-columns:1fr;}}
+    .soh-card{background:linear-gradient(135deg,#F8F4E9,#fff);border:2px solid #D4AF37;border-radius:10px;padding:.9rem;text-align:center;}
+    .soh-card .soh-letters{font-size:1.3rem;font-weight:800;color:#6A2C91;letter-spacing:2px;margin-bottom:.4rem;}
+    .soh-card .soh-formula{font-size:1.05rem;color:#0B0F3F;margin:.3rem 0;}
+    .soh-card .soh-desc{font-size:.78rem;color:#555;font-style:italic;margin-top:.4rem;}
+
+    /* Herramientas */
+    .tool-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    .tool-canvas-wrap canvas{width:100%;height:auto;display:block;}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .slider-control,.input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .slider-control label,.input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .slider-control input[type=range]{width:100%;accent-color:#6A2C91;}
+    .input-control input[type=number]{width:100%;padding:.45rem .55rem;border:1px solid #D9D9D9;border-radius:6px;font-size:1rem;}
+    .slider-control small{display:block;margin-top:.3rem;color:#555;font-size:.72rem;line-height:1.3;}
+    .toggle-group{display:grid;gap:.3rem;margin-top:.3rem;}
+    .toggle-group button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:6px;padding:.45rem;cursor:pointer;font-weight:600;font-size:.82rem;font-family:'Inter',sans-serif;transition:all .2s;text-align:left;}
+    .toggle-group button.active{background:#6A2C91;color:#fff;}
+    .toggle-group button:hover{background:#552072;color:#fff;}
+    .tool-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .tool-info .alert{color:#6A2C91;font-weight:700;}
+    .tool-info .badge{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:.1rem .6rem;border-radius:10px;font-size:.78rem;font-weight:700;margin-left:.3rem;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Introducción a la trigonometría
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Resolver triángulos rectángulos</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Trigonometría</span>
+    <span class="chip">Seno · Coseno · Tangente</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 8</span>
+    <span class="oa-text">Resolver triángulos rectángulos en ejercicios rutinarios, determinando todos sus ángulos y la medida de todos sus lados usando razones trigonométricas.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El triángulo rectángulo y sus partes</div>
+
+      <p>Un <strong>triángulo rectángulo</strong> es un triángulo que tiene un ángulo de 90° (ángulo recto). Tiene tres lados con nombres especiales:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Hipotenusa</span>
+          <span class="prop-eq">El lado más largo. Está siempre <em>opuesto</em> al ángulo recto.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Cateto opuesto</span>
+          <span class="prop-eq">Cateto que está <em>al frente</em> del ángulo agudo que estés considerando.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Cateto adyacente</span>
+          <span class="prop-eq">Cateto que está <em>al lado</em> del ángulo agudo (entre ese ángulo y el ángulo recto).</span>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Importante:</strong> los términos "opuesto" y "adyacente" siempre se refieren a un ángulo agudo específico. Si cambias el ángulo de referencia (de un ángulo agudo al otro), los catetos opuesto y adyacente se intercambian.
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g1a" width="460" height="340"></canvas>
+        <div class="embed-caption">Triángulo rectángulo con ángulo agudo θ = 40°. Identifica hipotenusa, cateto opuesto y cateto adyacente.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¿Qué es una razón trigonométrica?</div>
+
+      <div class="card card-def">
+        <strong>Razón trigonométrica:</strong> es el cociente entre dos lados de un triángulo rectángulo, asociado a uno de sus ángulos agudos. Su valor depende SOLO del ángulo (no del tamaño del triángulo).
+      </div>
+
+      <p>Esta propiedad de "depender solo del ángulo" viene directamente de la <em>semejanza de triángulos</em>: dos triángulos rectángulos con un mismo ángulo agudo son semejantes, y por lo tanto las razones entre sus lados correspondientes son iguales.</p>
+
+      <p>Las tres razones trigonométricas básicas se llaman <strong>seno (sin)</strong>, <strong>coseno (cos)</strong> y <strong>tangente (tan)</strong>.</p>
+
+      <div class="card card-tip">
+        <strong>¿Por qué son tan útiles?</strong> Las razones trigonométricas conectan <em>ángulos</em> con <em>longitudes</em>. Si sabes un ángulo, puedes calcular un lado. Si sabes dos lados, puedes calcular un ángulo. Esto te permite "resolver" un triángulo rectángulo a partir de información parcial.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Antes de la trigonometría, para conocer un ángulo de un triángulo había que dibujarlo y medirlo con transportador. La trigonometría hace innecesario el dibujo: con solo dos números (dos lados, o un lado y un ángulo) puedes calcular todo lo demás. Es el "ADN" del triángulo rectángulo.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Las 3 razones y SOH-CAH-TOA
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Seno, coseno y tangente: SOH-CAH-TOA</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Las 3 razones</span>
+    <span class="chip">Nemotecnia</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Definiciones formales</div>
+
+      <p>Considera un triángulo rectángulo con un ángulo agudo \(\theta\). Las tres razones trigonométricas asociadas a \(\theta\) son:</p>
+
+      <div class="math-box">
+        \(\sin\theta = \dfrac{\text{cateto opuesto}}{\text{hipotenusa}}\) &nbsp; \(\cos\theta = \dfrac{\text{cateto adyacente}}{\text{hipotenusa}}\) &nbsp; \(\tan\theta = \dfrac{\text{cateto opuesto}}{\text{cateto adyacente}}\)
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La nemotecnia SOH-CAH-TOA</div>
+
+      <p>Para recordar estas definiciones, los estudiantes anglosajones usan la siguiente nemotecnia, que también funciona en español:</p>
+
+      <div class="sohcahtoa">
+        <div class="soh-card">
+          <div class="soh-letters">SOH</div>
+          <div class="soh-formula">\(\sin = \dfrac{O}{H}\)</div>
+          <div class="soh-desc">Seno = Opuesto / Hipotenusa</div>
+        </div>
+        <div class="soh-card">
+          <div class="soh-letters">CAH</div>
+          <div class="soh-formula">\(\cos = \dfrac{A}{H}\)</div>
+          <div class="soh-desc">Coseno = Adyacente / Hipotenusa</div>
+        </div>
+        <div class="soh-card">
+          <div class="soh-letters">TOA</div>
+          <div class="soh-formula">\(\tan = \dfrac{O}{A}\)</div>
+          <div class="soh-desc">Tangente = Opuesto / Adyacente</div>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Truco mental:</strong> repite varias veces "SOH-CAH-TOA" hasta que se vuelva automático. Es la herramienta más usada en problemas de trigonometría básica.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplo guiado</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        En un triángulo rectángulo, el ángulo \(\theta\) tiene cateto opuesto = 3 cm y cateto adyacente = 4 cm. Calcular las tres razones trigonométricas.
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1:</strong> calcular la hipotenusa usando Pitágoras.</span>
+        <span class="math-step">\(c = \sqrt{3^{2} + 4^{2}} = \sqrt{9 + 16} = \sqrt{25} = 5\) cm.</span>
+        <span class="math-step"><strong>Paso 2:</strong> aplicar las definiciones.</span>
+        <span class="math-step">\(\sin\theta = \dfrac{3}{5} = 0{,}6\)</span>
+        <span class="math-step">\(\cos\theta = \dfrac{4}{5} = 0{,}8\)</span>
+        <span class="math-step">\(\tan\theta = \dfrac{3}{4} = 0{,}75\)</span>
+        <span class="math-step"><span class="math-result">Las tres razones: \(\sin = 0{,}6\), \(\cos = 0{,}8\), \(\tan = 0{,}75\).</span></span>
+      </div>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="320"></canvas>
+        <div class="embed-caption">Triángulo 3-4-5: el más famoso ejemplo de triángulo rectángulo con lados enteros.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Relación entre las tres</div>
+
+      <p>Existe una relación clave entre tangente, seno y coseno:</p>
+
+      <div class="math-box">
+        \(\tan\theta = \dfrac{\sin\theta}{\cos\theta}\)
+      </div>
+
+      <p>Esto se deduce dividiendo: \(\dfrac{O/H}{A/H} = \dfrac{O}{A}\). Útil cuando conoces seno y coseno y necesitas la tangente sin volver a usar los lados.</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        ¿Notas que en el triángulo 3-4-5 se cumple \(\sin^{2}\theta + \cos^{2}\theta = 0{,}6^{2} + 0{,}8^{2} = 0{,}36 + 0{,}64 = 1\)? Esta es la <strong>identidad pitagórica</strong>, una de las relaciones más importantes en trigonometría. Vale para cualquier ángulo \(\theta\).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Valores notables
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Valores trigonométricos notables</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">30°, 45°, 60°</span>
+    <span class="chip">Tabla esencial</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Los tres ángulos especiales</div>
+
+      <p>Tres ángulos aparecen con tanta frecuencia que sus razones trigonométricas se MEMORIZAN: <strong>30°, 45° y 60°</strong>. Esto te evita usar calculadora en muchísimos ejercicios.</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>\(\theta\)</th><th>\(\sin\theta\)</th><th>\(\cos\theta\)</th><th>\(\tan\theta\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>30°</td><td>\(\dfrac{1}{2}\)</td><td>\(\dfrac{\sqrt{3}}{2}\)</td><td>\(\dfrac{\sqrt{3}}{3}\)</td></tr>
+          <tr><td>45°</td><td>\(\dfrac{\sqrt{2}}{2}\)</td><td>\(\dfrac{\sqrt{2}}{2}\)</td><td>\(1\)</td></tr>
+          <tr><td>60°</td><td>\(\dfrac{\sqrt{3}}{2}\)</td><td>\(\dfrac{1}{2}\)</td><td>\(\sqrt{3}\)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Truco para memorizar:</strong> el seno crece de 1/2 → √2/2 → √3/2 (de 30° a 60°), y el coseno hace exactamente lo opuesto. Como decimal aproximado: sin 30° ≈ 0,5; sin 45° ≈ 0,71; sin 60° ≈ 0,87. Cos sigue el patrón inverso.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¿De dónde vienen estos valores?</div>
+
+      <p>No son números mágicos. Vienen de dos <strong>triángulos especiales</strong> que puedes construir geométricamente:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">Triángulo 45°-45°-90°</span>
+          <span class="prop-eq">Cuadrado dividido por una diagonal. Catetos iguales (1 y 1), hipotenusa \(\sqrt{2}\).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">Triángulo 30°-60°-90°</span>
+          <span class="prop-eq">Triángulo equilátero dividido por una altura. Lados: 1, \(\sqrt{3}\) y 2.</span>
+        </div>
+      </div>
+
+      <div class="subsec">Verificación con triángulo 45°-45°-90°</div>
+      <div class="math-block">
+        <span class="math-step">Catetos: 1 y 1. Hipotenusa: \(\sqrt{1^{2}+1^{2}} = \sqrt{2}\).</span>
+        <span class="math-step">\(\sin 45° = \dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\) ✓</span>
+        <span class="math-step">\(\cos 45° = \dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\) ✓</span>
+        <span class="math-step">\(\tan 45° = \dfrac{1}{1} = 1\) ✓</span>
+      </div>
+
+      <div class="subsec">Verificación con triángulo 30°-60°-90°</div>
+      <div class="math-block">
+        <span class="math-step">Lados: el cateto opuesto a 30° = 1, el cateto opuesto a 60° = \(\sqrt{3}\), hipotenusa = 2.</span>
+        <span class="math-step">\(\sin 30° = \dfrac{1}{2}\); \(\cos 30° = \dfrac{\sqrt{3}}{2}\); \(\tan 30° = \dfrac{1}{\sqrt{3}} = \dfrac{\sqrt{3}}{3}\) ✓</span>
+        <span class="math-step">\(\sin 60° = \dfrac{\sqrt{3}}{2}\); \(\cos 60° = \dfrac{1}{2}\); \(\tan 60° = \sqrt{3}\) ✓</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Casos límite: 0° y 90°</div>
+
+      <p>Aunque no son triángulos válidos (un ángulo agudo no puede ser exactamente 0° o 90° en un triángulo rectángulo), los valores límite son útiles:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>\(\theta\)</th><th>\(\sin\theta\)</th><th>\(\cos\theta\)</th><th>\(\tan\theta\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0°</td><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td>90°</td><td>1</td><td>0</td><td>no existe</td></tr>
+        </tbody>
+      </table>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        ¿Por qué \(\tan 90°\) no existe? Porque al "estirar" un ángulo hacia 90°, el cateto adyacente tiende a 0, y la tangente \(O/A\) tiende a infinito. La función tangente "explota" en 90°.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — HERRAMIENTA 1: Visualizador de razones trigonométricas
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Visualizador de razones trigonométricas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Mueve el ángulo</span>
+    <span class="chip">Ve sin/cos/tan en vivo</span>
+  </div>
+
+  <div class="content">
+
+    <p>Mueve el slider para cambiar el ángulo \(\theta\) entre 5° y 85°. El triángulo se redibuja en tiempo real y la herramienta calcula automáticamente <strong>los valores de seno, coseno y tangente</strong>. Observa cómo cambian las proporciones de los catetos al variar el ángulo.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="ratio-canvas" width="500" height="400"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="slider-control">
+          <label>Ángulo \(\theta\) = <span id="theta-val">40</span>°</label>
+          <input id="theta-slider" type="range" min="5" max="85" step="1" value="40" />
+          <small>Mueve para ver cómo cambian las razones.</small>
+        </div>
+        <div class="slider-control">
+          <label>Hipotenusa \(c\) = <span id="hyp-val">10</span></label>
+          <input id="hyp-slider" type="range" min="5" max="20" step="1" value="10" />
+          <small>Cambia el tamaño del triángulo (las razones NO cambian).</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="ratio-info" class="tool-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Ángulos notables (memorízalos)</div>
+    <div class="preset-buttons">
+      <button data-theta="30">θ = 30°</button>
+      <button data-theta="45">θ = 45°</button>
+      <button data-theta="60">θ = 60°</button>
+      <button data-theta="15">θ = 15°</button>
+      <button data-theta="75">θ = 75°</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Resolver triángulos rectángulos
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Resolver un triángulo rectángulo paso a paso</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Procedimiento</span>
+    <span class="chip">Ejemplos guiados</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Qué significa "resolver" un triángulo?</div>
+
+      <div class="card card-def">
+        <strong>Resolver un triángulo rectángulo:</strong> determinar TODOS sus elementos (3 lados + 3 ángulos), a partir de información parcial conocida. Como el ángulo recto siempre es 90°, basta conocer 2 datos (lados o ángulos) para encontrar todo lo demás.
+      </div>
+
+      <p>Los problemas típicos se clasifican según los datos que te dan:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Datos conocidos</th><th>Estrategia</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2 lados (los 2 catetos, o un cateto y la hipotenusa)</td><td>Pitágoras + función inversa (\(\sin^{-1}, \cos^{-1}, \tan^{-1}\))</td></tr>
+          <tr><td>1 lado + 1 ángulo agudo</td><td>Razón trigonométrica directa para el otro lado; Pitágoras para el tercero</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caso 1: dos lados conocidos</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un triángulo rectángulo tiene catetos de 6 cm y 8 cm. Resuélvelo completamente.
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1 — Calcular la hipotenusa con Pitágoras:</strong></span>
+        <span class="math-step">\(c = \sqrt{6^{2} + 8^{2}} = \sqrt{36 + 64} = \sqrt{100} = 10\) cm.</span>
+        <span class="math-step"><strong>Paso 2 — Calcular un ángulo agudo (usar arctangente):</strong></span>
+        <span class="math-step">Sea \(\alpha\) el ángulo opuesto al cateto de 6. Entonces \(\tan\alpha = 6/8 = 0{,}75\).</span>
+        <span class="math-step">\(\alpha = \arctan(0{,}75) \approx 36{,}87°\).</span>
+        <span class="math-step"><strong>Paso 3 — Calcular el tercer ángulo:</strong></span>
+        <span class="math-step">Los ángulos agudos suman 90°: \(\beta = 90° - 36{,}87° = 53{,}13°\).</span>
+        <span class="math-step"><span class="math-result">Lados: 6, 8, 10 cm. Ángulos: 90°, ~36,87°, ~53,13°.</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Caso 2: un lado y un ángulo conocidos</div>
+
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Un triángulo rectángulo tiene un ángulo agudo de 30° y la hipotenusa mide 12 cm. Resuélvelo.
+      </div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Paso 1 — Identificar lados con respecto al ángulo de 30°:</strong></span>
+        <span class="math-step">\(\sin 30° = \dfrac{\text{opuesto}}{12} \Rightarrow \text{opuesto} = 12 \cdot \sin 30° = 12 \cdot \dfrac{1}{2} = 6\) cm.</span>
+        <span class="math-step"><strong>Paso 2 — Calcular el otro cateto (adyacente) con coseno:</strong></span>
+        <span class="math-step">\(\cos 30° = \dfrac{\text{adyacente}}{12} \Rightarrow \text{adyacente} = 12 \cdot \cos 30° = 12 \cdot \dfrac{\sqrt{3}}{2} = 6\sqrt{3} \approx 10{,}39\) cm.</span>
+        <span class="math-step"><strong>Paso 3 — Calcular el tercer ángulo:</strong></span>
+        <span class="math-step">\(\beta = 90° - 30° = 60°\).</span>
+        <span class="math-step"><span class="math-result">Lados: 6, 6√3 ≈ 10,39, y 12 cm. Ángulos: 30°, 60°, 90°.</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Cuándo usar cada razón:</strong> elige la que <em>solo involucre lo que conoces y lo que buscas</em>. Si conoces la hipotenusa y buscas el cateto opuesto, usa seno. Si conoces el cateto adyacente y buscas el opuesto, usa tangente. La regla SOH-CAH-TOA te guía.
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Cada vez que resuelvas un triángulo, dibuja primero un esquema simple con los datos conocidos y los desconocidos. Eso clarifica qué razón usar y evita errores de identificar cuál cateto es opuesto vs adyacente.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — HERRAMIENTA 2: Resolutor de triángulos
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Resolutor interactivo de triángulos rectángulos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Ingresa 2 datos</span>
+    <span class="chip">Te calcula todo el triángulo</span>
+  </div>
+
+  <div class="content">
+
+    <p>Elige qué datos conoces (lados o ángulos), ingrésalos, y la herramienta <strong>resuelve el triángulo completo</strong>: calcula todos los lados, todos los ángulos y dibuja el resultado.</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="solver-canvas" width="500" height="400"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="slider-control">
+          <label>¿Qué datos conoces?</label>
+          <div class="toggle-group" id="solver-mode">
+            <button data-mode="catetos" class="active">Los dos catetos (a y b)</button>
+            <button data-mode="hyp-cat">Hipotenusa y un cateto</button>
+            <button data-mode="cat-ang">Un cateto y un ángulo agudo</button>
+            <button data-mode="hyp-ang">Hipotenusa y un ángulo agudo</button>
+          </div>
+        </div>
+        <div class="input-control" id="solver-inputs">
+          <!-- Los inputs se generan dinámicamente -->
+        </div>
+      </div>
+    </div>
+
+    <div id="solver-info" class="tool-info">Selecciona un modo e ingresa los datos.</div>
+
+    <div class="subsec" style="margin-top:1rem;">Ejemplos clásicos</div>
+    <div class="preset-buttons">
+      <button data-ex="catetos,3,4">Catetos 3 y 4</button>
+      <button data-ex="catetos,5,12">Catetos 5 y 12</button>
+      <button data-ex="hyp-cat,10,6">Hipotenusa 10, cateto 6</button>
+      <button data-ex="cat-ang,5,30">Cateto 5, ángulo 30°</button>
+      <button data-ex="hyp-ang,10,45">Hipotenusa 10, ángulo 45°</button>
+      <button data-ex="hyp-ang,12,60">Hipotenusa 12, ángulo 60°</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Triángulos rectángulos — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">En un triángulo rectángulo, el seno de un ángulo agudo es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Cateto opuesto / cateto adyacente<div class="opt-feedback"><strong>Incorrecto.</strong> Esa es la tangente (TOA).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Cateto opuesto / hipotenusa<div class="opt-feedback"><strong>Correcto.</strong> Seno = Opuesto / Hipotenusa (SOH).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Cateto adyacente / hipotenusa<div class="opt-feedback"><strong>Incorrecto.</strong> Esa es la definición de coseno (CAH).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Hipotenusa / cateto opuesto<div class="opt-feedback"><strong>Incorrecto.</strong> Es la razón inversa del seno (la cosecante, no estudiada en 2°M).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si en un triángulo rectángulo el ángulo \(\theta\) tiene cateto opuesto = 3 y cateto adyacente = 4, entonces \(\tan\theta\) vale:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 3/4<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\theta = \text{opuesto}/\text{adyacente} = 3/4\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 4/3<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte la razón.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 5/3<div class="opt-feedback"><strong>Incorrecto.</strong> Es hipotenusa/opuesto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 3/5<div class="opt-feedback"><strong>Incorrecto.</strong> Es seno (opuesto/hipotenusa), no tangente.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">El valor de \(\sin 30°\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Valor notable: \(\sin 30° = 1/2\). Viene del triángulo 30°-60°-90° con lados 1, √3, 2.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{\sqrt{2}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\sin 45°\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{\sqrt{3}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\sin 60°\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\sin 90°\) (caso límite).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">En un triángulo rectángulo con hipotenusa 10 y cateto opuesto a \(\theta\) igual a 6, entonces \(\sin\theta\) es:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 6/8<div class="opt-feedback"><strong>Incorrecto.</strong> 8 sería el otro cateto (por Pitágoras), no la hipotenusa.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 6/10 = 0,6<div class="opt-feedback"><strong>Correcto.</strong> \(\sin\theta = \text{opuesto}/\text{hipotenusa} = 6/10 = 0,6\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 8/10 = 0,8<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería \(\cos\theta\) (adyacente/hipotenusa, con adyacente = 8).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 8/6<div class="opt-feedback"><strong>Incorrecto.</strong> Inversión de razón.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(\sin\alpha = \dfrac{1}{2}\), ¿cuál es \(\alpha\) (ángulo agudo)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 30°<div class="opt-feedback"><strong>Correcto.</strong> \(\sin 30° = 1/2\) por la tabla de valores notables.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 45°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sin 45° = \sqrt{2}/2 \approx 0{,}71\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 60°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sin 60° = \sqrt{3}/2 \approx 0{,}87\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 90°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\sin 90° = 1\) (no es ángulo agudo de un rectángulo).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">En un triángulo rectángulo, \(\cos 60°\) vale:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\cos 60° = 1/2\). Observa la simetría: \(\sin 30° = \cos 60°\). En general, \(\sin\alpha = \cos(90° - \alpha)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{\sqrt{3}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos 30°\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{\sqrt{2}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos 45°\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos 0°\) (caso límite).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si en un triángulo rectángulo \(\cos\theta = 0{,}8\) y la hipotenusa mide 10 cm, ¿cuánto mide el cateto adyacente?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 6 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería el cateto opuesto (por Pitágoras), no el adyacente.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 8 cm<div class="opt-feedback"><strong>Correcto.</strong> \(\cos\theta = \text{adyacente}/\text{hipotenusa} \Rightarrow \text{adyacente} = 0{,}8 \cdot 10 = 8\) cm.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 10 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Es la hipotenusa, no el adyacente.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12,5 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si dividieras hipotenusa entre 0,8 (operación inversa).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En un triángulo rectángulo con catetos 5 y 12, ¿cuánto mide la hipotenusa?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 7<div class="opt-feedback"><strong>Incorrecto.</strong> Es la diferencia entre catetos, no la hipotenusa.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 13<div class="opt-feedback"><strong>Correcto.</strong> Pitágoras: \(\sqrt{5^{2}+12^{2}} = \sqrt{25+144} = \sqrt{169} = 13\). Trío pitagórico clásico.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 17<div class="opt-feedback"><strong>Incorrecto.</strong> Es la suma de catetos, no la hipotenusa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 60<div class="opt-feedback"><strong>Incorrecto.</strong> Es el producto 5 · 12.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si en un triángulo rectángulo \(\tan\theta = 1\), entonces \(\theta\) vale:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 0°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 0° = 0\), no 1.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 30°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 30° = \sqrt{3}/3 \approx 0{,}58\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 45°<div class="opt-feedback"><strong>Correcto.</strong> En el triángulo 45°-45°-90°, los catetos son iguales, así que \(\tan 45° = 1/1 = 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 60°<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan 60° = \sqrt{3} \approx 1{,}73\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">En un triángulo con ángulos 30°, 60° y 90°, si la hipotenusa mide 10 cm, ¿cuánto mide el cateto opuesto al ángulo de 30°?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5 cm<div class="opt-feedback"><strong>Correcto.</strong> \(\sin 30° = \text{opuesto}/10 = 1/2\), entonces opuesto \(= 10 \cdot 1/2 = 5\) cm.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 5√3 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el cateto opuesto al ángulo de 60° (\(10 \cdot \sin 60° = 10 \cdot \sqrt{3}/2 = 5\sqrt{3}\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 10√3 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo incorrecto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 20 cm<div class="opt-feedback"><strong>Incorrecto.</strong> Mayor que la hipotenusa, lo cual es imposible.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Geometría<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Triángulos rectángulos — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Resolución de triángulos rectángulos</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">En un triángulo rectángulo, ¿qué razón trigonométrica relaciona el cateto adyacente con la hipotenusa?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Seno<div class="opt-feedback"><strong>Incorrecto.</strong> Seno relaciona opuesto con hipotenusa.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Coseno<div class="opt-feedback"><strong>Correcto.</strong> CAH: Coseno = Adyacente / Hipotenusa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Tangente<div class="opt-feedback"><strong>Incorrecto.</strong> Tangente relaciona opuesto con adyacente.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Hipotenusa<div class="opt-feedback"><strong>Incorrecto.</strong> "Hipotenusa" no es una razón trigonométrica; es un lado del triángulo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Si \(\tan\beta = 3/4\) en un triángulo rectángulo, ¿cuáles podrían ser los catetos?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 3 y 5<div class="opt-feedback"><strong>Incorrecto.</strong> 5 sería la hipotenusa, no un cateto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 4 y 5<div class="opt-feedback"><strong>Incorrecto.</strong> Misma razón.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 3 y 4<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\beta = \text{opuesto}/\text{adyacente} = 3/4\), entonces los catetos son 3 y 4 (la hipotenusa sería 5 por Pitágoras).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 5 y 12<div class="opt-feedback"><strong>Incorrecto.</strong> \(\tan\) sería 5/12 o 12/5, no 3/4.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuánto vale \(\cos 45°\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos 60°\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{\sqrt{2}}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> En el triángulo 45°-45°-90° con catetos 1: \(\cos 45° = 1/\sqrt{2} = \sqrt{2}/2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{\sqrt{3}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos 30°\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos 0°\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">En un triángulo rectángulo, la hipotenusa mide 13 y un cateto mide 5. ¿Cuánto mide el otro cateto?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 8<div class="opt-feedback"><strong>Incorrecto.</strong> \(13 - 5 = 8\), pero Pitágoras no es resta de hipotenusa con cateto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 12<div class="opt-feedback"><strong>Correcto.</strong> Pitágoras: \(c^{2} - a^{2} = b^{2} \Rightarrow 169 - 25 = 144 \Rightarrow b = 12\). Trío 5-12-13 clásico.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 18<div class="opt-feedback"><strong>Incorrecto.</strong> Mayor que la hipotenusa, imposible.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\sqrt{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde signos en Pitágoras.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">Si \(\sin\alpha = 0{,}6\) y \(\cos\alpha = 0{,}8\), entonces \(\tan\alpha\) vale:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0,2<div class="opt-feedback"><strong>Incorrecto.</strong> Es la resta, no la división.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 0,75<div class="opt-feedback"><strong>Correcto.</strong> \(\tan\alpha = \sin/\cos = 0{,}6/0{,}8 = 0{,}75 = 3/4\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 1,4<div class="opt-feedback"><strong>Incorrecto.</strong> Es la suma.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 1,33<div class="opt-feedback"><strong>Incorrecto.</strong> Es 0,8/0,6 (cos/sin, inverso de tangente).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">En un triángulo rectángulo con un ángulo de 60°, la razón entre el cateto opuesto a 60° y la hipotenusa es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es \(\sin 30°\) o \(\cos 60°\), no \(\sin 60°\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{\sqrt{3}}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Es \(\sin 60° = \sqrt{3}/2\), valor notable de la tabla.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sqrt{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\tan 60°\), no seno.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{\sqrt{2}}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\sin 45°\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Una escalera de 5 m se apoya contra una pared formando un ángulo de 60° con el suelo. ¿A qué altura toca la pared?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 2,5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si fuera \(5 \cdot \cos 60°\), no \(5 \cdot \sin 60°\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{5\sqrt{3}}{2} \approx 4{,}33\) m<div class="opt-feedback"><strong>Correcto.</strong> La altura es \(\sin 60° \cdot \text{hipotenusa} = (\sqrt{3}/2) \cdot 5 = 5\sqrt{3}/2 \approx 4{,}33\) m.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 5 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es la escalera entera (hipotenusa), no la altura.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 10 m<div class="opt-feedback"><strong>Incorrecto.</strong> Es mayor que la escalera, imposible.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si en un triángulo rectángulo el cateto opuesto a \(\alpha\) mide 8 y el adyacente mide 6, ¿cuánto vale \(\sin\alpha\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 6/10 = 0,6<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\cos\alpha\), no \(\sin\alpha\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 8/10 = 0,8<div class="opt-feedback"><strong>Correcto.</strong> Hipotenusa por Pitágoras: \(\sqrt{6^{2}+8^{2}} = 10\). \(\sin\alpha = 8/10 = 0{,}8\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 6/8<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la cotangente (adyacente/opuesto).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 8/6<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(\tan\alpha\), no \(\sin\alpha\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Cuál de las siguientes igualdades es siempre verdadera en un triángulo rectángulo?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\sin\alpha + \cos\alpha = 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo se cumple por casualidad para ciertos ángulos; no es una identidad.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\sin^{2}\alpha + \cos^{2}\alpha = 1\)<div class="opt-feedback"><strong>Correcto.</strong> Identidad pitagórica fundamental: viene de aplicar Pitágoras a las definiciones de sin y cos.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\sin\alpha \cdot \cos\alpha = 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> El producto es menor o igual a 1/2, nunca 1.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\tan\alpha = \sin\alpha + \cos\alpha\)<div class="opt-feedback"><strong>Incorrecto.</strong> Lo correcto es \(\tan\alpha = \sin\alpha / \cos\alpha\) (división, no suma).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Un triángulo rectángulo tiene ángulos 90°, \(\alpha\), \(\beta\). Si \(\alpha = 25°\), ¿cuánto mide \(\beta\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 25°<div class="opt-feedback"><strong>Incorrecto.</strong> El triángulo no es isósceles.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 65°<div class="opt-feedback"><strong>Correcto.</strong> Los tres ángulos suman 180°: \(90° + 25° + \beta = 180° \Rightarrow \beta = 65°\). Los dos ángulos agudos siempre suman 90°.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 75°<div class="opt-feedback"><strong>Incorrecto.</strong> Cálculo erróneo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 90°<div class="opt-feedback"><strong>Incorrecto.</strong> Solo un ángulo recto en cada triángulo.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Resolver triángulos rectángulos es la base de toda la trigonometría aplicada. Cualquier problema donde aparezcan distancias inaccesibles (alturas de edificios, anchos de ríos, distancias a estrellas) se reduce a un triángulo rectángulo. Domina las razones \(\sin\), \(\cos\), \(\tan\) y SOH-CAH-TOA, y abrirás la puerta a muchas aplicaciones reales.</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Problemas de la vida cotidiana con trigonometría</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Triángulos rectángulos · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  /* ====== Helper: dibujar triángulo rectángulo ====== */
+  function drawTriangle(canvas, angleDeg, hypothenuse, labels){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var margin = 70;
+    var maxW = W - 2*margin;
+    var maxH = H - 2*margin;
+    var thetaRad = angleDeg * Math.PI / 180;
+
+    // Tamaños reales
+    var realB = hypothenuse * Math.cos(thetaRad); // adyacente
+    var realA = hypothenuse * Math.sin(thetaRad); // opuesto
+
+    // Escala
+    var scale = Math.min(maxW/realB, maxH/realA) * 0.95;
+    var pxB = realB * scale;
+    var pxA = realA * scale;
+
+    // Vértices
+    var Ax = margin + (maxW - pxB)/2 + 10;
+    var Ay = margin + (maxH + pxA)/2;
+    if(Ay > H - margin) Ay = H - margin;
+    var Bx = Ax + pxB;
+    var By = Ay;
+    var Cx = Ax;
+    var Cy = Ay - pxA;
+
+    // Fondo
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, W, H);
+
+    // Relleno del triángulo
+    ctx.fillStyle = 'rgba(212,175,55,.18)';
+    ctx.beginPath();
+    ctx.moveTo(Ax, Ay); ctx.lineTo(Bx, By); ctx.lineTo(Cx, Cy); ctx.closePath();
+    ctx.fill();
+
+    // Bordes
+    ctx.strokeStyle = '#6A2C91';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(Ax, Ay); ctx.lineTo(Bx, By); ctx.lineTo(Cx, Cy); ctx.closePath();
+    ctx.stroke();
+
+    // Marcador del ángulo recto
+    ctx.strokeStyle = '#0B0F3F';
+    ctx.lineWidth = 1.5;
+    var sqSize = 12;
+    ctx.strokeRect(Ax, Ay - sqSize, sqSize, sqSize);
+
+    // Marcador del ángulo θ en B
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 2;
+    var arcRadius = 26;
+    ctx.beginPath();
+    ctx.arc(Bx, By, arcRadius, Math.PI - thetaRad, Math.PI);
+    ctx.stroke();
+
+    // Etiqueta θ
+    ctx.fillStyle = '#0B0F3F';
+    ctx.font = 'bold 13px Inter, sans-serif';
+    var labelX = Bx - 50, labelY = By - 5;
+    ctx.fillText('θ = ' + angleDeg.toFixed(1) + '°', labelX, labelY);
+
+    // Etiquetas de lados
+    ctx.font = 'bold 12px Inter, sans-serif';
+    ctx.fillStyle = '#6A2C91';
+    if(labels && labels.b){
+      var midABx = (Ax + Bx)/2;
+      ctx.fillText(labels.b, midABx - 22, Ay + 24);
+    }
+    if(labels && labels.a){
+      ctx.fillText(labels.a, Ax - 60, (Ay + Cy)/2 + 5);
+    }
+    if(labels && labels.c){
+      var midBCx = (Bx + Cx)/2 + 18;
+      var midBCy = (By + Cy)/2 - 8;
+      ctx.fillText(labels.c, midBCx, midBCy);
+    }
+
+    // Vértices
+    ctx.fillStyle = '#0B0F3F';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.fillText('A (90°)', Ax - 50, Ay + 15);
+    ctx.fillText('B', Bx + 6, By + 15);
+    ctx.fillText('C', Cx - 14, Cy - 3);
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    // Página 1: triángulo con θ=40°
+    var c1a = document.getElementById('g1a');
+    if(c1a){
+      drawTriangle(c1a, 40, 10, {
+        a: 'opuesto',
+        b: 'adyacente',
+        c: 'hipotenusa'
+      });
+    }
+    // Página 2: triángulo 3-4-5
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var ang = Math.atan(3/4) * 180 / Math.PI;
+      drawTriangle(c2a, ang, 5, {
+        a: 'a = 3',
+        b: 'b = 4',
+        c: 'c = 5'
+      });
+    }
+  }
+
+  /* ====== TOOL 1: Visualizador de razones ====== */
+  function setupRatioTool(){
+    var canvas = document.getElementById('ratio-canvas');
+    if(!canvas) return;
+    var thetaSlider = document.getElementById('theta-slider');
+    var hypSlider = document.getElementById('hyp-slider');
+    var thetaVal = document.getElementById('theta-val');
+    var hypVal = document.getElementById('hyp-val');
+    var info = document.getElementById('ratio-info');
+
+    function update(){
+      var theta = parseFloat(thetaSlider.value);
+      var hyp = parseFloat(hypSlider.value);
+      thetaVal.textContent = theta;
+      hypVal.textContent = hyp;
+
+      var rad = theta * Math.PI / 180;
+      var opp = hyp * Math.sin(rad);
+      var adj = hyp * Math.cos(rad);
+      var sinV = Math.sin(rad);
+      var cosV = Math.cos(rad);
+      var tanV = Math.tan(rad);
+
+      drawTriangle(canvas, theta, hyp, {
+        a: 'a = ' + opp.toFixed(2),
+        b: 'b = ' + adj.toFixed(2),
+        c: 'c = ' + hyp.toFixed(0)
+      });
+
+      info.innerHTML =
+        '<strong>Triángulo con θ = ' + theta + '°, hipotenusa c = ' + hyp + '</strong><br>' +
+        '<strong>Cateto opuesto a = ' + opp.toFixed(2) + '</strong><br>' +
+        '<strong>Cateto adyacente b = ' + adj.toFixed(2) + '</strong><br>' +
+        '<strong>Otro ángulo agudo:</strong> 90° − ' + theta + '° = ' + (90 - theta) + '°<br><br>' +
+        '<strong>sin θ = a/c = ' + opp.toFixed(2) + '/' + hyp + ' = ' + sinV.toFixed(4) + '</strong><br>' +
+        '<strong>cos θ = b/c = ' + adj.toFixed(2) + '/' + hyp + ' = ' + cosV.toFixed(4) + '</strong><br>' +
+        '<strong>tan θ = a/b = ' + opp.toFixed(2) + '/' + adj.toFixed(2) + ' = ' + tanV.toFixed(4) + '</strong>';
+    }
+
+    thetaSlider.addEventListener('input', update);
+    hypSlider.addEventListener('input', update);
+
+    var presets = document.querySelectorAll('[data-theta]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          thetaSlider.value = btn.dataset.theta;
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  /* ====== TOOL 2: Resolutor de triángulos ====== */
+  function setupSolverTool(){
+    var canvas = document.getElementById('solver-canvas');
+    if(!canvas) return;
+    var modeButtons = document.querySelectorAll('#solver-mode button');
+    var inputsContainer = document.getElementById('solver-inputs');
+    var info = document.getElementById('solver-info');
+    var currentMode = 'catetos';
+
+    var inputHtml = {
+      catetos: '<label>Cateto opuesto (a):</label><input id="solv-a" type="number" step="0.1" value="3" /><label style="margin-top:.4rem;">Cateto adyacente (b):</label><input id="solv-b" type="number" step="0.1" value="4" />',
+      'hyp-cat': '<label>Hipotenusa (c):</label><input id="solv-c" type="number" step="0.1" value="10" /><label style="margin-top:.4rem;">Un cateto (a):</label><input id="solv-a" type="number" step="0.1" value="6" />',
+      'cat-ang': '<label>Un cateto (a, opuesto al ángulo):</label><input id="solv-a" type="number" step="0.1" value="5" /><label style="margin-top:.4rem;">Ángulo agudo θ (°):</label><input id="solv-theta" type="number" step="0.5" value="30" />',
+      'hyp-ang': '<label>Hipotenusa (c):</label><input id="solv-c" type="number" step="0.1" value="10" /><label style="margin-top:.4rem;">Ángulo agudo θ (°):</label><input id="solv-theta" type="number" step="0.5" value="45" />'
+    };
+
+    function renderInputs(){
+      inputsContainer.innerHTML = inputHtml[currentMode];
+      var inputs = inputsContainer.querySelectorAll('input');
+      for(var i = 0; i < inputs.length; i++){
+        inputs[i].addEventListener('input', solve);
+      }
+    }
+
+    function solve(){
+      var a, b, c, alpha, beta;
+      try {
+        if(currentMode === 'catetos'){
+          a = parseFloat(document.getElementById('solv-a').value);
+          b = parseFloat(document.getElementById('solv-b').value);
+          if(isNaN(a) || isNaN(b) || a <= 0 || b <= 0) throw 'inválido';
+          c = Math.sqrt(a*a + b*b);
+          alpha = Math.atan(a/b) * 180 / Math.PI;
+          beta = 90 - alpha;
+        } else if(currentMode === 'hyp-cat'){
+          c = parseFloat(document.getElementById('solv-c').value);
+          a = parseFloat(document.getElementById('solv-a').value);
+          if(isNaN(a) || isNaN(c) || a <= 0 || c <= 0 || a >= c) throw 'El cateto debe ser menor que la hipotenusa.';
+          b = Math.sqrt(c*c - a*a);
+          alpha = Math.asin(a/c) * 180 / Math.PI;
+          beta = 90 - alpha;
+        } else if(currentMode === 'cat-ang'){
+          a = parseFloat(document.getElementById('solv-a').value);
+          alpha = parseFloat(document.getElementById('solv-theta').value);
+          if(isNaN(a) || isNaN(alpha) || a <= 0 || alpha <= 0 || alpha >= 90) throw 'inválido';
+          var sinA = Math.sin(alpha * Math.PI / 180);
+          c = a / sinA;
+          b = c * Math.cos(alpha * Math.PI / 180);
+          beta = 90 - alpha;
+        } else if(currentMode === 'hyp-ang'){
+          c = parseFloat(document.getElementById('solv-c').value);
+          alpha = parseFloat(document.getElementById('solv-theta').value);
+          if(isNaN(c) || isNaN(alpha) || c <= 0 || alpha <= 0 || alpha >= 90) throw 'inválido';
+          a = c * Math.sin(alpha * Math.PI / 180);
+          b = c * Math.cos(alpha * Math.PI / 180);
+          beta = 90 - alpha;
+        }
+      } catch(e){
+        info.innerHTML = '<span class="alert">⚠ ' + (typeof e === 'string' ? e : 'Datos inválidos. Ingresa valores positivos válidos.') + '</span>';
+        return;
+      }
+
+      drawTriangle(canvas, alpha, c, {
+        a: 'a = ' + a.toFixed(2),
+        b: 'b = ' + b.toFixed(2),
+        c: 'c = ' + c.toFixed(2)
+      });
+
+      var sinV = a/c, cosV = b/c, tanV = a/b;
+      info.innerHTML =
+        '<strong>Triángulo resuelto:</strong><br>' +
+        '<strong>Lado a (cateto opuesto a θ):</strong> ' + a.toFixed(2) + ' <span class="badge">CATETO</span><br>' +
+        '<strong>Lado b (cateto adyacente a θ):</strong> ' + b.toFixed(2) + ' <span class="badge">CATETO</span><br>' +
+        '<strong>Lado c (hipotenusa):</strong> ' + c.toFixed(2) + ' <span class="badge">HIPOTENUSA</span><br>' +
+        '<strong>Ángulo θ (α):</strong> ' + alpha.toFixed(2) + '°<br>' +
+        '<strong>Ángulo β (otro agudo):</strong> ' + beta.toFixed(2) + '°<br>' +
+        '<strong>Ángulo recto:</strong> 90°<br><br>' +
+        '<strong>Razones trigonométricas de θ:</strong><br>' +
+        'sin θ = ' + sinV.toFixed(4) + '<br>' +
+        'cos θ = ' + cosV.toFixed(4) + '<br>' +
+        'tan θ = ' + tanV.toFixed(4);
+    }
+
+    for(var i = 0; i < modeButtons.length; i++){
+      modeButtons[i].addEventListener('click', (function(btn){
+        return function(){
+          for(var k = 0; k < modeButtons.length; k++) modeButtons[k].classList.remove('active');
+          btn.classList.add('active');
+          currentMode = btn.dataset.mode;
+          renderInputs();
+          solve();
+        };
+      })(modeButtons[i]));
+    }
+
+    var examplePresets = document.querySelectorAll('[data-ex]');
+    for(var i = 0; i < examplePresets.length; i++){
+      examplePresets[i].addEventListener('click', (function(btn){
+        return function(){
+          var parts = btn.dataset.ex.split(',');
+          var mode = parts[0];
+          currentMode = mode;
+          for(var k = 0; k < modeButtons.length; k++){
+            modeButtons[k].classList.remove('active');
+            if(modeButtons[k].dataset.mode === mode) modeButtons[k].classList.add('active');
+          }
+          renderInputs();
+          // Llenar valores
+          if(mode === 'catetos'){
+            document.getElementById('solv-a').value = parts[1];
+            document.getElementById('solv-b').value = parts[2];
+          } else if(mode === 'hyp-cat'){
+            document.getElementById('solv-c').value = parts[1];
+            document.getElementById('solv-a').value = parts[2];
+          } else if(mode === 'cat-ang'){
+            document.getElementById('solv-a').value = parts[1];
+            document.getElementById('solv-theta').value = parts[2];
+          } else if(mode === 'hyp-ang'){
+            document.getElementById('solv-c').value = parts[1];
+            document.getElementById('solv-theta').value = parts[2];
+          }
+          solve();
+        };
+      })(examplePresets[i]));
+    }
+
+    renderInputs();
+    solve();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupRatioTool();
+    setupSolverTool();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>

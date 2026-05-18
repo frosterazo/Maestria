@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuadrado del binomio — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    .prop-card-big{background:#F8F4E9;border:2px solid #D4AF37;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;}
+    .prop-card-big .prop-title{color:#6A2C91;font-weight:800;font-size:1rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .prop-card-big .prop-formula{padding:.4rem .6rem;margin:.4rem 0;font-size:1.2rem;text-align:center;color:#0B0F3F;font-weight:700;}
+    .prop-card-big .prop-words{font-size:.92rem;color:#444;margin-top:.3rem;font-style:italic;}
+
+    .tcp-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .tcp-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:left;font-weight:700;}
+    .tcp-table td{padding:.55rem;border:1px solid #ddd;vertical-align:middle;}
+    .tcp-table tr:nth-child(even){background:#f8f4e9;}
+    .tcp-table td.center{text-align:center;}
+
+    .err-card{background:#f8f4e9;border-left:4px solid #D4AF37;border-radius:0 8px 8px 0;padding:.6rem .9rem;margin:.6rem 0;font-size:.93rem;}
+    .err-wrong{color:#a44;text-decoration:line-through;}
+    .err-right{color:#0B0F3F;font-weight:700;}
+
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:320px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text],.input-control input[type=number]{width:100%;padding:.5rem;border:2px solid #6A2C91;border-radius:6px;font-size:1rem;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+    .sign-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.5rem;}
+    .sign-toggle button{background:#fff;color:#6A2C91;border:2px solid #6A2C91;border-radius:8px;padding:.5rem;font-weight:700;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;}
+    .sign-toggle button.active{background:#6A2C91;color:#fff;}
+    .sign-toggle button:hover{background:#552072;color:#fff;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.78rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .resolver-step{background:#f8f9ff;border-left:3px solid #6A2C91;padding:.55rem .75rem;margin:.4rem 0;border-radius:0 6px 6px 0;font-size:.95rem;}
+    .resolver-step .step-label{display:inline-block;background:#6A2C91;color:#fff;border-radius:4px;padding:.05rem .5rem;font-size:.72rem;margin-right:.5rem;font-weight:700;letter-spacing:.5px;}
+
+    canvas.area-canvas{width:100%;height:300px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;flex-wrap:wrap;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;}
+      .preset-buttons,.tool-controls,.calc-button,.sign-toggle{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — El error más común
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Cuadrado del binomio</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Producto notable</span>
+    <span class="chip">Trinomio cuadrado perfecto</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-text">Desarrollar y reconocer el <strong>cuadrado del binomio</strong>, comprendiendo que \((a+b)^2 = a^2 + 2ab + b^2\) y \((a-b)^2 = a^2 - 2ab + b^2\), tanto algebraica como geométricamente.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Cuidado con un error frecuente</div>
+
+      <p>Mucha gente piensa, al principio, que elevar al cuadrado un binomio es elevar al cuadrado cada término. Es decir, creen que:</p>
+
+      <div class="err-card">
+        <strong>Error muy frecuente:</strong><br>
+        <span class="err-wrong">\((a + b)^2 = a^2 + b^2\)</span> &nbsp;→&nbsp; <span class="err-right">\((a + b)^2 = a^2 + 2ab + b^2\)</span>
+      </div>
+
+      <p>Falta el famoso "doble producto" \(2ab\). ¿Por qué? Mira esta verificación con números:</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Si \(a = 3\) y \(b = 4\):</strong></span>
+        <span class="math-step">\((3+4)^2 = 7^2 = 49\).</span>
+        <span class="math-step">Pero \(a^2 + b^2 = 9 + 16 = 25 \neq 49\).</span>
+        <span class="math-step">Diferencia: \(49 - 25 = 24 = 2 \cdot 3 \cdot 4\). ¡Justo el doble producto que falta!</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>El cuadrado del binomio es un atajo</div>
+
+      <p>Para no aplicar FOIL cada vez que veas \((a+b)^2\), existe esta fórmula que <strong>siempre</strong> funciona:</p>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Cuadrado del binomio (suma)</div>
+        <div class="prop-formula">\((a + b)^2 = a^2 + 2ab + b^2\)</div>
+        <div class="prop-words">Cuadrado del primero, más doble del producto, más cuadrado del segundo.</div>
+      </div>
+
+      <p>Esto se llama <strong>producto notable</strong> porque aparece muchísimo y conviene tenerlo memorizado. El resultado \(a^2 + 2ab + b^2\) se llama <strong>trinomio cuadrado perfecto</strong> (TCP).</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Derivación por FOIL
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>¿De dónde sale la fórmula?</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Demostración</span>
+    <span class="chip">FOIL aplicado</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Demostración con FOIL</div>
+
+      <p>Recuerda: \((a+b)^2 = (a+b)(a+b)\). Es lo mismo que multiplicar el binomio por sí mismo. Apliquemos FOIL:</p>
+
+      <div class="math-block">
+        <span class="math-step">\((a+b)(a+b)\)</span>
+        <span class="math-step"><strong>F</strong>irst: \(a \cdot a = a^2\)</span>
+        <span class="math-step"><strong>O</strong>utside: \(a \cdot b = ab\)</span>
+        <span class="math-step"><strong>I</strong>nside: \(b \cdot a = ab\)</span>
+        <span class="math-step"><strong>L</strong>ast: \(b \cdot b = b^2\)</span>
+        <span class="math-step">Suma: \(a^2 + ab + ab + b^2\)</span>
+        <span class="math-step">Términos semejantes: \(ab + ab = 2ab\).</span>
+        <span class="math-step"><span class="math-result">\((a+b)^2 = a^2 + 2ab + b^2\)</span></span>
+      </div>
+
+      <p>El \(2ab\) aparece porque al multiplicar dos binomios iguales hay <strong>dos productos cruzados iguales</strong> (los términos "Outside" e "Inside" coinciden).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Primeros ejemplos</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> \((x+3)^2 = x^2 + 2 \cdot x \cdot 3 + 3^2 = x^2 + 6x + 9\).</span>
+        <span class="math-step"><strong>Ej. 2:</strong> \((x+5)^2 = x^2 + 2 \cdot x \cdot 5 + 5^2 = x^2 + 10x + 25\).</span>
+        <span class="math-step"><strong>Ej. 3:</strong> \((2x+1)^2 = (2x)^2 + 2 \cdot 2x \cdot 1 + 1^2 = 4x^2 + 4x + 1\).</span>
+        <span class="math-step"><strong>Ej. 4:</strong> \((3a+2b)^2 = 9a^2 + 12ab + 4b^2\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Atento con los coeficientes</div>
+
+      <p>Cuando hay coeficientes, recuerda que <strong>todo el primer término</strong> se eleva al cuadrado, no solo la variable:</p>
+
+      <div class="err-card">
+        <strong>Error:</strong><br>
+        <span class="err-wrong">\((2x+1)^2 = 2x^2 + 4x + 1\)</span> &nbsp;→&nbsp; <span class="err-right">\((2x+1)^2 = 4x^2 + 4x + 1\)</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Regla práctica</span>
+        Identifica claramente quién es \(a\) y quién es \(b\), e incluye el coeficiente. En \((2x+1)^2\): \(a = 2x\) y \(b = 1\). Entonces \(a^2 = (2x)^2 = 4x^2\) y \(2ab = 2 \cdot 2x \cdot 1 = 4x\).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Visualización geométrica
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Demostración geométrica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Visual</span>
+    <span class="chip">Cuadrado de lado (a+b)</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué se llama "cuadrado" del binomio?</div>
+
+      <p>Porque puedes pensarlo como el <strong>área de un cuadrado de lado \((a+b)\)</strong>. Mira:</p>
+
+      <canvas id="binCanvas" class="area-canvas" width="900" height="300"></canvas>
+
+      <p style="margin-top:.5rem;">El cuadrado de lado \((a+b)\) se descompone en cuatro figuras:</p>
+      <ul>
+        <li>Un cuadrado morado de área \(a^2\) (esquina superior izquierda).</li>
+        <li>Un cuadrado dorado de área \(b^2\) (esquina inferior derecha).</li>
+        <li>Dos rectángulos azul oscuro, ambos de área \(a \cdot b\) (los dos rectángulos cruzados).</li>
+      </ul>
+
+      <p>Sumando: \((a+b)^2 = a^2 + ab + ab + b^2 = a^2 + 2ab + b^2\). ¡La fórmula sale "de la geometría"!</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Caso numérico que se ve en la imagen</div>
+
+      <p>En el dibujo, \(a = 5\) y \(b = 3\). El cuadrado total tiene lado \(5 + 3 = 8\), así que su área es \(8^2 = 64\). Comprobemos:</p>
+
+      <div class="math-block">
+        <span class="math-step">Cuadrado morado: \(5^2 = 25\).</span>
+        <span class="math-step">Dos rectángulos: \(2 \cdot 5 \cdot 3 = 30\).</span>
+        <span class="math-step">Cuadrado dorado: \(3^2 = 9\).</span>
+        <span class="math-step">Total: \(25 + 30 + 9 = 64\). ✔</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Expansor
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Expansor de cuadrado del binomio</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Paso a paso</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Expansor de \((ax \pm b)^2\)</div>
+
+      <p>Elige el signo (suma o resta), ingresa los coeficientes \(a\) y \(b\) del binomio \(ax \pm b\). La herramienta desarrolla la fórmula <strong>paso a paso</strong> usando \((a \pm b)^2 = a^2 \pm 2ab + b^2\) y entrega el trinomio resultante.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo usarla</span>
+        <ul>
+          <li>Si quieres expandir \((x+5)^2\), pon \(a = 1\) y \(b = 5\) con signo "+".</li>
+          <li>Si quieres expandir \((3x-2)^2\), pon \(a = 3\) y \(b = 2\) con signo "−".</li>
+          <li>Usa los botones violetas con presets listos para no escribir.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="sign-toggle">
+            <button id="btnSignPlus" class="active" onclick="setSign('+')">(ax + b)²</button>
+            <button id="btnSignMinus" onclick="setSign('-')">(ax − b)²</button>
+          </div>
+          <div class="input-control">
+            <label>Coeficientes del binomio:</label>
+            <div class="input-row">
+              <div><label style="font-size:.78rem;">a (coef. de x)</label><input type="number" id="binA" value="1" /></div>
+              <div><label style="font-size:.78rem;">b (constante)</label><input type="number" id="binB" value="3" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadSq(1,3,'+')">(x+3)²</button>
+            <button onclick="loadSq(1,5,'+')">(x+5)²</button>
+            <button onclick="loadSq(2,1,'+')">(2x+1)²</button>
+            <button onclick="loadSq(1,4,'-')">(x−4)²</button>
+            <button onclick="loadSq(3,2,'-')">(3x−2)²</button>
+            <button onclick="loadSq(5,7,'+')">(5x+7)²</button>
+          </div>
+          <button class="calc-button" onclick="expandSq()">Expandir →</button>
+        </div>
+
+        <div class="tool-display" id="sqDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa los datos y presiona <strong>Expandir</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Cuadrado de una diferencia
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cuadrado de una diferencia</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">(a−b)²</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Fórmula</div>
+
+      <div class="prop-card-big">
+        <div class="prop-title">Cuadrado del binomio (resta)</div>
+        <div class="prop-formula">\((a - b)^2 = a^2 - 2ab + b^2\)</div>
+        <div class="prop-words">Igual que con la suma, pero el doble producto va <strong>restando</strong>.</div>
+      </div>
+
+      <p>El único cambio es el signo del término del medio. Los cuadrados \(a^2\) y \(b^2\) siempre quedan <strong>positivos</strong> (porque cualquier número al cuadrado es positivo o cero).</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Demostración rápida</div>
+
+      <div class="math-block">
+        <span class="math-step">\((a-b)^2 = (a-b)(a-b)\)</span>
+        <span class="math-step">FOIL: \(a^2 - ab - ab + b^2 = a^2 - 2ab + b^2\). ✔</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Ejemplos</div>
+
+      <div class="math-block">
+        <span class="math-step"><strong>Ej. 1:</strong> \((x-4)^2 = x^2 - 8x + 16\).</span>
+        <span class="math-step"><strong>Ej. 2:</strong> \((2x-3)^2 = (2x)^2 - 2 \cdot 2x \cdot 3 + 3^2 = 4x^2 - 12x + 9\).</span>
+        <span class="math-step"><strong>Ej. 3:</strong> \((5a - 2b)^2 = 25a^2 - 20ab + 4b^2\).</span>
+        <span class="math-step"><strong>Ej. 4 (numérico):</strong> \((100 - 1)^2 = 100^2 - 2 \cdot 100 \cdot 1 + 1^2 = 10.000 - 200 + 1 = 9.801\). Y, en efecto, \(99^2 = 9.801\).</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Truco mental</span>
+        Para calcular \(99^2\) o \(98^2\) "a mano", usa la diferencia: \(99^2 = (100-1)^2\), \(98^2 = (100-2)^2\). Mucho más fácil que multiplicar a la antigua.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>Comparación de las dos fórmulas</div>
+
+      <table class="tcp-table">
+        <thead><tr><th>Binomio</th><th>Desarrollo</th><th>Signo del doble producto</th></tr></thead>
+        <tbody>
+          <tr><td class="center">\((a+b)^2\)</td><td class="center">\(a^2 + 2ab + b^2\)</td><td class="center"><strong>+</strong></td></tr>
+          <tr><td class="center">\((a-b)^2\)</td><td class="center">\(a^2 - 2ab + b^2\)</td><td class="center"><strong>−</strong></td></tr>
+        </tbody>
+      </table>
+      <p>Los cuadrados \(a^2\) y \(b^2\) son <strong>siempre positivos</strong>. Solo cambia el signo del término del medio (\(2ab\)) según si el binomio era suma o resta.</p>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Reconocedor TCP
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: ¿Es un trinomio cuadrado perfecto?</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Reconocimiento</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Reconocedor de trinomio cuadrado perfecto</div>
+
+      <p>Un trinomio \(Ax^2 + Bx + C\) es un <strong>trinomio cuadrado perfecto</strong> (TCP) cuando se puede escribir como \((ax \pm b)^2\). Esta herramienta te dice si tu trinomio es TCP y, si lo es, te muestra el binomio del que viene.</p>
+
+      <div class="card card-tip">
+        <span class="card-label">Cómo reconocer un TCP a ojo</span>
+        <ul>
+          <li>El <strong>primer término</strong> debe ser un cuadrado: \(x^2\), \(4x^2\), \(9x^2\)…</li>
+          <li>El <strong>último término</strong> debe ser un cuadrado positivo: \(9, 16, 25\)…</li>
+          <li>El término del medio debe valer \(\pm 2 \cdot \sqrt{\text{primero}} \cdot \sqrt{\text{último}}\). Si calza, es TCP.</li>
+        </ul>
+      </div>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label>Coeficientes del trinomio \(Ax^2 + Bx + C\):</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;">
+              <div><label style="font-size:.78rem;">A</label><input type="number" id="tcpA" value="1" /></div>
+              <div><label style="font-size:.78rem;">B</label><input type="number" id="tcpB" value="6" /></div>
+              <div><label style="font-size:.78rem;">C</label><input type="number" id="tcpC" value="9" /></div>
+            </div>
+          </div>
+          <div class="preset-buttons">
+            <button onclick="loadTCP(1,6,9)">x²+6x+9</button>
+            <button onclick="loadTCP(1,-10,25)">x²−10x+25</button>
+            <button onclick="loadTCP(4,12,9)">4x²+12x+9</button>
+            <button onclick="loadTCP(9,-24,16)">9x²−24x+16</button>
+            <button onclick="loadTCP(1,5,4)">x²+5x+4 (no es TCP)</button>
+            <button onclick="loadTCP(1,4,9)">x²+4x+9 (no es TCP)</button>
+          </div>
+          <button class="calc-button" onclick="checkTCP()">Verificar →</button>
+        </div>
+
+        <div class="tool-display" id="tcpDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa A, B, C y presiona <strong>Verificar</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cuadrado del binomio — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Desarrolla \((x + 4)^2\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 16\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto \(2 \cdot x \cdot 4 = 8x\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 + 8x + 16\)<div class="opt-feedback"><strong>Correcto.</strong> \((x+4)^2 = x^2 + 2 \cdot x \cdot 4 + 4^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 4x + 16\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por 2.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 + 16x + 16\)<div class="opt-feedback"><strong>Incorrecto.</strong> El doble producto es \(8x\), no \(16x\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Desarrolla \((x - 5)^2\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 - 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto y el \(25\) queda positivo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 - 10x + 25\)<div class="opt-feedback"><strong>Correcto.</strong> \((x-5)^2 = x^2 - 2 \cdot x \cdot 5 + 5^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 10x + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Como es resta, el doble producto va con signo \(-\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(x^2 - 10x - 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> El \(5^2 = 25\) siempre queda positivo.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál de los siguientes es un trinomio cuadrado perfecto?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x^2 + 6x + 9\)<div class="opt-feedback"><strong>Correcto.</strong> Es \((x+3)^2\). Cumple: \(\sqrt{x^2}=x\), \(\sqrt{9}=3\), \(2 \cdot x \cdot 3 = 6x\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x^2 + 5x + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> El doble producto debería ser \(6x\), no \(5x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x^2 + 6x - 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> El último término debe ser positivo (es un cuadrado).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2x^2 + 6x + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> El primer término no es cuadrado de un único término.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Desarrolla \((2x + 1)^2\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2x^2 + 4x + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \((2x)^2 = 4x^2\), no \(2x^2\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4x^2 + 4x + 1\)<div class="opt-feedback"><strong>Correcto.</strong> \((2x)^2 + 2 \cdot 2x \cdot 1 + 1^2 = 4x^2 + 4x + 1\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4x^2 + 2x + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por 2 en el doble producto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(4x^2 + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el término del medio.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Desarrolla \((3a - 2b)^2\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(9a^2 - 4b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto y \(b^2\) queda positivo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(9a^2 - 12ab + 4b^2\)<div class="opt-feedback"><strong>Correcto.</strong> \((3a)^2 - 2(3a)(2b) + (2b)^2 = 9a^2 - 12ab + 4b^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(9a^2 + 12ab + 4b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> El doble producto va con signo \(-\) (es resta).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(3a^2 - 12ab + 2b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Los coeficientes 3 y 2 también se elevan al cuadrado.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Usa el cuadrado del binomio para calcular \(101^2\).</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 10.001<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10.201<div class="opt-feedback"><strong>Correcto.</strong> \((100+1)^2 = 10.000 + 200 + 1 = 10.201\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 11.000<div class="opt-feedback"><strong>Incorrecto.</strong> Error de cálculo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 10.020<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el \(1^2\) al final.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Qué binomio elevado al cuadrado da el trinomio \(x^2 + 14x + 49\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \((x+14)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 + 28x + 196\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \((x+7)^2\)<div class="opt-feedback"><strong>Correcto.</strong> \(\sqrt{49}=7\); doble producto: \(2 \cdot x \cdot 7 = 14x\) ✔.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \((x-7)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 - 14x + 49\) (con signo negativo).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \((x+49)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(x^2 + 98x + 2401\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál es el valor de \(k\) para que \(x^2 + kx + 25\) sea un TCP?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 5<div class="opt-feedback"><strong>Incorrecto.</strong> El doble producto debe valer \(2 \cdot x \cdot 5 = 10x\), entonces \(k = 10\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 10 o −10<div class="opt-feedback"><strong>Correcto.</strong> \(k = \pm 10\), uno por \((x+5)^2\) y otro por \((x-5)^2\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 25<div class="opt-feedback"><strong>Incorrecto.</strong> Eso ya es el término constante.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 50<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 2 dos veces.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">El área de un cuadrado es \(x^2 + 12x + 36\). ¿Cuánto mide su lado?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(x + 12\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría área \(x^2 + 24x + 144\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(x + 6\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2 + 12x + 36 = (x+6)^2\). El lado es \(x+6\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(x + 36\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confundiste lado con constante.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2x + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría área \(4x^2 + 24x + 36\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Verifica: \((a+b)^2 - (a-b)^2\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(2b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(4ab\)<div class="opt-feedback"><strong>Correcto.</strong> \((a^2+2ab+b^2) - (a^2-2ab+b^2) = 4ab\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 0<div class="opt-feedback"><strong>Incorrecto.</strong> Los dobles productos tienen signos opuestos, no se cancelan.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2a^2 + 2b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sumarías los desarrollos, no los restarías.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Álgebra<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Cuadrado del binomio — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Cuadrado del binomio y TCP</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">\((x+2)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 4x + 4\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2 + 2 \cdot x \cdot 2 + 2^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 2x + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2x^2 + 4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mal aplicado el cuadrado.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">\((x-3)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 - 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 - 6x + 9\)<div class="opt-feedback"><strong>Correcto.</strong> \(x^2 - 2 \cdot x \cdot 3 + 3^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 6x + 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> El doble producto debe ser negativo (resta).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 - 6x - 9\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(3^2 = 9\) siempre es positivo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">¿Cuál es un trinomio cuadrado perfecto?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 4x + 6\)<div class="opt-feedback"><strong>Incorrecto.</strong> El término constante no es cuadrado de algo coherente con \(4x\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 8x + 16\)<div class="opt-feedback"><strong>Correcto.</strong> Es \((x+4)^2\): \(\sqrt{16}=4\), \(2 \cdot x \cdot 4 = 8x\) ✔.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 8x + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría doble producto \(10x\), no \(8x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 - 6x + 9\)<div class="opt-feedback"><strong>Sí es TCP</strong>, pero la respuesta B también lo es. Cualquiera de las dos válidas. La respuesta esperada en este ejercicio es B (suma).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">\((2x+5)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(2x^2 + 20x + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> \((2x)^2 = 4x^2\), no \(2x^2\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(4x^2 + 20x + 25\)<div class="opt-feedback"><strong>Correcto.</strong> \((2x)^2 + 2(2x)(5) + 5^2\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4x^2 + 10x + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por 2 en el doble producto.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(4x^2 + 25\)<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el doble producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">El factor \(k\) que falta en \(x^2 + kx + 81\) para ser un TCP de la forma \((x+b)^2\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 9<div class="opt-feedback"><strong>Incorrecto.</strong> Es la raíz de 81, pero el doble producto duplica.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 18<div class="opt-feedback"><strong>Correcto.</strong> \(b = \sqrt{81}=9\); doble producto: \(2 \cdot x \cdot 9 = 18x\) → \(k = 18\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 81<div class="opt-feedback"><strong>Incorrecto.</strong> Eso ya es el constante.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 162<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplicaste por 2 dos veces.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">El área de un cuadrado de lado \((x+10)\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 100\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el doble producto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 20x + 100\)<div class="opt-feedback"><strong>Correcto.</strong> \((x+10)^2 = x^2 + 20x + 100\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(4x + 40\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el perímetro.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x^2 + 10x + 100\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por 2.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">Usando productos notables, \(99^2 = (100-1)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 9.800<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste el \(1^2\) al final.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> 9.801<div class="opt-feedback"><strong>Correcto.</strong> \(10.000 - 200 + 1 = 9.801\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> 9.999<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste restar 200.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 10.001<div class="opt-feedback"><strong>Incorrecto.</strong> Sumaste en vez de restar el doble producto.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">¿Cuál binomio elevado al cuadrado da \(4x^2 - 12x + 9\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \((2x+3)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(+12x\), no \(-12x\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \((2x-3)^2\)<div class="opt-feedback"><strong>Correcto.</strong> \((2x)^2 - 2(2x)(3) + 3^2 = 4x^2 - 12x + 9\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((4x-3)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(16x^2 - 24x + 9\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((2x-9)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Daría \(4x^2 - 36x + 81\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">\((a+b)^2 + (a-b)^2\) es igual a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(4ab\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es la <em>diferencia</em>, no la suma.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(2a^2 + 2b^2\)<div class="opt-feedback"><strong>Correcto.</strong> \((a^2+2ab+b^2) + (a^2-2ab+b^2) = 2a^2 + 2b^2\). Los dobles productos se cancelan.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(2(a+b)^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo si los dos sumandos fueran iguales.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(a^2 + b^2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste duplicar.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Un terreno cuadrado tiene área \((x+7)^2\) m². ¿Cuál es su área desarrollada?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x^2 + 49\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Falta el doble producto.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x^2 + 14x + 49\) m²<div class="opt-feedback"><strong>Correcto.</strong> \((x+7)^2 = x^2 + 14x + 49\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x^2 + 7x + 49\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Olvidaste multiplicar por 2.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2x + 14\) m²<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es el perímetro.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya tienes el primer producto notable en el bolsillo: \((a \pm b)^2 = a^2 \pm 2ab + b^2\). Recuerda siempre el <strong>doble producto</strong> — es el ingrediente que la mayoría olvida.</p>
+    <p>En la próxima guía verás la "suma por su diferencia", el producto notable que <em>cancela</em> el doble producto y deja un resultado sorprendentemente simple.</p>
+    <span class="next-pill">Próximo: Suma por su diferencia</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Cuadrado del binomio · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Expansor (ax ± b)^2 ---------- */
+let sqSign = '+';
+function setSign(s){
+  sqSign = s;
+  document.getElementById('btnSignPlus').classList.toggle('active', s==='+');
+  document.getElementById('btnSignMinus').classList.toggle('active', s==='-');
+  expandSq();
+}
+function loadSq(a,b,s){
+  document.getElementById('binA').value = a;
+  document.getElementById('binB').value = b;
+  setSign(s);
+}
+
+function fmtTerm(coef, varStr){
+  if(coef===0) return null;
+  if(varStr === '') return String(coef);
+  if(coef === 1) return varStr;
+  if(coef === -1) return '-' + varStr;
+  return String(coef) + varStr;
+}
+
+function expandSq(){
+  const a = parseFloat(document.getElementById('binA').value);
+  const b = parseFloat(document.getElementById('binB').value);
+  const out = document.getElementById('sqDisplay');
+  if(isNaN(a)||isNaN(b)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa a y b.</p>'; return; }
+
+  const signTxt = sqSign === '+' ? '+' : '-';
+  const expr = `\\((${a===1?'':a}x ${signTxt} ${b})^2\\)`;
+
+  const term1Coef = a*a;
+  const term2Coef = sqSign === '+' ? (2*a*b) : -(2*a*b);
+  const term3Coef = b*b;
+
+  // Construir resultado en LaTeX
+  let parts = [];
+  if(term1Coef !== 0) parts.push(fmtTerm(term1Coef, 'x^2'));
+  if(term2Coef !== 0){
+    const t = fmtTerm(Math.abs(term2Coef), 'x');
+    parts.push((term2Coef < 0 ? '- ' : '+ ') + t);
+  }
+  if(term3Coef !== 0){
+    parts.push((term3Coef < 0 ? '- ' : '+ ') + Math.abs(term3Coef));
+  }
+  // Limpiar primer signo
+  let result = parts.join(' ');
+  result = result.replace(/^\+ /, '').replace(/^- /, '-');
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.2rem;color:#0B0F3F;font-weight:700;margin-bottom:.5rem;">${expr}</div>
+    <div class="resolver-step"><span class="step-label">Paso 1</span>Identifico: primer término = \\(${a===1?'':a}x\\), segundo término = ${b}, signo = ${signTxt}.</div>
+    <div class="resolver-step"><span class="step-label">Paso 2</span>Aplico fórmula: \\((A ${signTxt} B)^2 = A^2 ${signTxt} 2AB + B^2\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 3</span>Cuadrado del primero: \\((${a===1?'':a}x)^2 = ${term1Coef}x^2\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 4</span>${sqSign === '+' ? 'Doble producto:' : 'Doble producto (con signo −):'} \\(${signTxt === '+' ? '+' : '-'}\\,2 \\cdot ${a===1?'':a}x \\cdot ${b} = ${term2Coef >= 0 ? '+' : ''}${term2Coef}x\\).</div>
+    <div class="resolver-step"><span class="step-label">Paso 5</span>Cuadrado del segundo: \\(${b}^2 = ${term3Coef}\\).</div>
+    <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.15rem;">\\(${result}\\)</span></div>
+  `;
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+  }
+}
+
+/* ---------- Verificador TCP ---------- */
+function loadTCP(A,B,C){
+  document.getElementById('tcpA').value = A;
+  document.getElementById('tcpB').value = B;
+  document.getElementById('tcpC').value = C;
+  checkTCP();
+}
+
+function checkTCP(){
+  const A = parseFloat(document.getElementById('tcpA').value);
+  const B = parseFloat(document.getElementById('tcpB').value);
+  const C = parseFloat(document.getElementById('tcpC').value);
+  const out = document.getElementById('tcpDisplay');
+  if([A,B,C].some(isNaN)){ out.innerHTML='<p style="color:#a44;">⚠ Ingresa A, B y C.</p>'; return; }
+
+  const expr = `\\(${A}x^2 ${B >= 0 ? '+' : '-'} ${Math.abs(B)}x ${C >= 0 ? '+' : '-'} ${Math.abs(C)}\\)`;
+
+  // Verificar que A y C sean cuadrados positivos
+  if(A <= 0 || C <= 0){
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.1rem;margin-bottom:.4rem;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.6rem;border-radius:0 6px 6px 0;color:#0B0F3F;">
+        <b>No es TCP.</b> Los términos extremos (\\(Ax^2\\) y \\(C\\)) deben ser cuadrados positivos.
+      </div>
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  const sqrtA = Math.sqrt(A);
+  const sqrtC = Math.sqrt(C);
+
+  if(!Number.isInteger(sqrtA) || !Number.isInteger(sqrtC)){
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.1rem;margin-bottom:.4rem;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.6rem;border-radius:0 6px 6px 0;color:#0B0F3F;">
+        <b>No es TCP (con enteros).</b> \\(\\sqrt{${A}}\\) o \\(\\sqrt{${C}}\\) no son enteros.
+      </div>
+    `;
+    if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+    return;
+  }
+
+  const expectedDP = 2 * sqrtA * sqrtC;
+  const isTCP = (B === expectedDP) || (B === -expectedDP);
+
+  if(isTCP){
+    const sign = B >= 0 ? '+' : '-';
+    const aStr = sqrtA === 1 ? 'x' : `${sqrtA}x`;
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.1rem;margin-bottom:.5rem;color:#0B0F3F;font-weight:700;">${expr}</div>
+      <div style="background:#FFF8E1;border:2px solid #D4AF37;padding:.7rem;border-radius:8px;margin-bottom:.5rem;color:#0B0F3F;">
+        <b style="color:#6A2C91;">¡Sí es un trinomio cuadrado perfecto!</b>
+      </div>
+      <div class="resolver-step"><span class="step-label">Paso 1</span>\\(\\sqrt{${A}} = ${sqrtA}\\) → primer término del binomio: \\(${aStr}\\).</div>
+      <div class="resolver-step"><span class="step-label">Paso 2</span>\\(\\sqrt{${C}} = ${sqrtC}\\) → segundo término del binomio: \\(${sqrtC}\\).</div>
+      <div class="resolver-step"><span class="step-label">Paso 3</span>Doble producto esperado: \\(2 \\cdot ${sqrtA} \\cdot ${sqrtC} = ${expectedDP}\\). El valor de B es ${B} ✔.</div>
+      <div style="margin-top:.6rem;text-align:center;"><span class="math-result" style="font-size:1.2rem;">\\((${aStr} ${sign} ${sqrtC})^2\\)</span></div>
+    `;
+  } else {
+    out.innerHTML = `
+      <div style="text-align:center;font-size:1.1rem;margin-bottom:.5rem;color:#0B0F3F;font-weight:700;">${expr}</div>
+      <div style="background:#f8f4e9;border-left:4px solid #D4AF37;padding:.7rem;border-radius:0 8px 8px 0;margin-bottom:.5rem;color:#0B0F3F;">
+        <b style="color:#6A2C91;">No es un trinomio cuadrado perfecto.</b>
+      </div>
+      <div class="resolver-step"><span class="step-label">Verificación</span>\\(\\sqrt{${A}} = ${sqrtA}\\); \\(\\sqrt{${C}} = ${sqrtC}\\).</div>
+      <div class="resolver-step"><span class="step-label">Esperado</span>Doble producto: \\(\\pm 2 \\cdot ${sqrtA} \\cdot ${sqrtC} = \\pm ${expectedDP}\\).</div>
+      <div class="resolver-step"><span class="step-label">Tu valor</span>B = ${B} ≠ ±${expectedDP}. Por eso no es TCP.</div>
+    `;
+  }
+
+  if(window.renderMathInElement) renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false}]});
+}
+
+/* ---------- Canvas cuadrado del binomio ---------- */
+function drawBinSquare(){
+  const cv = document.getElementById('binCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  const a = 5, b = 3;
+  const unit = 28;
+  const x0 = 80, y0 = 30;
+
+  const aPx = a*unit, bPx = b*unit;
+
+  // Cuadrado a*a (sup izq) - morado
+  ctx.fillStyle = 'rgba(106,44,145,.28)';
+  ctx.fillRect(x0, y0, aPx, aPx);
+  ctx.strokeStyle = '#6A2C91'; ctx.lineWidth = 2;
+  ctx.strokeRect(x0, y0, aPx, aPx);
+
+  // Rect a*b (sup der) - navy oscuro
+  ctx.fillStyle = 'rgba(11,15,63,.25)';
+  ctx.fillRect(x0+aPx, y0, bPx, aPx);
+  ctx.strokeStyle = '#0B0F3F';
+  ctx.strokeRect(x0+aPx, y0, bPx, aPx);
+
+  // Rect a*b (inf izq) - navy oscuro
+  ctx.fillStyle = 'rgba(11,15,63,.25)';
+  ctx.fillRect(x0, y0+aPx, aPx, bPx);
+  ctx.strokeStyle = '#0B0F3F';
+  ctx.strokeRect(x0, y0+aPx, aPx, bPx);
+
+  // Cuadrado b*b (inf der) - dorado
+  ctx.fillStyle = 'rgba(212,175,55,.45)';
+  ctx.fillRect(x0+aPx, y0+aPx, bPx, bPx);
+  ctx.strokeStyle = '#D4AF37';
+  ctx.strokeRect(x0+aPx, y0+aPx, bPx, bPx);
+
+  // Etiquetas internas
+  ctx.fillStyle = '#0B0F3F'; ctx.font = 'bold 22px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('a²', x0+aPx/2, y0+aPx/2);
+  ctx.font = 'bold 16px Inter, sans-serif';
+  ctx.fillText('a·b', x0+aPx+bPx/2, y0+aPx/2);
+  ctx.fillText('a·b', x0+aPx/2, y0+aPx+bPx/2);
+  ctx.fillText('b²', x0+aPx+bPx/2, y0+aPx+bPx/2);
+
+  // Etiquetas de lados arriba
+  ctx.font = 'bold 15px Inter, sans-serif';
+  ctx.fillStyle = '#6A2C91';
+  ctx.fillText('a', x0+aPx/2, y0-15);
+  ctx.fillStyle = '#9b7c1c';
+  ctx.fillText('b', x0+aPx+bPx/2, y0-15);
+
+  // Etiquetas de lados izquierda
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#6A2C91';
+  ctx.fillText('a', x0-10, y0+aPx/2);
+  ctx.fillStyle = '#9b7c1c';
+  ctx.fillText('b', x0-10, y0+aPx+bPx/2);
+
+  // Resumen a la derecha
+  const tx = x0 + aPx + bPx + 50;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#6A2C91'; ctx.font = 'bold 17px Inter, sans-serif';
+  ctx.fillText('(a + b)²', tx, y0+25);
+  ctx.fillStyle = '#0B0F3F'; ctx.font = '15px Inter, sans-serif';
+  ctx.fillText('= a² + 2ab + b²', tx, y0+50);
+
+  ctx.fillStyle = '#9b7c1c'; ctx.font = 'bold 15px Inter, sans-serif';
+  ctx.fillText('Ej.: (5 + 3)²', tx, y0+90);
+  ctx.fillStyle = '#0B0F3F';
+  ctx.fillText('= 25 + 30 + 9 = 64', tx, y0+110);
+  ctx.fillStyle = '#D4AF37'; ctx.font = 'bold 15px Inter, sans-serif';
+  ctx.fillText('Y 8² = 64 ✔', tx, y0+140);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  expandSq();
+  checkTCP();
+  drawBinSquare();
+});
+</script>
+
+</body>
+</html>

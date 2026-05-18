@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tipos de números (ℕ, ℤ, ℚ) — Matemática 1° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .katex{font-size:1.05em;}
+
+    /* Diagrama de conjuntos numéricos */
+    .sets-diagram{background:#fff;border:2px solid #D4AF37;border-radius:12px;padding:1.5rem;margin:1rem 0;text-align:center;}
+    .set-Q{display:inline-block;border:3px solid #6A2C91;border-radius:50%;padding:1.5rem 2.2rem;background:rgba(106,44,145,.08);}
+    .set-Z{display:inline-block;border:2.5px solid #D4AF37;border-radius:50%;padding:1.2rem 1.8rem;background:rgba(212,175,55,.12);margin:.5rem 0;}
+    .set-N{display:inline-block;border:2px solid #0B0F3F;border-radius:50%;padding:1rem 1.5rem;background:rgba(11,15,63,.1);font-weight:700;color:#0B0F3F;}
+    .set-label{display:block;font-weight:800;margin-bottom:.4rem;font-family:'Plus Jakarta Sans',sans-serif;}
+    .set-label.lbl-Q{color:#6A2C91;font-size:1.05rem;}
+    .set-label.lbl-Z{color:#9b7c1c;font-size:1rem;}
+    .set-label.lbl-N{color:#0B0F3F;font-size:.95rem;}
+    .set-examples{font-size:.85rem;color:#555;margin-top:.3rem;}
+
+    /* Tabla de clasificación */
+    .class-table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.95rem;}
+    .class-table th{background:#0B0F3F;color:#fff;padding:.55rem;text-align:center;font-weight:700;}
+    .class-table td{padding:.5rem;text-align:center;border:1px solid #ddd;}
+    .class-table tr:nth-child(even){background:#f8f4e9;}
+    .check{color:#0B0F3F;font-weight:700;font-size:1.1rem;}
+    .cross{color:#aaa;font-weight:400;}
+
+    /* Herramienta clasificador */
+    .tool-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .tool-display{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;min-height:300px;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.4rem;font-size:.95rem;}
+    .input-control input[type=text]{width:100%;padding:.55rem;border:2px solid #6A2C91;border-radius:6px;font-size:1.05rem;font-weight:700;color:#0B0F3F;font-family:'Inter',sans-serif;text-align:center;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .85rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+    .calc-button{display:block;margin:1rem auto 0;background:#D4AF37;color:#0B0F3F;border:0;border-radius:25px;padding:.6rem 1.5rem;cursor:pointer;font-size:.95rem;font-family:'Inter',sans-serif;font-weight:700;}
+    .calc-button:hover{background:#b39028;}
+    .badge-set{display:inline-block;padding:.25rem .7rem;border-radius:14px;font-weight:700;font-size:.82rem;margin-right:.35rem;margin-bottom:.3rem;}
+    .badge-N{background:rgba(11,15,63,.1);color:#0B0F3F;border:1px solid #0B0F3F;}
+    .badge-Z{background:rgba(212,175,55,.2);color:#9b7c1c;border:1px solid #D4AF37;}
+    .badge-Q{background:rgba(106,44,145,.12);color:#6A2C91;border:1px solid #6A2C91;}
+
+    /* Recta numérica */
+    canvas.line-canvas{width:100%;height:180px;background:#fff;border:1px solid #D9D9D9;border-radius:8px;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;width:100%;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-color:#D4AF37;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-color:#6A2C91;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.22);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong,.paes-opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+    .opt,.paes-opt{flex-wrap:wrap;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.calc-button{display:none !important;}
+      .opt-feedback{display:block !important;font-size:8.5pt;margin-top:.45rem;padding:.45rem .6rem;border-radius:4px;line-height:1.45;width:100%;}
+      .opt-correct{background:#FFF8E1 !important;border-color:#D4AF37 !important;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-color:#6A2C91 !important;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.22) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong,.paes-opt .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+    .btn-pdf-top{position:fixed;top:1rem;right:1rem;z-index:1000;background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);}
+    .btn-pdf-top:hover{background:#552072;}
+    @media print{.btn-pdf-top{display:none !important;}}
+  </style>
+</head>
+<body>
+
+<button class="btn-pdf-top" onclick="window.print()">📄 Exportar a PDF</button>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Los conjuntos numéricos
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Tipos de números: ℕ, ℤ, ℚ</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Clasificación</span>
+    <span class="chip">Conjuntos numéricos</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-text">Reconocer y clasificar números en los conjuntos <strong>ℕ</strong> (naturales), <strong>ℤ</strong> (enteros) y <strong>ℚ</strong> (racionales), entendiendo cómo cada conjunto extiende al anterior y qué operaciones son posibles dentro de cada uno.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>¿Por qué existen distintos conjuntos numéricos?</div>
+
+      <p>Las matemáticas <strong>crecen</strong> con las necesidades humanas. Al principio bastó con <em>contar</em> objetos (ovejas, monedas, frutos). Más adelante surgieron las <em>deudas</em>, los <em>repartos</em>, las <em>medidas</em>. Para cada situación nueva se necesitó <strong>inventar números nuevos</strong>.</p>
+
+      <div class="math-block">
+        <span class="math-step"><strong>1.</strong> Para contar → <strong>números naturales</strong> (ℕ): 1, 2, 3, 4, …</span>
+        <span class="math-step"><strong>2.</strong> Para representar deudas o temperaturas bajo cero → <strong>números enteros</strong> (ℤ): … −3, −2, −1, 0, 1, 2, 3 …</span>
+        <span class="math-step"><strong>3.</strong> Para representar partes de un todo → <strong>números racionales</strong> (ℚ): toda fracción \(\dfrac{a}{b}\) con \(a,b \in \mathbb{Z}\) y \(b\neq 0\).</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Diagrama de inclusión</div>
+
+      <p>Cada conjunto <strong>contiene</strong> al anterior. Esto significa que todo número natural es también entero, y todo entero es también racional.</p>
+
+      <div class="sets-diagram">
+        <div class="set-Q">
+          <span class="set-label lbl-Q">ℚ — Racionales</span>
+          <div class="set-Z">
+            <span class="set-label lbl-Z">ℤ — Enteros</span>
+            <div class="set-N">
+              <span class="set-label lbl-N">ℕ — Naturales</span>
+              <div style="font-size:.8rem;color:#555;">1, 2, 3, 4 …</div>
+            </div>
+            <div class="set-examples">…, −3, −2, −1, 0</div>
+          </div>
+          <div class="set-examples">\(\dfrac{1}{2},\ -\dfrac{3}{4},\ 0,\!75,\ 2,\!\overline{3}\)</div>
+        </div>
+        <p style="font-size:.85rem;color:#666;margin-top:.7rem;">Lectura: \(\ \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q}\). El símbolo \(\subset\) significa "está contenido en".</p>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Idea clave</span>
+        Un mismo número puede pertenecer a varios conjuntos a la vez. Por ejemplo, el <strong>7</strong> está en ℕ, ℤ y ℚ; pero el \(\dfrac{1}{2}\) solo está en ℚ.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — ℕ y ℤ a fondo
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Números naturales (ℕ) y enteros (ℤ)</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Naturales</span>
+    <span class="chip">Enteros</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Números naturales ℕ</div>
+
+      <p>Son los números que usamos para <strong>contar</strong>. En Chile (y en gran parte de Latinoamérica) la convención es:</p>
+      <div class="math-box">\(\mathbb{N} = \{1,\ 2,\ 3,\ 4,\ 5,\ \ldots\}\)</div>
+      <p>Algunos textos incluyen el 0 y escriben \(\mathbb{N}_0=\{0,1,2,3,\ldots\}\). En esta guía usaremos la versión sin cero.</p>
+
+      <div class="subsec">Operaciones posibles en ℕ</div>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>✔ <strong>Suma:</strong> \(3+5=8\) (siempre da un natural).</li>
+        <li>✔ <strong>Multiplicación:</strong> \(3 \cdot 4=12\) (siempre da un natural).</li>
+        <li>✘ <strong>Resta:</strong> \(3-5=-2\) <strong>no</strong> es natural (necesitamos ampliar a ℤ).</li>
+        <li>✘ <strong>División:</strong> \(3 \div 5 = 0,6\) <strong>no</strong> es natural (necesitamos ampliar a ℚ).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Números enteros ℤ</div>
+
+      <p>Amplían ℕ agregando el <strong>cero</strong> y los <strong>negativos</strong>:</p>
+      <div class="math-box">\(\mathbb{Z} = \{\ldots,\ -3,\ -2,\ -1,\ 0,\ 1,\ 2,\ 3,\ \ldots\}\)</div>
+
+      <p>Permiten representar situaciones de la vida real:</p>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li><strong>Temperaturas:</strong> +28° en Santiago, −15° en la Antártica.</li>
+        <li><strong>Cuentas bancarias:</strong> saldo −\$25.000 (en rojo) vs. saldo +\$120.000.</li>
+        <li><strong>Alturas:</strong> Everest +8.848 m, Mar Muerto −430 m respecto al nivel del mar.</li>
+        <li><strong>Cronología:</strong> año 753 a.C. (≡ −753) vs. 2026 d.C. (≡ +2026).</li>
+      </ul>
+
+      <div class="subsec">Operaciones posibles en ℤ</div>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li>✔ Suma, resta y multiplicación: el resultado <strong>siempre</strong> es entero.</li>
+        <li>✘ División: \(7 \div 2\) <strong>no</strong> es entero (necesitamos ℚ).</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Recta numérica entera</div>
+
+      <p>Cada entero se ubica en un punto de la recta. Los negativos a la izquierda del cero, los positivos a la derecha.</p>
+      <div class="math-box" style="text-align:left;padding:.6rem 1rem;">
+        <span style="font-family:monospace;letter-spacing:.4em;">··· −4 &nbsp;−3 &nbsp;−2 &nbsp;−1 &nbsp;&nbsp;0 &nbsp;&nbsp;1 &nbsp;&nbsp;2 &nbsp;&nbsp;3 &nbsp;&nbsp;4 ···</span><br>
+        <span style="font-size:.85rem;color:#555;">↑ negativos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cero &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; positivos ↑</span>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Comparar enteros</span>
+        En la recta, <strong>el número que está más a la derecha es mayor</strong>. Por eso \(-3 < -1\) (porque −3 está más a la izquierda) y \(-1 < 0 < 5\).
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Números racionales ℚ
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Números racionales (ℚ)</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Fracciones</span>
+    <span class="chip">Decimales</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Definición formal de ℚ</div>
+
+      <div class="math-box">\(\mathbb{Q} = \left\{ \dfrac{a}{b} \ \Big|\ a \in \mathbb{Z},\ b \in \mathbb{Z},\ b \neq 0 \right\}\)</div>
+      <p>En palabras: un número es <strong>racional</strong> si se puede escribir como una <strong>fracción</strong> de dos enteros, con el denominador distinto de cero.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>¿Por qué todo entero es racional?</div>
+
+      <p>Cualquier entero \(n\) se puede escribir como \(\dfrac{n}{1}\). Por ejemplo:</p>
+      <div class="math-block">
+        <span class="math-step">\(5 = \dfrac{5}{1}\) → racional ✔</span>
+        <span class="math-step">\(-7 = \dfrac{-7}{1}\) → racional ✔</span>
+        <span class="math-step">\(0 = \dfrac{0}{1}\) → racional ✔</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Tres formas de escribir un mismo racional</div>
+
+      <p>Todo número racional puede expresarse de varias maneras equivalentes:</p>
+
+      <table class="class-table">
+        <thead>
+          <tr><th>Fracción</th><th>Decimal</th><th>Porcentaje</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>\(\dfrac{1}{2}\)</td><td>0,5</td><td>50 %</td></tr>
+          <tr><td>\(\dfrac{3}{4}\)</td><td>0,75</td><td>75 %</td></tr>
+          <tr><td>\(\dfrac{1}{3}\)</td><td>\(0,\overline{3}\)</td><td>33,\(\overline{3}\) %</td></tr>
+          <tr><td>\(-\dfrac{2}{5}\)</td><td>−0,4</td><td>−40 %</td></tr>
+          <tr><td>\(\dfrac{7}{1}\)</td><td>7</td><td>700 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>¿Los decimales son racionales?</div>
+
+      <p>Sí, siempre que sean:</p>
+      <ul style="margin:.4rem 0;line-height:1.7;">
+        <li><strong>Finitos:</strong> 0,5 = \(\dfrac{1}{2}\); 0,125 = \(\dfrac{1}{8}\); 2,75 = \(\dfrac{11}{4}\).</li>
+        <li><strong>Periódicos:</strong> \(0,\overline{3} = \dfrac{1}{3}\); \(0,\overline{27} = \dfrac{27}{99} = \dfrac{3}{11}\); \(0,1\overline{6} = \dfrac{1}{6}\).</li>
+      </ul>
+      <p>En cambio, los decimales <strong>infinitos no periódicos</strong> (como \(\pi = 3,14159265\ldots\) o \(\sqrt{2} = 1,41421356\ldots\)) <strong>no son racionales</strong>. Estos se llaman <strong>irracionales</strong> (𝕀) y se estudian más adelante.</p>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Si te dan un número y puedes escribirlo como fracción de enteros, es racional. Si su decimal "se calma" (finito) o "se repite" (periódico), también es racional. Si su decimal es interminable y caótico, es <strong>irracional</strong>.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — Herramienta 1: Clasificador
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 1: Clasificador interactivo</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Clasifica números</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Clasificador interactivo de números</div>
+
+      <p>Escribe un número y la herramienta te dirá a <strong>qué conjuntos pertenece</strong> (ℕ, ℤ, ℚ) y por qué. Acepta enteros (<code>7</code>, <code>-3</code>), fracciones (<code>3/4</code>, <code>-7/2</code>) y decimales (<code>0.5</code>, <code>-2.75</code>).</p>
+
+      <div class="tool-wrap">
+        <div class="tool-controls">
+          <div class="input-control">
+            <label for="numInput">Ingresa un número:</label>
+            <input type="text" id="numInput" value="3/4" placeholder="Ej: 7, -3, 3/4, 0.5" />
+          </div>
+
+          <div class="preset-buttons">
+            <button onclick="setNum('7')">7</button>
+            <button onclick="setNum('-3')">−3</button>
+            <button onclick="setNum('0')">0</button>
+            <button onclick="setNum('3/4')">3/4</button>
+            <button onclick="setNum('-7/2')">−7/2</button>
+            <button onclick="setNum('0.5')">0,5</button>
+            <button onclick="setNum('-2.75')">−2,75</button>
+            <button onclick="setNum('5/1')">5/1</button>
+          </div>
+
+          <button class="calc-button" onclick="classify()">Clasificar →</button>
+        </div>
+
+        <div class="tool-display" id="classDisplay">
+          <p style="color:#888;text-align:center;margin-top:5rem;">Ingresa un número y presiona <strong>Clasificar</strong>.</p>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <span class="card-label">Recuerda</span>
+        Todo natural es entero, y todo entero es racional. Por eso un mismo número puede pertenecer a <strong>varios conjuntos</strong> a la vez.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Conversión entre representaciones
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Conversión entre representaciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Fracción ↔ decimal</span>
+    <span class="chip">Porcentajes</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Tipos de decimales en ℚ</div>
+
+      <p>Al dividir el numerador por el denominador de una fracción, el resultado puede ser:</p>
+      <table class="class-table">
+        <thead><tr><th>Tipo</th><th>Ejemplo</th><th>Fracción equivalente</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Entero</strong></td><td>4</td><td>\(\dfrac{4}{1}\)</td></tr>
+          <tr><td><strong>Decimal finito</strong></td><td>0,375</td><td>\(\dfrac{3}{8}\)</td></tr>
+          <tr><td><strong>Decimal periódico puro</strong></td><td>\(0,\overline{6}\)</td><td>\(\dfrac{2}{3}\)</td></tr>
+          <tr><td><strong>Decimal periódico mixto</strong></td><td>\(0,1\overline{6}\)</td><td>\(\dfrac{1}{6}\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>De decimal finito a fracción</div>
+
+      <p>Cuenta los decimales, escribe el número sin coma sobre 10, 100, 1000… y simplifica.</p>
+      <div class="math-block">
+        <span class="math-step"><strong>Ej.</strong> Convierte \(0,375\) en fracción.</span>
+        <span class="math-step">Tiene 3 decimales → divide por 1000: \(\ 0,375 = \dfrac{375}{1000}\).</span>
+        <span class="math-step">Simplifica dividiendo por 125: <span class="math-result">\(\dfrac{375}{1000} = \dfrac{3}{8}\)</span></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>De decimal periódico a fracción</div>
+
+      <p>Para periódicos puros: pones el período en el numerador y tantos 9 como cifras del período en el denominador.</p>
+      <div class="math-block">
+        <span class="math-step">\(0,\overline{6} = \dfrac{6}{9} = \dfrac{2}{3}\)</span>
+        <span class="math-step">\(0,\overline{27} = \dfrac{27}{99} = \dfrac{3}{11}\)</span>
+        <span class="math-step">\(0,\overline{142857} = \dfrac{142857}{999999} = \dfrac{1}{7}\)</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">4</span>De porcentaje a fracción</div>
+
+      <p>El "%" significa "dividido en 100". Entonces \(x\,\% = \dfrac{x}{100}\).</p>
+      <div class="math-block">
+        <span class="math-step">\(25\% = \dfrac{25}{100} = \dfrac{1}{4}\)</span>
+        <span class="math-step">\(80\% = \dfrac{80}{100} = \dfrac{4}{5}\)</span>
+        <span class="math-step">\(12,5\% = \dfrac{12,5}{100} = \dfrac{125}{1000} = \dfrac{1}{8}\)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — Herramienta 2: Recta numérica
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Herramienta 2: Recta numérica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Interactivo</span>
+    <span class="chip">Comparar racionales</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Ubicar números en la recta</div>
+
+      <p>Ingresa hasta 5 números (separados por coma). La herramienta los <strong>ordena de menor a mayor</strong> y los grafica en una recta numérica.</p>
+
+      <div class="tool-controls" style="margin-bottom:.8rem;">
+        <div class="input-control">
+          <label for="lineInput">Números (ej: −2, 1/2, 0.75, 3, −1.5):</label>
+          <input type="text" id="lineInput" value="-2, 1/2, 0.75, 3, -1.5" />
+        </div>
+        <div class="preset-buttons">
+          <button onclick="setLine('1/2, 1/3, 1/4, 1/5')">Fracciones unitarias</button>
+          <button onclick="setLine('-3, -1, 0, 2, 4')">Enteros</button>
+          <button onclick="setLine('-1.5, 0.5, 1.25, 2.75')">Decimales</button>
+          <button onclick="setLine('-7/2, 0, 3/2, 5/2')">Mezcla</button>
+        </div>
+        <button class="calc-button" onclick="drawLine()">Graficar →</button>
+      </div>
+
+      <canvas id="lineCanvas" class="line-canvas" width="900" height="200"></canvas>
+
+      <div id="lineOrder" style="margin-top:.8rem;font-size:.95rem;color:#0B0F3F;"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo comparar racionales</div>
+
+      <ol class="steps-num">
+        <li>Convierte todos a <strong>decimal</strong> dividiendo numerador por denominador.</li>
+        <li>Ordena los decimales como números comunes.</li>
+        <li>Recuerda: en los negativos, el de <strong>mayor valor absoluto</strong> es el <strong>menor</strong>. Ej.: \(-3 < -1\) porque \(-3\) está más a la izquierda.</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — Ejercicios
+     ============================================================ -->
+<div class="page" id="page7">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Tipos de números — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿A cuáles conjuntos pertenece el número \(\dfrac{8}{2}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Solo a ℚ.<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{8}{2}=4\), que también es natural y entero.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Solo a ℤ y ℚ.<div class="opt-feedback"><strong>Incorrecto.</strong> Como 4 es positivo y entero, también es natural.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> A ℕ, ℤ y ℚ.<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{8}{2}=4\) ∈ ℕ ⊂ ℤ ⊂ ℚ.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Solo a ℕ.<div class="opt-feedback"><strong>Incorrecto.</strong> Es natural, pero también entero y racional.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál de los siguientes <strong>no</strong> es un número racional?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(0,\overline{27}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es decimal periódico, equivale a \(\dfrac{27}{99}=\dfrac{3}{11}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(-\dfrac{5}{7}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es fracción de enteros, es racional.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\sqrt{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Su decimal es infinito y no periódico → irracional.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(3,75\)<div class="opt-feedback"><strong>Incorrecto.</strong> Decimal finito = racional: \(\dfrac{15}{4}\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">¿Cuál es la fracción equivalente a \(0,\overline{8}\)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{8}{10}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(0,8\) (finito), no \(0,\overline{8}\).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{8}{9}\)<div class="opt-feedback"><strong>Correcto.</strong> Período de una cifra → denominador 9.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{4}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es \(0,8\) simplificado.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{8}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{1}{8}=0,125\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Clasifica \(-5\) en los conjuntos ℕ, ℤ, ℚ.</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Pertenece solo a ℕ.<div class="opt-feedback"><strong>Incorrecto.</strong> Los naturales son positivos.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Pertenece a ℕ y ℤ.<div class="opt-feedback"><strong>Incorrecto.</strong> No es natural por ser negativo.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Pertenece a ℤ y ℚ.<div class="opt-feedback"><strong>Correcto.</strong> Es entero y, como todo entero, racional. No es natural.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Pertenece solo a ℚ.<div class="opt-feedback"><strong>Incorrecto.</strong> También es entero.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Expresa el 35 % como fracción simplificada.</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(\dfrac{35}{10}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 350 %.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(\dfrac{7}{20}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{35}{100}\), dividiendo por 5: \(\dfrac{7}{20}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\dfrac{35}{100}\) (sin simplificar)<div class="opt-feedback"><strong>Valor correcto</strong>, pero la pregunta pide simplificada.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{1}{3} \approx 33,3\%\), no 35 %.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Ordena de menor a mayor: \(-\dfrac{1}{2},\ 0,\!75,\ -1,\ \dfrac{2}{5},\ 0\).</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(-1 < -\dfrac{1}{2} < 0 < \dfrac{2}{5} < 0,75\)<div class="opt-feedback"><strong>Correcto.</strong> En decimal: \(-1 < -0,5 < 0 < 0,4 < 0,75\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(-\dfrac{1}{2} < -1 < 0 < \dfrac{2}{5} < 0,75\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-1 < -\dfrac{1}{2}\), no al revés.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(0 < \dfrac{2}{5} < 0,75 < -\dfrac{1}{2} < -1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Los negativos van primero.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(0,75 < \dfrac{2}{5} < 0 < -\dfrac{1}{2} < -1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Ese es el orden de mayor a menor.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿\(0,\overline{4}\) es racional? ¿Cuál es su fracción?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> No es racional.<div class="opt-feedback"><strong>Incorrecto.</strong> Todo periódico es racional.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Sí, \(\dfrac{4}{9}\).<div class="opt-feedback"><strong>Correcto.</strong> Período de una cifra → denominador 9. Verifica: \(4 \div 9 = 0,444\ldots\) ✔</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Sí, \(\dfrac{4}{10}\).<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 0,4 (finito).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Sí, \(\dfrac{4}{100}\).<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 0,04.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿Cuál de las siguientes afirmaciones es FALSA?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Todo natural es racional.<div class="opt-feedback"><strong>Verdadera.</strong> ℕ ⊂ ℚ.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Todo racional es entero.<div class="opt-feedback"><strong>Falsa (esa es la respuesta).</strong> \(\dfrac{1}{2}\) es racional pero no entero.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Todo entero es racional.<div class="opt-feedback"><strong>Verdadera.</strong> Cualquier \(n=\dfrac{n}{1}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Existen decimales que no son racionales.<div class="opt-feedback"><strong>Verdadera.</strong> Los irracionales como \(\pi\) o \(\sqrt{2}\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">¿En qué conjunto la <strong>división</strong> siempre da resultado dentro del mismo conjunto (excepto división por 0)?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> ℕ<div class="opt-feedback"><strong>Incorrecto.</strong> \(3 \div 5 = 0,6\) no es natural.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> ℤ<div class="opt-feedback"><strong>Incorrecto.</strong> \(7 \div 2 = 3,5\) no es entero.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> ℚ<div class="opt-feedback"><strong>Correcto.</strong> Dividir un racional por otro (≠ 0) siempre da un racional.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> En ninguno.<div class="opt-feedback"><strong>Incorrecto.</strong> En ℚ sí se cumple.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si \(a = \dfrac{2}{3}\) y \(b = 0,\overline{6}\), ¿cuál afirmación es correcta?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(a > b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Son iguales.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(a < b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Son iguales.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(a = b\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{2}{3} = 0,666\ldots = 0,\overline{6}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(b\) no es racional.<div class="opt-feedback"><strong>Incorrecto.</strong> Todo periódico es racional.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 1° Medio<br>Eje: Números<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Tipos de números — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Conjuntos numéricos</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">¿Cuál de los siguientes conjuntos contiene a todos los demás?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ℕ<div class="opt-feedback"><strong>Incorrecto.</strong> Es el más pequeño: solo positivos enteros.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ℤ<div class="opt-feedback"><strong>Incorrecto.</strong> Contiene a ℕ pero no a las fracciones no enteras.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ℚ<div class="opt-feedback"><strong>Correcto.</strong> ℕ ⊂ ℤ ⊂ ℚ.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Los tres son iguales.<div class="opt-feedback"><strong>Incorrecto.</strong> Son distintos y se contienen en cadena.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">¿Cuál afirmación es siempre verdadera?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Todo racional es entero.<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{1}{2}\) es racional pero no entero.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Todo entero es racional.<div class="opt-feedback"><strong>Correcto.</strong> Cualquier entero \(n=\dfrac{n}{1}\), por lo tanto está en ℚ.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Todo natural es negativo.<div class="opt-feedback"><strong>Incorrecto.</strong> Los naturales son positivos por definición.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Todo decimal es racional.<div class="opt-feedback"><strong>Incorrecto.</strong> \(\pi\) y \(\sqrt{2}\) son decimales no racionales.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">El número \(-\dfrac{12}{4}\) pertenece a:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ℕ y ℤ.<div class="opt-feedback"><strong>Incorrecto.</strong> \(-\dfrac{12}{4}=-3\), que es negativo: no es natural.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ℤ y ℚ.<div class="opt-feedback"><strong>Correcto.</strong> \(-3\) es entero y, como todo entero, racional.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Solo a ℚ.<div class="opt-feedback"><strong>Incorrecto.</strong> También es entero.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> A ℕ, ℤ y ℚ.<div class="opt-feedback"><strong>Incorrecto.</strong> No es natural por ser negativo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuál de los siguientes es un decimal periódico mixto?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(0,5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es decimal finito.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(0,\overline{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es periódico puro (todo se repite desde la coma).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(0,1\overline{6}\)<div class="opt-feedback"><strong>Correcto.</strong> Tiene parte no periódica (1) y luego el período (6).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(2,71828\ldots\) (e)<div class="opt-feedback"><strong>Incorrecto.</strong> El número e es irracional, no periódico.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">¿Cuál fracción es equivalente a \(0,375\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{3}{4}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{3}{4}=0,75\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3}{8}\)<div class="opt-feedback"><strong>Correcto.</strong> \(0,375=\dfrac{375}{1000}=\dfrac{3}{8}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{375}{100}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso es 3,75.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(\dfrac{1}{3}=0,\overline{3}\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">Ordena de menor a mayor: \(-\dfrac{1}{4},\ 0,\!2,\ -1,\ \dfrac{1}{2}\).</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(-\dfrac{1}{4} < -1 < 0,2 < \dfrac{1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(-1 < -\dfrac{1}{4}\) (mayor absoluto, menor valor).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(-1 < -\dfrac{1}{4} < 0,2 < \dfrac{1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> En decimal: \(-1 < -0,25 < 0,2 < 0,5\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(0,2 < -\dfrac{1}{4} < \dfrac{1}{2} < -1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Los negativos van primero.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{1}{2} < 0,2 < -\dfrac{1}{4} < -1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es el orden de mayor a menor.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">¿En qué conjunto la <strong>resta</strong> NO siempre es posible?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> ℕ<div class="opt-feedback"><strong>Correcto.</strong> Ej.: \(3-5=-2\) no es natural.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> ℤ<div class="opt-feedback"><strong>Incorrecto.</strong> La resta entre enteros siempre es entera.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> ℚ<div class="opt-feedback"><strong>Incorrecto.</strong> La resta entre racionales siempre es racional.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> En ninguno se sale.<div class="opt-feedback"><strong>Incorrecto.</strong> En ℕ sí se sale.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Si \(a=\dfrac{2}{3}\) y \(b=0,\overline{6}\), ¿cuál afirmación es correcta?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(a > b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Ambos valen lo mismo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(a < b\)<div class="opt-feedback"><strong>Incorrecto.</strong> Ambos valen lo mismo.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(a = b\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{2}{3}=0,666\ldots=0,\overline{6}\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(b\) no es racional.<div class="opt-feedback"><strong>Incorrecto.</strong> Todo periódico es racional.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Cuál de los siguientes <strong>no</strong> pertenece a ℤ?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> 0<div class="opt-feedback"><strong>Incorrecto.</strong> 0 sí es entero.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> −12<div class="opt-feedback"><strong>Incorrecto.</strong> Los negativos sin coma son enteros.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{5}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{5}{2}=2,5\), no es entero (pero sí racional).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> 100<div class="opt-feedback"><strong>Incorrecto.</strong> Es natural y entero.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">El 60 % expresado como fracción simplificada es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(\dfrac{6}{10}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Correcto en valor, pero no simplificado.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(\dfrac{3}{5}\)<div class="opt-feedback"><strong>Correcto.</strong> \(\dfrac{60}{100}=\dfrac{3}{5}\) (dividiendo por 20).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(\dfrac{60}{10}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Eso sería 600 %.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(\dfrac{5}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invertiste numerador y denominador.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Ya distingues entre ℕ, ℤ y ℚ, sabes pasar entre fracciones, decimales y porcentajes, y reconoces cuándo un decimal es racional.</p>
+    <p>Los conjuntos numéricos son la base de toda la matemática que viene: ecuaciones, funciones, geometría analítica. Tener clara la diferencia entre racional e irracional te ayudará en 2° Medio cuando aparezcan las raíces.</p>
+    <span class="next-pill">Próximo: Jerarquía de operaciones</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 1° Medio · Tipos de números · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<script>
+/* ---------- Utilidades de fracciones ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a||1;}
+function simplifyFrac(n,d){const g=gcd(n,d);n/=g;d/=g;if(d<0){n=-n;d=-d;}return [n,d];}
+
+function parseNumber(str){
+  str = str.trim().replace(',','.');
+  if(!str) return null;
+  if(str.includes('/')){
+    const [a,b] = str.split('/').map(s=>parseFloat(s.trim()));
+    if(isNaN(a)||isNaN(b)||b===0) return null;
+    if(!Number.isInteger(a)||!Number.isInteger(b)) return null;
+    return {kind:'frac', n:a, d:b, value:a/b, original:str};
+  }
+  const v = parseFloat(str);
+  if(isNaN(v)) return null;
+  return {kind: Number.isInteger(v)?'int':'dec', value:v, original:str};
+}
+
+/* ---------- Clasificador ---------- */
+function setNum(s){ document.getElementById('numInput').value = s; classify(); }
+
+function classify(){
+  const raw = document.getElementById('numInput').value;
+  const num = parseNumber(raw);
+  const out = document.getElementById('classDisplay');
+  if(!num){
+    out.innerHTML = '<p style="color:#a44;">⚠ No se entendió el número. Usa formatos como 7, −3, 3/4 o 0.5.</p>';
+    return;
+  }
+
+  const v = num.value;
+  const isNatural = Number.isInteger(v) && v >= 1;
+  const isInteger = Number.isInteger(v);
+
+  let badges = '';
+  if(isNatural) badges += '<span class="badge-set badge-N">ℕ Natural</span>';
+  if(isInteger) badges += '<span class="badge-set badge-Z">ℤ Entero</span>';
+  badges += '<span class="badge-set badge-Q">ℚ Racional</span>';
+
+  let valueStr;
+  if(num.kind==='frac'){
+    const [sn,sd] = simplifyFrac(num.n, num.d);
+    valueStr = `\\(\\dfrac{${num.n}}{${num.d}}\\) = ${num.value} ${(num.n!==sn||num.d!==sd)?` = \\(\\dfrac{${sn}}{${sd}}\\)`:''}`;
+  } else {
+    valueStr = `${num.value}`;
+  }
+
+  let reasoning = '<ul style="margin:.4rem 0 0 .9rem;padding:0;font-size:.88rem;">';
+  reasoning += `<li><b>¿Natural?</b> ${isNatural? '✔ Sí — es entero positivo.' : '✘ No — '+(v<1?'es menor que 1 o negativo.':'no es entero.')}</li>`;
+  reasoning += `<li><b>¿Entero?</b> ${isInteger? '✔ Sí — no tiene parte decimal.' : '✘ No — tiene parte decimal o fraccionaria.'}</li>`;
+  reasoning += `<li><b>¿Racional?</b> ✔ Sí — se puede escribir como fracción de enteros.</li>`;
+  reasoning += '</ul>';
+
+  out.innerHTML = `
+    <div style="text-align:center;font-size:1.4rem;font-weight:700;color:#0B0F3F;margin-bottom:.6rem;">${valueStr}</div>
+    <div style="text-align:center;margin-bottom:.7rem;">${badges}</div>
+    <div style="background:#F8F4E9;border-radius:6px;padding:.55rem .7rem;border:1px solid #D4AF37;">
+      <b style="color:#6A2C91;">Razonamiento:</b>
+      ${reasoning}
+    </div>
+  `;
+
+  if(window.renderMathInElement){
+    renderMathInElement(out,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true}]});
+  }
+}
+
+/* ---------- Recta numérica ---------- */
+function setLine(s){ document.getElementById('lineInput').value = s; drawLine(); }
+
+function drawLine(){
+  const raw = document.getElementById('lineInput').value;
+  const parts = raw.split(/[,;]/).map(s=>s.trim()).filter(s=>s);
+  const nums = parts.map(p=>parseNumber(p)).filter(x=>x);
+  const orderDiv = document.getElementById('lineOrder');
+  const cv = document.getElementById('lineCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+
+  if(nums.length===0){
+    orderDiv.innerHTML = '<span style="color:#a44;">⚠ Ingresa al menos un número válido.</span>';
+    return;
+  }
+
+  const values = nums.map(n=>n.value);
+  let minV = Math.min(...values);
+  let maxV = Math.max(...values);
+  if(minV===maxV){ minV-=1; maxV+=1; }
+  const padding = (maxV-minV)*0.2;
+  minV -= padding; maxV += padding;
+  minV = Math.floor(minV);
+  maxV = Math.ceil(maxV);
+
+  const marginL = 50, marginR = 50;
+  const lineY = H/2;
+  const x0 = marginL, x1 = W - marginR;
+  const scale = (x1-x0)/(maxV-minV);
+  const xOf = v => x0 + (v-minV)*scale;
+
+  ctx.strokeStyle = '#0B0F3F';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(x0-15, lineY);
+  ctx.lineTo(x1+15, lineY);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x1+15, lineY); ctx.lineTo(x1+5, lineY-6); ctx.lineTo(x1+5, lineY+6); ctx.closePath(); ctx.fillStyle='#0B0F3F'; ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(x0-15, lineY); ctx.lineTo(x0-5, lineY-6); ctx.lineTo(x0-5, lineY+6); ctx.closePath(); ctx.fill();
+
+  ctx.font = '12px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  for(let i=minV; i<=maxV; i++){
+    const x = xOf(i);
+    ctx.strokeStyle = i===0? '#6A2C91' : '#999';
+    ctx.lineWidth = i===0? 2 : 1;
+    ctx.beginPath();
+    ctx.moveTo(x, lineY-6);
+    ctx.lineTo(x, lineY+6);
+    ctx.stroke();
+    ctx.fillStyle = i===0? '#6A2C91' : '#444';
+    ctx.fillText(i, x, lineY+22);
+  }
+
+  const colors = ['#6A2C91','#D4AF37','#0B0F3F','#a4408c','#9b7c1c'];
+  nums.sort((a,b)=>a.value-b.value);
+  nums.forEach((n,i)=>{
+    const x = xOf(n.value);
+    const c = colors[i % colors.length];
+    ctx.fillStyle = c;
+    ctx.beginPath(); ctx.arc(x, lineY, 7, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(x, lineY, 7, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = c;
+    ctx.font = 'bold 13px Inter, sans-serif';
+    const label = n.original;
+    const yOff = (i%2===0)? -18 : -36;
+    ctx.fillText(label, x, lineY + yOff);
+    ctx.strokeStyle = c; ctx.lineWidth=1;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath();
+    ctx.moveTo(x, lineY + yOff + 5);
+    ctx.lineTo(x, lineY - 8);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  const orderStr = nums.map(n=>n.original).join(' &lt; ');
+  orderDiv.innerHTML = `<b style="color:#6A2C91;">Ordenados de menor a mayor:</b> ${orderStr}`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  classify();
+  drawLine();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reconocer función inversa — Matemática 2° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.55rem 0;font-size:1.05rem;line-height:1.9;color:#0B0F3F;}
+    .math-result{font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.25rem .85rem;display:inline-block;margin:.25rem 0;font-size:1.05rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;font-size:1.1rem;}
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:.75rem 0;}
+    .prop-card{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem .9rem;}
+    .prop-card .prop-name{display:block;color:#6A2C91;font-weight:700;font-size:.95rem;margin-bottom:.2rem;}
+    .prop-card .prop-eq{font-size:1.05rem;color:#0B0F3F;}
+    .katex{font-size:1.05em;}
+
+    .embed-graph-wrap{display:flex;flex-direction:column;align-items:center;margin:1rem 0;}
+    .embed-graph-wrap canvas{border:2px solid #6A2C91;border-radius:8px;background:#fff;max-width:100%;height:auto;display:block;}
+    .embed-caption{font-size:.8rem;color:#6A2C91;font-weight:600;margin-top:.4rem;text-align:center;}
+
+    /* Diagrama sagital simple */
+    .sagital{display:flex;justify-content:center;align-items:center;gap:1.5rem;background:#fff;border:2px dashed #D4AF37;border-radius:8px;padding:1rem;margin:.7rem 0;}
+    .sagital-col{display:flex;flex-direction:column;gap:.4rem;}
+    .sagital-col h5{margin:0 0 .3rem;text-align:center;color:#6A2C91;font-size:.85rem;}
+    .sag-item{background:#F8F4E9;border:1.5px solid #D4AF37;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0B0F3F;font-size:.9rem;}
+    .sagital-arrows{display:flex;flex-direction:column;gap:.4rem;justify-content:center;color:#6A2C91;font-size:1.4rem;}
+    .sagital-arrows span{height:38px;display:flex;align-items:center;}
+
+    /* Tabla de valores destacada */
+    .vt-table{border-collapse:collapse;margin:.6rem auto;}
+    .vt-table th,.vt-table td{border:1.5px solid #6A2C91;padding:.4rem .8rem;text-align:center;font-size:.95rem;}
+    .vt-table th{background:#6A2C91;color:#fff;}
+
+    /* Herramientas */
+    .tool-wrap{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0;align-items:start;}
+    @media (max-width:760px){.tool-wrap{grid-template-columns:1fr;}}
+    .tool-canvas-wrap{border:2px solid #6A2C91;border-radius:8px;overflow:hidden;background:#fff;}
+    .tool-canvas-wrap canvas{width:100%;height:auto;display:block;}
+    .tool-controls{display:flex;flex-direction:column;gap:.7rem;}
+    .input-control{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.7rem;}
+    .input-control label{display:block;font-weight:700;color:#6A2C91;margin-bottom:.3rem;font-size:.95rem;}
+    .input-control input[type=number]{width:100%;padding:.4rem .55rem;border:1px solid #D9D9D9;border-radius:5px;font-size:.9rem;}
+    .input-row{display:flex;gap:.4rem;}
+    .input-row > div{flex:1;}
+    .input-row .label-pre{font-size:.78rem;color:#6A2C91;font-weight:600;margin-bottom:.15rem;}
+    .tool-info{background:#f8f9ff;border-left:4px solid #6A2C91;padding:.9rem 1.3rem;border-radius:0 8px 8px 0;font-size:.92rem;line-height:1.85;margin:1rem 0;color:#0B0F3F;}
+    .tool-info .badge-ok{display:inline-block;background:#D4AF37;color:#0B0F3F;padding:.15rem .7rem;border-radius:12px;font-size:.82rem;font-weight:700;}
+    .tool-info .badge-no{display:inline-block;background:#6A2C91;color:#fff;padding:.15rem .7rem;border-radius:12px;font-size:.82rem;font-weight:700;}
+    .preset-buttons{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0;}
+    .preset-buttons button{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.45rem .9rem;cursor:pointer;font-size:.8rem;font-family:'Inter',sans-serif;}
+    .preset-buttons button:hover{background:#552072;}
+
+    /* Quiz "¿son inversas?" */
+    .quiz-wrap{background:#fff;border:2px solid #6A2C91;border-radius:8px;padding:1rem;margin:1rem 0;}
+    .quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;gap:.5rem;}
+    .quiz-nav button{background:#6A2C91;color:#fff;border:0;border-radius:18px;padding:.5rem 1.1rem;cursor:pointer;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:600;}
+    .quiz-nav button:hover{background:#552072;}
+    .quiz-counter{font-size:.9rem;color:#6A2C91;font-weight:700;}
+    .quiz-question{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:1rem;margin:.7rem 0;font-size:1rem;}
+    .quiz-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.6rem 0;}
+    @media (max-width:600px){.quiz-pair{grid-template-columns:1fr;}}
+    .quiz-fn{background:#fff;border:1.5px solid #6A2C91;border-radius:8px;padding:.7rem;text-align:center;}
+    .quiz-fn h5{margin:0 0 .4rem;color:#6A2C91;font-size:.85rem;font-weight:700;}
+    .quiz-fn .quiz-content{font-size:.95rem;color:#0B0F3F;}
+    .quiz-answer{display:flex;justify-content:center;gap:1rem;margin:.8rem 0;}
+    .quiz-answer button{padding:.7rem 2rem;border:0;border-radius:25px;cursor:pointer;font-size:1rem;font-weight:700;font-family:'Inter',sans-serif;transition:all .2s;}
+    .quiz-answer .btn-yes{background:#D4AF37;color:#0B0F3F;}
+    .quiz-answer .btn-yes:hover{background:#b39028;}
+    .quiz-answer .btn-no{background:#6A2C91;color:#fff;}
+    .quiz-answer .btn-no:hover{background:#552072;}
+    .quiz-feedback{padding:1rem;border-radius:8px;margin:.6rem 0;font-size:.92rem;line-height:1.6;display:none;}
+    .quiz-feedback.show{display:block;}
+    .quiz-feedback.correct{background:rgba(212,175,55,.2);border-left:4px solid #D4AF37;color:#0B0F3F;}
+    .quiz-feedback.wrong{background:rgba(106,44,145,.12);border-left:4px solid #6A2C91;color:#444;}
+    .quiz-feedback strong{display:block;margin-bottom:.3rem;}
+
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000;}
+    .btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35);transition:background .2s;}
+    .btn-pdf:hover{background:#552072;}
+
+    .opt,.paes-opt{cursor:pointer;transition:background .2s,border-color .2s;}
+    .opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06);}
+    .opt-feedback{display:none;}
+    .opt.revealed,.paes-opt.revealed{cursor:default;}
+    .opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem;}
+    .opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem;}
+    .opt.revealed .opt-feedback,.paes-opt.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+    .opt-correct.revealed .opt-feedback{background:rgba(212,175,55,.18);color:#0B0F3F;}
+    .opt-incorrect.revealed .opt-feedback{background:rgba(106,44,145,.12);color:#444;}
+    .opt.revealed .opt-feedback strong{color:#6A2C91;}
+    .opt-correct.revealed .opt-feedback strong{color:#0B0F3F;}
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important;}
+      .pdf-bar{display:none !important;}
+      body{background:#fff;}
+      .page{box-shadow:none;page-break-after:always;}
+      .preset-buttons,.tool-controls,.quiz-nav,.quiz-answer{display:none !important;}
+      .opt-feedback{display:block !important;font-size:.82rem;margin-top:.5rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5;}
+      .opt-correct{background:#FFF8E1 !important;border-left:4px solid #D4AF37 !important;padding-left:.7rem;}
+      .opt-incorrect{background:rgba(106,44,145,.08) !important;border-left:4px solid #6A2C91 !important;padding-left:.7rem;}
+      .opt-correct .opt-feedback{background:rgba(212,175,55,.18) !important;color:#0B0F3F;}
+      .opt-incorrect .opt-feedback{background:rgba(106,44,145,.12) !important;color:#444;}
+      .opt-feedback strong{color:#6A2C91;}
+      .opt-correct .opt-feedback strong{color:#0B0F3F;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">📄 Exportar a PDF</button></div>
+
+
+<!-- ============================================================
+     PÁGINA 1 — Cuatro representaciones de una función
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>Reconocer la función inversa en distintas representaciones</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Representaciones</span>
+    <span class="chip">Pictórica · simbólica</span>
+  </div>
+  <div class="oa-box">
+    <span class="oa-badge">OA 5</span>
+    <span class="oa-text">Reconocer la función inversa de una función dada, en representaciones pictóricas (gráficos, tablas, diagramas) y simbólicas (fórmulas, notación funcional).</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Una función, muchas formas de presentarla</div>
+
+      <p>En la guía anterior aprendiste a <em>calcular</em> la inversa de una función. Esta guía se enfoca en algo diferente: <strong>reconocer</strong> la inversa cuando la función ya se te presenta en algún formato. La función inversa se ve distinta según la representación, pero la idea subyacente es siempre la misma.</p>
+
+      <p>Una misma función puede mostrarse de al menos cuatro maneras distintas:</p>
+
+      <div class="prop-grid">
+        <div class="prop-card">
+          <span class="prop-name">1. Fórmula simbólica</span>
+          <span class="prop-eq">\(f(x) = 2x + 1\)</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">2. Tabla de valores</span>
+          <span class="prop-eq">Pares ordenados \((x, y)\) en columnas.</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">3. Diagrama de flechas</span>
+          <span class="prop-eq">Conjuntos conectados por flechas (entrada → salida).</span>
+        </div>
+        <div class="prop-card">
+          <span class="prop-name">4. Gráfico cartesiano</span>
+          <span class="prop-eq">Curva en el plano \(xy\).</span>
+        </div>
+      </div>
+
+      <p>Cada una destaca un aspecto distinto, pero todas representan la misma función. Saber identificar la inversa en cada formato es clave para resolver problemas PAES con rapidez.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>La misma función \(f(x) = 2x + 1\) en cada representación</div>
+
+      <div class="subsec">Tabla</div>
+      <table class="vt-table">
+        <thead><tr><th>\(x\)</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+        <tbody><tr><td>\(f(x)\)</td><td>3</td><td>5</td><td>7</td><td>9</td></tr></tbody>
+      </table>
+
+      <div class="subsec">Diagrama de flechas</div>
+      <div class="sagital">
+        <div class="sagital-col">
+          <h5>Entradas (x)</h5>
+          <div class="sag-item">1</div>
+          <div class="sag-item">2</div>
+          <div class="sag-item">3</div>
+          <div class="sag-item">4</div>
+        </div>
+        <div class="sagital-arrows">
+          <span>→</span><span>→</span><span>→</span><span>→</span>
+        </div>
+        <div class="sagital-col">
+          <h5>Salidas (f(x))</h5>
+          <div class="sag-item">3</div>
+          <div class="sag-item">5</div>
+          <div class="sag-item">7</div>
+          <div class="sag-item">9</div>
+        </div>
+      </div>
+
+      <div class="subsec">Gráfico</div>
+      <div class="embed-graph-wrap">
+        <canvas id="g1a" width="460" height="320"></canvas>
+        <div class="embed-caption">\(f(x) = 2x + 1\) (púrpura) y su inversa \(f^{-1}(x) = (x-1)/2\) (dorado), reflejadas en \(y = x\).</div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Las 4 representaciones son equivalentes.</strong> Una persona ágil con funciones puede traducir entre ellas sin problemas. La función inversa también se puede presentar en cualquiera de los 4 formatos.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>¿Cómo se ve la inversa en cada formato?</div>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Formato</th><th>Cómo se obtiene/reconoce la inversa</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Fórmula</td><td>Aplica el procedimiento de despeje (ver guía 1). El símbolo \(f^{-1}\) aparece explícitamente.</td></tr>
+          <tr><td>Tabla</td><td>Intercambia las columnas (o filas) de entrada y salida.</td></tr>
+          <tr><td>Diagrama de flechas</td><td>Invierte el sentido de las flechas.</td></tr>
+          <tr><td>Gráfico</td><td>Refleja la curva respecto a la recta \(y = x\).</td></tr>
+        </tbody>
+      </table>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        En las próximas páginas estudiaremos cada formato en detalle. Pero la regla maestra ya está aquí: <em>la inversa siempre intercambia entradas y salidas</em>. Cambia la forma de representación, pero la operación lógica subyacente es la misma.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 1 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 2 — Reconocer inversa en gráficos
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reconocer inversas en gráficos</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Reflexión visual</span>
+    <span class="chip">Recta y = x</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El patrón visual de inversión</div>
+
+      <p>Si te muestran dos gráficos y te preguntan si son funciones inversas entre sí, la pregunta clave es <strong>visual</strong>:</p>
+
+      <div class="card card-def">
+        <strong>Regla maestra:</strong> dos funciones son inversas entre sí <em>si y solo si</em> sus gráficos son simétricos respecto a la recta \(y = x\). Es decir, una es el reflejo de la otra en esa "diagonal".
+      </div>
+
+      <p>Imagina que la recta \(y = x\) es un espejo. Si "doblas" el papel sobre esa diagonal, una función debería caer exactamente sobre la otra.</p>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2a" width="460" height="380"></canvas>
+        <div class="embed-caption">Ejemplo: \(f(x) = 2x - 1\) y \(g(x) = (x+1)/2\). Son inversas porque son reflejos en \(y = x\).</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo identificarlo en la práctica</div>
+
+      <ol class="steps-num">
+        <li>Dibuja (o imagina) la recta \(y = x\) como referencia.</li>
+        <li>Compara el primer gráfico con el segundo:
+          <ul>
+            <li>¿Los puntos están "espejados" respecto a esa diagonal?</li>
+            <li>¿Lo que está alto en uno está a la derecha en el otro?</li>
+          </ul>
+        </li>
+        <li>Si sí, son inversos. Si no, son funciones distintas (paralelas, perpendiculares, etc.).</li>
+      </ol>
+
+      <div class="card card-tip">
+        <strong>Atajo visual:</strong> elige cualquier punto \((a, b)\) sobre el primer gráfico. Si el segundo gráfico pasa por el punto \((b, a)\) (coordenadas intercambiadas), son inversas.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Casos que NO son inversas</div>
+
+      <p>Es igualmente importante reconocer cuándo dos gráficos NO son inversos. Algunos casos comunes:</p>
+
+      <table class="tbl">
+        <thead>
+          <tr><th>Relación visual</th><th>¿Inversas?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Misma forma (paralelas / desplazadas vertical u horizontal)</td><td>No</td></tr>
+          <tr><td>Una es reflejo respecto al eje x (\(g(x) = -f(x)\))</td><td>No</td></tr>
+          <tr><td>Una es reflejo respecto al eje y (\(g(x) = f(-x)\))</td><td>No</td></tr>
+          <tr><td>Reflejo respecto a la recta \(y = x\)</td><td><strong>SÍ</strong></td></tr>
+          <tr><td>Rotación 180° (respecto al origen)</td><td>No (en general)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="embed-graph-wrap">
+        <canvas id="g2b" width="460" height="320"></canvas>
+        <div class="embed-caption">\(f(x) = 2x\) y \(g(x) = -2x\): son reflejos respecto al eje y, NO inversas. Sus reflejos en \(y=x\) son distintos.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 2 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 3 — Tablas y diagramas
+     ============================================================ -->
+<div class="page" id="page3">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reconocer inversas en tablas y diagramas</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Intercambio de columnas</span>
+    <span class="chip">Flechas invertidas</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Inversa en una tabla</div>
+
+      <p>Si \(f\) se representa como tabla con pares \((x, y)\), la inversa \(f^{-1}\) se obtiene <strong>intercambiando las dos columnas</strong>: lo que estaba como entrada pasa a ser salida, y viceversa.</p>
+
+      <div class="subsec">Función \(f\)</div>
+      <table class="vt-table">
+        <thead><tr><th>\(x\)</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+        <tbody><tr><td>\(f(x)\)</td><td>5</td><td>10</td><td>15</td><td>20</td></tr></tbody>
+      </table>
+
+      <div class="subsec">Función inversa \(f^{-1}\) (columnas intercambiadas)</div>
+      <table class="vt-table">
+        <thead><tr><th>\(x\)</th><th>5</th><th>10</th><th>15</th><th>20</th></tr></thead>
+        <tbody><tr><td>\(f^{-1}(x)\)</td><td>1</td><td>2</td><td>3</td><td>4</td></tr></tbody>
+      </table>
+
+      <div class="card card-tip">
+        <strong>Truco mental:</strong> si \(f(2) = 10\), entonces \(f^{-1}(10) = 2\). La inversa toma cada par \((a, b)\) de \(f\) y lo convierte en \((b, a)\).
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Diagramas de flechas (sagitales)</div>
+
+      <p>En un diagrama sagital, las flechas van desde un conjunto de entradas (dominio) a un conjunto de salidas (codominio). La inversa simplemente <strong>invierte el sentido de cada flecha</strong>.</p>
+
+      <div class="subsec">Función \(f\): \{a, b, c\} → \{1, 2, 3\}</div>
+      <div class="sagital">
+        <div class="sagital-col">
+          <h5>Dominio</h5>
+          <div class="sag-item">a</div>
+          <div class="sag-item">b</div>
+          <div class="sag-item">c</div>
+        </div>
+        <div class="sagital-arrows">
+          <span>→</span><span>→</span><span>→</span>
+        </div>
+        <div class="sagital-col">
+          <h5>Codominio</h5>
+          <div class="sag-item">1</div>
+          <div class="sag-item">2</div>
+          <div class="sag-item">3</div>
+        </div>
+      </div>
+
+      <div class="subsec">Función inversa \(f^{-1}\): \{1, 2, 3\} → \{a, b, c\}</div>
+      <div class="sagital">
+        <div class="sagital-col">
+          <h5>Dominio</h5>
+          <div class="sag-item">1</div>
+          <div class="sag-item">2</div>
+          <div class="sag-item">3</div>
+        </div>
+        <div class="sagital-arrows">
+          <span>→</span><span>→</span><span>→</span>
+        </div>
+        <div class="sagital-col">
+          <h5>Codominio</h5>
+          <div class="sag-item">a</div>
+          <div class="sag-item">b</div>
+          <div class="sag-item">c</div>
+        </div>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Importante:</strong> para que la inversa exista, cada salida debe provenir de UNA sola entrada (función inyectiva). Si dos flechas distintas apuntan al mismo destino, no se puede revertir sin ambigüedad y la función no tiene inversa.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>De tabla a fórmula</div>
+
+      <p>Cuando una tabla muestra una <em>regularidad numérica</em>, puedes inferir la fórmula de la función original (y por tanto, de su inversa).</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Dada la tabla de \(f\), encontrar la fórmula de \(f^{-1}\).
+      </div>
+      <table class="vt-table">
+        <thead><tr><th>\(x\)</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+        <tbody><tr><td>\(f(x)\)</td><td>1</td><td>3</td><td>5</td><td>7</td></tr></tbody>
+      </table>
+      <div class="math-block">
+        <span class="math-step">Observamos la regularidad: cada vez que \(x\) aumenta en 1, \(f(x)\) aumenta en 2 ⇒ pendiente \(m = 2\).</span>
+        <span class="math-step">Cuando \(x = 0\), \(f(0) = 1\) ⇒ intercepto \(n = 1\). Por tanto, \(f(x) = 2x + 1\).</span>
+        <span class="math-step">Aplicando el procedimiento de inversa: \(f^{-1}(x) = \dfrac{x - 1}{2}\).</span>
+        <span class="math-step"><span class="math-result">\(f^{-1}(x) = \dfrac{x - 1}{2}\)</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Verifica: \(f^{-1}(7) = (7-1)/2 = 3\). En la tabla original, vemos que \(f(3) = 7\). La inversa "regresa" del 7 al 3 ✓.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 3 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 4 — HERRAMIENTA 1: Comparador de funciones
+     ============================================================ -->
+<div class="page" id="page4">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Comparador interactivo de funciones</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🛠️ Herramienta</span>
+    <span class="chip">Verifica por composición</span>
+    <span class="chip">¿Son inversas?</span>
+  </div>
+
+  <div class="content">
+
+    <p>Ingresa los coeficientes de <strong>dos funciones lineales</strong>: \(f(x) = m_1 x + n_1\) y \(g(x) = m_2 x + n_2\). La herramienta calcula las composiciones \(f(g(x))\) y \(g(f(x))\), y te dice si las funciones son inversas entre sí (deben cumplir ambas composiciones \(= x\)).</p>
+
+    <div class="tool-wrap">
+      <div class="tool-canvas-wrap">
+        <canvas id="cmp-canvas" width="600" height="450"></canvas>
+      </div>
+
+      <div class="tool-controls">
+        <div class="input-control">
+          <label>Función \(f(x) = m_1 x + n_1\)</label>
+          <div class="input-row">
+            <div>
+              <div class="label-pre">m₁</div>
+              <input id="cmp-m1" type="number" step="0.5" value="2" />
+            </div>
+            <div>
+              <div class="label-pre">n₁</div>
+              <input id="cmp-n1" type="number" step="0.5" value="3" />
+            </div>
+          </div>
+        </div>
+        <div class="input-control">
+          <label>Función \(g(x) = m_2 x + n_2\)</label>
+          <div class="input-row">
+            <div>
+              <div class="label-pre">m₂</div>
+              <input id="cmp-m2" type="number" step="0.5" value="0.5" />
+            </div>
+            <div>
+              <div class="label-pre">n₂</div>
+              <input id="cmp-n2" type="number" step="0.5" value="-1.5" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cmp-info" class="tool-info">Cargando…</div>
+
+    <div class="subsec" style="margin-top:1rem;">Pares para probar</div>
+    <div class="preset-buttons">
+      <button data-cmp="2,3,0.5,-1.5">f = 2x+3, g = 0.5x-1.5 (SÍ inversas)</button>
+      <button data-cmp="3,-6,0.333,2">f = 3x-6, g = x/3+2 (SÍ inversas)</button>
+      <button data-cmp="1,4,1,-4">f = x+4, g = x-4 (SÍ inversas)</button>
+      <button data-cmp="2,1,2,1">f = 2x+1, g = 2x+1 (NO inversas)</button>
+      <button data-cmp="2,3,-0.5,1.5">f = 2x+3, g = -0.5x+1.5 (NO inversas)</button>
+      <button data-cmp="-1,5,-1,5">f = -x+5, g = -x+5 (SÍ, auto-inversa)</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 4 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 5 — Notación simbólica
+     ============================================================ -->
+<div class="page" id="page5">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reconocer inversas en notación simbólica</h2></div>
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">Fórmulas</span>
+    <span class="chip">Verificación por composición</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>La regla de oro</div>
+
+      <div class="math-box">
+        \(f\) y \(g\) son inversas entre sí &nbsp;⇔&nbsp; \(f(g(x)) = x\) &nbsp;y&nbsp; \(g(f(x)) = x\) &nbsp;para todo \(x\) en sus dominios.
+      </div>
+
+      <p>Esta es la <strong>prueba definitiva</strong> de inversión. Si una candidata pasa este "test de composición", es la inversa. Si no, no lo es.</p>
+
+      <div class="card card-tip">
+        <strong>¿Por qué ambas composiciones?</strong> Porque la inversión es una relación bidireccional: \(g\) debe deshacer lo que \(f\) hace, y viceversa. En algunos casos especiales basta verificar una sola dirección, pero es buena práctica verificar las dos.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Pares de valores: la mini-versión</div>
+
+      <p>Si solo conoces valores específicos (por ejemplo, \(f(3) = 8\)), puedes usar esta equivalencia:</p>
+
+      <div class="math-box">
+        \(f(a) = b\) &nbsp;⇔&nbsp; \(f^{-1}(b) = a\)
+      </div>
+
+      <div class="subsec">Ejemplo</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Si \(f(5) = 12\), ¿cuál es el valor de \(f^{-1}(12)\)?
+      </div>
+      <div class="math-block">
+        <span class="math-step">Por la equivalencia: \(f(5) = 12 \Leftrightarrow f^{-1}(12) = 5\).</span>
+        <span class="math-step"><span class="math-result">\(f^{-1}(12) = 5\)</span></span>
+      </div>
+
+      <div class="card card-tip">
+        <strong>Importante:</strong> NO necesitas conocer la fórmula completa de \(f\) para responder esto. Basta con el par puntual.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>Reconocer entre candidatas</div>
+
+      <p>Cuando te dan una función \(f\) y varias candidatas para su inversa, la estrategia es probar cada una usando la regla de la composición.</p>
+
+      <div class="subsec">Ejemplo guiado</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        Dada \(f(x) = 3x - 4\), ¿cuál de las siguientes es su inversa?<br>
+        (a) \(g_1(x) = 3x + 4\) &nbsp; (b) \(g_2(x) = \dfrac{x + 4}{3}\) &nbsp; (c) \(g_3(x) = \dfrac{x - 4}{3}\)
+      </div>
+      <div class="math-block">
+        <span class="math-step"><strong>Test de \(g_1\):</strong> \(f(g_1(x)) = f(3x+4) = 3(3x+4) - 4 = 9x + 12 - 4 = 9x + 8\). No es \(x\). Descartado.</span>
+        <span class="math-step"><strong>Test de \(g_2\):</strong> \(f(g_2(x)) = f\!\left(\dfrac{x+4}{3}\right) = 3 \cdot \dfrac{x+4}{3} - 4 = (x+4) - 4 = x\) ✓.</span>
+        <span class="math-step">Verificamos también la otra dirección: \(g_2(f(x)) = \dfrac{(3x-4) + 4}{3} = \dfrac{3x}{3} = x\) ✓.</span>
+        <span class="math-step"><span class="math-result">\(g_2(x) = \dfrac{x+4}{3}\) es la inversa correcta.</span></span>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        Si no puedes hacer el cálculo completo, hay un atajo: verifica con un valor numérico. Por ejemplo, en \(f(x) = 3x - 4\), tienes \(f(2) = 2\). Entonces la inversa debe cumplir \(g(2) = 2\). Prueba cada candidata: \(g_2(2) = 6/3 = 2\) ✓. Es la única que pasa el test.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 5 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 6 — HERRAMIENTA 2: Quiz "¿son inversas?"
+     ============================================================ -->
+<div class="page" id="page6">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Quiz: ¿son inversas?</h2></div>
+  <div class="meta-chips">
+    <span class="chip">🎮 Quiz</span>
+    <span class="chip">8 desafíos</span>
+    <span class="chip">Distintas representaciones</span>
+  </div>
+
+  <div class="content">
+
+    <p>Te presentaremos pares de funciones en distintas representaciones (fórmulas, tablas, gráficos). Para cada par, decide: <strong>¿son inversas entre sí?</strong> Lo importante es que pienses antes de responder; al final verás el razonamiento correcto.</p>
+
+    <div class="quiz-wrap">
+      <div class="quiz-nav">
+        <button id="quiz-prev">◀ Anterior</button>
+        <span class="quiz-counter" id="quiz-counter">Pregunta 1 de 8</span>
+        <button id="quiz-next">Siguiente ▶</button>
+      </div>
+
+      <div class="quiz-question" id="quiz-question">Cargando…</div>
+
+      <div class="quiz-pair" id="quiz-pair">
+        <div class="quiz-fn"><h5>Función f</h5><div class="quiz-content" id="quiz-f">—</div></div>
+        <div class="quiz-fn"><h5>Función g</h5><div class="quiz-content" id="quiz-g">—</div></div>
+      </div>
+
+      <div class="quiz-answer">
+        <button class="btn-yes" data-answer="yes">SÍ son inversas</button>
+        <button class="btn-no" data-answer="no">NO son inversas</button>
+      </div>
+
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 6 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 7 — EJERCICIOS
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reconocer inversa — Ejercicios</h2></div>
+  <div class="meta-chips"><span class="chip">✏️ Práctica</span><span class="chip">10 ejercicios</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(f\) es una función y su tabla muestra los pares (1, 3), (2, 5), (3, 7), entonces la inversa \(f^{-1}\) contiene los pares:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> (3, 1), (5, 2), (7, 3)<div class="opt-feedback"><strong>Correcto.</strong> La inversa intercambia entrada y salida: \((a, b) \in f \Rightarrow (b, a) \in f^{-1}\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> (1, 3), (2, 5), (3, 7)<div class="opt-feedback"><strong>Incorrecto.</strong> Son los pares de la función original, no de la inversa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> (-1, -3), (-2, -5), (-3, -7)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia los signos sin justificación; la inversa no es el opuesto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> (3, 3), (5, 5), (7, 7)<div class="opt-feedback"><strong>Incorrecto.</strong> Esos son puntos sobre \(y = x\), no la inversa.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">En un gráfico cartesiano, ¿qué transformación visual aplica a una función para obtener su inversa?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Reflejar respecto al eje x<div class="opt-feedback"><strong>Incorrecto.</strong> Esa transformación da \(-f(x)\), no la inversa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Reflejar respecto al eje y<div class="opt-feedback"><strong>Incorrecto.</strong> Esa transformación da \(f(-x)\), no la inversa.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Reflejar respecto a la recta \(y = x\)<div class="opt-feedback"><strong>Correcto.</strong> Como la inversa intercambia coordenadas \((a, b) \leftrightarrow (b, a)\), la reflexión visual es respecto a la diagonal \(y = x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Rotar 90°<div class="opt-feedback"><strong>Incorrecto.</strong> Rotar 90° no es lo mismo que reflejar en \(y = x\).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div>
+        <div class="ex-stmt">Si \(f(3) = 7\), entonces \(f^{-1}(7)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> La inversa "deshace" la función: si \(f\) lleva 3 a 7, \(f^{-1}\) lleva 7 de vuelta a 3.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(7\)<div class="opt-feedback"><strong>Incorrecto.</strong> 7 es la entrada de la inversa, no su salida.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(\tfrac{1}{3}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde \(f^{-1}\) con el inverso multiplicativo.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(\tfrac{1}{7}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Mismo error.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Las funciones \(f(x) = x + 4\) y \(g(x) = x - 4\) son inversas. ¿Cuál afirmación es VERDADERA?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f\) y \(g\) se reflejan respecto al eje y<div class="opt-feedback"><strong>Incorrecto.</strong> La reflexión es respecto a \(y = x\), no al eje y.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f\) y \(g\) se reflejan respecto a la recta \(y = x\)<div class="opt-feedback"><strong>Correcto.</strong> Toda función y su inversa son reflejos en la diagonal \(y = x\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Tienen la misma fórmula<div class="opt-feedback"><strong>Incorrecto.</strong> Una suma 4 y la otra resta 4; son distintas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No son funciones lineales<div class="opt-feedback"><strong>Incorrecto.</strong> Ambas son lineales (de la forma \(mx + n\)).</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">Si \(f\) tiene la tabla: x: 1, 2, 3, 4 / f(x): 4, 6, 8, 10. Entonces \(f^{-1}(8)\) es igual a:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(3\)<div class="opt-feedback"><strong>Correcto.</strong> En la tabla, \(f(3) = 8\). Por inversión, \(f^{-1}(8) = 3\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(8\)<div class="opt-feedback"><strong>Incorrecto.</strong> 8 es la entrada de la inversa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(4\)<div class="opt-feedback"><strong>Incorrecto.</strong> Sería si la inversa estuviera relacionada con \(f(1) = 4\), pero la pregunta es por \(f^{-1}(8)\).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(2\)<div class="opt-feedback"><strong>Incorrecto.</strong> En la tabla, \(f(2) = 6\), no 8.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">6</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">En un diagrama sagital, \(f\) va de \(\{1, 2, 3\} \to \{a, b, c\}\) con \(1 \to a\), \(2 \to b\), \(3 \to c\). Su inversa \(f^{-1}\) es:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(a \to 1\), \(b \to 2\), \(c \to 3\)<div class="opt-feedback"><strong>Correcto.</strong> La inversa invierte el sentido de cada flecha: si \(f\) va de 1 a \(a\), \(f^{-1}\) va de \(a\) a 1.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(1 \to a\), \(2 \to b\), \(3 \to c\) (la misma)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la función original, no la inversa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(a \to 3\), \(b \to 2\), \(c \to 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el orden además del sentido, sin justificación.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No existe<div class="opt-feedback"><strong>Incorrecto.</strong> La función es inyectiva (cada salida proviene de una entrada única), así que sí tiene inversa.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">7</span><span class="diff diff-m">Intermedio</span></div>
+        <div class="ex-stmt">¿Cuál de los siguientes pares son funciones inversas?</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f(x) = 2x\) y \(g(x) = 2x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Son la misma función; no son inversas (a menos que sea auto-inversa, lo cual \(2x\) no es).</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f(x) = x + 5\) y \(g(x) = x - 5\)<div class="opt-feedback"><strong>Correcto.</strong> Verifica: \(f(g(x)) = (x - 5) + 5 = x\) ✓.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(f(x) = x^{2}\) y \(g(x) = x^{2}\) (en todo \(\mathbb{R}\))<div class="opt-feedback"><strong>Incorrecto.</strong> Son la misma; además, \(x^2\) no es invertible sin restricción de dominio.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(f(x) = 3x\) y \(g(x) = -3x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Verifica: \(f(g(x)) = 3 \cdot (-3x) = -9x \neq x\).</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ex-section">
+    <div class="ex-section-head"><span class="ex-level-badge diff-a">Avanzado</span><span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span></div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">8</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Si los gráficos de dos funciones \(f\) y \(g\) son simétricos respecto a la recta \(y = x\), entonces:</div>
+        <div class="opts">
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f\) y \(g\) son la misma función<div class="opt-feedback"><strong>Incorrecto.</strong> Solo serían iguales si \(f = f^{-1}\) (auto-inversa), pero en general son distintas.</div></div>
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f\) y \(g\) son funciones inversas entre sí<div class="opt-feedback"><strong>Correcto.</strong> La simetría respecto a \(y = x\) es la firma visual de las funciones inversas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(f\) y \(g\) son perpendiculares<div class="opt-feedback"><strong>Incorrecto.</strong> Perpendicularidad es otra propiedad distinta (productos de pendientes = \(-1\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(f\) y \(g\) no se relacionan<div class="opt-feedback"><strong>Incorrecto.</strong> La simetría es una relación fuerte: son inversas.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">9</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Para verificar que \(f\) y \(g\) son inversas, debe cumplirse:</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f(g(x)) = g(f(x)) = x\)<div class="opt-feedback"><strong>Correcto.</strong> La regla maestra: ambas composiciones deben dar la identidad (\(x\)).</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f(x) + g(x) = 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa sería la condición para \(g = -f\), no para inversas.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(f(x) - g(x) = x\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde a inversión.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(f(x) \cdot g(x) = x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Esa sería una relación multiplicativa, no inversa funcional.</div></div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row"><span class="ex-num-label">10</span><span class="diff diff-a">Avanzado</span></div>
+        <div class="ex-stmt">Dada la tabla de \(f\): x: 0, 1, 2, 3 / f(x): 1, 3, 5, 7. ¿Cuál es la fórmula de \(f^{-1}\)?</div>
+        <div class="opts">
+          <div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(f^{-1}(x) = \dfrac{x - 1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> La fórmula de \(f\) es \(f(x) = 2x + 1\) (pendiente 2, intercepto 1). Su inversa: \(f^{-1}(x) = (x-1)/2\). Verifica: \(f^{-1}(7) = 6/2 = 3\), consistente con la tabla ✓.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(f^{-1}(x) = 2x + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la misma fórmula de \(f\), no su inversa.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(f^{-1}(x) = 2x - 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> No corresponde al despeje correcto.</div></div>
+          <div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(f^{-1}(x) = \dfrac{x + 1}{2}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo: debe restarse 1, no sumarse.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 7 de 8</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PÁGINA 8 — PAES + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      Matemática · 2° Medio<br>Eje: Álgebra y Funciones<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner"><h2>Reconocer inversa — Preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">🎯 Estilo PAES</span><span class="chip">10 preguntas</span><span class="chip">Con justificaciones</span></div>
+
+  <div class="paes-wrap">
+    <div class="paes-head"><span class="paes-badge">PAES — Reconocer función inversa</span></div>
+    <div class="paes-body">
+
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">Si \((a, b)\) es un par ordenado de la función \(f\), entonces \((b, a)\) está en \(f^{-1}\):</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Siempre<div class="opt-feedback"><strong>Correcto.</strong> La inversa por definición intercambia las coordenadas de cada par ordenado.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Solo si \(a > 0\)<div class="opt-feedback"><strong>Incorrecto.</strong> No hay restricción de signo.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Nunca<div class="opt-feedback"><strong>Incorrecto.</strong> Es exactamente cómo se construye la inversa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Solo si \(f\) es lineal<div class="opt-feedback"><strong>Incorrecto.</strong> Vale para cualquier función invertible, no solo lineales.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">2</div>
+        <div class="paes-stmt">Dos gráficos son inversos uno del otro si:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Son paralelos<div class="opt-feedback"><strong>Incorrecto.</strong> Paralelos significa misma pendiente, no inversión.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Son perpendiculares<div class="opt-feedback"><strong>Incorrecto.</strong> Perpendicularidad es otra propiedad.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Son simétricos respecto a \(y = x\)<div class="opt-feedback"><strong>Correcto.</strong> La simetría respecto a la diagonal \(y = x\) es el indicador visual de inversión.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Coinciden<div class="opt-feedback"><strong>Incorrecto.</strong> Si coinciden, son iguales (caso de auto-inversa); pero solo coincidencia con \(y = x\) significa función identidad.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">3</div>
+        <div class="paes-stmt">Si \(f(2) = 9\) y \(f\) es invertible, ¿cuál afirmación es FALSA?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(f^{-1}(9) = 2\)<div class="opt-feedback"><strong>Verdadera.</strong> Es la definición misma de inversa.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(f^{-1}(2) = 9\)<div class="opt-feedback"><strong>FALSA (esta es la respuesta).</strong> Confunde el orden: el par \((2, 9)\) en \(f\) da el par \((9, 2)\) en \(f^{-1}\), por lo que \(f^{-1}(9) = 2\), no \(f^{-1}(2) = 9\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \((2, 9)\) está en \(f\)<div class="opt-feedback"><strong>Verdadera.</strong> Si \(f(2) = 9\), entonces \((2, 9)\) es un par de \(f\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \((9, 2)\) está en \(f^{-1}\)<div class="opt-feedback"><strong>Verdadera.</strong> Es la inversión del par.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">4</div>
+        <div class="paes-stmt">¿Cuál par de funciones son inversas?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(f(x) = 3x\) y \(g(x) = 3x\)<div class="opt-feedback"><strong>Incorrecto.</strong> Son la misma función, no inversas.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(f(x) = 2x + 1\) y \(g(x) = \dfrac{x - 1}{2}\)<div class="opt-feedback"><strong>Correcto.</strong> Verifica: \(f(g(x)) = 2 \cdot (x-1)/2 + 1 = (x-1) + 1 = x\) ✓.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(f(x) = x^{2}\) y \(g(x) = \sqrt{x}\) (en todo \(\mathbb{R}\))<div class="opt-feedback"><strong>Incorrecto.</strong> Sin restricción de dominio en \(x^{2}\), no es inyectiva y no tiene inversa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(f(x) = x + 1\) y \(g(x) = x - 1 + 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> \(g(x) = x\) (identidad simplificada); no es la inversa de \(x + 1\).</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">5</div>
+        <div class="paes-stmt">La tabla de \(f\) es: \(x = 1, 2, 3\) / \(f(x) = 5, 10, 15\). La tabla de \(f^{-1}\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(x = 5, 10, 15\) / \(f^{-1}(x) = 1, 2, 3\)<div class="opt-feedback"><strong>Correcto.</strong> Las columnas se intercambian: lo que era \(f(x)\) ahora es entrada, y lo que era \(x\) ahora es salida.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(x = 1, 2, 3\) / \(f^{-1}(x) = 5, 10, 15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la tabla original de \(f\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(x = -1, -2, -3\) / \(f^{-1}(x) = -5, -10, -15\)<div class="opt-feedback"><strong>Incorrecto.</strong> Cambia signos sin justificación.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(x = 1/5, 1/10, 1/15\) / \(f^{-1}(x) = 1, 2, 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Confunde con el inverso multiplicativo.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">6</div>
+        <div class="paes-stmt">¿Qué condición visual indica que dos gráficos son inversos uno del otro?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Tienen la misma forma exacta<div class="opt-feedback"><strong>Incorrecto.</strong> Tendrían que ser idénticos en posición.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Uno es el reflejo del otro respecto a la recta \(y = x\)<div class="opt-feedback"><strong>Correcto.</strong> Es el "indicador visual" universal de inversión.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Tienen pendientes opuestas<div class="opt-feedback"><strong>Incorrecto.</strong> Eso corresponde a otra relación geométrica.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Se cruzan en el origen<div class="opt-feedback"><strong>Incorrecto.</strong> No es una condición ni suficiente ni necesaria para inversión.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">7</div>
+        <div class="paes-stmt">La inversa de \(f(x) = 5x + 2\) es:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(f^{-1}(x) = 5x - 2\)<div class="opt-feedback"><strong>Incorrecto.</strong> Solo cambia signo de \(n\), no aplica el procedimiento de inversa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(f^{-1}(x) = \dfrac{x + 2}{5}\)<div class="opt-feedback"><strong>Incorrecto.</strong> Error de signo en el numerador.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(f^{-1}(x) = \dfrac{x - 2}{5}\)<div class="opt-feedback"><strong>Correcto.</strong> Despeja: \(y = 5x + 2 \Rightarrow x = (y - 2)/5\). Intercambia variables.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(f^{-1}(x) = 5(x + 2)\)<div class="opt-feedback"><strong>Incorrecto.</strong> Multiplica en vez de dividir.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">8</div>
+        <div class="paes-stmt">Un diagrama de flechas muestra: \(1 \to 5\), \(2 \to 7\), \(3 \to 9\). Su inversa muestra:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> \(5 \to 1\), \(7 \to 2\), \(9 \to 3\)<div class="opt-feedback"><strong>Correcto.</strong> La inversa invierte el sentido de cada flecha.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> \(1 \to 1\), \(2 \to 2\), \(3 \to 3\)<div class="opt-feedback"><strong>Incorrecto.</strong> Es la función identidad, no la inversa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(5 \to 3\), \(7 \to 2\), \(9 \to 1\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el orden además del sentido.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(1 \to 9\), \(2 \to 7\), \(3 \to 5\)<div class="opt-feedback"><strong>Incorrecto.</strong> Invierte el orden de salidas, no el sentido.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">9</div>
+        <div class="paes-stmt">¿Cuál de las siguientes afirmaciones es VERDADERA sobre \(f\) y su inversa \(f^{-1}\)?</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> El dominio de \(f\) es igual al dominio de \(f^{-1}\)<div class="opt-feedback"><strong>Incorrecto.</strong> En general son distintos: el dominio de \(f^{-1}\) es el recorrido de \(f\).</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Si \(f(a) = b\), entonces \(f^{-1}(b) = a\)<div class="opt-feedback"><strong>Correcto.</strong> Es la equivalencia básica que define la inversa.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> \(f(x)\) y \(f^{-1}(x)\) siempre se cruzan<div class="opt-feedback"><strong>Incorrecto.</strong> No siempre: pueden no intersectarse si no tocan la recta \(y = x\).</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> \(f\) y \(f^{-1}\) tienen siempre la misma gráfica<div class="opt-feedback"><strong>Incorrecto.</strong> Solo en el caso de auto-inversa coinciden las gráficas.</div></div>
+        </div>
+      </div>
+
+      <div class="paes-item">
+        <div class="paes-num">10</div>
+        <div class="paes-stmt">Para comprobar si \(g(x) = \dfrac{x + 3}{2}\) es la inversa de \(f(x) = 2x - 3\), se puede:</div>
+        <div class="paes-opts">
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> Comparar coeficientes<div class="opt-feedback"><strong>Incorrecto.</strong> No es un método válido; los coeficientes no se comparan directamente.</div></div>
+          <div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Calcular \(f(g(x))\) y verificar que es \(x\)<div class="opt-feedback"><strong>Correcto.</strong> Verifica: \(f(g(x)) = 2 \cdot (x+3)/2 - 3 = (x+3) - 3 = x\) ✓. La composición es la prueba definitiva.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Restarle \(f\)<div class="opt-feedback"><strong>Incorrecto.</strong> Restar no verifica inversión.</div></div>
+          <div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Sumar ambas<div class="opt-feedback"><strong>Incorrecto.</strong> Sumar no verifica inversión.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>Saber reconocer una función inversa cuando aparece en un gráfico, una tabla o un diagrama te permite responder muchísimas preguntas PAES sin tener que hacer cálculos extensos. La clave es reconocer el <strong>patrón visual</strong> (reflexión en \(y = x\)) y el <strong>patrón estructural</strong> (intercambio de entrada y salida).</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: Problemas de la vida cotidiana con función inversa</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">Matemática 2° Medio · Reconocer inversa · Página 8 de 8</div>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+(function(){
+
+  function makePlotter(canvas, cfg){
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var xmin = cfg.xRange[0], xmax = cfg.xRange[1];
+    var ymin = cfg.yRange[0], ymax = cfg.yRange[1];
+    var ppuX = W / (xmax - xmin);
+    var ppuY = H / (ymax - ymin);
+
+    function wx(x){ return (x - xmin) * ppuX; }
+    function wy(y){ return H - (y - ymin) * ppuY; }
+
+    function clear(){ ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H); }
+
+    function drawGrid(){
+      ctx.strokeStyle = 'rgba(106,44,145,.1)';
+      ctx.lineWidth = 1;
+      for(var i = Math.ceil(xmin); i <= xmax; i++){
+        ctx.beginPath(); ctx.moveTo(wx(i), 0); ctx.lineTo(wx(i), H); ctx.stroke();
+      }
+      for(var j = Math.ceil(ymin); j <= ymax; j++){
+        ctx.beginPath(); ctx.moveTo(0, wy(j)); ctx.lineTo(W, wy(j)); ctx.stroke();
+      }
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      if(xmin <= 0 && xmax >= 0){
+        ctx.beginPath(); ctx.moveTo(wx(0), 0); ctx.lineTo(wx(0), H); ctx.stroke();
+      }
+      if(ymin <= 0 && ymax >= 0){
+        ctx.beginPath(); ctx.moveTo(0, wy(0)); ctx.lineTo(W, wy(0)); ctx.stroke();
+      }
+      ctx.fillStyle = '#0B0F3F';
+      ctx.font = '9px Inter, sans-serif';
+      var yLab = (ymin <= 0 && ymax >= 0) ? wy(0) + 10 : H - 2;
+      var xLab = (xmin <= 0 && xmax >= 0) ? wx(0) + 3 : 3;
+      var stepX = Math.max(1, Math.round((xmax - xmin) / 18));
+      var stepY = Math.max(1, Math.round((ymax - ymin) / 14));
+      for(var k = Math.ceil(xmin); k <= xmax; k++){
+        if(k === 0 || k % stepX !== 0) continue;
+        ctx.fillText(k.toString(), wx(k) - 4, yLab);
+      }
+      for(var m = Math.ceil(ymin); m <= ymax; m++){
+        if(m === 0 || m % stepY !== 0) continue;
+        ctx.fillText(m.toString(), xLab, wy(m) + 3);
+      }
+    }
+
+    function drawLine(slope, intercept, color, lineWidth, dashed){
+      ctx.strokeStyle = color || '#6A2C91';
+      ctx.lineWidth = lineWidth || 2.5;
+      if(dashed) ctx.setLineDash([6, 4]); else ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(wx(xmin), wy(slope * xmin + intercept));
+      ctx.lineTo(wx(xmax), wy(slope * xmax + intercept));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function drawPoint(x, y, color, label){
+      ctx.fillStyle = color || '#6A2C91';
+      ctx.strokeStyle = '#0B0F3F';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(wx(x), wy(y), 5, 0, 2*Math.PI);
+      ctx.fill(); ctx.stroke();
+      if(label){
+        ctx.fillStyle = '#0B0F3F';
+        ctx.font = 'bold 10px Inter, sans-serif';
+        ctx.fillText(label, wx(x) + 8, wy(y) - 6);
+      }
+    }
+
+    return {
+      ctx: ctx, wx: wx, wy: wy, W: W, H: H,
+      clear: clear, drawGrid: drawGrid,
+      drawLine: drawLine, drawPoint: drawPoint
+    };
+  }
+
+  /* ====== Gráficos embebidos ====== */
+  function drawEmbedded(){
+    // Página 1: f(x) = 2x + 1 y su inversa
+    var c1a = document.getElementById('g1a');
+    if(c1a){
+      var p = makePlotter(c1a, {xRange:[-3, 8], yRange:[-3, 8]});
+      p.clear(); p.drawGrid();
+      p.drawLine(1, 0, '#888', 1.5, true); // y = x
+      p.drawLine(2, 1, '#6A2C91', 3); // f(x) = 2x + 1
+      p.drawLine(0.5, -0.5, '#D4AF37', 3); // f^-1(x) = (x-1)/2
+      p.drawPoint(1, 3, '#6A2C91', '(1,3)');
+      p.drawPoint(3, 1, '#D4AF37', '(3,1)');
+    }
+
+    // Página 2a: f(x) = 2x - 1 y g(x) = (x+1)/2
+    var c2a = document.getElementById('g2a');
+    if(c2a){
+      var p = makePlotter(c2a, {xRange:[-4, 6], yRange:[-4, 6]});
+      p.clear(); p.drawGrid();
+      p.drawLine(1, 0, '#888', 1.5, true);
+      p.drawLine(2, -1, '#6A2C91', 3);
+      p.drawLine(0.5, 0.5, '#D4AF37', 3);
+      p.drawPoint(2, 3, '#6A2C91', '(2,3)');
+      p.drawPoint(3, 2, '#D4AF37', '(3,2)');
+    }
+
+    // Página 2b: f(x) = 2x y g(x) = -2x (NO inversas)
+    var c2b = document.getElementById('g2b');
+    if(c2b){
+      var p = makePlotter(c2b, {xRange:[-4, 4], yRange:[-6, 6]});
+      p.clear(); p.drawGrid();
+      p.drawLine(1, 0, '#888', 1.5, true);
+      p.drawLine(2, 0, '#6A2C91', 3);
+      p.drawLine(-2, 0, '#0B0F3F', 3);
+      // Y la verdadera inversa de 2x para comparar
+      p.drawLine(0.5, 0, '#D4AF37', 2.5);
+    }
+  }
+
+  /* ====== TOOL 1: Comparador de funciones ====== */
+  function setupCompareTool(){
+    var canvas = document.getElementById('cmp-canvas');
+    if(!canvas) return;
+    var m1Inp = document.getElementById('cmp-m1');
+    var n1Inp = document.getElementById('cmp-n1');
+    var m2Inp = document.getElementById('cmp-m2');
+    var n2Inp = document.getElementById('cmp-n2');
+    var info = document.getElementById('cmp-info');
+
+    function fmt(num){
+      var n = parseFloat(num);
+      if(Math.abs(n - Math.round(n)) < 0.001) return Math.round(n).toString();
+      return n.toFixed(2);
+    }
+
+    function update(){
+      var m1 = parseFloat(m1Inp.value);
+      var n1 = parseFloat(n1Inp.value);
+      var m2 = parseFloat(m2Inp.value);
+      var n2 = parseFloat(n2Inp.value);
+
+      var p = makePlotter(canvas, {xRange:[-8, 8], yRange:[-6, 8]});
+      p.clear(); p.drawGrid();
+      p.drawLine(1, 0, '#888', 1.5, true); // y = x
+
+      if(Math.abs(m1) < 0.001 || Math.abs(m2) < 0.001){
+        info.innerHTML = '<strong>⚠ Una de las pendientes es 0: la función es constante y no se puede invertir.</strong>';
+        return;
+      }
+
+      p.drawLine(m1, n1, '#6A2C91', 3);
+      p.drawLine(m2, n2, '#D4AF37', 3);
+
+      // f(g(x)) = m1·(m2·x + n2) + n1 = (m1·m2)·x + (m1·n2 + n1)
+      var coefFG = m1 * m2;
+      var constFG = m1 * n2 + n1;
+      // g(f(x)) = m2·(m1·x + n1) + n2 = (m2·m1)·x + (m2·n1 + n2)
+      var coefGF = m2 * m1;
+      var constGF = m2 * n1 + n2;
+
+      var isInverse = Math.abs(coefFG - 1) < 0.001 && Math.abs(constFG) < 0.001 &&
+                      Math.abs(coefGF - 1) < 0.001 && Math.abs(constGF) < 0.001;
+
+      var sign_n1 = n1 >= 0 ? '+' : '−';
+      var sign_n2 = n2 >= 0 ? '+' : '−';
+      var fFormula = 'f(x) = ' + fmt(m1) + 'x ' + sign_n1 + ' ' + fmt(Math.abs(n1));
+      var gFormula = 'g(x) = ' + fmt(m2) + 'x ' + sign_n2 + ' ' + fmt(Math.abs(n2));
+
+      var sign_fg = constFG >= 0 ? '+' : '−';
+      var sign_gf = constGF >= 0 ? '+' : '−';
+      var fgFormula = 'f(g(x)) = ' + fmt(coefFG) + 'x ' + sign_fg + ' ' + fmt(Math.abs(constFG));
+      var gfFormula = 'g(f(x)) = ' + fmt(coefGF) + 'x ' + sign_gf + ' ' + fmt(Math.abs(constGF));
+
+      var resultBadge = isInverse
+        ? '<span class="badge-ok">✓ SÍ son inversas</span>'
+        : '<span class="badge-no">✗ NO son inversas</span>';
+
+      var explanation = isInverse
+        ? 'Ambas composiciones dan exactamente \(x\) (es decir, coeficiente 1 y constante 0). Esto confirma la propiedad fundamental \(f(g(x)) = g(f(x)) = x\).'
+        : 'Para ser inversas, ambas composiciones deben simplificarse a \(x\) exactamente (coeficiente 1, constante 0). Aquí no se cumple.';
+
+      info.innerHTML =
+        '<strong>' + fFormula + '</strong><br>' +
+        '<strong>' + gFormula + '</strong><br>' +
+        '<strong>Composición f∘g:</strong> ' + fgFormula + '<br>' +
+        '<strong>Composición g∘f:</strong> ' + gfFormula + '<br><br>' +
+        '<strong>Resultado:</strong> ' + resultBadge + '<br>' +
+        '<em>' + explanation + '</em>';
+    }
+
+    m1Inp.addEventListener('input', update);
+    n1Inp.addEventListener('input', update);
+    m2Inp.addEventListener('input', update);
+    n2Inp.addEventListener('input', update);
+
+    var presets = document.querySelectorAll('[data-cmp]');
+    for(var i = 0; i < presets.length; i++){
+      presets[i].addEventListener('click', (function(btn){
+        return function(){
+          var vals = btn.dataset.cmp.split(',');
+          m1Inp.value = vals[0]; n1Inp.value = vals[1];
+          m2Inp.value = vals[2]; n2Inp.value = vals[3];
+          update();
+        };
+      })(presets[i]));
+    }
+
+    update();
+  }
+
+  /* ====== TOOL 2: Quiz "¿son inversas?" ====== */
+  var quizData = [
+    {
+      type: 'formulas',
+      f: 'f(x) = 3x',
+      g: 'g(x) = x/3',
+      pregunta: '¿Son inversas estas dos funciones?',
+      respuesta: true,
+      explicacion: 'Sí. f(g(x)) = 3·(x/3) = x ✓ y g(f(x)) = (3x)/3 = x ✓. Una multiplica por 3 y la otra divide por 3: se cancelan.'
+    },
+    {
+      type: 'formulas',
+      f: 'f(x) = x + 7',
+      g: 'g(x) = x - 7',
+      pregunta: '¿Son inversas estas dos funciones?',
+      respuesta: true,
+      explicacion: 'Sí. f(g(x)) = (x - 7) + 7 = x ✓. Suma y resta de 7 se cancelan.'
+    },
+    {
+      type: 'formulas',
+      f: 'f(x) = 2x + 1',
+      g: 'g(x) = 2x - 1',
+      pregunta: '¿Son inversas estas dos funciones?',
+      respuesta: false,
+      explicacion: 'No. f(g(x)) = 2(2x - 1) + 1 = 4x - 1 ≠ x. Tienen la misma pendiente pero ese no es el método de inversión.'
+    },
+    {
+      type: 'tablas',
+      f: '<table class="vt-table"><tr><th>x</th><th>1</th><th>2</th><th>3</th></tr><tr><td>f</td><td>4</td><td>6</td><td>8</td></tr></table>',
+      g: '<table class="vt-table"><tr><th>x</th><th>4</th><th>6</th><th>8</th></tr><tr><td>g</td><td>1</td><td>2</td><td>3</td></tr></table>',
+      pregunta: '¿La tabla de g es la inversa de f?',
+      respuesta: true,
+      explicacion: 'Sí. Las columnas están intercambiadas correctamente: entradas de f (1,2,3) son salidas de g, y viceversa.'
+    },
+    {
+      type: 'tablas',
+      f: '<table class="vt-table"><tr><th>x</th><th>0</th><th>1</th><th>2</th></tr><tr><td>f</td><td>3</td><td>5</td><td>7</td></tr></table>',
+      g: '<table class="vt-table"><tr><th>x</th><th>0</th><th>1</th><th>2</th></tr><tr><td>g</td><td>-3</td><td>-5</td><td>-7</td></tr></table>',
+      pregunta: '¿La tabla de g es la inversa de f?',
+      respuesta: false,
+      explicacion: 'No. g solo cambia el signo de las salidas, no intercambia entradas y salidas. La inversa correcta tendría entradas 3, 5, 7 y salidas 0, 1, 2.'
+    },
+    {
+      type: 'mixto',
+      f: 'f(x) = -x + 5',
+      g: 'g(x) = -x + 5 (igual)',
+      pregunta: '¿Una función igual a sí misma es su propia inversa?',
+      respuesta: true,
+      explicacion: 'Sí (en este caso). f(g(x)) = -(-x + 5) + 5 = x - 5 + 5 = x ✓. f(x) = -x + 5 es auto-inversa porque su gráfico es simétrico respecto a y = x.'
+    },
+    {
+      type: 'mixto',
+      f: 'f(x) = x² (en todo ℝ)',
+      g: 'g(x) = √x',
+      pregunta: '¿g es la inversa de f?',
+      respuesta: false,
+      explicacion: 'No, sin restricción de dominio. f(g(x)) = (√x)² = x ✓, pero g(f(x)) = √(x²) = |x|, NO siempre x (es x solo si x ≥ 0). Para que sean inversas, hay que restringir el dominio de f a x ≥ 0.'
+    },
+    {
+      type: 'formulas',
+      f: 'f(2) = 7',
+      g: 'g(7) = 2',
+      pregunta: '¿Estos pares son consistentes con que f y g sean inversas?',
+      respuesta: true,
+      explicacion: 'Sí. Si f(a) = b entonces f⁻¹(b) = a. Aquí f(2) = 7 ⇒ g(7) debería ser 2. Coincide.'
+    }
+  ];
+
+  function setupQuiz(){
+    var prevBtn = document.getElementById('quiz-prev');
+    var nextBtn = document.getElementById('quiz-next');
+    if(!prevBtn) return;
+    var qIndex = 0;
+
+    function render(){
+      var d = quizData[qIndex];
+      document.getElementById('quiz-counter').textContent = 'Pregunta ' + (qIndex + 1) + ' de ' + quizData.length;
+      document.getElementById('quiz-question').textContent = d.pregunta;
+      var fEl = document.getElementById('quiz-f');
+      var gEl = document.getElementById('quiz-g');
+      fEl.innerHTML = d.f;
+      gEl.innerHTML = d.g;
+      document.getElementById('quiz-feedback').className = 'quiz-feedback';
+      document.getElementById('quiz-feedback').innerHTML = '';
+      // Re-render math
+      if(window.renderMathInElement){
+        window.renderMathInElement(document.getElementById('quiz-question'));
+        window.renderMathInElement(fEl);
+        window.renderMathInElement(gEl);
+      }
+    }
+
+    prevBtn.addEventListener('click', function(){
+      qIndex = (qIndex - 1 + quizData.length) % quizData.length;
+      render();
+    });
+    nextBtn.addEventListener('click', function(){
+      qIndex = (qIndex + 1) % quizData.length;
+      render();
+    });
+
+    var answerBtns = document.querySelectorAll('.quiz-answer button');
+    for(var i = 0; i < answerBtns.length; i++){
+      answerBtns[i].addEventListener('click', function(){
+        var userAnswer = this.dataset.answer === 'yes';
+        var d = quizData[qIndex];
+        var correct = (userAnswer === d.respuesta);
+        var fb = document.getElementById('quiz-feedback');
+        if(correct){
+          fb.className = 'quiz-feedback show correct';
+          fb.innerHTML = '<strong>✓ ¡Correcto!</strong> ' + d.explicacion;
+        } else {
+          fb.className = 'quiz-feedback show wrong';
+          fb.innerHTML = '<strong>✗ Incorrecto.</strong> La respuesta correcta era <strong>' + (d.respuesta ? 'SÍ' : 'NO') + '</strong>. ' + d.explicacion;
+        }
+      });
+    }
+
+    render();
+  }
+
+  function init(){
+    drawEmbedded();
+    setupCompareTool();
+    setupQuiz();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+</body>
+</html>
