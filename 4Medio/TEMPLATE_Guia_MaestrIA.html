@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+  ════════════════════════════════════════════════════════════════
+  TEMPLATE GUÍA MAESTRÍA — instrucciones de uso
+  ════════════════════════════════════════════════════════════════
+  1. Guarda este archivo con el nombre:
+     Guia_[Asignatura]_OA[N]_[Tema]_[Nivel].html
+     Ejemplo: Guia_Fisica_OA12_FuerzasMovimiento_1Medio.html
+
+  2. Reemplaza TODOS los marcadores [ASÍ] con el contenido real.
+
+  3. Ajusta el número de páginas de contenido (página 1, 2…):
+     - Agrega <div class="page" id="pageN"> por cada página extra.
+     - Actualiza "X de Y" en chips y footers al finalizar.
+
+  4. Esta plantilla NO incluye sistema de autoevaluación (btn-opt, pick(),
+     score bar). Los ejercicios y PAES son formato estático.
+  ════════════════════════════════════════════════════════════════
+  -->
+  <title>[TEMA] — [ASIGNATURA] [NIVEL] | MaestrIA</title>
+  <link rel="stylesheet" href="maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Matemática con Cambria Math (solo si la guía tiene fórmulas) ── */
+    .math-display{font-family:'Cambria Math',Cambria,Georgia,serif;font-size:1.2rem;color:#0B0F3F;text-align:center;margin:.9rem auto;line-height:2.2;}
+    .math-block{background:#f8f9ff;border-left:4px solid #6A2C91;border-radius:0 8px 8px 0;padding:1rem 1.5rem;margin:.75rem 0;}
+    .math-step{display:block;margin:.45rem 0;font-family:'Cambria Math',Cambria,Georgia,serif;font-size:1.05rem;line-height:2.1;}
+    .math-result{font-family:'Cambria Math',Cambria,Georgia,serif;font-weight:700;color:#0B0F3F;background:#FFF8E1;border:2px solid #D4AF37;border-radius:6px;padding:.2rem .8rem;display:inline-block;margin:.25rem 0;font-size:1.1rem;}
+    .math-box{background:#F4F4F6;border-radius:8px;padding:1rem 1.5rem;margin:.75rem 0;text-align:center;border:1px solid #D9D9D9;}
+    .math-unit{font-family:'Cambria Math',Cambria,Georgia,serif;font-style:italic;}
+    /* ── Elimina este bloque si la guía no tiene fórmulas matemáticas ── */
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     PÁGINA 1 — TEORÍA / CONTENIDO
+     Renombra h2 según el tema. Agrega más .section según necesites.
+     ============================================================ -->
+<div class="page" id="page1">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      [ASIGNATURA] · [NIVEL]<br>
+      Eje: [EJE_TEMATICO]<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>[TITULO_DE_LA_GUIA]</h2>
+    <p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📖 Teoría</span>
+    <span class="chip">[TEMA_PRINCIPAL]</span>
+    <span class="chip">[TEMA_SECUNDARIO]</span>
+  </div>
+
+  <div class="oa-box">
+    <span class="oa-badge">OA [N]</span>
+    <span class="oa-text">[TEXTO_COMPLETO_DEL_OA_MINEDUC]</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ─── Sección 1 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>[TITULO_SECCION_1]</div>
+
+      <!-- Usa .card-def para definiciones clave -->
+      <div class="card card-def">
+        <strong>[Término]:</strong> [Definición clara y precisa.]
+      </div>
+
+      <p>[Párrafo de desarrollo conceptual. Explica con analogías si es posible.]</p>
+
+      <!-- Tabla de datos / comparación (opcional) -->
+      <table class="tbl">
+        <thead>
+          <tr><th>[Col 1]</th><th>[Col 2]</th><th>[Col 3]</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>[Dato]</td><td>[Dato]</td><td>[Dato]</td></tr>
+          <tr><td>[Dato]</td><td>[Dato]</td><td>[Dato]</td></tr>
+        </tbody>
+      </table>
+
+      <!-- Tip / dato importante -->
+      <div class="card card-tip">
+        <strong>[Concepto clave]:</strong> [Explicación breve y precisa.]
+      </div>
+    </div>
+
+    <!-- ─── Sección 2 ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>[TITULO_SECCION_2]</div>
+
+      <p>[Desarrollo del segundo concepto.]</p>
+
+      <!-- Ejemplo resuelto con matemática vertical (elimina si no aplica) -->
+      <div class="subsec">Ejemplo resuelto</div>
+      <div class="card card-ex">
+        <span class="card-label">Problema</span>
+        [Enunciado claro del problema. Datos: [dato 1], [dato 2]. Pregunta: ¿[qué se pide]?]
+      </div>
+      <div class="math-block">
+        <span class="math-step">[Paso 1 del desarrollo]</span>
+        <span class="math-step">
+          [Variable] = <span class="fr"><span class="fn">[numerador]</span><span class="fd">[denominador]</span></span> = [resultado] <span class="math-unit">[unidad]</span>
+        </span>
+        <span class="math-step"><span class="math-result">[Resultado final con unidad]</span></span>
+      </div>
+    </div>
+
+    <!-- ─── Sección 3 (agrega las que necesites) ─── -->
+    <div class="section">
+      <div class="section-title"><span class="sec-num">3</span>[TITULO_SECCION_3]</div>
+
+      <p>[Contenido de la sección 3.]</p>
+
+      <!-- Pasos numerados (útil para procedimientos) -->
+      <ol class="steps-num">
+        <li>[Paso 1 del procedimiento.]</li>
+        <li>[Paso 2 del procedimiento.]</li>
+        <li>[Paso 3 del procedimiento.]</li>
+      </ol>
+
+      <!-- Metacognición — DEBE apuntar a pensar sobre el propio aprendizaje -->
+      <div class="meta-box">
+        <div class="meta-title">Metacognición</div>
+        [Pregunta que invite al estudiante a reflexionar sobre SU proceso de aprendizaje.
+        Ejemplos válidos:
+        — "¿Puedes explicar [concepto] con tus propias palabras sin releer? Si no, ¿qué parte te cuesta más?"
+        — "¿Qué harías diferente al estudiar este tema para recordarlo en la prueba?"
+        — "Antes de continuar, cierra la guía e intenta resolver un ejemplo similar por tu cuenta. ¿En qué paso te detuviste?"]
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">[ASIGNATURA] [NIVEL] · [TEMA] · Página 1 de [TOTAL]</div>
+  </div>
+</div><!-- /page1 -->
+
+
+<!-- ============================================================
+     PÁGINAS 2, 3… — CONTENIDO ADICIONAL (opcional)
+     Copia este bloque por cada página extra de teoría.
+     ============================================================ -->
+<div class="page" id="page2">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      [ASIGNATURA] · [NIVEL]<br>
+      Eje: [EJE_TEMATICO]<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>[TITULO_PAGINA_2]</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">📐 [Chip descriptivo]</span>
+    <span class="chip">[Chip descriptivo]</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>[Título de sección]</div>
+      <p>[Contenido.]</p>
+    </div>
+
+    <!-- Más secciones... -->
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">[ASIGNATURA] [NIVEL] · [TEMA] · Página 2 de [TOTAL]</div>
+  </div>
+</div><!-- /page2 -->
+
+
+<!-- ============================================================
+     PÁGINA [N-1] — EJERCICIOS (10 preguntas, formato estático)
+     ============================================================ -->
+<div class="page" id="page-ejercicios">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+      [ASIGNATURA] · [NIVEL]<br>
+      Eje: [EJE_TEMATICO]<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>[TEMA] — Ejercicios</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">✏️ Práctica</span>
+    <span class="chip">10 ejercicios</span>
+  </div>
+
+  <!-- ── Nivel Básico (E1–E3) ── -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-b">Básico</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 1 – 3</span>
+    </div>
+    <div class="ex-section-body">
+
+      <div class="ex-item">
+        <div class="ex-header-row">
+          <span class="ex-num-label">1</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">[Enunciado del ejercicio 1.]</div>
+        <div class="opts">
+          <div class="opt"><span class="opt-letter">A</span> [Alternativa A]</div>
+          <div class="opt"><span class="opt-letter">B</span> [Alternativa B]</div>
+          <div class="opt"><span class="opt-letter">C</span> [Alternativa C]</div>
+          <div class="opt"><span class="opt-letter">D</span> [Alternativa D]</div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row">
+          <span class="ex-num-label">2</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">[Enunciado del ejercicio 2.]</div>
+        <div class="opts">
+          <div class="opt"><span class="opt-letter">A</span> [Alternativa A]</div>
+          <div class="opt"><span class="opt-letter">B</span> [Alternativa B]</div>
+          <div class="opt"><span class="opt-letter">C</span> [Alternativa C]</div>
+          <div class="opt"><span class="opt-letter">D</span> [Alternativa D]</div>
+        </div>
+      </div>
+
+      <div class="ex-item">
+        <div class="ex-header-row">
+          <span class="ex-num-label">3</span>
+          <span class="diff diff-b">Básico</span>
+        </div>
+        <div class="ex-stmt">[Enunciado del ejercicio 3.]</div>
+        <div class="opts">
+          <div class="opt"><span class="opt-letter">A</span> [Alternativa A]</div>
+          <div class="opt"><span class="opt-letter">B</span> [Alternativa B]</div>
+          <div class="opt"><span class="opt-letter">C</span> [Alternativa C]</div>
+          <div class="opt"><span class="opt-letter">D</span> [Alternativa D]</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Nivel Intermedio (E4–E7) ── -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-m">Intermedio</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 4 – 7</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- Copia el bloque .ex-item cuatro veces para E4, E5, E6, E7 -->
+      <div class="ex-item">
+        <div class="ex-header-row">
+          <span class="ex-num-label">4</span>
+          <span class="diff diff-m">Intermedio</span>
+        </div>
+        <div class="ex-stmt">[Enunciado del ejercicio 4. Puede incluir un fragmento o contexto:]</div>
+        <!-- Fragmento contextual (opcional) -->
+        <div class="ex-frag">[Texto de contexto, datos de un experimento, gráfico descrito en texto, etc.]</div>
+        <div class="opts">
+          <div class="opt"><span class="opt-letter">A</span> [Alternativa A]</div>
+          <div class="opt"><span class="opt-letter">B</span> [Alternativa B]</div>
+          <div class="opt"><span class="opt-letter">C</span> [Alternativa C]</div>
+          <div class="opt"><span class="opt-letter">D</span> [Alternativa D]</div>
+        </div>
+      </div>
+
+      <!-- E5, E6, E7: mismo patrón -->
+
+    </div>
+  </div>
+
+  <!-- ── Nivel Avanzado (E8–E10) ── -->
+  <div class="ex-section">
+    <div class="ex-section-head">
+      <span class="ex-level-badge diff-a">Avanzado</span>
+      <span style="color:#fff;font-size:10pt;">Ejercicios 8 – 10</span>
+    </div>
+    <div class="ex-section-body">
+
+      <!-- Copia el bloque .ex-item tres veces para E8, E9, E10 -->
+      <div class="ex-item">
+        <div class="ex-header-row">
+          <span class="ex-num-label">8</span>
+          <span class="diff diff-a">Avanzado</span>
+        </div>
+        <div class="ex-stmt">[Enunciado del ejercicio 8.]</div>
+        <div class="opts">
+          <div class="opt"><span class="opt-letter">A</span> [Alternativa A]</div>
+          <div class="opt"><span class="opt-letter">B</span> [Alternativa B]</div>
+          <div class="opt"><span class="opt-letter">C</span> [Alternativa C]</div>
+          <div class="opt"><span class="opt-letter">D</span> [Alternativa D]</div>
+        </div>
+      </div>
+
+      <!-- E9, E10: mismo patrón -->
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">[ASIGNATURA] [NIVEL] · [TEMA] · Página [N] de [TOTAL]</div>
+  </div>
+</div><!-- /page-ejercicios -->
+
+
+<!-- ============================================================
+     PÁGINA [N] — PREGUNTAS PAES + SOLUCIONARIO + CIERRE
+     ============================================================ -->
+<div class="page" id="page-paes">
+  <div class="header">
+    <img class="header-logo" src="logo.png" alt="MaestrIA" />
+    <div class="header-right">
+      <strong>Guía de Estudio</strong>
+     [ASIGNATURA] · [NIVEL]<br>
+      Eje: [EJE_TEMATICO]<br>
+      <a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> ·
+      <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a>
+    </div>
+  </div>
+  <div class="guide-banner">
+    <h2>[TEMA] — Preguntas PAES</h2>
+  </div>
+
+  <div class="meta-chips">
+    <span class="chip">🎯 Estilo PAES</span>
+    <span class="chip">10 preguntas</span>
+  </div>
+
+  <div class="paes-wrap">
+    <div class="paes-head">
+      <span class="paes-badge">PAES Preguntas estilo PAES — [TEMA]</span>
+    </div>
+    <div class="paes-body">
+
+      <!-- P1 — Copia y pega este bloque 10 veces (P1–P10) -->
+      <div class="paes-item">
+        <div class="paes-num">1</div>
+        <div class="paes-stmt">[Enunciado de la pregunta PAES 1. Redacción formal, sin errores.]</div>
+        <!-- Fragmento contextual opcional -->
+        <!-- <div class="paes-frag">[Texto / datos de contexto]</div> -->
+        <div class="paes-opts">
+          <div class="paes-opt"><span class="paes-l">A</span> [Alternativa A]</div>
+          <div class="paes-opt"><span class="paes-l">B</span> [Alternativa B]</div>
+          <div class="paes-opt"><span class="paes-l">C</span> [Alternativa C]</div>
+          <div class="paes-opt"><span class="paes-l">D</span> [Alternativa D]</div>
+        </div>
+      </div>
+
+      <!-- P2–P10: mismo patrón -->
+
+    </div><!-- /paes-body -->
+  </div><!-- /paes-wrap -->
+
+  <!-- ── Solucionario ── -->
+  <div class="sol-wrap">
+    <h3>Solucionario</h3>
+    <div class="sol-grid">
+      <div>
+        <div class="sol-col-title">Ejercicios</div>
+        <div class="sol-item"><span class="sn">E1</span><span class="sc">[Letra]</span> [Justificación breve de la respuesta correcta.]</div>
+        <div class="sol-item"><span class="sn">E2</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E3</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E4</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E5</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E6</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E7</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E8</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E9</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">E10</span><span class="sc">[Letra]</span> [Justificación.]</div>
+      </div>
+      <div>
+        <div class="sol-col-title">PAES</div>
+        <div class="sol-item"><span class="sn">P1</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P2</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P3</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P4</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P5</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P6</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P7</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P8</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P9</span><span class="sc">[Letra]</span> [Justificación.]</div>
+        <div class="sol-item"><span class="sn">P10</span><span class="sc">[Letra]</span> [Justificación.]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Cierre pedagógico ── -->
+  <div class="closing">
+    <h3>¡Domina la materia!</h3>
+    <p>[Frase motivacional relacionada al tema. Ej: "Entender [concepto] te abre la puerta a comprender cómo funciona [contexto real]."]</p>
+    <p>Practica con más guías en <strong>www.MaestriaAI.cl</strong> y prepárate para la PAES.</p>
+    <span class="next-pill">Siguiente: [TEMA_SIGUIENTE]</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">MaestrIA <span>· Domina la materia</span></div>
+    <div class="footer-meta">[ASIGNATURA] [NIVEL] · [TEMA] · Página [N] de [TOTAL]</div>
+  </div>
+</div><!-- /page-paes -->
+
+</body>
+</html>

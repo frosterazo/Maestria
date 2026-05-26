@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Educación Ciudadana 4° Medio - Índice de guías | MaestrIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#F8F4E9 0%,#fff 100%);color:#0B0F3F;line-height:1.6;min-height:100vh;}
+    .top-header{background:#fff;color:#0B0F3F;padding:0 1.5rem;border-bottom:3px solid #D4AF37;box-shadow:0 3px 14px rgba(11,15,63,.08);}
+    .top-header-inner{max-width:1200px;margin:0 auto;min-height:92px;display:flex;align-items:center;justify-content:center;position:relative;}
+    .brand-block{display:flex;align-items:center;justify-content:center;}
+    .brand-block img{height:90px;width:auto;display:block;}
+    .header-links{position:absolute;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;font-size:8pt;line-height:1.5;}
+    .header-links a{color:#6A2C91;text-decoration:none;font-size:8pt;font-weight:700;}
+    .header-links a:hover{text-decoration:underline;}
+    .hero{max-width:1200px;margin:2rem auto 1rem;padding:0 1.5rem;text-align:center;}
+    .hero h1,.hero h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#0B0F3F;margin-bottom:.6rem;line-height:1.15;}
+    .hero h1 span,.hero h2 span{color:#6A2C91;}
+    .hero p{font-size:1.05rem;color:#555;max-width:780px;margin:0 auto;}
+    .hero-stats{display:flex;justify-content:center;gap:1.5rem;margin:1.4rem 0;flex-wrap:wrap;}
+    .stat{background:#fff;border:2px solid #D4AF37;border-radius:12px;padding:.7rem 1.2rem;text-align:center;min-width:90px;}
+    .stat .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.8rem;font-weight:800;color:#6A2C91;line-height:1;}
+    .stat .stat-label{font-size:.72rem;color:#0B0F3F;margin-top:.15rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+    .route-box{max-width:1200px;margin:1.4rem auto 0;padding:0 1.5rem;}
+    .route-inner{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;box-shadow:0 4px 14px rgba(11,15,63,.06);}
+    .route-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:800;color:#0B0F3F;margin-bottom:.65rem;}
+    .route-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+    .route-step{background:#FAFAFB;border-left:4px solid #D4AF37;border-radius:8px;padding:.8rem;}
+    .route-step strong{display:block;color:#6A2C91;font-size:.85rem;margin-bottom:.25rem;}
+    .route-step span{font-size:.8rem;color:#555;line-height:1.45;}
+    .oa-section{max-width:1200px;margin:2.5rem auto;padding:0 1.5rem;}
+    .oa-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:3px solid #D4AF37;}
+    .oa-badge{background:#6A2C91;color:#fff;padding:.45rem .9rem;border-radius:8px;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0;}
+    .oa-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:700;color:#0B0F3F;flex:1;}
+    .oa-count{color:#6A2C91;font-size:.85rem;font-weight:700;background:#FFF8E1;padding:.3rem .7rem;border-radius:12px;flex-shrink:0;}
+    .oa-desc{color:#555;font-size:.95rem;margin-bottom:1.2rem;line-height:1.5;}
+    .guides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .guide-card{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden;min-height:210px;}
+    .guide-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(106,44,145,.18);border-color:#6A2C91;}
+    .guide-card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%;background:linear-gradient(180deg,#6A2C91,#D4AF37);}
+    .guide-num{display:inline-block;background:#F8F4E9;color:#6A2C91;font-weight:800;font-size:.78rem;padding:.25rem .55rem;border-radius:6px;width:fit-content;margin-bottom:.6rem;}
+    .guide-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:#0B0F3F;margin-bottom:.4rem;line-height:1.25;}
+    .guide-desc{font-size:.85rem;color:#555;line-height:1.5;flex:1;margin-bottom:.7rem;}
+    .guide-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;}
+    .guide-tag{background:#F8F4E9;color:#6A2C91;font-size:.7rem;padding:.18rem .5rem;border-radius:10px;font-weight:600;}
+    .guide-link{display:inline-flex;align-items:center;gap:.4rem;color:#6A2C91;font-weight:700;font-size:.88rem;margin-top:auto;}
+    .guide-card:hover .guide-link{color:#552072;}
+    .guide-link::after{content:'→';transition:transform .2s;}
+    .guide-card:hover .guide-link::after{transform:translateX(4px);}
+    .site-footer{background:#0B0F3F;color:#fff;border-top:2.5px solid #D4AF37;padding:8px 30px;margin-top:3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+    .site-footer p{margin:0;}
+    .site-footer .footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:9pt;font-weight:700;color:#D4AF37;line-height:1.1;}
+    .site-footer .footer-brand span{color:rgba(255,255,255,.55);font-weight:400;}
+    .footer-meta{font-size:7.3pt;color:rgba(255,255,255,.55);text-align:right;line-height:1.3;}
+    .site-footer a{color:#D4AF37;text-decoration:none;}
+    .site-footer a:hover{text-decoration:underline;}
+    @media (max-width:760px){
+      .hero h1,.hero h2{font-size:1.6rem;}
+      .top-header{padding:0 1rem;}
+      .top-header-inner{min-height:82px;flex-direction:column;}
+      .brand-block img{height:80px;}
+      .header-links{position:static;align-items:center;margin-top:.2rem;padding-bottom:.6rem;}
+      .stat{min-width:75px;padding:.55rem .8rem;}
+      .stat .stat-num{font-size:1.4rem;}
+      .route-steps{grid-template-columns:1fr;}
+      .oa-header{align-items:flex-start;flex-direction:column;gap:.55rem;}
+      .site-footer{flex-direction:column;text-align:center;gap:.25rem;padding:10px 18px;}
+      .footer-meta{text-align:center;}
+    }
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+      body{background:#fff;}
+      .top-header{background:#fff !important;}
+      .guide-card{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+      .oa-section{page-break-inside:avoid;}
+    }</style>
+</head>
+<body>
+<div class="top-header">
+  <div class="top-header-inner">
+    <div class="brand-block"><img src="../logo.png" alt="MaestrIA" /></div>
+    <div class="header-links">
+      <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a>
+      <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <h1>Educación Ciudadana <span>4° Medio</span></h1><p>Guías para estudiar democracia, derechos, participación, instituciones, justicia social y vida pública. Diseñadas para enseñanza media, exámenes libres y preparación progresiva.</p>
+  <div class="hero-stats"><div class="stat"><div class="stat-num">5</div><div class="stat-label">OA / Módulos</div></div><div class="stat"><div class="stat-num">15</div><div class="stat-label">Guías</div></div><div class="stat"><div class="stat-num">150</div><div class="stat-label">Páginas</div></div><div class="stat"><div class="stat-num">15</div><div class="stat-label">Herramientas</div></div><div class="stat"><div class="stat-num">180</div><div class="stat-label">Preguntas</div></div></div>
+</section>
+
+<section class="route-box">
+  <div class="route-inner">
+    <div class="route-title">Ruta sugerida de estudio</div>
+    <div class="route-steps"><div class="route-step"><strong>1. Reconocer actores</strong><span>Identifica instituciones, ciudadanía, derechos y responsabilidades.</span></div><div class="route-step"><strong>2. Analizar casos</strong><span>Distingue problema público, evidencia, reglas y consecuencias.</span></div><div class="route-step"><strong>3. Argumentar</strong><span>Relaciona conceptos con justicia social, bien común y democracia.</span></div><div class="route-step"><strong>4. Participar críticamente</strong><span>Formula juicios fundados y alternativas de acción ciudadana.</span></div></div>
+  </div>
+</section>
+
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 1</span>
+    <span class="oa-title">OA 1 · Educación Ciudadana</span>
+    <span class="oa-count">3 guías</span>
+  </div>
+  <p class="oa-desc">Secuencia de estudio para educación ciudadana, organizada según los archivos disponibles de este objetivo o módulo.</p>
+  <div class="guides-grid"><a class="guide-card" href="Guia_EducacionCiudadanaIV_OA1_01_InstitucionalidadDemocratica_4Medio.html">
+      <span class="guide-num">GUÍA OA 1.1</span>
+      <h3 class="guide-title">Institucionalidad democratica y distribucion del poder</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 1</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA1_02_PartidosPoliticosServel_4Medio.html">
+      <span class="guide-num">GUÍA OA 1.2</span>
+      <h3 class="guide-title">Partidos politicos, Servel y candidaturas independientes</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 1</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA1_03_MecanismosElectoralesChile_4Medio.html">
+      <span class="guide-num">GUÍA OA 1.3</span>
+      <h3 class="guide-title">Mecanismos electorales en Chile y representacion politica</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 1</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a></div>
+</section>
+
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-title">OA 3 · Educación Ciudadana</span>
+    <span class="oa-count">3 guías</span>
+  </div>
+  <p class="oa-desc">Secuencia de estudio para educación ciudadana, organizada según los archivos disponibles de este objetivo o módulo.</p>
+  <div class="guides-grid"><a class="guide-card" href="Guia_EducacionCiudadanaIV_OA3_04_ModelosDesarrolloVidaCotidiana_4Medio.html">
+      <span class="guide-num">GUÍA OA 3.1</span>
+      <h3 class="guide-title">Modelos de desarrollo, economia y vida cotidiana</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA3_05_PoliticasEconomicasCambioClimatico_4Medio.html">
+      <span class="guide-num">GUÍA OA 3.2</span>
+      <h3 class="guide-title">Politicas economicas, cambio climatico y sustentabilidad</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA3_06_DesarrolloEconomiaPoliticaTerritorio_4Medio.html">
+      <span class="guide-num">GUÍA OA 3.3</span>
+      <h3 class="guide-title">Modelos de desarrollo e impacto territorial</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a></div>
+</section>
+
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 4</span>
+    <span class="oa-title">OA 4 · Educación Ciudadana</span>
+    <span class="oa-count">4 guías</span>
+  </div>
+  <p class="oa-desc">Secuencia de estudio para educación ciudadana, organizada según los archivos disponibles de este objetivo o módulo.</p>
+  <div class="guides-grid"><a class="guide-card" href="Guia_EducacionCiudadanaIV_OA4_07_ImportanciaDerechosLaborales_4Medio.html">
+      <span class="guide-num">GUÍA OA 4.1</span>
+      <h3 class="guide-title">Importancia de las normas y derechos laborales</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA4_08_ProteccionInstitucionalDerechosLaborales_4Medio.html">
+      <span class="guide-num">GUÍA OA 4.2</span>
+      <h3 class="guide-title">Proteccion institucional de los derechos laborales</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA4_09_TendenciasDerechosLaborales_4Medio.html">
+      <span class="guide-num">GUÍA OA 4.3</span>
+      <h3 class="guide-title">Flexibilidad, jornada, cuidado y teletrabajo</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA4_10_MovimientosSocialesDerechosLaborales_4Medio.html">
+      <span class="guide-num">GUÍA OA 4.4</span>
+      <h3 class="guide-title">Movimientos sociales y fortalecimiento de derechos laborales</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a></div>
+</section>
+
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 5</span>
+    <span class="oa-title">OA 5 · Educación Ciudadana</span>
+    <span class="oa-count">3 guías</span>
+  </div>
+  <p class="oa-desc">Secuencia de estudio para educación ciudadana, organizada según los archivos disponibles de este objetivo o módulo.</p>
+  <div class="guides-grid"><a class="guide-card" href="Guia_EducacionCiudadanaIV_OA5_11_LibertadIgualdadSolidaridad_4Medio.html">
+      <span class="guide-num">GUÍA OA 5.1</span>
+      <h3 class="guide-title">Libertad, igualdad y solidaridad: relaciones y distinciones</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 5</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA5_12_DesigualdadPobrezaInclusionDiversidad_4Medio.html">
+      <span class="guide-num">GUÍA OA 5.2</span>
+      <h3 class="guide-title">Desigualdad, pobreza, inclusión y diversidad desde la democracia</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 5</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA5_13_DemocraciaDerechosHumanosPrincipios_4Medio.html">
+      <span class="guide-num">GUÍA OA 5.3</span>
+      <h3 class="guide-title">Principios democráticos y derechos humanos</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 5</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a></div>
+</section>
+
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 6</span>
+    <span class="oa-title">OA 6 · Educación Ciudadana</span>
+    <span class="oa-count">2 guías</span>
+  </div>
+  <p class="oa-desc">Secuencia de estudio para educación ciudadana, organizada según los archivos disponibles de este objetivo o módulo.</p>
+  <div class="guides-grid"><a class="guide-card" href="Guia_EducacionCiudadanaIV_OA6_14_MediosTecnologiasFortalecimientoDemocracia_4Medio.html">
+      <span class="guide-num">GUÍA OA 6.1</span>
+      <h3 class="guide-title">Medios, tecnologías y fortalecimiento de la democracia</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 6</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+<a class="guide-card" href="Guia_EducacionCiudadanaIV_OA6_15_VirtudesAmenazasDemocraciaDigital_4Medio.html">
+      <span class="guide-num">GUÍA OA 6.2</span>
+      <h3 class="guide-title">Virtudes y amenazas de la democracia digital</h3>
+      <p class="guide-desc">Guía interactiva de educación ciudadana con teoría, ejemplos guiados, herramienta interactiva, ejercicios por nivel y preguntas tipo PAES o validación.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 6</span><span class="guide-tag">Educación Ciudadana</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a></div>
+</section>
+
+<footer class="site-footer">
+  <p class="footer-brand">MaestrIA <span>· Domina la materia</span></p>
+  <div class="footer-meta">
+    Educación Ciudadana 4° Medio · Índice de guías MaestrIA<br />
+    <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+  </div>
+</footer>
+</body>
+</html>

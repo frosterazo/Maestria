@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4° Medio - Índice maestro de curso | MaestrIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#F8F4E9 0%,#fff 100%);color:#0B0F3F;line-height:1.6;min-height:100vh;}
+    .top-header{background:#fff;color:#0B0F3F;padding:0 1.5rem;border-bottom:3px solid #D4AF37;box-shadow:0 3px 14px rgba(11,15,63,.08);}
+    .top-header-inner{max-width:1200px;margin:0 auto;min-height:92px;display:flex;align-items:center;justify-content:center;position:relative;}
+    .brand-block{display:flex;align-items:center;justify-content:center;}
+    .brand-block img{height:90px;width:auto;display:block;}
+    .header-links{position:absolute;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;font-size:8pt;line-height:1.5;}
+    .header-links a{color:#6A2C91;text-decoration:none;font-size:8pt;font-weight:700;}
+    .header-links a:hover{text-decoration:underline;}
+    .hero{max-width:1200px;margin:2rem auto 1rem;padding:0 1.5rem;text-align:center;}
+    .hero h1,.hero h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#0B0F3F;margin-bottom:.6rem;line-height:1.15;}
+    .hero h1 span,.hero h2 span{color:#6A2C91;}
+    .hero p{font-size:1.05rem;color:#555;max-width:780px;margin:0 auto;}
+    .hero-stats{display:flex;justify-content:center;gap:1.5rem;margin:1.4rem 0;flex-wrap:wrap;}
+    .stat{background:#fff;border:2px solid #D4AF37;border-radius:12px;padding:.7rem 1.2rem;text-align:center;min-width:90px;}
+    .stat .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.8rem;font-weight:800;color:#6A2C91;line-height:1;}
+    .stat .stat-label{font-size:.72rem;color:#0B0F3F;margin-top:.15rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+    .route-box{max-width:1200px;margin:1.4rem auto 0;padding:0 1.5rem;}
+    .route-inner{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;box-shadow:0 4px 14px rgba(11,15,63,.06);}
+    .route-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:800;color:#0B0F3F;margin-bottom:.65rem;}
+    .route-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+    .route-step{background:#FAFAFB;border-left:4px solid #D4AF37;border-radius:8px;padding:.8rem;}
+    .route-step strong{display:block;color:#6A2C91;font-size:.85rem;margin-bottom:.25rem;}
+    .route-step span{font-size:.8rem;color:#555;line-height:1.45;}
+    .oa-section{max-width:1200px;margin:2.5rem auto;padding:0 1.5rem;}
+    .oa-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:3px solid #D4AF37;}
+    .oa-badge{background:#6A2C91;color:#fff;padding:.45rem .9rem;border-radius:8px;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0;}
+    .oa-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:700;color:#0B0F3F;flex:1;}
+    .oa-count{color:#6A2C91;font-size:.85rem;font-weight:700;background:#FFF8E1;padding:.3rem .7rem;border-radius:12px;flex-shrink:0;}
+    .oa-desc{color:#555;font-size:.95rem;margin-bottom:1.2rem;line-height:1.5;}
+    .guides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .guide-card{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden;min-height:210px;}
+    .guide-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(106,44,145,.18);border-color:#6A2C91;}
+    .guide-card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%;background:linear-gradient(180deg,#6A2C91,#D4AF37);}
+    .guide-num{display:inline-block;background:#F8F4E9;color:#6A2C91;font-weight:800;font-size:.78rem;padding:.25rem .55rem;border-radius:6px;width:fit-content;margin-bottom:.6rem;}
+    .guide-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:#0B0F3F;margin-bottom:.4rem;line-height:1.25;}
+    .guide-desc{font-size:.85rem;color:#555;line-height:1.5;flex:1;margin-bottom:.7rem;}
+    .guide-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;}
+    .guide-tag{background:#F8F4E9;color:#6A2C91;font-size:.7rem;padding:.18rem .5rem;border-radius:10px;font-weight:600;}
+    .guide-link{display:inline-flex;align-items:center;gap:.4rem;color:#6A2C91;font-weight:700;font-size:.88rem;margin-top:auto;}
+    .guide-card:hover .guide-link{color:#552072;}
+    .guide-link::after{content:'→';transition:transform .2s;}
+    .guide-card:hover .guide-link::after{transform:translateX(4px);}
+    .site-footer{background:#0B0F3F;color:#fff;border-top:2.5px solid #D4AF37;padding:8px 30px;margin-top:3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+    .site-footer p{margin:0;}
+    .site-footer .footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:9pt;font-weight:700;color:#D4AF37;line-height:1.1;}
+    .site-footer .footer-brand span{color:rgba(255,255,255,.55);font-weight:400;}
+    .footer-meta{font-size:7.3pt;color:rgba(255,255,255,.55);text-align:right;line-height:1.3;}
+    .site-footer a{color:#D4AF37;text-decoration:none;}
+    .site-footer a:hover{text-decoration:underline;}
+    @media (max-width:760px){
+      .hero h1,.hero h2{font-size:1.6rem;}
+      .top-header{padding:0 1rem;}
+      .top-header-inner{min-height:82px;flex-direction:column;}
+      .brand-block img{height:80px;}
+      .header-links{position:static;align-items:center;margin-top:.2rem;padding-bottom:.6rem;}
+      .stat{min-width:75px;padding:.55rem .8rem;}
+      .stat .stat-num{font-size:1.4rem;}
+      .route-steps{grid-template-columns:1fr;}
+      .oa-header{align-items:flex-start;flex-direction:column;gap:.55rem;}
+      .site-footer{flex-direction:column;text-align:center;gap:.25rem;padding:10px 18px;}
+      .footer-meta{text-align:center;}
+    }
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+      body{background:#fff;}
+      .top-header{background:#fff !important;}
+      .guide-card{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+      .oa-section{page-break-inside:avoid;}
+    }</style>
+</head>
+<body>
+<div class="top-header">
+  <div class="top-header-inner">
+    <div class="brand-block"><img src="logo.png" alt="MaestrIA" /></div>
+    <div class="header-links">
+      <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a>
+      <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <h1>Índice Maestro <span>4° Medio</span></h1><p>Biblioteca organizada de guías MaestrIA por asignatura. Cada entrada conecta con su índice maestro y desde ahí con las guías completas listas para abrir en navegador.</p>
+  <div class="hero-stats"><div class="stat"><div class="stat-num">6</div><div class="stat-label">Asignaturas</div></div><div class="stat"><div class="stat-num">72</div><div class="stat-label">Guías</div></div><div class="stat"><div class="stat-num">720</div><div class="stat-label">Páginas</div></div><div class="stat"><div class="stat-num">20</div><div class="stat-label">OA / Módulos</div></div><div class="stat"><div class="stat-num">864</div><div class="stat-label">Preguntas</div></div></div>
+</section>
+
+<section class="route-box">
+  <div class="route-inner">
+    <div class="route-title">Ruta sugerida de estudio</div>
+    <div class="route-steps"><div class="route-step"><strong>1. Elige asignatura</strong><span>Abre el índice maestro del ramo que quieres estudiar.</span></div><div class="route-step"><strong>2. Sigue el OA</strong><span>Trabaja las guías en orden para construir comprensión progresiva.</span></div><div class="route-step"><strong>3. Practica</strong><span>Resuelve ejercicios por nivel y preguntas tipo PAES o validación.</span></div><div class="route-step"><strong>4. Revisa</strong><span>Usa solucionarios y metacognición para detectar qué mejorar.</span></div></div>
+  </div>
+</section>
+
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">4° Medio</span>
+    <span class="oa-title">Asignaturas disponibles</span>
+    <span class="oa-count">6 asignaturas</span>
+  </div>
+  <p class="oa-desc">Accede al índice maestro de cada asignatura. Cada índice organiza sus guías por OA o módulo y mantiene el mismo sistema visual MaestrIA.</p>
+  <div class="guides-grid">
+<a class="guide-card" href="CienciasCiudadaniaIV/index.html">
+      <span class="guide-num">Ciencias para la Ciudadanía</span>
+      <h3 class="guide-title">Ciencias para la Ciudadanía 4° Medio</h3>
+      <p class="guide-desc">Guías para comprender problemas científicos contemporáneos, analizar evidencia y tomar decisiones informadas.</p>
+      <div class="guide-tags"><span class="guide-tag">8 guías</span><span class="guide-tag">2 OA / módulos</span><span class="guide-tag">Índice maestro</span></div>
+      <span class="guide-link">Abrir asignatura</span>
+    </a>
+<a class="guide-card" href="EducacionCiudadanaIV/index.html">
+      <span class="guide-num">Educación Ciudadana</span>
+      <h3 class="guide-title">Educación Ciudadana 4° Medio</h3>
+      <p class="guide-desc">Guías para estudiar democracia, derechos, participación, instituciones, justicia social y vida pública.</p>
+      <div class="guide-tags"><span class="guide-tag">15 guías</span><span class="guide-tag">5 OA / módulos</span><span class="guide-tag">Índice maestro</span></div>
+      <span class="guide-link">Abrir asignatura</span>
+    </a>
+<a class="guide-card" href="FilosofiaIV/index.html">
+      <span class="guide-num">Filosofía</span>
+      <h3 class="guide-title">Filosofía 4° Medio</h3>
+      <p class="guide-desc">Guías para formular preguntas, aclarar conceptos, analizar argumentos y pensar problemas éticos, políticos y culturales.</p>
+      <div class="guide-tags"><span class="guide-tag">15 guías</span><span class="guide-tag">4 OA / módulos</span><span class="guide-tag">Índice maestro</span></div>
+      <span class="guide-link">Abrir asignatura</span>
+    </a>
+<a class="guide-card" href="InglesIV/index.html">
+      <span class="guide-num">Inglés</span>
+      <h3 class="guide-title">Inglés 4° Medio</h3>
+      <p class="guide-desc">Guías para leer, comprender, producir y comunicar en inglés en contextos interculturales significativos.</p>
+      <div class="guide-tags"><span class="guide-tag">13 guías</span><span class="guide-tag">3 OA / módulos</span><span class="guide-tag">Índice maestro</span></div>
+      <span class="guide-link">Abrir asignatura</span>
+    </a>
+<a class="guide-card" href="LenguajeIV/index.html">
+      <span class="guide-num">Lengua y Literatura</span>
+      <h3 class="guide-title">Lengua y Literatura 4° Medio</h3>
+      <p class="guide-desc">Guías para comprensión, análisis crítico, interpretación y producción de textos literarios y no literarios.</p>
+      <div class="guide-tags"><span class="guide-tag">10 guías</span><span class="guide-tag">3 OA / módulos</span><span class="guide-tag">Índice maestro</span></div>
+      <span class="guide-link">Abrir asignatura</span>
+    </a>
+<a class="guide-card" href="MatematicasIV/index.html">
+      <span class="guide-num">Matemática</span>
+      <h3 class="guide-title">Matemática 4° Medio</h3>
+      <p class="guide-desc">Guías interactivas para modelar, resolver problemas, interpretar información y comunicar razonamientos matemáticos con claridad.</p>
+      <div class="guide-tags"><span class="guide-tag">11 guías</span><span class="guide-tag">3 OA / módulos</span><span class="guide-tag">Índice maestro</span></div>
+      <span class="guide-link">Abrir asignatura</span>
+    </a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p class="footer-brand">MaestrIA <span>· Domina la materia</span></p>
+  <div class="footer-meta">
+    4° Medio · Índice maestro de curso MaestrIA<br />
+    <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+  </div>
+</footer>
+</body>
+</html>
