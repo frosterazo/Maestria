@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adecuacion al genero y audiencia - Lengua y Literatura 3 Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:9.8pt;line-height:1.45}.plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.54rem .64rem;margin:.38rem 0;line-height:1.4}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.54rem .64rem;margin:.38rem 0;line-height:1.4}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.54rem .66rem;margin:.38rem 0}.step-box p{margin:.14rem 0;line-height:1.36}.result-line{font-weight:800;color:#0B0F3F}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.48rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.44rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.46rem .52rem;line-height:1.32}.small-card strong{color:#6A2C91}.clean-table{width:100%;border-collapse:collapse;font-size:8.65pt;margin:.36rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.25rem .32rem;vertical-align:top}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.42rem 0;overflow:hidden}.example-title{padding:.44rem .62rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.52rem .62rem}.label{font-weight:800;color:#6A2C91;margin-top:.28rem}.quote-box{background:#FAFAFB;border:1px solid #D9D9D9;border-radius:8px;padding:.64rem .74rem;margin:.4rem 0;font-size:9.75pt;line-height:1.55;color:#1f2937}.analysis-tag{display:inline-block;border:1px solid #D4AF37;border-radius:999px;padding:.07rem .42rem;margin:.05rem .07rem;background:#fff;color:#0B0F3F;font-size:.74rem;font-weight:700}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.44rem 0;padding:.44rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.76rem;color:#4b5563;line-height:1.32;margin-top:.2rem}.fig-caption strong{color:#6A2C91}
+    .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.44rem;margin:.44rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.46rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.16rem;font-size:.76rem}.input-control select{width:100%;padding:.36rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.54rem .64rem;line-height:1.42}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.34rem .7rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.34rem;flex-wrap:wrap;margin:.4rem 0}
+    .opt{cursor:pointer;transition:background .2s}.opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.8rem;margin-top:.38rem;padding:.44rem .54rem;border-radius:6px;line-height:1.4}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.62rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.62rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .64rem;margin:.4rem 0;line-height:1.44}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  
+    .practice-set .section{margin-top:.2rem}.practice-set .practice-intro{font-size:8.9pt;line-height:1.34;margin:.2rem 0 .4rem;color:#1C1C2E}.practice-set .ex-item{padding:.42rem .54rem;margin:.34rem 0;border-left:3px solid #D4AF37}.practice-set .ex-header-row{margin-bottom:.18rem}.practice-set .ex-num-label{font-size:8pt;letter-spacing:.2px}.practice-set .ex-stmt{font-size:8.9pt;line-height:1.32;margin-bottom:.28rem}.practice-set .ex-frag{font-size:8.15pt;line-height:1.34;margin:.25rem 0;padding:.34rem .44rem}.practice-set .opts{grid-template-columns:1fr 1fr;gap:.22rem}.practice-set .opt{font-size:7.85pt;line-height:1.25;padding:.28rem .34rem;gap:.3rem}.practice-set .opt-letter{width:17px;height:17px;font-size:7.2pt}.practice-set .opt-feedback{font-size:7.45pt;line-height:1.25;margin-top:.22rem;padding:.28rem .32rem}.practice-set .opt span:last-child{display:block}@media print{.practice-set .opt-feedback{display:none!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Adecuar la escritura al genero y a la audiencia</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 6</span><span class="chip">3° Medio</span><span class="chip">Escritura</span><span class="chip">Adecuacion</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 6</span><span class="oa-text">Adecuar la escritura a las convenciones del genero discursivo y a las caracteristicas de la audiencia: conocimientos, intereses y convenciones culturales.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Escribir bien es escribir para una situacion real</div>
+      <p>Un mismo analisis puede escribirse de muchas formas. No es igual redactar un comentario critico para una evaluacion, una reseña para estudiantes, una columna para una comunidad escolar o un guion para un video. La idea central puede mantenerse, pero cambia la estructura, el vocabulario, el tono y la forma de explicar.</p>
+      <p>Adecuar un texto significa tomar decisiones conscientes: que genero usare, para quien escribo, que sabe mi lector, que espera de este tipo de texto y que efecto quiero lograr.</p>
+      <div class="four-col"><div class="small-card"><strong>Genero</strong><br>Forma esperada del texto.</div><div class="small-card"><strong>Proposito</strong><br>Para que se escribe.</div><div class="small-card"><strong>Audiencia</strong><br>Quien lee o escucha.</div><div class="small-card"><strong>Registro</strong><br>Nivel de formalidad.</div></div>
+      <figure class="visual-figure" aria-label="Triangulo de adecuacion">
+        <svg viewBox="0 0 760 215" role="img">
+          <rect x="55" y="44" width="160" height="82" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="135" y="78" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">Genero</text><text x="135" y="103" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que forma espera?</text>
+          <rect x="300" y="44" width="160" height="82" rx="8" fill="#F8F4E9" stroke="#D4AF37"/><text x="380" y="78" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#0B0F3F">Proposito</text><text x="380" y="103" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que quiero lograr?</text>
+          <rect x="545" y="44" width="160" height="82" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="625" y="78" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">Audiencia</text><text x="625" y="103" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿para quien escribo?</text>
+          <path d="M216 85 H298 M461 85 H543" stroke="#6A2C91" stroke-width="4" marker-end="url(#arrAde)"/>
+          <defs><marker id="arrAde" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6A2C91"/></marker></defs>
+          <text x="380" y="170" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">La adecuacion aparece cuando estas tres decisiones trabajan juntas.</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Idea central:</strong> un texto adecuado no solo dice algo correcto; lo dice de una manera pertinente para su contexto.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Meta de la guia:</strong> aprender a transformar y revisar textos segun genero discursivo, proposito comunicativo y audiencia.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 1 de 10</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Situacion comunicativa: antes de escribir</h2></div>
+  <div class="meta-chips"><span class="chip">Contexto</span><span class="chip">Proposito</span><span class="chip">Lector</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Antes de redactar, un escritor competente analiza la situacion comunicativa. Esto evita escribir textos desordenados, demasiado informales, excesivamente tecnicos o poco utiles para el lector.</p>
+      <table class="clean-table"><thead><tr><th>Decision</th><th>Pregunta guia</th><th>Ejemplo de respuesta</th><th>Impacto en el texto</th></tr></thead><tbody><tr><td>Proposito</td><td>¿Para que escribo?</td><td>Interpretar una obra leida.</td><td>Necesito tesis, evidencia y analisis.</td></tr><tr><td>Genero</td><td>¿Que tipo de texto debo producir?</td><td>Comentario critico.</td><td>Debo explicar sentido, no solo resumir.</td></tr><tr><td>Audiencia</td><td>¿Quien leera?</td><td>Docente evaluador.</td><td>Registro formal y conceptos precisos.</td></tr><tr><td>Soporte</td><td>¿Donde circulara?</td><td>Evaluacion escrita, boletin o video.</td><td>Cambia extension, ritmo y presentacion.</td></tr></tbody></table>
+      <div class="step-box"><p><strong>Procedimiento recomendado:</strong></p><p>1. Define el proposito comunicativo.</p><p>2. Elige o reconoce el genero discursivo.</p><p>3. Imagina la audiencia concreta.</p><p>4. Ajusta estructura, registro, ejemplos y evidencia.</p></div>
+      <div class="two-col"><div class="plain-box"><strong>Texto poco adecuado:</strong> tiene una buena idea, pero no considera a quien lee ni que formato se espera.</div><div class="plain-box"><strong>Texto adecuado:</strong> organiza la informacion para que la audiencia pueda comprender y valorar el mensaje.</div></div>
+      <div class="soft-box"><strong>Clave PAES:</strong> si una pregunta pide elegir la mejor frase o correccion, revisa siempre proposito, genero y destinatario antes de responder.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 2 de 10</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Genero discursivo: cada forma tiene convenciones</h2></div>
+  <div class="meta-chips"><span class="chip">Reseña</span><span class="chip">Comentario</span><span class="chip">Columna</span><span class="chip">Guion</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Un genero discursivo es una forma de comunicacion reconocible. Tiene estructura, tono y expectativas. Cuando respetas sus convenciones, el lector entiende rapidamente como debe leer tu texto.</p>
+      <table class="clean-table"><thead><tr><th>Genero</th><th>Proposito</th><th>Convenciones</th><th>Error frecuente</th></tr></thead><tbody><tr><td>Comentario critico</td><td>Interpretar una obra o fragmento.</td><td>Tesis, evidencia textual, analisis y cierre.</td><td>Solo resumir lo que ocurre.</td></tr><tr><td>Reseña</td><td>Presentar y valorar una obra.</td><td>Contexto breve, apreciacion fundada y recomendacion.</td><td>Contar todo el final o decir solo "me gusto".</td></tr><tr><td>Columna de opinion</td><td>Convencer sobre un tema publico.</td><td>Postura clara, argumentos, ejemplos cercanos.</td><td>Confundir opinion con desahogo.</td></tr><tr><td>Guion audiovisual</td><td>Comunicar oralmente con apoyo visual.</td><td>Frases breves, ritmo, transiciones y ejemplos.</td><td>Escribir como ensayo largo para leer en voz alta.</td></tr></tbody></table>
+      <div class="example"><div class="example-title">Ejemplo de mala adecuacion al genero</div><div class="example-body"><div class="quote-box">"La obra es buena porque pasan cosas interesantes y el final sorprende mucho".</div><div class="step-box"><p><strong>Problema:</strong> si se trata de una reseña, falta informacion de la obra y valoracion fundada. Si se trata de comentario critico, falta tesis interpretativa y evidencia.</p><p><strong>Mejora:</strong> identificar primero el genero pedido y luego elegir la estructura adecuada.</p></div></div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 3 de 10</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Audiencia: escribir pensando en el lector</h2></div>
+  <div class="meta-chips"><span class="chip">Conocimientos</span><span class="chip">Intereses</span><span class="chip">Convenciones culturales</span></div>
+  <div class="content">
+    <div class="section">
+      <p>La audiencia no es "cualquier persona". Es un grupo concreto de lectores u oyentes con saberes, intereses, expectativas y codigos. Por eso, un texto para estudiantes de 8° basico no se formula igual que un texto para una evaluacion de 3° medio.</p>
+      <figure class="visual-figure" aria-label="Mapa de audiencia">
+        <svg viewBox="0 0 760 205" role="img">
+          <rect x="60" y="48" width="170" height="96" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="145" y="80" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">Conocimientos</text><text x="145" y="106" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que sabe?</text><text x="145" y="126" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que debo explicar?</text>
+          <rect x="295" y="48" width="170" height="96" rx="8" fill="#F8F4E9" stroke="#D4AF37"/><text x="380" y="80" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#0B0F3F">Intereses</text><text x="380" y="106" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que le importa?</text><text x="380" y="126" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que ejemplo conecta?</text>
+          <rect x="530" y="48" width="170" height="96" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="615" y="80" text-anchor="middle" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">Convenciones</text><text x="615" y="106" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que tono espera?</text><text x="615" y="126" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">¿que trato es adecuado?</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Figura clave:</strong> pensar en la audiencia permite decidir cuanta informacion explicar, que vocabulario usar y que ejemplos escoger.</figcaption>
+      </figure>
+      <table class="clean-table"><thead><tr><th>Audiencia</th><th>Conviene usar</th><th>Conviene evitar</th></tr></thead><tbody><tr><td>Docente evaluador</td><td>Registro formal, conceptos definidos, evidencia explicita.</td><td>Abreviaturas, bromas internas o afirmaciones sin respaldo.</td></tr><tr><td>Estudiantes del curso</td><td>Lenguaje claro, ejemplos escolares, explicacion directa.</td><td>Tono infantilizante o tecnicismos sin explicar.</td></tr><tr><td>Comunidad digital</td><td>Inicio atractivo, parrafos breves, respeto y claridad.</td><td>Titulos engañosos, ataques personales o ambiguedad.</td></tr></tbody></table>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 4 de 10</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 1: una idea, dos generos</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo</span><span class="chip">Reescritura</span><span class="chip">Comparacion</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Situacion de escritura</div><div class="example-body">
+      <p><span class="label">Texto leido:</span> fragmento narrativo donde una joven vuelve a su barrio y descubre que la plaza de su infancia fue transformada.</p>
+      <p><span class="label">Interpretacion base:</span> el cambio del espacio refleja el conflicto entre memoria personal y transformacion social.</p>
+      <div class="step-box"><p><strong>Paso 1:</strong> identificar que idea se quiere comunicar.</p><p><strong>Paso 2:</strong> decidir si el texto interpretara, recomendara o convencera.</p><p><strong>Paso 3:</strong> ajustar estructura y lenguaje al genero elegido.</p></div>
+      <div class="two-col"><div class="plain-box"><strong>Comentario critico:</strong><br>El regreso de la protagonista al barrio permite interpretar una tension entre memoria y cambio social. Cuando se menciona que "la plaza ya no tenia los arboles de antes", el espacio deja de ser escenario y funciona como simbolo de perdida.</div><div class="plain-box"><strong>Reseña escolar:</strong><br>Este relato puede interesar a quienes han sentido que su barrio o colegio ya no es igual. La obra destaca porque convierte una plaza comun en un simbolo de crecimiento, memoria y perdida.</div></div>
+      <div class="soft-box"><strong>Conclusion:</strong> la idea central se mantiene; lo que cambia es la forma de presentarla segun el genero.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 5 de 10</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: plan de adecuacion</h2></div>
+  <div class="meta-chips"><span class="chip">Interaccion</span><span class="chip">Genero</span><span class="chip">Audiencia</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Selecciona genero, audiencia y proposito. La herramienta genera una orientacion para decidir registro, estructura y tipo de evidencia.</p>
+      <div class="tool-grid"><div class="input-control"><label for="genre">Genero</label><select id="genre"><option value="comentario">Comentario critico</option><option value="resena">Reseña escolar</option><option value="columna">Columna de opinion</option><option value="guion">Guion audiovisual</option></select></div><div class="input-control"><label for="audience">Audiencia</label><select id="audience"><option value="docente">Docente evaluador</option><option value="curso">Estudiantes del curso</option><option value="digital">Comunidad digital</option></select></div><div class="input-control"><label for="purpose">Proposito</label><select id="purpose"><option value="interpretar">Interpretar una obra</option><option value="recomendar">Recomendar una lectura</option><option value="convencer">Convencer sobre un tema</option></select></div></div>
+      <div class="btn-row"><button class="mini-btn" data-adapt="formal">Modelo formal</button><button class="mini-btn" data-adapt="cercano">Modelo cercano</button><button class="mini-btn" data-adapt="oral">Modelo oral</button></div>
+      <div id="adapt-result" class="result-panel" aria-live="polite"></div>
+      <table class="clean-table"><thead><tr><th>Si eliges...</th><th>Debes revisar...</th></tr></thead><tbody><tr><td>Comentario critico</td><td>Tesis interpretativa, evidencia textual y analisis.</td></tr><tr><td>Reseña</td><td>Contexto, valoracion fundada y recomendacion.</td></tr><tr><td>Guion</td><td>Ritmo oral, frases breves y ejemplos visuales.</td></tr></tbody></table>
+      <div class="soft-box"><strong>Actividad:</strong> cambia la audiencia y observa como varia la recomendacion. Esa comparacion ayuda a entender la adecuacion.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 6 de 10</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 2: adaptar el registro a la audiencia</h2></div>
+  <div class="meta-chips"><span class="chip">Registro</span><span class="chip">Tono</span><span class="chip">Audiencia</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Correccion paso a paso</div><div class="example-body">
+      <div class="quote-box">Version inicial: "El cuento es bacan porque el personaje esta terrible perdido y eso pega".</div>
+      <p class="label">Datos de la situacion</p>
+      <p><span class="analysis-tag">Genero: comentario critico</span><span class="analysis-tag">Audiencia: docente evaluador</span><span class="analysis-tag">Proposito: interpretar</span></p>
+      <div class="step-box"><p><strong>1. Detectar el problema:</strong> "bacan", "terrible perdido" y "eso pega" son expresiones coloquiales que pueden funcionar en conversacion, pero no en evaluacion formal.</p><p><strong>2. Mantener la idea:</strong> el estudiante quiere decir que el personaje esta desorientado y que eso produce impacto.</p><p><strong>3. Reescribir con precision:</strong> usar vocabulario interpretativo y explicar el efecto.</p></div>
+      <div class="plain-box"><strong>Version adecuada:</strong> El cuento construye un personaje desorientado mediante imagenes de desplazamiento y perdida, lo que permite interpretar su conflicto como una busqueda de identidad.</div>
+      <div class="soft-box"><strong>Por que funciona:</strong> conserva la idea del estudiante, pero la adapta al genero y a la audiencia mediante registro formal y analisis.</div>
+    </div></div>
+  </div>
+<div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 7 de 10</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios guiados de produccion</h2></div>
+  <div class="meta-chips"><span class="chip">Practica guiada</span><span class="chip">Reescritura</span><span class="chip">Justificacion</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejercicio guiado 1: transformar registro</div><div class="example-body">
+      <p><strong>Enunciado:</strong> Reescribe para evaluacion formal: "El narrador deja super claro que la protagonista no esta comoda con su familia".</p>
+      <div class="step-box"><p><strong>Datos:</strong> genero = comentario critico; audiencia = docente evaluador; proposito = interpretar un recurso narrativo.</p><p><strong>Desarrollo:</strong> se elimina "super claro", se reemplaza "no esta comoda" por una expresion precisa y se explica el sentido.</p></div>
+      <div class="plain-box"><strong>Respuesta posible:</strong> El narrador evidencia la incomodidad de la protagonista frente a su familia, lo que permite interpretar una distancia afectiva dentro del espacio domestico.</div>
+    </div></div>
+    <div class="example"><div class="example-title">Ejercicio guiado 2: elegir genero</div><div class="example-body">
+      <p><strong>Enunciado:</strong> Quieres convencer a la comunidad escolar de leer mas literatura chilena contemporanea. ¿Que genero elegirias?</p>
+      <div class="step-box"><p><strong>Datos:</strong> proposito = convencer; audiencia = comunidad escolar; tema = lectura literaria.</p><p><strong>Desarrollo:</strong> una columna de opinion permite presentar postura, argumentos y ejemplos cercanos. Un comentario critico analizaria una obra, pero no necesariamente convocaria a la comunidad.</p></div>
+      <div class="plain-box"><strong>Inicio posible:</strong> Leer literatura chilena contemporanea no es solo cumplir una tarea: es reconocer conflictos, voces y lugares que se parecen mas a nuestra experiencia de lo que imaginamos.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 8 de 10</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Práctica</span><span class="chip">4 ejercicios</span><span class="chip">Progresiva</span></div>
+  <div class="content practice-set">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">9</span>Práctica progresiva</div>
+      <p class="practice-intro">Resuelve cuatro ejercicios de práctica sobre adecuación de la escritura al género y a la audiencia. La dificultad aumenta de forma gradual y cada alternativa se relaciona directamente con el enunciado.</p>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 1</span></div><div class="ex-stmt">¿Cuál alternativa aplica mejor adecuación de la escritura al género y a la audiencia?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Un correo formal a dirección usa saludo, solicitud clara y registro respetuoso.<div class="opt-feedback">Correcto. Relaciona registro, estructura y destinatario con producción textual pertinente.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Usa jerga informal en un texto institucional.<div class="opt-feedback">Incorrecto. La alternativa queda incompleta o no fundamenta el análisis.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Cambia a un género narrativo cuando se pidió informar.<div class="opt-feedback">Incorrecto. La opción no entrega evidencia suficiente ni razonamiento claro.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Ignora conocimientos e intereses de la audiencia.<div class="opt-feedback">Incorrecto. Se aleja del foco solicitado en la guía.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 2</span></div><div class="ex-stmt">Lee el fragmento. ¿Qué dato conviene observar primero para resolverlo?</div><div class="ex-frag">“Junto con saludar, solicito autorización para utilizar la biblioteca durante el taller del jueves”.</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>La cantidad exacta de palabras del fragmento.<div class="opt-feedback">Incorrecto. Ese dato no ayuda a interpretar la tarea central.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Un detalle aislado que no cambia el sentido.<div class="opt-feedback">Incorrecto. Hay que seleccionar información funcional al análisis.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>el saludo formal, la solicitud precisa y el destinatario institucional<div class="opt-feedback">Correcto. Ese dato permite trabajar adecuación de la escritura al género y a la audiencia con evidencia concreta.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Una suposición externa no mencionada en el texto.<div class="opt-feedback">Incorrecto. La respuesta debe sostenerse en el material entregado.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 3</span></div><div class="ex-stmt">¿Qué mejora una respuesta débil sobre adecuación de la escritura al género y a la audiencia?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Repetir la misma afirmación con palabras más largas.<div class="opt-feedback">Incorrecto. Cambiar vocabulario no reemplaza fundamentar.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>“La frase se adecua porque mantiene registro formal y propósito claro”.<div class="opt-feedback">Correcto. La mejora explica la relación entre registro, estructura y destinatario y producción textual pertinente.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Eliminar la evidencia para que la respuesta sea más corta.<div class="opt-feedback">Incorrecto. Sin evidencia la respuesta pierde sustento.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Agregar una opinión personal sin conectarla con el texto.<div class="opt-feedback">Incorrecto. La opinión no basta para resolver una pregunta de análisis.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 4</span></div><div class="ex-stmt">¿Qué procedimiento conviene seguir antes de marcar una alternativa?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Elegir la alternativa más extensa sin leer el enunciado.<div class="opt-feedback">Incorrecto. La extensión no garantiza pertinencia.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Responder solo por intuición y no revisar evidencias.<div class="opt-feedback">Incorrecto. La lectura crítica exige comprobar datos del texto.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Descartar el contexto aunque el enunciado lo entregue.<div class="opt-feedback">Incorrecto. El contexto orienta la interpretación.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Adaptar tono, información y organización antes de redactar.<div class="opt-feedback">Correcto. Ese procedimiento evita respuestas vagas o desconectadas.</div></span></div></div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 9 de 10</div></div>
+</div>
+
+
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios tipo PAES</h2></div>
+  <div class="meta-chips"><span class="chip">Tipo PAES</span><span class="chip">6 ejercicios</span><span class="chip">Retroalimentaci?n</span></div>
+  <div class="content practice-set">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">10</span>Sección tipo PAES</div>
+      <p class="practice-intro">Resuelve seis preguntas tipo PAES sobre adecuación de la escritura al género y a la audiencia. Las alternativas están vinculadas al enunciado y muestran retroalimentación al hacer clic.</p>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 1</span></div><div class="ex-stmt">¿Qué alternativa interpreta o resuelve mejor la situación según adecuación de la escritura al género y a la audiencia?</div><div class="ex-frag">“Junto con saludar, solicito autorización para utilizar la biblioteca durante el taller del jueves”.</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Un instructivo para estudiantes debe ordenar pasos con verbos de acción.<div class="opt-feedback">Correcto. La respuesta se ajusta al foco de adecuación de la escritura al género y a la audiencia.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Usa jerga informal en un texto institucional.<div class="opt-feedback">Incorrecto. Es una lectura parcial que no explica suficientemente el problema.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Cambia a un género narrativo cuando se pidió informar.<div class="opt-feedback">Incorrecto. No conecta de manera clara con el enunciado.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Ignora conocimientos e intereses de la audiencia.<div class="opt-feedback">Incorrecto. Introduce una conclusión que no se sostiene.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 2</span></div><div class="ex-stmt">¿Cuál justificación sería más completa?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>La alternativa es correcta porque suena mejor.<div class="opt-feedback">Incorrecto. La sonoridad no justifica una respuesta académica.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>“La frase se adecua porque mantiene registro formal y propósito claro”.<div class="opt-feedback">Correcto. Justifica la respuesta usando registro, estructura y destinatario.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>La alternativa es correcta porque aparece primero.<div class="opt-feedback">Incorrecto. El orden de las opciones no prueba nada.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>La alternativa es correcta porque no exige leer el texto.<div class="opt-feedback">Incorrecto. La lectura del enunciado es indispensable.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 3</span></div><div class="ex-stmt">¿Qué alternativa evita una conclusión exagerada?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>A partir de un solo dato se puede afirmar todo sobre todas las situaciones.<div class="opt-feedback">Incorrecto. Generaliza más allá de la evidencia.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Si una idea parece llamativa, no necesita fundamento.<div class="opt-feedback">Incorrecto. Toda respuesta debe justificarse.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Una reseña cultural presenta la obra, valora aspectos relevantes y justifica la recomendación.<div class="opt-feedback">Correcto. Mantiene una conclusión proporcionada a la evidencia disponible.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>La evidencia no importa cuando la conclusión es fuerte.<div class="opt-feedback">Incorrecto. La fuerza de la conclusión depende de su respaldo.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 4</span></div><div class="ex-stmt">¿Qué función cumple principalmente el género, el propósito, el registro y las características del lector?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Sirve solo como decoración y no afecta la comprensión.<div class="opt-feedback">Incorrecto. El elemento cumple una función dentro del discurso.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Permite sostener producción textual pertinente al entregar una señal concreta para el análisis.<div class="opt-feedback">Correcto. La función se entiende por su aporte al sentido o propósito.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Reemplaza la necesidad de explicar la respuesta.<div class="opt-feedback">Incorrecto. El dato necesita interpretación.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Cambia el tema hacia un asunto no relacionado.<div class="opt-feedback">Incorrecto. Se vincula directamente con el foco del ejercicio.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 5</span></div><div class="ex-stmt">¿Qué respuesta sería más adecuada para una pregunta tipo PAES?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>La que solo repite una palabra del enunciado.<div class="opt-feedback">Incorrecto. Repetir no equivale a analizar.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>La que usa una afirmación absoluta sin evidencia.<div class="opt-feedback">Incorrecto. Las conclusiones absolutas suelen ser riesgosas.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>La que identifica registro, estructura y destinatario, explica su función y evita inventar información externa.<div class="opt-feedback">Correcto. Esa es una respuesta precisa y verificable.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>La que cambia el propósito de la pregunta.<div class="opt-feedback">Incorrecto. Debe responder exactamente lo solicitado.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 6</span></div><div class="ex-stmt">¿Cuál decisión final conviene tomar al resolver ejercicios sobre adecuación de la escritura al género y a la audiencia?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Marcar la opción que parezca más general.<div class="opt-feedback">Incorrecto. Lo general suele ser insuficiente.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Elegir la alternativa que ignore los datos entregados.<div class="opt-feedback">Incorrecto. Los datos orientan la respuesta.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Preferir una respuesta bonita aunque contradiga el texto.<div class="opt-feedback">Incorrecto. La belleza de la frase no reemplaza coherencia.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Revisar si la alternativa elegida se sostiene en registro, estructura y destinatario y responde al propósito del enunciado.<div class="opt-feedback">Correcto. Integra lectura, evidencia y propósito.</div></span></div></div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 adecuacion · Pagina 10 de 10</div></div>
+</div>
+
+
+
+<script>
+(function(){
+  var genre=document.getElementById('genre'), audience=document.getElementById('audience'), purpose=document.getElementById('purpose'), out=document.getElementById('adapt-result');
+  var genres={comentario:'comentario critico',resena:'resena escolar',columna:'columna de opinion',guion:'guion audiovisual'};
+  var audiences={docente:'docente evaluador',curso:'estudiantes del curso',digital:'comunidad digital'};
+  var purposes={interpretar:'interpretar una obra',recomendar:'recomendar una lectura',convencer:'convencer sobre un tema'};
+  var models={
+    formal:'Usa registro formal, define conceptos y ordena el texto en introduccion, desarrollo y cierre. La evidencia debe aparecer explicada, no solo mencionada.',
+    cercano:'Usa ejemplos reconocibles para la audiencia, frases claras y explicaciones directas. Mantiene precision, pero evita tecnicismos innecesarios.',
+    oral:'Usa frases mas breves, marcas de transicion y ritmo. Piensa en como sonara al escucharse y no solo en como se ve escrito.'
+  };
+  function update(type){
+    var chosen=type||'formal';
+    out.innerHTML='<strong>Plan sugerido:</strong> Para escribir un '+genres[genre.value]+' dirigido a '+audiences[audience.value]+' con el proposito de '+purposes[purpose.value]+', revisa estructura, registro y ejemplos. '+models[chosen];
+  }
+  [genre,audience,purpose].forEach(function(el){el.addEventListener('change',function(){update();});});
+  document.querySelectorAll('[data-adapt]').forEach(function(btn){btn.addEventListener('click',function(){update(btn.dataset.adapt);});});
+  update();
+})();
+</script>
+</body>
+</html>

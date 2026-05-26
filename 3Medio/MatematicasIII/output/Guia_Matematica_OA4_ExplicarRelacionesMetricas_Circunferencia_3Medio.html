@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explicar relaciones metricas en la circunferencia | Matematica 3 Medio - MaestrIA</title>
+  <link rel="stylesheet" href="../../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:9.85pt;line-height:1.45}
+    .plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .66rem;margin:.42rem 0;line-height:1.42}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.56rem .66rem;margin:.42rem 0;line-height:1.42}.formula-box{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.58rem .72rem;margin:.42rem 0;text-align:center;font-size:.95rem}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.56rem .68rem;margin:.42rem 0}.step-box p{margin:.18rem 0;line-height:1.38}.result-line{font-weight:800;color:#0B0F3F}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.48rem 0;padding:.48rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.78rem;color:#4b5563;line-height:1.34;margin-top:.22rem}.fig-caption strong{color:#6A2C91}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.54rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.44rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem .56rem;line-height:1.36}.small-card strong{color:#6A2C91}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.46rem 0;overflow:hidden}.example-title{padding:.48rem .66rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.56rem .66rem}.label{font-weight:800;color:#6A2C91;margin-top:.32rem}.data-list{margin:.24rem 0 .24rem 1.05rem;padding:0}.data-list li{margin:.08rem 0;line-height:1.32}.clean-table{width:100%;border-collapse:collapse;font-size:8.8pt;margin:.4rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.28rem .34rem;vertical-align:top}
+    .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.48rem;margin:.48rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.18rem;font-size:.78rem}.input-control select,.input-control input{width:100%;padding:.36rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .68rem;line-height:1.45}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.38rem .76rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.38rem;flex-wrap:wrap;margin:.45rem 0}.chart-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.38rem;margin-top:.4rem}.chart-box svg{display:block;width:100%;height:auto}
+    .opt{cursor:pointer;transition:background .2s}.opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.42rem;padding:.48rem .58rem;border-radius:6px;line-height:1.45}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.66rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.66rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.6rem .68rem;margin:.45rem 0;line-height:1.48}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Explicar relaciones metricas en la circunferencia</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 4</span><span class="chip">3° Medio</span><span class="chip">Explicacion</span><span class="chip">Esquemas</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 4</span><span class="oa-text">Explicar relaciones metricas entre angulos, arcos o cuerdas en la circunferencia, utilizando dibujos, esquemas o proposiciones.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Explicar es comunicar una relacion</div>
+      <p>En esta guia el objetivo no es solo obtener una medida, sino comunicar por que la relacion existe. Para eso usaremos tres lenguajes: dibujo, proposicion y calculo. Cuando los tres coinciden, la explicacion es clara.</p>
+      <div class="three-col"><div class="small-card"><strong>Dibujo</strong><br>Muestra el vertice, arco o cuerda.</div><div class="small-card"><strong>Proposicion</strong><br>Expresa la relacion con palabras.</div><div class="small-card"><strong>Calculo</strong><br>Usa la relacion para obtener una medida.</div></div>
+      <figure class="visual-figure" aria-label="Tres lenguajes de una explicacion geometrica">
+        <svg viewBox="0 0 760 220" role="img">
+          <rect x="45" y="45" width="180" height="95" rx="8" fill="#fff" stroke="#D9D9D9"/><circle cx="135" cy="91" r="34" fill="#fff" stroke="#0B0F3F" stroke-width="2"/><line x1="101" y1="91" x2="158" y2="65" stroke="#6A2C91" stroke-width="3"/><line x1="101" y1="91" x2="155" y2="120" stroke="#6A2C91" stroke-width="3"/><text x="135" y="166" text-anchor="middle" font-family="Inter" font-size="12">Dibujo</text>
+          <path d="M235 92 H305" stroke="#6A2C91" stroke-width="4" marker-end="url(#arrE)"/>
+          <rect x="315" y="45" width="180" height="95" rx="8" fill="#F8F4E9" stroke="#D4AF37"/><text x="405" y="82" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800">Si el angulo</text><text x="405" y="103" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800">es inscrito...</text><text x="405" y="166" text-anchor="middle" font-family="Inter" font-size="12">Proposicion</text>
+          <path d="M505 92 H575" stroke="#6A2C91" stroke-width="4" marker-end="url(#arrE)"/>
+          <rect x="585" y="45" width="130" height="95" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="650" y="89" text-anchor="middle" font-family="Inter" font-size="16" font-weight="800">x = arco/2</text><text x="650" y="166" text-anchor="middle" font-family="Inter" font-size="12">Calculo</text>
+          <defs><marker id="arrE" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6A2C91"/></marker></defs>
+        </svg>
+        <figcaption class="fig-caption"><strong>Meta:</strong> que el estudiante pueda explicar un razonamiento geometrico sin depender solo de memorizar formulas.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Regla de oro:</strong> un buen esquema debe mostrar exactamente la relacion que estas explicando, no solo una circunferencia decorativa.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 1 de 10</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Como construir una explicacion geometrica</h2></div>
+  <div class="meta-chips"><span class="chip">Metodo</span><span class="chip">Esquema</span><span class="chip">Proposicion</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Para explicar bien una relacion metrica, conviene seguir una secuencia. No partas por la formula. Parte por la figura y por lo que representa cada elemento.</p>
+      <table class="clean-table"><thead><tr><th>Paso</th><th>Que debe aparecer</th><th>Ejemplo</th></tr></thead><tbody><tr><td>1. Nombrar elementos</td><td>Centro, puntos, arco, cuerda o angulo.</td><td>“Sea \(O\) el centro y \(\widehat{AB}\) el arco”.</td></tr><tr><td>2. Identificar relacion</td><td>Tipo de angulo o igualdad de cuerdas.</td><td>“\(\angle ACB\) es inscrito”.</td></tr><tr><td>3. Escribir proposicion</td><td>Frase general que siempre es valida.</td><td>“Todo angulo inscrito mide la mitad del arco que intercepta”.</td></tr><tr><td>4. Aplicar a la figura</td><td>Reemplazo con nombres y medidas.</td><td>“Entonces \(m(\angle ACB)=m(\widehat{AB})/2\)”.</td></tr></tbody></table>
+      <div class="step-box"><p><strong>Proposicion:</strong> es una afirmacion matematica que puede aplicarse a muchas figuras. Por ejemplo: “En una misma circunferencia, cuerdas congruentes determinan arcos congruentes”.</p><p><strong>Aplicacion:</strong> es usar esa proposicion en una figura concreta. Por ejemplo: “Como \(\overline{AB}\cong\overline{CD}\), entonces \(\widehat{AB}\cong\widehat{CD}\)”.</p></div>
+      <div class="soft-box"><strong>Para estudiar solo:</strong> si puedes tapar el calculo y explicar el dibujo con palabras, vas por buen camino.</div>
+      <table class="clean-table"><thead><tr><th>Lenguaje</th><th>Pregunta que responde</th><th>Producto esperado</th></tr></thead><tbody><tr><td>Dibujo</td><td>¿Que elemento se esta mirando?</td><td>Un esquema con puntos y marcas.</td></tr><tr><td>Proposicion</td><td>¿Que regla general se usa?</td><td>Una frase geometrica precisa.</td></tr><tr><td>Calculo</td><td>¿Que medida resulta?</td><td>Operacion con unidad correcta.</td></tr></tbody></table>
+      <div class="plain-box"><strong>Practica breve:</strong> toma cualquier ejercicio de circunferencia y escribe primero una proposicion sin numeros. Luego recien reemplaza las medidas.</div>
+      <div class="soft-box"><strong>Orden recomendado:</strong> dibujo primero, proposicion despues, calculo al final. Ese orden evita que el resultado aparezca como una adivinanza.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 2 de 10</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Relacion 1: angulo inscrito y arco</h2></div>
+  <div class="meta-chips"><span class="chip">Proposicion</span><span class="chip">Angulo inscrito</span><span class="chip">Arco</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="formula-box">\[
+        \text{Si } C \text{ esta en la circunferencia, entonces } m(\angle ACB)=\frac{m(\widehat{AB})}{2}
+      \]</div>
+      <p>Esta proposicion dice que el angulo inscrito no se mide mirando la abertura “a ojo”, sino mirando el arco que interceptan sus lados.</p>
+      <figure class="visual-figure" aria-label="Esquema de angulo inscrito">
+        <svg viewBox="0 0 760 210" role="img">
+          <circle cx="380" cy="105" r="78" fill="#fff" stroke="#0B0F3F" stroke-width="3"/>
+          <path d="M320 55 A78 78 0 0 1 458 95" fill="none" stroke="#D4AF37" stroke-width="7"/>
+          <line x1="320" y1="55" x2="405" y2="180" stroke="#6A2C91" stroke-width="4"/><line x1="405" y1="180" x2="458" y2="95" stroke="#6A2C91" stroke-width="4"/>
+          <text x="307" y="52" font-family="Inter" font-size="12">A</text><text x="465" y="96" font-family="Inter" font-size="12">B</text><text x="410" y="198" font-family="Inter" font-size="12">C</text><text x="383" y="38" text-anchor="middle" font-family="Inter" font-size="12">\(\widehat{AB}\)</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Explicacion:</strong> los lados del angulo pasan por \(A\) y \(B\), por eso el arco relevante es \(\widehat{AB}\).</figcaption>
+      </figure>
+      <div class="example"><div class="example-title">Ejemplo explicado</div><div class="example-body">
+        <p><strong>Enunciado.</strong> Explica por que si \(m(\widehat{AB})=130^\circ\), entonces \(m(\angle ACB)=65^\circ\).</p>
+        <div class="step-box"><p><strong>Datos:</strong> \(m(\widehat{AB})=130^\circ\) y \(\angle ACB\) es inscrito.</p><p><strong>Proposicion:</strong> todo angulo inscrito mide la mitad del arco que intercepta.</p><p><strong>Aplicacion:</strong> \(m(\angle ACB)=130^\circ/2=65^\circ\).</p><p class="result-line">Explicacion final: mide \(65^\circ\) porque ve el arco \(\widehat{AB}\) desde la circunferencia.</p></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 3 de 10</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Relacion 2: cuerdas congruentes y arcos</h2></div>
+  <div class="meta-chips"><span class="chip">Proposicion</span><span class="chip">Cuerdas</span><span class="chip">Arcos</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="formula-box">\[
+        \overline{AB}\cong\overline{CD}\Rightarrow \widehat{AB}\cong\widehat{CD}
+      \]</div>
+      <p>Esta relacion permite explicar que una igualdad de segmentos dentro de la circunferencia produce igualdad de arcos. Es importante que las cuerdas esten en la misma circunferencia o en circunferencias congruentes.</p>
+      <div class="two-col"><div class="plain-box"><strong>Proposicion:</strong> en una misma circunferencia, cuerdas congruentes determinan arcos congruentes.</div><div class="plain-box"><strong>Aplicacion:</strong> si \(\overline{AB}=8\) cm y \(\overline{CD}=8\) cm, entonces sus arcos menores tienen igual medida.</div></div>
+      <div class="step-box"><p><strong>Explicacion corta:</strong> dos cuerdas iguales ocupan la misma abertura dentro de la circunferencia. Por eso los arcos que “sostienen” tambien tienen igual medida.</p></div>
+      <figure class="visual-figure" aria-label="Cuerdas iguales y arcos iguales">
+        <svg viewBox="0 0 760 210" role="img">
+          <circle cx="380" cy="105" r="78" fill="#fff" stroke="#0B0F3F" stroke-width="3"/>
+          <line x1="318" y1="58" x2="455" y2="58" stroke="#6A2C91" stroke-width="5"/><path d="M318 58 A78 78 0 0 1 455 58" fill="none" stroke="#D4AF37" stroke-width="7"/>
+          <line x1="315" y1="154" x2="458" y2="154" stroke="#6A2C91" stroke-width="5"/><path d="M315 154 A78 78 0 0 0 458 154" fill="none" stroke="#D4AF37" stroke-width="7"/>
+          <text x="386" y="45" text-anchor="middle" font-family="Inter" font-size="12">cuerdas iguales</text><text x="386" y="185" text-anchor="middle" font-family="Inter" font-size="12">arcos iguales</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura:</strong> la igualdad de cuerdas se comunica en el dibujo marcando segmentos congruentes.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Precaucion:</strong> no puedes concluir arcos iguales si solo parecen iguales en el dibujo. Debe estar dado o demostrado que las cuerdas son congruentes.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 4 de 10</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Relacion 3: secantes y diferencia de arcos</h2></div>
+  <div class="meta-chips"><span class="chip">Proposicion</span><span class="chip">Secantes</span><span class="chip">Exterior</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Cuando dos secantes se intersectan fuera de la circunferencia, el angulo exterior se explica comparando dos arcos: uno mayor y uno menor. La abertura exterior depende de la diferencia entre esos arcos.</p>
+      <div class="formula-box">\[
+        m(\angle P)=\frac{m(\widehat{AB})-m(\widehat{CD})}{2}
+      \]</div>
+      <div class="example"><div class="example-title">Ejemplo explicado</div><div class="example-body">
+        <p><strong>Enunciado.</strong> Explica por que con arcos de \(150^\circ\) y \(70^\circ\), el angulo exterior mide \(40^\circ\).</p>
+        <div class="step-box"><p><strong>Datos:</strong> \(m(\widehat{mayor})=150^\circ\), \(m(\widehat{menor})=70^\circ\).</p><p><strong>Identificacion:</strong> el vertice del angulo esta fuera de la circunferencia y sus lados son secantes.</p><p><strong>Proposicion:</strong> el angulo exterior por secantes mide la mitad de la diferencia entre los arcos interceptados.</p><p><strong>Aplicacion:</strong> \(m(\angle P)=\frac{150^\circ-70^\circ}{2}=40^\circ\).</p><p class="result-line">Explicacion final: mide \(40^\circ\) porque compara la abertura mayor y menor generadas por las secantes.</p></div>
+      </div></div>
+      <div class="soft-box"><strong>Idea visual:</strong> si los dos arcos fueran iguales, la diferencia seria 0 y las secantes no formarian una abertura exterior significativa entre ellas.</div>
+      <table class="clean-table"><thead><tr><th>Parte de la explicacion</th><th>En este ejemplo</th></tr></thead><tbody><tr><td>Figura</td><td>Vertice exterior y dos secantes.</td></tr><tr><td>Arcos comparados</td><td>\(150^\circ\) y \(70^\circ\).</td></tr><tr><td>Operacion</td><td>Restar primero, dividir despues.</td></tr><tr><td>Conclusion</td><td>El angulo mide \(40^\circ\).</td></tr></tbody></table>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 5 de 10</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Como hacer un esquema que enseñe</h2></div>
+  <div class="meta-chips"><span class="chip">Dibujo</span><span class="chip">Rotulos</span><span class="chip">Comunicacion</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Un esquema geometrico no necesita ser perfecto, pero debe ser informativo. Debe mostrar el centro si se usa angulo central, el vertice si se usa angulo inscrito, los arcos relevantes y las marcas de igualdad si se comparan cuerdas.</p>
+      <table class="clean-table"><thead><tr><th>Relacion</th><th>El esquema debe mostrar</th><th>Evita</th></tr></thead><tbody><tr><td>Angulo inscrito</td><td>Vertice sobre la circunferencia y arco interceptado.</td><td>Dibujar solo un angulo sin arco.</td></tr><tr><td>Cuerdas iguales</td><td>Dos cuerdas con marcas de congruencia.</td><td>Concluir igualdad solo por apariencia.</td></tr><tr><td>Secantes exteriores</td><td>Punto exterior, dos secantes y dos arcos.</td><td>Confundir con angulo inscrito.</td></tr></tbody></table>
+      <div class="three-col"><div class="small-card"><strong>Rotula</strong><br>Usa letras \(A,B,C,O\).</div><div class="small-card"><strong>Marca</strong><br>Señala arcos y cuerdas.</div><div class="small-card"><strong>Conecta</strong><br>Une el dibujo con la proposicion.</div></div>
+      <div class="step-box"><p><strong>Ejemplo de explicacion con esquema:</strong> “En el dibujo, \(C\) esta sobre la circunferencia y los lados del angulo pasan por \(A\) y \(B\). Por eso el angulo es inscrito y se relaciona con el arco \(\widehat{AB}\)”.</p></div>
+      <div class="soft-box"><strong>Para examenes libres:</strong> si el problema pide explicar, usa una frase geometrica antes del calculo. Eso muestra comprension.</div>
+      <table class="clean-table"><thead><tr><th>Marca en el esquema</th><th>Que comunica</th><th>Ejemplo</th></tr></thead><tbody><tr><td>Punto \(O\)</td><td>Centro de la circunferencia.</td><td>Sirve para angulos centrales.</td></tr><tr><td>Arco destacado</td><td>Arco interceptado.</td><td>Indica que medida se divide o compara.</td></tr><tr><td>Rayitas en cuerdas</td><td>Congruencia.</td><td>Permite concluir arcos iguales.</td></tr></tbody></table>
+      <div class="plain-box"><strong>Mini-tarea:</strong> dibuja una circunferencia y marca con el mismo simbolo dos cuerdas iguales. Luego escribe bajo el dibujo: “por lo tanto, los arcos correspondientes son congruentes”.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 6 de 10</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo completo: explicar, dibujar y calcular</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo integrador</span><span class="chip">Paso a paso</span><span class="chip">Redaccion</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Problema: dos cuerdas y un angulo inscrito</div><div class="example-body">
+      <p><strong>Enunciado.</strong> En una circunferencia, \(\overline{AB}\cong\overline{CD}\). El arco \(\widehat{AB}\) mide \(92^\circ\). Un angulo inscrito intercepta el arco \(\widehat{CD}\). Explica la relacion y calcula el angulo.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(\overline{AB}\cong\overline{CD}\) (cuerdas congruentes).</li><li>\(m(\widehat{AB})=92^\circ\) (arco asociado a \(\overline{AB}\)).</li><li>\(x\) = angulo inscrito que intercepta \(\widehat{CD}\).</li></ul>
+      <p class="label">Explicacion paso a paso</p>
+      <div class="step-box"><p><strong>1. Relacion entre cuerdas y arcos:</strong> como \(\overline{AB}\cong\overline{CD}\), entonces \(\widehat{AB}\cong\widehat{CD}\).</p><p><strong>2. Medida del arco:</strong> si \(m(\widehat{AB})=92^\circ\), entonces \(m(\widehat{CD})=92^\circ\).</p><p><strong>3. Relacion con angulo inscrito:</strong> el angulo inscrito que intercepta \(\widehat{CD}\) mide la mitad de ese arco.</p><p><strong>4. Calculo:</strong> \(x=\frac{92^\circ}{2}=46^\circ\).</p><p class="result-line">Resultado final: \(x=46^\circ\).</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> este problema combina dos proposiciones: primero cuerdas iguales producen arcos iguales; luego un angulo inscrito mide la mitad del arco.</div>
+      <table class="clean-table"><thead><tr><th>Proposicion usada</th><th>Resultado intermedio</th><th>Resultado final</th></tr></thead><tbody><tr><td>Cuerdas congruentes determinan arcos congruentes.</td><td>\(m(\widehat{CD})=92^\circ\).</td><td>Entrega el arco que intercepta el angulo.</td></tr><tr><td>Angulo inscrito mide mitad del arco.</td><td>\(x=92^\circ/2\).</td><td>\(x=46^\circ\).</td></tr></tbody></table>
+      <div class="soft-box"><strong>Lectura pedagogica:</strong> cuando un problema combina propiedades, explica cada enlace. No saltes desde las cuerdas directamente al angulo sin mencionar el arco.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 7 de 10</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: constructor de explicaciones</h2></div>
+  <div class="meta-chips"><span class="chip">Interaccion</span><span class="chip">Proposiciones</span><span class="chip">Esquemas</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Elige una relacion y un dato. La herramienta genera una proposicion, una aplicacion y un esquema simple para ayudarte a escribir una explicacion completa.</p>
+      <div class="tool-grid"><div class="input-control"><label for="explain-mode">Relacion</label><select id="explain-mode"><option value="inscribed">Angulo inscrito y arco</option><option value="central">Angulo central y arco</option><option value="chords">Cuerdas y arcos iguales</option><option value="secants">Secantes exteriores</option></select></div><div class="input-control"><label for="explain-a">Dato A</label><input id="explain-a" type="number" value="120" step="1"></div><div class="input-control"><label for="explain-b">Dato B</label><input id="explain-b" type="number" value="50" step="1"></div></div>
+      <div class="btn-row"><button class="mini-btn" data-explain="inscribed">Inscrito</button><button class="mini-btn" data-explain="chords">Cuerdas</button><button class="mini-btn" data-explain="secants">Secantes</button></div>
+      <div id="explain-result" class="result-panel" aria-live="polite"></div>
+      <div class="chart-box"><svg id="explain-chart" viewBox="0 0 760 225" role="img" aria-label="Esquema interactivo de circunferencia"></svg></div>
+      <div class="soft-box"><strong>Actividad:</strong> copia la proposicion en tu cuaderno y luego reescribela con tus propias palabras.</div>
+      <div class="plain-box"><strong>Revision:</strong> tu explicacion debe mencionar el elemento que activa la propiedad: vertice, cuerda, arco o secante.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 8 de 10</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Autocorregible</span><span class="chip">Explicacion</span><span class="chip">Esquemas</span></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-b">Basico</span><span style="color:#fff;font-size:10pt;">Proposiciones</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Basico</span></div><div class="ex-stmt">La proposicion “todo angulo inscrito mide la mitad del arco que intercepta” debe acompañarse de un esquema donde:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> El vertice del angulo este sobre la circunferencia<div class="opt-feedback">Correcto. Esa condicion define el angulo inscrito.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> El vertice este necesariamente fuera de la circunferencia<div class="opt-feedback">Incorrecto. Eso corresponde a otro tipo de relacion.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Solo aparezca el centro, sin arco<div class="opt-feedback">Incorrecto. El arco interceptado es esencial.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se rotulen puntos<div class="opt-feedback">Incorrecto. Rotular ayuda a comunicar la relacion.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Basico</span></div><div class="ex-stmt">Si se quiere explicar que dos arcos son iguales porque dos cuerdas son iguales, el dato clave es:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Las cuerdas son congruentes<div class="opt-feedback">Correcto. Ese dato permite aplicar la proposicion.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Los radios son diferentes<div class="opt-feedback">Incorrecto. En una misma circunferencia los radios son iguales.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> El angulo es exterior<div class="opt-feedback">Incorrecto. Esa informacion corresponde a secantes.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> El arco mayor mide siempre \(180^\circ\)<div class="opt-feedback">Incorrecto. No siempre.</div></div></div></div>
+  </div></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Comunicar</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">¿Cual explicacion comunica mejor una relacion de secantes exteriores?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> “El vertice esta fuera y las rectas son secantes; por eso el angulo mide la mitad de la diferencia de los arcos”.<div class="opt-feedback">Correcto. Identifica figura, proposicion y relacion entre medidas.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> “Se divide por dos porque si”.<div class="opt-feedback">Incorrecto. No comunica la razon geometrica.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> “Como es inscrito, usa la mitad del arco”.<div class="opt-feedback">Incorrecto. El vertice exterior no es inscrito.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> “Los arcos se ven parecidos”.<div class="opt-feedback">Incorrecto. La apariencia no justifica una relacion metrica.</div></div></div></div>
+  </div></div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 9 de 10</div></div>
+</div>
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Solucionario explicado</h2></div>
+  <div class="meta-chips"><span class="chip">Soluciones</span><span class="chip">Explicacion</span><span class="chip">Cierre</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="solution"><strong>E1.</strong> Para representar un angulo inscrito, el vertice debe estar sobre la circunferencia y los lados deben interceptar un arco. Ese esquema permite explicar por que se usa la mitad del arco. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E2.</strong> La proposicion sobre cuerdas exige como dato que las cuerdas sean congruentes. Desde ahi se concluye que los arcos correspondientes son congruentes. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E3.</strong> La mejor explicacion identifica el vertice exterior y las secantes; luego nombra la proposicion correcta: mitad de la diferencia de los arcos. <span class="final">Respuesta correcta: A.</span></div>
+      <table class="clean-table"><thead><tr><th>Explicar con...</th><th>Debe incluir</th><th>Ejemplo breve</th></tr></thead><tbody><tr><td>Dibujo</td><td>Puntos, arco y tipo de angulo.</td><td>“\(C\) esta sobre la circunferencia”.</td></tr><tr><td>Proposicion</td><td>Relacion general valida.</td><td>“Angulo inscrito mide la mitad del arco”.</td></tr><tr><td>Calculo</td><td>Reemplazo y resultado.</td><td>“\(x=120^\circ/2=60^\circ\)”.</td></tr></tbody></table>
+      <div class="soft-box"><strong>Cierre:</strong> explicar es hacer visible el razonamiento. Si tu dibujo, tu proposicion y tu calculo dicen lo mismo, tu respuesta esta bien comunicada.</div>
+      <div class="plain-box"><strong>Frase de cierre recomendada:</strong> “La relacion se cumple porque ___; el esquema muestra ___; por eso el calculo correcto es ___”.</div>
+      <div class="step-box"><p><strong>Revision final:</strong> una explicacion completa debe permitir que otra persona reconstruya el dibujo y entienda por que se eligio esa propiedad.</p></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 explicar · Pagina 10 de 10</div></div>
+</div>
+
+<script>
+(function(){
+  var mode=document.getElementById('explain-mode'), a=document.getElementById('explain-a'), b=document.getElementById('explain-b'), out=document.getElementById('explain-result'), chart=document.getElementById('explain-chart');
+  function fmt(n){return Number.isFinite(n)?n.toLocaleString('es-CL',{maximumFractionDigits:1}):'no definido';}
+  function update(){
+    var A=Number(a.value), B=Number(b.value), text='';
+    if(mode.value==='inscribed'){text='<strong>Proposicion:</strong> todo angulo inscrito mide la mitad del arco que intercepta.<br><strong>Aplicacion:</strong> si el arco mide '+fmt(A)+'°, entonces el angulo inscrito mide '+fmt(A/2)+'°.<br><strong>Explicacion:</strong> el vertice esta sobre la circunferencia, por eso se relaciona con la mitad del arco.';}
+    if(mode.value==='central'){text='<strong>Proposicion:</strong> todo angulo central mide lo mismo que el arco que intercepta.<br><strong>Aplicacion:</strong> si el arco mide '+fmt(A)+'°, entonces el angulo central mide '+fmt(A)+'°.<br><strong>Explicacion:</strong> el vertice esta en el centro, por eso su abertura coincide con el arco.';}
+    if(mode.value==='chords'){text='<strong>Proposicion:</strong> en una misma circunferencia, cuerdas congruentes determinan arcos congruentes.<br><strong>Aplicacion:</strong> si dos cuerdas son iguales y un arco mide '+fmt(A)+'°, el otro arco correspondiente tambien mide '+fmt(A)+'°.<br><strong>Explicacion:</strong> las cuerdas iguales subtienen iguales angulos centrales.';}
+    if(mode.value==='secants'){text='<strong>Proposicion:</strong> un angulo exterior formado por secantes mide la mitad de la diferencia de los arcos interceptados.<br><strong>Aplicacion:</strong> con arcos '+fmt(A)+'° y '+fmt(B)+'°, el angulo mide ('+fmt(A)+' - '+fmt(B)+')/2 = '+fmt((A-B)/2)+'°.<br><strong>Explicacion:</strong> el vertice exterior compara el arco mayor con el menor.';}
+    out.innerHTML=text; draw();
+  }
+  function draw(){
+    var cx=380,cy=112,r=78;
+    var common='<rect width="760" height="225" rx="8" fill="#fff"/><circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#fff" stroke="#0B0F3F" stroke-width="3"/>';
+    if(mode.value==='secants'){chart.innerHTML=common+'<line x1="535" y1="55" x2="295" y2="55" stroke="#6A2C91" stroke-width="4"/><line x1="535" y1="165" x2="295" y2="165" stroke="#6A2C91" stroke-width="4"/><path d="M322 55 A78 78 0 0 1 438 55" fill="none" stroke="#D4AF37" stroke-width="7"/><path d="M323 165 A78 78 0 0 0 438 165" fill="none" stroke="#D4AF37" stroke-width="7"/><text x="380" y="210" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">Secantes exteriores: mitad de la diferencia de arcos.</text>';return;}
+    if(mode.value==='chords'){chart.innerHTML=common+'<line x1="320" y1="62" x2="455" y2="62" stroke="#6A2C91" stroke-width="5"/><line x1="320" y1="162" x2="455" y2="162" stroke="#6A2C91" stroke-width="5"/><path d="M320 62 A78 78 0 0 1 455 62" fill="none" stroke="#D4AF37" stroke-width="7"/><path d="M320 162 A78 78 0 0 0 455 162" fill="none" stroke="#D4AF37" stroke-width="7"/><text x="380" y="210" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">Cuerdas iguales: arcos iguales.</text>';return;}
+    chart.innerHTML=common+'<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#6A2C91"/><path d="M320 62 A78 78 0 0 1 455 92" fill="none" stroke="#D4AF37" stroke-width="7"/><line x1="320" y1="62" x2="405" y2="185" stroke="#6A2C91" stroke-width="4"/><line x1="405" y1="185" x2="455" y2="92" stroke="#6A2C91" stroke-width="4"/><line x1="'+cx+'" y1="'+cy+'" x2="320" y2="62" stroke="#D4AF37" stroke-width="3"/><line x1="'+cx+'" y1="'+cy+'" x2="455" y2="92" stroke="#D4AF37" stroke-width="3"/><text x="380" y="210" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">'+(mode.value==='central'?'Central: igual al arco.':'Inscrito: mitad del arco.')+'</text>';
+  }
+  [mode,a,b].forEach(function(el){el.addEventListener('input',update);el.addEventListener('change',update);});
+  document.querySelectorAll('[data-explain]').forEach(function(btn){btn.addEventListener('click',function(){mode.value=btn.dataset.explain;if(btn.dataset.explain==='inscribed'){a.value=120;b.value=50;}if(btn.dataset.explain==='chords'){a.value=92;b.value=50;}if(btn.dataset.explain==='secants'){a.value=150;b.value=70;}update();});});
+  update();
+})();
+</script>
+</body>
+</html>

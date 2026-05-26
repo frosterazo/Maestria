@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coherencia, cohesión y conectores - Lengua y Literatura 3 Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:9.8pt;line-height:1.45}.plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.54rem .64rem;margin:.38rem 0;line-height:1.4}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.54rem .64rem;margin:.38rem 0;line-height:1.4}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.54rem .66rem;margin:.38rem 0}.step-box p{margin:.14rem 0;line-height:1.36}.result-line{font-weight:800;color:#0B0F3F}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.48rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.44rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.46rem .52rem;line-height:1.32}.small-card strong{color:#6A2C91}.clean-table{width:100%;border-collapse:collapse;font-size:8.65pt;margin:.36rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.25rem .32rem;vertical-align:top}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.42rem 0;overflow:hidden}.example-title{padding:.44rem .62rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.52rem .62rem}.label{font-weight:800;color:#6A2C91;margin-top:.28rem}.quote-box{background:#FAFAFB;border:1px solid #D9D9D9;border-radius:8px;padding:.64rem .74rem;margin:.4rem 0;font-size:9.75pt;line-height:1.55;color:#1f2937}.analysis-tag{display:inline-block;border:1px solid #D4AF37;border-radius:999px;padding:.07rem .42rem;margin:.05rem .07rem;background:#fff;color:#0B0F3F;font-size:.74rem;font-weight:700}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.44rem 0;padding:.44rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.76rem;color:#4b5563;line-height:1.32;margin-top:.2rem}.fig-caption strong{color:#6A2C91}
+    .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.44rem;margin:.44rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.46rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.16rem;font-size:.76rem}.input-control select{width:100%;padding:.36rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.54rem .64rem;line-height:1.42}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.34rem .7rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.34rem;flex-wrap:wrap;margin:.4rem 0}
+    .opt{cursor:pointer;transition:background .2s}.opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.8rem;margin-top:.38rem;padding:.44rem .54rem;border-radius:6px;line-height:1.4}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.62rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.62rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .64rem;margin:.4rem 0;line-height:1.44}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  
+    .practice-set .section{margin-top:.2rem}.practice-set .practice-intro{font-size:8.9pt;line-height:1.34;margin:.2rem 0 .4rem;color:#1C1C2E}.practice-set .ex-item{padding:.42rem .54rem;margin:.34rem 0;border-left:3px solid #D4AF37}.practice-set .ex-header-row{margin-bottom:.18rem}.practice-set .ex-num-label{font-size:8pt;letter-spacing:.2px}.practice-set .ex-stmt{font-size:8.9pt;line-height:1.32;margin-bottom:.28rem}.practice-set .ex-frag{font-size:8.15pt;line-height:1.34;margin:.25rem 0;padding:.34rem .44rem}.practice-set .opts{grid-template-columns:1fr 1fr;gap:.22rem}.practice-set .opt{font-size:7.85pt;line-height:1.25;padding:.28rem .34rem;gap:.3rem}.practice-set .opt-letter{width:17px;height:17px;font-size:7.2pt}.practice-set .opt-feedback{font-size:7.45pt;line-height:1.25;margin-top:.22rem;padding:.28rem .32rem}.practice-set .opt span:last-child{display:block}@media print{.practice-set .opt-feedback{display:none!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Coherencia, cohesión y conectores</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 6</span><span class="chip">3° Medio</span><span class="chip">Escritura</span><span class="chip">Conectores</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 6</span><span class="oa-text">Escribir un texto coherente y cohesivo, cuidando progresión temática, mantención del tema y uso de conectores de forma adecuada.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Un texto debe avanzar sin perder el hilo</div>
+      <p>Un texto coherente se entiende como una unidad: todas sus ideas se relacionan con el tema central y avanzan hacia un propósito. Un texto cohesivo usa recursos lingüísticos para unir esas ideas: conectores, pronombres, repeticiones controladas y referencias claras.</p>
+      <p>Escribir bien no significa llenar el texto de conectores. Significa ordenar las ideas para que el lector pueda seguir el razonamiento sin confundirse.</p>
+      <div class="four-col"><div class="small-card"><strong>Tema</strong><br>De qué trata el texto.</div><div class="small-card"><strong>Progresión</strong><br>Cómo avanza la información.</div><div class="small-card"><strong>Cohesión</strong><br>Cómo se unen las ideas.</div><div class="small-card"><strong>Conectores</strong><br>Relaciones lógicas explícitas.</div></div>
+      <figure class="visual-figure" aria-label="Coherencia y cohesión">
+        <svg viewBox="0 0 760 210" role="img">
+          <rect x="70" y="60" width="120" height="62" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="130" y="96" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#6A2C91">Idea 1</text>
+          <path d="M200 92 H305" stroke="#6A2C91" stroke-width="4" marker-end="url(#arrCoh)"/>
+          <rect x="315" y="60" width="120" height="62" rx="8" fill="#F8F4E9" stroke="#D4AF37"/><text x="375" y="96" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#0B0F3F">Idea 2</text>
+          <path d="M445 92 H550" stroke="#6A2C91" stroke-width="4" marker-end="url(#arrCoh)"/>
+          <rect x="560" y="60" width="120" height="62" rx="8" fill="#fff" stroke="#D9D9D9"/><text x="620" y="96" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#6A2C91">Idea 3</text>
+          <defs><marker id="arrCoh" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6A2C91"/></marker></defs>
+          <text x="380" y="165" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">Cada idea debe conectarse con la anterior y preparar la siguiente.</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Idea central:</strong> la coherencia organiza el sentido; la cohesión ayuda a que ese sentido se lea con fluidez.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Meta de la guía:</strong> aprender a revisar y mejorar textos para que mantengan tema, progresen y usen conectores pertinentes.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 1 de 10</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Coherencia: mantener el tema y ordenar ideas</h2></div>
+  <div class="meta-chips"><span class="chip">Tema</span><span class="chip">Orden</span><span class="chip">Progresión</span></div>
+  <div class="content">
+    <div class="section">
+      <p>La coherencia depende de que el texto tenga un tema claro y que cada idea aporte al propósito. Si una oración se aleja del tema, el lector pierde el hilo. Si las ideas se repiten sin avanzar, el texto se estanca.</p>
+      <table class="clean-table"><thead><tr><th>Aspecto</th><th>Pregunta guía</th><th>Problema frecuente</th><th>Solución</th></tr></thead><tbody><tr><td>Mantención del tema</td><td>¿Esta idea se relaciona con mi tesis?</td><td>Agregar información interesante pero irrelevante.</td><td>Eliminar o conectar explícitamente.</td></tr><tr><td>Progresión temática</td><td>¿La idea nueva aporta algo?</td><td>Repetir lo mismo con otras palabras.</td><td>Añadir explicación, ejemplo o consecuencia.</td></tr><tr><td>Orden lógico</td><td>¿Qué debe ir primero?</td><td>Presentar conclusión antes de explicar.</td><td>Ordenar: tesis, evidencia, análisis, cierre.</td></tr><tr><td>Unidad del párrafo</td><td>¿Todas las oraciones trabajan juntas?</td><td>Mezclar dos temas en el mismo párrafo.</td><td>Separar o reorganizar.</td></tr></tbody></table>
+      <div class="step-box"><p><strong>Prueba rápida:</strong> si no puedes explicar para qué sirve una oración dentro del párrafo, probablemente está débilmente conectada.</p></div>
+      <div class="two-col"><div class="plain-box"><strong>Texto incoherente:</strong> cambia de tema sin avisar o repite ideas.</div><div class="plain-box"><strong>Texto coherente:</strong> cada oración ayuda a desarrollar la tesis.</div></div>
+      <div class="soft-box"><strong>Clave PAES:</strong> no basta con escribir ideas correctas; deben estar organizadas en una secuencia comprensible.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 2 de 10</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Cohesión: unir ideas con precisión</h2></div>
+  <div class="meta-chips"><span class="chip">Referencias</span><span class="chip">Pronombres</span><span class="chip">Repetición controlada</span></div>
+  <div class="content">
+    <div class="section">
+      <p>La cohesión son las marcas lingüísticas que conectan partes del texto. Un texto puede tener buenas ideas, pero si las referencias son confusas, el lector no sabrá a qué se refiere cada oración.</p>
+      <table class="clean-table"><thead><tr><th>Recurso de cohesión</th><th>Función</th><th>Ejemplo correcto</th><th>Error frecuente</th></tr></thead><tbody><tr><td>Pronombres</td><td>Evitan repetir nombres.</td><td>“El personaje duda. Esto revela inseguridad”.</td><td>“Esto” sin referente claro.</td></tr><tr><td>Repetición controlada</td><td>Mantiene tema central.</td><td>Repetir “la memoria” cuando es eje del análisis.</td><td>Repetir en exceso sin avanzar.</td></tr><tr><td>Sinónimos</td><td>Evitan monotonía.</td><td>“mensaje”, “publicación”, “texto”.</td><td>Usar sinónimos que cambian el sentido.</td></tr><tr><td>Conectores</td><td>Explicitan relaciones lógicas.</td><td>“Sin embargo”, “por lo tanto”, “además”.</td><td>Usar conectores que no corresponden.</td></tr></tbody></table>
+      <div class="quote-box"><span class="mark">Ejemplo:</span><br>“El texto critica la rapidez digital. Esta crítica aparece cuando el mensaje advierte que compartir sin verificar puede dañar a la comunidad”.</div>
+      <div class="step-box"><p><strong>Por qué funciona:</strong> “esta crítica” retoma la idea anterior y permite avanzar hacia la evidencia.</p></div>
+    </div>
+  </div>
+<div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 3 de 10</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Conectores: elegir según relación lógica</h2></div>
+  <div class="meta-chips"><span class="chip">Causa</span><span class="chip">Contraste</span><span class="chip">Consecuencia</span><span class="chip">Adición</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Los conectores no son adornos. Indican cómo se relacionan las ideas. Si eliges mal el conector, puedes cambiar el sentido del texto o hacerlo contradictorio.</p>
+      <table class="clean-table"><thead><tr><th>Relación</th><th>Conectores útiles</th><th>Ejemplo</th></tr></thead><tbody><tr><td>Adición</td><td>además, también, asimismo</td><td>“El texto usa imágenes de soledad; además, presenta espacios vacíos”.</td></tr><tr><td>Causa</td><td>porque, ya que, debido a</td><td>“La respuesta es débil porque no usa evidencia”.</td></tr><tr><td>Consecuencia</td><td>por lo tanto, por eso, en consecuencia</td><td>“No hay fuente; por lo tanto, la evidencia es poco confiable”.</td></tr><tr><td>Contraste</td><td>sin embargo, en cambio, no obstante</td><td>“La cita es pertinente; sin embargo, falta explicarla”.</td></tr><tr><td>Ejemplo</td><td>por ejemplo, como se observa en</td><td>“La tensión aparece, por ejemplo, en el contraste luz/oscuridad”.</td></tr></tbody></table>
+      <div class="two-col"><div class="plain-box"><strong>Error:</strong> “El texto usa evidencia, sin embargo sostiene su idea”. El conector anuncia oposición que no existe.</div><div class="plain-box"><strong>Corrección:</strong> “El texto usa evidencia; por eso sostiene mejor su idea”.</div></div>
+      <div class="soft-box"><strong>Regla:</strong> primero identifica la relación entre ideas; después elige el conector.</div>
+    </div>
+  </div>
+<div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 4 de 10</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 1: mejorar un párrafo incoherente</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo</span><span class="chip">Reescritura</span><span class="chip">Progresión</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Texto inicial</div><div class="example-body">
+      <div class="quote-box">“El texto habla de rumores. Las redes sociales son muy usadas por jóvenes. La fuente no aparece. A veces uno comparte cosas. El texto quiere decir algo importante”.</div>
+      <p class="label">Problemas detectados</p>
+      <p><span class="analysis-tag">Tema poco desarrollado</span><span class="analysis-tag">Ideas sueltas</span><span class="analysis-tag">Sin progresión</span><span class="analysis-tag">Sin conectores lógicos</span></p>
+      <div class="step-box"><p><strong>1. Tema central:</strong> responsabilidad al compartir rumores.</p><p><strong>2. Idea irrelevante o débil:</strong> “las redes son muy usadas” no aporta al análisis si no se conecta.</p><p><strong>3. Falta de progresión:</strong> no se pasa de tesis a evidencia y análisis.</p></div>
+      <div class="plain-box"><strong>Versión mejorada:</strong> El texto advierte sobre la responsabilidad de compartir rumores en redes sociales. Esta idea se sostiene en la ausencia de una fuente clara, porque un mensaje no verificable puede provocar confusión en la comunidad. Por lo tanto, el texto no solo informa un riesgo, sino que propone una forma más cuidadosa de participar digitalmente.</div>
+    </div></div>
+  </div>
+<div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 5 de 10</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: elige el conector</h2></div>
+  <div class="meta-chips"><span class="chip">Interacción</span><span class="chip">Conectores</span><span class="chip">Relación lógica</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Selecciona la relación lógica, el conector y el tipo de idea. La herramienta genera una oración modelo.</p>
+      <div class="tool-grid"><div class="input-control"><label for="relation">Relación</label><select id="relation"><option value="cause">Causa</option><option value="contrast">Contraste</option><option value="consequence">Consecuencia</option></select></div><div class="input-control"><label for="connector">Conector</label><select id="connector"><option value="porque">porque</option><option value="sin embargo">sin embargo</option><option value="por lo tanto">por lo tanto</option></select></div><div class="input-control"><label for="topic">Tema</label><select id="topic"><option value="evidence">evidencia textual</option><option value="rumor">rumores digitales</option><option value="memory">memoria en el relato</option></select></div></div>
+      <div class="btn-row"><button class="mini-btn" data-connect="cause">Causa</button><button class="mini-btn" data-connect="contrast">Contraste</button><button class="mini-btn" data-connect="consequence">Consecuencia</button></div>
+      <div id="connector-result" class="result-panel" aria-live="polite"></div>
+      <table class="clean-table"><thead><tr><th>Antes de usar conector</th><th>Pregunta</th></tr></thead><tbody><tr><td>Causa</td><td>¿La segunda idea explica por qué?</td></tr><tr><td>Contraste</td><td>¿La segunda idea limita u opone?</td></tr><tr><td>Consecuencia</td><td>¿La segunda idea deriva de la anterior?</td></tr></tbody></table>
+      <div class="soft-box"><strong>Actividad:</strong> si el conector no coincide con la relación, la herramienta te ayuda a notar la incoherencia.</div>
+    </div>
+  </div>
+<!-- PAES_EXTRA_Guia_Lenguaje_OA6_CoherenciaCohesion_ProgresionConectores_3Medio_html_6 -->
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 6 de 10</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 2: progresión temática</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo</span><span class="chip">Tema</span><span class="chip">Avance</span></div>
+  <div class="content">
+    <div class="section">
+      <p>La progresión temática ocurre cuando cada oración retoma algo anterior y agrega información nueva. Así el párrafo no se dispersa ni se queda girando en la misma idea.</p>
+      <table class="clean-table"><thead><tr><th>Oración</th><th>Retoma</th><th>Agrega</th></tr></thead><tbody><tr><td>El texto cuestiona la rapidez con que se comparten rumores.</td><td>Presenta tema.</td><td>Define postura inicial.</td></tr><tr><td>Esta rapidez aparece como problema porque impide verificar fuentes.</td><td>Retoma “rapidez”.</td><td>Agrega causa del problema.</td></tr><tr><td>Por eso, el mensaje propone revisar fecha y origen antes de reenviar.</td><td>Retoma el problema.</td><td>Agrega consecuencia o propuesta.</td></tr><tr><td>Así, la participación digital se entiende como una responsabilidad colectiva.</td><td>Retoma propuesta.</td><td>Amplía sentido global.</td></tr></tbody></table>
+      <div class="step-box"><p><strong>Clave:</strong> una oración no debe aparecer aislada. Debe tomar algo del hilo anterior y empujar el texto hacia adelante.</p></div>
+      <div class="plain-box"><strong>Prueba práctica:</strong> lee solo la primera frase de cada oración. Si el tema cambia bruscamente, revisa el orden o divide el párrafo.</div>
+    </div>
+  </div>
+<!-- PAES_EXTRA_Guia_Lenguaje_OA6_CoherenciaCohesion_ProgresionConectores_3Medio_html_7 -->
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 7 de 10</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios guiados de revisión</h2></div>
+  <div class="meta-chips"><span class="chip">Práctica guiada</span><span class="chip">Revisión</span><span class="chip">Conectores</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejercicio guiado 1</div><div class="example-body">
+      <div class="quote-box">“El texto usa una imagen de oscuridad. Además, el personaje está confundido. Por eso, el ambiente refleja su estado emocional”.</div>
+      <div class="step-box"><p><strong>Evaluación:</strong> el texto mantiene el tema: relación entre ambiente y estado emocional.</p><p><strong>Conectores:</strong> “además” suma evidencia; “por eso” introduce conclusión.</p><p><strong>Mejora posible:</strong> explicar cómo la oscuridad se vincula con la confusión.</p></div>
+    </div></div>
+    <div class="example"><div class="example-title">Ejercicio guiado 2</div><div class="example-body">
+      <div class="quote-box">“El mensaje recomienda verificar fuentes. Sin embargo, revisar la fuente permite evitar rumores”.</div>
+      <div class="plain-box"><strong>Problema:</strong> “sin embargo” anuncia contraste, pero la segunda oración no contradice la primera; la refuerza. Mejor conector: “porque” o “ya que”.</div>
+      <div class="plain-box"><strong>Corrección:</strong> “El mensaje recomienda verificar fuentes porque revisar el origen de la información permite evitar rumores”.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 8 de 10</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Práctica</span><span class="chip">4 ejercicios</span><span class="chip">Progresiva</span></div>
+  <div class="content practice-set">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">9</span>Práctica progresiva</div>
+      <p class="practice-intro">Resuelve cuatro ejercicios de práctica sobre coherencia, cohesión y progresión temática. La dificultad aumenta de forma gradual y cada alternativa se relaciona directamente con el enunciado.</p>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 1</span></div><div class="ex-stmt">¿Cuál alternativa aplica mejor coherencia, cohesión y progresión temática?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Repite la misma idea sin agregar información nueva.<div class="opt-feedback">Incorrecto. La alternativa queda incompleta o no fundamenta el análisis.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Usa conectores que contradicen la relación real.<div class="opt-feedback">Incorrecto. La opción no entrega evidencia suficiente ni razonamiento claro.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Introduce una idea ajena y rompe el tema.<div class="opt-feedback">Incorrecto. Se aleja del foco solicitado en la guía.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>La secuencia tesis, evidencia, explicación y consecuencia permite que el párrafo avance.<div class="opt-feedback">Correcto. Relaciona relaciones entre oraciones y conectores con claridad del texto.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 2</span></div><div class="ex-stmt">Lee el fragmento. ¿Qué dato conviene observar primero para resolverlo?</div><div class="ex-frag">“La evidencia no tiene fuente; este problema reduce su confiabilidad”.</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>el referente claro de “este problema” y la consecuencia sobre la confiabilidad<div class="opt-feedback">Correcto. Ese dato permite trabajar coherencia, cohesión y progresión temática con evidencia concreta.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>La cantidad exacta de palabras del fragmento.<div class="opt-feedback">Incorrecto. Ese dato no ayuda a interpretar la tarea central.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Un detalle aislado que no cambia el sentido.<div class="opt-feedback">Incorrecto. Hay que seleccionar información funcional al análisis.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Una suposición externa no mencionada en el texto.<div class="opt-feedback">Incorrecto. La respuesta debe sostenerse en el material entregado.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 3</span></div><div class="ex-stmt">¿Qué mejora una respuesta débil sobre coherencia, cohesión y progresión temática?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Repetir la misma afirmación con palabras más largas.<div class="opt-feedback">Incorrecto. Cambiar vocabulario no reemplaza fundamentar.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>“La cohesión funciona porque el pronombre retoma una idea precisa de la oración anterior”.<div class="opt-feedback">Correcto. La mejora explica la relación entre relaciones entre oraciones y conectores y claridad del texto.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Eliminar la evidencia para que la respuesta sea más corta.<div class="opt-feedback">Incorrecto. Sin evidencia la respuesta pierde sustento.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Agregar una opinión personal sin conectarla con el texto.<div class="opt-feedback">Incorrecto. La opinión no basta para resolver una pregunta de análisis.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">Ejercicio 4</span></div><div class="ex-stmt">¿Qué procedimiento conviene seguir antes de marcar una alternativa?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Elegir la alternativa más extensa sin leer el enunciado.<div class="opt-feedback">Incorrecto. La extensión no garantiza pertinencia.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Responder solo por intuición y no revisar evidencias.<div class="opt-feedback">Incorrecto. La lectura crítica exige comprobar datos del texto.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Asegurar que cada oración retome algo anterior y agregue información nueva.<div class="opt-feedback">Correcto. Ese procedimiento evita respuestas vagas o desconectadas.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Descartar el contexto aunque el enunciado lo entregue.<div class="opt-feedback">Incorrecto. El contexto orienta la interpretación.</div></span></div></div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 9 de 10</div></div>
+</div>
+
+
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Lengua y Literatura · 3° Medio<br>Eje: Escritura<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios tipo PAES</h2></div>
+  <div class="meta-chips"><span class="chip">Tipo PAES</span><span class="chip">6 ejercicios</span><span class="chip">Retroalimentaci?n</span></div>
+  <div class="content practice-set">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">10</span>Sección tipo PAES</div>
+      <p class="practice-intro">Resuelve seis preguntas tipo PAES sobre coherencia, cohesión y progresión temática. Las alternativas están vinculadas al enunciado y muestran retroalimentación al hacer clic.</p>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 1</span></div><div class="ex-stmt">¿Qué alternativa interpreta o resuelve mejor la situación según coherencia, cohesión y progresión temática?</div><div class="ex-frag">“La evidencia no tiene fuente; este problema reduce su confiabilidad”.</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Repite la misma idea sin agregar información nueva.<div class="opt-feedback">Incorrecto. Es una lectura parcial que no explica suficientemente el problema.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>El conector “sin embargo” introduce un límite frente a una idea previa.<div class="opt-feedback">Correcto. La respuesta se ajusta al foco de coherencia, cohesión y progresión temática.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Usa conectores que contradicen la relación real.<div class="opt-feedback">Incorrecto. No conecta de manera clara con el enunciado.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Introduce una idea ajena y rompe el tema.<div class="opt-feedback">Incorrecto. Introduce una conclusión que no se sostiene.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 2</span></div><div class="ex-stmt">¿Cuál justificación sería más completa?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>La alternativa es correcta porque suena mejor.<div class="opt-feedback">Incorrecto. La sonoridad no justifica una respuesta académica.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>La alternativa es correcta porque aparece primero.<div class="opt-feedback">Incorrecto. El orden de las opciones no prueba nada.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>“La cohesión funciona porque el pronombre retoma una idea precisa de la oración anterior”.<div class="opt-feedback">Correcto. Justifica la respuesta usando relaciones entre oraciones y conectores.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>La alternativa es correcta porque no exige leer el texto.<div class="opt-feedback">Incorrecto. La lectura del enunciado es indispensable.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 3</span></div><div class="ex-stmt">¿Qué alternativa evita una conclusión exagerada?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>A partir de un solo dato se puede afirmar todo sobre todas las situaciones.<div class="opt-feedback">Incorrecto. Generaliza más allá de la evidencia.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Si una idea parece llamativa, no necesita fundamento.<div class="opt-feedback">Incorrecto. Toda respuesta debe justificarse.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>La evidencia no importa cuando la conclusión es fuerte.<div class="opt-feedback">Incorrecto. La fuerza de la conclusión depende de su respaldo.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Eliminar una oración irrelevante mejora la coherencia del razonamiento.<div class="opt-feedback">Correcto. Mantiene una conclusión proporcionada a la evidencia disponible.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 4</span></div><div class="ex-stmt">¿Qué función cumple principalmente el referente, el conector y la continuidad temática?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Permite sostener claridad del texto al entregar una señal concreta para el análisis.<div class="opt-feedback">Correcto. La función se entiende por su aporte al sentido o propósito.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Sirve solo como decoración y no afecta la comprensión.<div class="opt-feedback">Incorrecto. El elemento cumple una función dentro del discurso.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Reemplaza la necesidad de explicar la respuesta.<div class="opt-feedback">Incorrecto. El dato necesita interpretación.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Cambia el tema hacia un asunto no relacionado.<div class="opt-feedback">Incorrecto. Se vincula directamente con el foco del ejercicio.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 5</span></div><div class="ex-stmt">¿Qué respuesta sería más adecuada para una pregunta tipo PAES?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>La que solo repite una palabra del enunciado.<div class="opt-feedback">Incorrecto. Repetir no equivale a analizar.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>La que usa una afirmación absoluta sin evidencia.<div class="opt-feedback">Incorrecto. Las conclusiones absolutas suelen ser riesgosas.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>La que identifica relaciones entre oraciones y conectores, explica su función y evita inventar información externa.<div class="opt-feedback">Correcto. Esa es una respuesta precisa y verificable.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>La que cambia el propósito de la pregunta.<div class="opt-feedback">Incorrecto. Debe responder exactamente lo solicitado.</div></span></div></div></div>
+      <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">PAES 6</span></div><div class="ex-stmt">¿Cuál decisión final conviene tomar al resolver ejercicios sobre coherencia, cohesión y progresión temática?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span><span>Marcar la opción que parezca más general.<div class="opt-feedback">Incorrecto. Lo general suele ser insuficiente.</div></span></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span><span>Revisar si la alternativa elegida se sostiene en relaciones entre oraciones y conectores y responde al propósito del enunciado.<div class="opt-feedback">Correcto. Integra lectura, evidencia y propósito.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span><span>Elegir la alternativa que ignore los datos entregados.<div class="opt-feedback">Incorrecto. Los datos orientan la respuesta.</div></span></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span><span>Preferir una respuesta bonita aunque contradiga el texto.<div class="opt-feedback">Incorrecto. La belleza de la frase no reemplaza coherencia.</div></span></div></div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Lengua y Literatura 3° Medio · OA 6 coherencia y cohesión · Página 10 de 10</div></div>
+</div>
+
+
+
+<script>
+(function(){
+  var relation=document.getElementById('relation'), connector=document.getElementById('connector'), topic=document.getElementById('topic'), out=document.getElementById('connector-result');
+  var topics={evidence:'la evidencia textual',rumor:'los rumores digitales',memory:'la memoria en el relato'};
+  function expected(){return relation.value==='cause'?'porque':relation.value==='contrast'?'sin embargo':'por lo tanto';}
+  function update(){
+    var ok=connector.value===expected();
+    var relationText={cause:'causa',contrast:'contraste',consequence:'consecuencia'}[relation.value];
+    out.innerHTML='<strong>Resultado:</strong> Quieres expresar una relación de '+relationText+' sobre '+topics[topic.value]+'. El conector elegido es “'+connector.value+'”. '+(ok?'La elección es coherente con la relación lógica.':'La elección no calza del todo; prueba con “'+expected()+'” para que la relación sea clara.') ;
+  }
+  [relation,connector,topic].forEach(function(el){el.addEventListener('change',update);});
+  document.querySelectorAll('[data-connect]').forEach(function(btn){btn.addEventListener('click',function(){relation.value=btn.dataset.connect;connector.value=expected();update();});});
+  update();
+})();
+</script>
+</body>
+</html>

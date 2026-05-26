@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dispersión para tomar decisiones — Matemática 3° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:10.4pt;line-height:1.58}
+    .plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.72rem .82rem;margin:.58rem 0;line-height:1.52}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.72rem .82rem;margin:.58rem 0;line-height:1.52}.formula-box{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.72rem .9rem;margin:.58rem 0;text-align:center;font-size:1rem}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.72rem .9rem;margin:.58rem 0}.step-box p{margin:.28rem 0;line-height:1.55}.result-line{font-weight:800;color:#0B0F3F}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.6rem 0;padding:.58rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.82rem;color:#4b5563;line-height:1.42;margin-top:.3rem}.fig-caption strong{color:#6A2C91}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.62rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.52rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.62rem .68rem;line-height:1.45}.small-card strong{color:#6A2C91}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.62rem 0;overflow:hidden}.example-title{padding:.58rem .78rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.72rem .82rem}.label{font-weight:800;color:#6A2C91}.data-list{margin:.35rem 0 .35rem 1.1rem;padding:0}.data-list li{margin:.15rem 0;line-height:1.42}.clean-table{width:100%;border-collapse:collapse;font-size:9.4pt;margin:.55rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.38rem .45rem;vertical-align:top}
+    .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:.58rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.58rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.22rem;font-size:.85rem}.input-control textarea,.input-control select{width:100%;padding:.42rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.input-control textarea{min-height:58px;resize:vertical}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.65rem .8rem;line-height:1.58}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.4rem .78rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.42rem;flex-wrap:wrap;margin:.55rem 0}.chart-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.45rem;margin-top:.5rem}.chart-box svg{display:block;width:100%;height:auto}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s}.opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.45rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.62rem .72rem;margin:.48rem 0;line-height:1.5}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}.sol-item .sn,.sol-item .sc{margin-right:.4rem}
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Analizar datos con dispersión para tomar decisiones</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 2</span><span class="chip">3° Medio</span><span class="chip">Dispersión</span><span class="chip">Decisiones</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 2</span><span class="oa-text">Analizar datos, calculando medidas de dispersión para tomar decisiones en situaciones de incerteza.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El promedio no basta</div>
+      <p>Cuando se comparan dos situaciones, el promedio muestra un valor central, pero no indica si los datos son estables o variables. Para decidir bien, necesitamos analizar también la dispersión.</p>
+      <figure class="visual-figure" aria-label="Comparación entre datos concentrados y dispersos">
+        <svg viewBox="0 0 760 190" role="img" aria-labelledby="fig-title fig-desc">
+          <title id="fig-title">Mismo centro, distinta dispersión</title>
+          <desc id="fig-desc">Dos alternativas muestran un centro similar, pero distinta separación entre datos.</desc>
+          <rect x="14" y="12" width="732" height="155" rx="8" fill="#F8F4E9"/>
+          <text x="380" y="36" text-anchor="middle" font-family="Inter" font-size="18" font-weight="800" fill="#6A2C91">Mismo centro, distinta estabilidad</text>
+          <line x1="95" y1="84" x2="665" y2="84" stroke="#D9D9D9" stroke-width="3"/><line x1="380" y1="66" x2="380" y2="102" stroke="#D4AF37" stroke-width="5"/>
+          <circle cx="342" cy="84" r="8" fill="#6A2C91"/><circle cx="362" cy="84" r="8" fill="#6A2C91"/><circle cx="380" cy="84" r="8" fill="#D4AF37"/><circle cx="398" cy="84" r="8" fill="#6A2C91"/><circle cx="418" cy="84" r="8" fill="#6A2C91"/>
+          <text x="95" y="72" font-family="Inter" font-size="14" font-weight="800" fill="#0B0F3F">Alternativa A</text>
+          <line x1="95" y1="134" x2="665" y2="134" stroke="#D9D9D9" stroke-width="3"/><line x1="380" y1="116" x2="380" y2="152" stroke="#D4AF37" stroke-width="5"/>
+          <circle cx="170" cy="134" r="8" fill="#6A2C91"/><circle cx="255" cy="134" r="8" fill="#6A2C91"/><circle cx="380" cy="134" r="8" fill="#D4AF37"/><circle cx="505" cy="134" r="8" fill="#6A2C91"/><circle cx="590" cy="134" r="8" fill="#6A2C91"/>
+          <text x="95" y="122" font-family="Inter" font-size="14" font-weight="800" fill="#0B0F3F">Alternativa B</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Interpretación:</strong> la alternativa A es más estable porque sus datos están más cerca del centro. La alternativa B tiene mayor dispersión y, por lo tanto, mayor incertidumbre.</figcaption>
+      </figure>
+      <div class="four-col"><div class="small-card"><strong>Centro</strong><br>Valor típico de los datos.</div><div class="small-card"><strong>Rango</strong><br>Amplitud total.</div><div class="small-card"><strong>Desviación</strong><br>Distancia típica al promedio.</div><div class="small-card"><strong>Decisión</strong><br>Elección según objetivo.</div></div>
+      <div class="plain-box"><strong>Idea central:</strong> si se busca regularidad, conviene la alternativa con menor dispersión. Si se acepta riesgo para buscar resultados máximos, una mayor dispersión puede ser tolerable, pero debe justificarse.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 1 de 7</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Medidas de dispersión: uso e interpretación</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 2 de 4</span><span class="chip">Rango</span><span class="chip">RIC</span><span class="chip">Desviación estándar</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Fórmulas y significado</div>
+      <table class="clean-table"><thead><tr><th>Medida</th><th>Fórmula</th><th>Variables</th><th>Sirve para...</th></tr></thead><tbody><tr><td><strong>Rango</strong></td><td>\(R=M-m\)</td><td>\(M\) = máximo; \(m\) = mínimo</td><td>Medir la amplitud total de los datos.</td></tr><tr><td><strong>RIC</strong></td><td>\(RIC=Q_3-Q_1\)</td><td>\(Q_1\) = primer cuartil; \(Q_3\) = tercer cuartil</td><td>Medir la dispersión del 50% central.</td></tr><tr><td><strong>Desviación estándar</strong></td><td>\(\sigma=\sqrt{\frac{\sum(x_i-\bar{x})^2}{n}}\)</td><td>\(x_i\) = dato; \(\bar{x}\) = media; \(n\) = cantidad de datos</td><td>Medir distancia típica respecto del promedio.</td></tr></tbody></table>
+      <div class="soft-box"><strong>Formato de datos:</strong> en esta guía, cada dato importante se escribirá con variable, símbolo, valor y unidad. Por ejemplo: \(M=630\) (puntos), \(m=590\) (puntos), \(R=40\) (puntos).</div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Criterios para decidir</div>
+      <div class="two-col"><div class="plain-box"><strong>Si el objetivo es estabilidad:</strong><br>elige menor rango o menor desviación estándar, porque los datos varían menos.</div><div class="plain-box"><strong>Si hay valores extremos:</strong><br>usa también el RIC, porque el rango puede quedar dominado por un dato atípico.</div></div>
+      <div class="formula-box">\[
+      \text{Conclusión completa}=\text{datos calculados}+\text{comparación}+\text{criterio del contexto}
+      \]</div>
+      <p>Una respuesta correcta no termina solo con “A” o “B”. Debe explicar qué medida se usó, qué valores se reemplazaron, qué resultado se obtuvo y por qué ese resultado permite decidir.</p>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 2 de 7</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplos resueltos paso a paso</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 3 de 4</span><span class="chip">Rango</span><span class="chip">Outliers</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo 1: elegir el grupo más regular</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Dos grupos obtienen estos puntajes en un ensayo. Grupo A: \(590,600,610,620,630\). Grupo B: \(520,570,610,650,700\). ¿Cuál grupo es más regular?</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(M_A=630\) (puntos), \(m_A=590\) (puntos).</li><li>\(M_B=700\) (puntos), \(m_B=520\) (puntos).</li><li>\(R_A\) = rango del grupo A (puntos), \(R_B\) = rango del grupo B (puntos).</li></ul>
+      <p class="label">Fórmula utilizada</p>
+      <div class="formula-box">\[R=M-m\]</div>
+      <p>Esta fórmula calcula la amplitud total entre el valor máximo \(M\) y el valor mínimo \(m\).</p>
+      <div class="step-box"><p><strong>Reemplazo grupo A:</strong> \(R_A=630-590\).</p><p><strong>Desarrollo:</strong> \(R_A=40\) (puntos).</p><p><strong>Reemplazo grupo B:</strong> \(R_B=700-520\).</p><p><strong>Desarrollo:</strong> \(R_B=180\) (puntos).</p><p class="result-line">Resultado final: el grupo A es más regular.</p><p><strong>Interpretación:</strong> como \(40<180\), los puntajes del grupo A están menos dispersos. Si el objetivo es estabilidad, conviene el grupo A.</p></div>
+    </div></div>
+    <div class="example"><div class="example-title">Ejemplo 2: decidir cuando hay un valor extremo</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Los tiempos de despacho de una tienda fueron \(2,3,3,4,18\) días. ¿Conviene describir la situación solo con el rango?</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(M=18\) (días), \(m=2\) (días).</li><li>\(R\) = rango de tiempos de despacho (días).</li><li>El valor \(18\) (días) es mucho mayor que los demás tiempos.</li></ul>
+      <p class="label">Fórmula utilizada</p>
+      <div class="formula-box">\[R=M-m\]</div>
+      <div class="step-box"><p><strong>Reemplazo:</strong> \(R=18-2\).</p><p><strong>Desarrollo:</strong> \(R=16\) (días).</p><p class="result-line">Resultado final: el rango es 16 (días).</p><p><strong>Interpretación:</strong> el rango muestra que existe un despacho muy tardío, pero no describe bien al grupo central, porque cuatro datos están entre 2 y 4 días. Para tomar una decisión justa, conviene complementar con mediana o RIC.</p></div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 3 de 7</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 3 — Desviación estándar paso a paso</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 4 de 5</span><span class="chip">Desarrollo completo</span><span class="chip">Cálculo ordenado</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo 3: comparar con desviación estándar</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Compara A: \(8,10,12\) y B: \(6,10,14\). ¿Cuál alternativa es más estable?</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(A_1=8\) (unidades), \(A_2=10\) (unidades), \(A_3=12\) (unidades).</li><li>\(B_1=6\) (unidades), \(B_2=10\) (unidades), \(B_3=14\) (unidades).</li><li>\(n_A=3\) (datos), \(n_B=3\) (datos).</li><li>\(\sigma_A\) = desviación estándar de A (unidades), \(\sigma_B\) = desviación estándar de B (unidades).</li></ul>
+      <p class="label">Fórmula utilizada</p>
+      <div class="formula-box">\[\sigma=\sqrt{\frac{\sum(x_i-\bar{x})^2}{n}}\]</div>
+      <p>Esta fórmula sirve para medir cuánto se alejan, en promedio, los datos respecto de la media \(\bar{x}\). Mientras menor sea \(\sigma\), más concentrados están los datos.</p>
+      <p class="label">Paso 1: calcular la media de cada alternativa</p>
+      <div class="step-box"><p><strong>Media de A:</strong></p><p>\[\bar{x}_A=\frac{8+10+12}{3}=\frac{30}{3}=10\text{ (unidades)}\]</p><p><strong>Media de B:</strong></p><p>\[\bar{x}_B=\frac{6+10+14}{3}=\frac{30}{3}=10\text{ (unidades)}\]</p></div>
+      <p class="label">Paso 2: calcular distancias a la media y elevar al cuadrado</p>
+      <table class="clean-table"><thead><tr><th>Alternativa</th><th>Dato</th><th>Distancia \(x_i-\bar{x}\)</th><th>Cuadrado \((x_i-\bar{x})^2\)</th></tr></thead><tbody><tr><td>A</td><td>\(A_1=8\)</td><td>\(8-10=-2\)</td><td>\((-2)^2=4\)</td></tr><tr><td>A</td><td>\(A_2=10\)</td><td>\(10-10=0\)</td><td>\(0^2=0\)</td></tr><tr><td>A</td><td>\(A_3=12\)</td><td>\(12-10=2\)</td><td>\(2^2=4\)</td></tr><tr><td>B</td><td>\(B_1=6\)</td><td>\(6-10=-4\)</td><td>\((-4)^2=16\)</td></tr><tr><td>B</td><td>\(B_2=10\)</td><td>\(10-10=0\)</td><td>\(0^2=0\)</td></tr><tr><td>B</td><td>\(B_3=14\)</td><td>\(14-10=4\)</td><td>\(4^2=16\)</td></tr></tbody></table>
+      <p class="label">Paso 3: reemplazar en la fórmula</p>
+      <div class="step-box"><p><strong>Alternativa A:</strong></p><p>\[\sigma_A=\sqrt{\frac{4+0+4}{3}}=\sqrt{\frac{8}{3}}\approx1.63\text{ (unidades)}\]</p><p><strong>Alternativa B:</strong></p><p>\[\sigma_B=\sqrt{\frac{16+0+16}{3}}=\sqrt{\frac{32}{3}}\approx3.27\text{ (unidades)}\]</p><p class="result-line">Resultado final: A es más estable.</p><p><strong>Interpretación:</strong> ambas alternativas tienen media \(10\) (unidades), pero \(\sigma_A<\sigma_B\). Por eso los datos de A están más cerca del promedio.</p></div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 4 de 7</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Comprobador guiado</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 5 de 5</span><span class="chip">Interacción simple</span><span class="chip">Comprobación</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Comprobador guiado</div>
+      <p>La interacción permite probar datos y observar cómo cambian media, rango y desviación estándar. Úsala para comprobar el procedimiento, no para saltarte el desarrollo.</p>
+      <div class="tool-grid"><div class="input-control"><label for="data-a">Alternativa A</label><textarea id="data-a">8,10,12</textarea></div><div class="input-control"><label for="data-b">Alternativa B</label><textarea id="data-b">6,10,14</textarea></div></div>
+      <div class="input-control"><label for="criterion">Criterio de decisión</label><select id="criterion"><option value="stable">Busco estabilidad</option><option value="center">Busco mayor promedio</option><option value="high">Acepto riesgo y busco máximo alto</option></select></div>
+      <div class="btn-row"><button class="mini-btn" data-scenario="estabilidad">Estabilidad</button><button class="mini-btn" data-scenario="proveedor">Proveedor</button><button class="mini-btn" data-scenario="riesgo">Riesgo</button></div>
+      <div id="decision-result" class="result-panel" aria-live="polite"></div>
+      <div class="chart-box"><svg id="decision-chart" viewBox="0 0 760 150" role="img" aria-label="Gráfico de puntos comparativo"></svg></div>
+      <div class="plain-box"><strong>Cómo leer la herramienta:</strong> primero observa la media; luego compara rango y desviación estándar. Si el criterio es estabilidad, la mejor alternativa será la que tenga menor dispersión.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 5 de 7</div></div>
+</div>
+
+<div class="page" id="page-ejercicios">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios — Dispersión para decidir</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios 1 de 2</span><span class="chip">Autocorregible</span><span class="chip">Con desarrollo</span></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Ejercicios 1-3</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">Para los datos \(12,15,18,21\), ¿cuál es el rango?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 9<div class="opt-feedback">Correcto. Datos: \(M=21\) (unidades), \(m=12\) (unidades). Fórmula: \(R=M-m\). Reemplazo: \(R=21-12=9\) (unidades).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 16.5<div class="opt-feedback">Incorrecto. 16.5 es la media; el rango se calcula con máximo menos mínimo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 21<div class="opt-feedback">Incorrecto. 21 es el máximo, pero falta restar el mínimo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 12<div class="opt-feedback">Incorrecto. 12 es el mínimo, no la diferencia entre extremos.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">Si dos alternativas tienen igual promedio, pero A tiene menor desviación estándar, ¿qué se puede afirmar?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> A es más regular<div class="opt-feedback">Correcto. La desviación estándar mide distancia típica a la media. Si A tiene menor valor, sus datos están más cerca del promedio.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> A tiene mayor promedio<div class="opt-feedback">Incorrecto. El enunciado dice que los promedios son iguales.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> A es más dispersa<div class="opt-feedback">Incorrecto. Menor desviación estándar significa menor dispersión.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> No se puede interpretar<div class="opt-feedback">Incorrecto. Sí se puede interpretar la regularidad usando la desviación estándar.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">Si hay un valor extremo muy alto, ¿qué medida suele describir mejor la dispersión del grupo central?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Rango<div class="opt-feedback">Incorrecto. El rango se ve muy afectado por el valor extremo.</div></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Rango intercuartílico<div class="opt-feedback">Correcto. Fórmula: \(RIC=Q_3-Q_1\). Describe el 50% central y reduce el efecto del extremo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Máximo<div class="opt-feedback">Incorrecto. El máximo es el valor extremo, no una medida de dispersión central.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Suma total<div class="opt-feedback">Incorrecto. La suma total no mide dispersión.</div></div></div></div>
+  </div></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ejercicios 4-5</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">A: \(18,19,20,21,22\). B: \(10,15,20,25,30\). Si se busca estabilidad, ¿qué alternativa conviene?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> A<div class="opt-feedback">Correcto. Datos: \(R_A=22-18=4\) (unidades), \(R_B=30-10=20\) (unidades). Como \(4<20\), A es más estable.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> B<div class="opt-feedback">Incorrecto. B tiene mayor rango, por lo tanto mayor dispersión.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Son iguales<div class="opt-feedback">Incorrecto. Sus rangos son diferentes: 4 y 20.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Faltan datos<div class="opt-feedback">Incorrecto. Los datos entregados permiten comparar dispersión.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">5</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">Una empresa quiere evitar retrasos impredecibles. ¿Qué indicador debería preferir?</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Mayor rango de tiempos<div class="opt-feedback">Incorrecto. Mayor rango implica más diferencia entre mínimo y máximo, es decir, más incertidumbre.</div></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Menor desviación estándar de tiempos<div class="opt-feedback">Correcto. La desviación estándar mide variabilidad respecto del promedio. Menor desviación indica tiempos más predecibles.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Mayor valor máximo<div class="opt-feedback">Incorrecto. Un máximo alto puede indicar un retraso grave.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Mayor dispersión<div class="opt-feedback">Incorrecto. Si se busca evitar impredecibilidad, se busca menor dispersión.</div></div></div></div>
+  </div></div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 6 de 7</div></div>
+</div>
+
+<div class="page" id="page-solucionario">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Solucionario justificado y preguntas PAES</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios 2 de 2</span><span class="chip">Soluciones</span><span class="chip">PAES</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Soluciones desarrolladas</div>
+      <div class="solution"><strong>E1.</strong> Datos: \(M=21\) (unidades), \(m=12\) (unidades). Fórmula: \(R=M-m\). Reemplazo: \(R=21-12\). Desarrollo: \(R=9\) (unidades). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E2.</strong> Datos: \(\bar{x}_A=\bar{x}_B\) (unidades), \(\sigma_A<\sigma_B\) (unidades). La desviación estándar mide distancia al promedio. Como A tiene menor desviación, A es más regular. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E3.</strong> Datos: existe un valor extremo alto. Fórmula relevante: \(RIC=Q_3-Q_1\). Se usa porque mide el 50% central y no depende directamente del máximo extremo. <span class="final">Respuesta correcta: B.</span></div>
+      <div class="solution"><strong>E4.</strong> Datos: \(M_A=22\), \(m_A=18\), \(M_B=30\), \(m_B=10\) (unidades). Fórmula: \(R=M-m\). Reemplazo: \(R_A=22-18=4\); \(R_B=30-10=20\). Como \(4<20\), A tiene menor dispersión. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E5.</strong> El criterio es evitar retrasos impredecibles. La medida adecuada es la desviación estándar, porque expresa variabilidad respecto del promedio. Se prefiere menor \(\sigma\). <span class="final">Respuesta correcta: B.</span></div>
+    </div>
+    <div class="paes-wrap"><div class="paes-head"><span class="paes-badge">PAES — Decisiones con dispersión</span></div><div class="paes-body">
+      <div class="paes-item"><div class="paes-num">1</div><div class="paes-stmt">Dos cursos tienen igual promedio. El curso X tiene desviación estándar 4 y el curso Y desviación estándar 12. Si se busca homogeneidad, se debe elegir:</div><div class="paes-opts"><div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> X<div class="opt-feedback">Correcto. Datos: \(\sigma_X=4\) (puntos), \(\sigma_Y=12\) (puntos). Como \(4<12\), X es más homogéneo.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Y<div class="opt-feedback">Incorrecto. Y tiene mayor desviación estándar.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> Ambos<div class="opt-feedback">Incorrecto. No tienen igual dispersión.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Ninguno<div class="opt-feedback">Incorrecto. Sí se puede decidir con el criterio de homogeneidad.</div></div></div></div>
+      <div class="paes-item"><div class="paes-num">2</div><div class="paes-stmt">Un inversionista acepta riesgo alto. Dos opciones tienen promedios similares, pero B tiene mayor dispersión y mayor máximo histórico. ¿Qué conclusión es razonable?</div><div class="paes-opts"><div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> B podría elegirse si se acepta mayor riesgo<div class="opt-feedback">Correcto. La decisión depende del criterio. Mayor dispersión significa más riesgo, pero puede aceptarse si se busca un máximo alto.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> B siempre es mejor<div class="opt-feedback">Incorrecto. No siempre: depende del objetivo.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> A siempre es mejor<div class="opt-feedback">Incorrecto. Si se acepta riesgo, A no necesariamente es mejor.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> La dispersión no importa<div class="opt-feedback">Incorrecto. La dispersión permite evaluar riesgo.</div></div></div></div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Dispersión y decisiones · Página 7 de 7</div></div>
+</div>
+
+<script>
+(function(){
+  var inputA=document.getElementById('data-a'), inputB=document.getElementById('data-b'), criterion=document.getElementById('criterion'), out=document.getElementById('decision-result'), chart=document.getElementById('decision-chart');
+  function parse(text){return text.split(/[,\s;]+/).map(function(x){return Number(x.replace(',','.'));}).filter(function(x){return Number.isFinite(x);});}
+  function mean(arr){return arr.reduce(function(a,b){return a+b;},0)/arr.length;}
+  function sd(arr){var m=mean(arr);return Math.sqrt(arr.reduce(function(s,x){return s+Math.pow(x-m,2);},0)/arr.length);}
+  function stats(arr){var max=Math.max.apply(null,arr), min=Math.min.apply(null,arr);return {mean:mean(arr), sd:sd(arr), min:min, max:max, range:max-min};}
+  function fmt(x){return Math.round(x*100)/100;}
+  function draw(a,b,sa,sb){var all=a.concat(b), min=Math.min.apply(null,all), max=Math.max.apply(null,all), span=max-min||1;function x(v){return 80+((v-min)/span)*600;}var parts=['<rect x="0" y="0" width="760" height="150" rx="8" fill="#fff"/>','<line x1="80" y1="52" x2="680" y2="52" stroke="#D9D9D9" stroke-width="3"/>','<line x1="80" y1="104" x2="680" y2="104" stroke="#D9D9D9" stroke-width="3"/>','<text x="28" y="57" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">A</text>','<text x="28" y="109" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">B</text>'];a.forEach(function(v){parts.push('<circle cx="'+x(v)+'" cy="52" r="7" fill="#6A2C91"/>');});b.forEach(function(v){parts.push('<circle cx="'+x(v)+'" cy="104" r="7" fill="#D4AF37" stroke="#0B0F3F" stroke-width="1"/>');});parts.push('<line x1="'+x(sa.mean)+'" y1="34" x2="'+x(sa.mean)+'" y2="70" stroke="#0B0F3F" stroke-width="3"/>');parts.push('<line x1="'+x(sb.mean)+'" y1="86" x2="'+x(sb.mean)+'" y2="122" stroke="#0B0F3F" stroke-width="3"/>');chart.innerHTML=parts.join('');}
+  function update(){var a=parse(inputA.value), b=parse(inputB.value);if(a.length<3||b.length<3){out.innerHTML='Ingresa al menos 3 datos en cada alternativa.';chart.innerHTML='';return;}var sa=stats(a), sb=stats(b), rec='';if(criterion.value==='stable'){rec=sa.sd<sb.sd?'Conviene A porque su desviación estándar es menor.':sb.sd<sa.sd?'Conviene B porque su desviación estándar es menor.':'Ambas tienen igual desviación estándar.';}if(criterion.value==='center'){rec=sa.mean>sb.mean?'Conviene A porque tiene mayor promedio.':sb.mean>sa.mean?'Conviene B porque tiene mayor promedio.':'Tienen el mismo promedio; se debe mirar la dispersión.';}if(criterion.value==='high'){rec=sa.max>sb.max?'Conviene A si se acepta riesgo y se busca el máximo más alto.':sb.max>sa.max?'Conviene B si se acepta riesgo y se busca el máximo más alto.':'Tienen el mismo máximo.';}out.innerHTML='<strong>Paso 1: cálculo</strong><br><table class="clean-table"><thead><tr><th>Alternativa</th><th>Media</th><th>Rango</th><th>Desv. estándar</th><th>Máximo</th></tr></thead><tbody><tr><td>A</td><td>'+fmt(sa.mean)+'</td><td>'+fmt(sa.range)+'</td><td>'+fmt(sa.sd)+'</td><td>'+fmt(sa.max)+'</td></tr><tr><td>B</td><td>'+fmt(sb.mean)+'</td><td>'+fmt(sb.range)+'</td><td>'+fmt(sb.sd)+'</td><td>'+fmt(sb.max)+'</td></tr></tbody></table><strong>Paso 2: interpretación</strong><br>'+rec+'<br><strong>Paso 3: justificación</strong><br>La recomendación se obtiene comparando la medida que corresponde al criterio elegido.';draw(a,b,sa,sb);}
+  inputA.addEventListener('input',update);inputB.addEventListener('input',update);criterion.addEventListener('change',update);
+  document.querySelectorAll('[data-scenario]').forEach(function(btn){btn.addEventListener('click',function(){if(btn.dataset.scenario==='estabilidad'){inputA.value='8,10,12';inputB.value='6,10,14';criterion.value='stable';}if(btn.dataset.scenario==='proveedor'){inputA.value='2,3,3,4,4,5';inputB.value='1,2,4,5,7,9';criterion.value='stable';}if(btn.dataset.scenario==='riesgo'){inputA.value='25,28,30,31,33,35';inputB.value='10,20,30,40,50,60';criterion.value='high';}update();});});
+  update();
+})();
+</script>
+</body>
+</html>

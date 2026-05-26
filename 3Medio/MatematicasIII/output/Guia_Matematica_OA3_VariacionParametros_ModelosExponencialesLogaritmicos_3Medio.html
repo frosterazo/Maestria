@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Variación de parámetros en modelos exponenciales y logarítmicos — Matemática 3° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:10.35pt;line-height:1.58}
+    .plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.72rem .82rem;margin:.58rem 0;line-height:1.52}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.72rem .82rem;margin:.58rem 0;line-height:1.52}.formula-box{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.72rem .9rem;margin:.58rem 0;text-align:center;font-size:1rem}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.72rem .9rem;margin:.58rem 0}.step-box p{margin:.3rem 0;line-height:1.55}.result-line{font-weight:800;color:#0B0F3F}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.6rem 0;padding:.58rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.82rem;color:#4b5563;line-height:1.42;margin-top:.3rem}.fig-caption strong{color:#6A2C91}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.62rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.52rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.62rem .68rem;line-height:1.45}.small-card strong{color:#6A2C91}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.62rem 0;overflow:hidden}.example-title{padding:.58rem .78rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.72rem .82rem}.label{font-weight:800;color:#6A2C91;margin-top:.45rem}.data-list{margin:.35rem 0 .35rem 1.1rem;padding:0}.data-list li{margin:.16rem 0;line-height:1.43}.clean-table{width:100%;border-collapse:collapse;font-size:9.25pt;margin:.55rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.36rem .42rem;vertical-align:top}
+    .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem;margin:.58rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.58rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.22rem;font-size:.8rem}.input-control input,.input-control select{width:100%;padding:.42rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.65rem .8rem;line-height:1.58}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.42rem .82rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.42rem;flex-wrap:wrap;margin:.55rem 0}.chart-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.45rem;margin-top:.5rem}.chart-box svg{display:block;width:100%;height:auto}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s}.opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.45rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.62rem .72rem;margin:.48rem 0;line-height:1.5}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Variar parámetros para ajustar modelos</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 3</span><span class="chip">3° Medio</span><span class="chip">Parámetros</span><span class="chip">Ajuste</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 3</span><span class="oa-text">Variar parámetros para ajustar un modelo exponencial o logarítmico según la situación.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Qué es un parámetro</div>
+      <p>Un parámetro es un número dentro del modelo que controla su forma o posición. A diferencia de la variable, que cambia libremente, el parámetro se fija para representar una situación específica.</p>
+      <p>Por ejemplo, en \(N(t)=800(1,15)^t\), el número 800 indica el valor inicial y 1,15 indica el factor de crecimiento. Si cambiamos esos números, la curva cambia y el modelo describe otra situación.</p>
+      <div class="four-col"><div class="small-card"><strong>Valor inicial</strong><br>Desde dónde parte el modelo.</div><div class="small-card"><strong>Tasa o base</strong><br>Qué tan rápido crece o decrece.</div><div class="small-card"><strong>Desplazamiento</strong><br>Desde cuándo o desde dónde se mide.</div><div class="small-card"><strong>Escala</strong><br>Qué tan grande es el efecto.</div></div>
+      <figure class="visual-figure" aria-label="Curvas con parámetros distintos">
+        <svg viewBox="0 0 760 210" role="img">
+          <rect x="20" y="20" width="720" height="150" rx="8" fill="#fff"/>
+          <line x1="75" y1="150" x2="690" y2="150" stroke="#0B0F3F" stroke-width="2"/><line x1="75" y1="55" x2="75" y2="150" stroke="#0B0F3F" stroke-width="2"/>
+          <path d="M82 145 C180 140, 280 116, 380 82 C470 51, 560 42, 675 35" fill="none" stroke="#6A2C91" stroke-width="4"/>
+          <path d="M82 145 C210 143, 335 132, 460 104 C565 78, 625 58, 675 42" fill="none" stroke="#D4AF37" stroke-width="4"/>
+          <text x="390" y="185" text-anchor="middle" font-family="Inter" font-size="12">Cambiar parámetros cambia la curva y la interpretación.</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura visual:</strong> dos modelos pueden ser exponenciales, pero representar ritmos distintos.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Meta de la guía:</strong> comprender qué hace cada parámetro y cómo ajustarlo para que el modelo represente mejor la situación.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 1 de 10</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Parámetros en modelos exponenciales</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 1</span><span class="chip">Valor inicial</span><span class="chip">Factor</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Modelo base</div>
+      <div class="formula-box">\[
+        N(t)=N_0\cdot b^t
+      \]</div>
+      <table class="clean-table"><thead><tr><th>Parámetro</th><th>Qué controla</th><th>Cómo se interpreta</th></tr></thead><tbody><tr><td>\(N_0\)</td><td>Altura inicial.</td><td>Cantidad al comenzar, cuando \(t=0\).</td></tr><tr><td>\(b\)</td><td>Ritmo multiplicativo.</td><td>Si \(b>1\), crece. Si \(0<b<1\), decrece.</td></tr><tr><td>\(t\)</td><td>Variable de tiempo.</td><td>No es parámetro; cambia para proyectar.</td></tr></tbody></table>
+      <div class="two-col">
+        <div class="plain-box"><strong>Aumentar \(N_0\):</strong> sube toda la curva, porque el fenómeno parte desde una cantidad mayor.</div>
+        <div class="plain-box"><strong>Aumentar \(b\):</strong> hace que el crecimiento se acelere más rápido si \(b>1\).</div>
+      </div>
+      <div class="example"><div class="example-title">Comparación de dos tasas</div><div class="example-body">
+        <p>Modelo A: \(N(t)=500(1,10)^t\). Modelo B: \(N(t)=500(1,25)^t\). Ambos parten desde 500, pero B crece más rápido porque \(1,25>1,10\).</p>
+        <div class="step-box"><p><strong>Para \(t=3\):</strong> \(A(3)=500(1,10)^3\approx665,5\).</p><p><strong>Para \(t=3\):</strong> \(B(3)=500(1,25)^3\approx976,6\).</p><p class="result-line">Conclusión: el parámetro \(b\) modifica fuertemente la proyección.</p></div>
+        <table class="clean-table"><thead><tr><th>Tiempo</th><th>Modelo A</th><th>Modelo B</th><th>Lectura</th></tr></thead><tbody><tr><td>\(t=0\)</td><td>500</td><td>500</td><td>Parten igual porque tienen el mismo \(N_0\).</td></tr><tr><td>\(t=1\)</td><td>550</td><td>625</td><td>B ya se separa porque su factor es mayor.</td></tr><tr><td>\(t=3\)</td><td>665,5</td><td>976,6</td><td>La diferencia se acumula con el tiempo.</td></tr></tbody></table>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 2 de 10</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ajustar crecimiento y decrecimiento</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 2</span><span class="chip">Tasa</span><span class="chip">Factor</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>De tasa a factor</div>
+      <p>Cuando el parámetro se expresa como porcentaje, primero se convierte a factor multiplicativo. Este paso es fundamental para ajustar correctamente el modelo.</p>
+      <table class="clean-table"><thead><tr><th>Situación</th><th>Tasa</th><th>Factor</th><th>Modelo</th></tr></thead><tbody><tr><td>Crecimiento 8%</td><td>\(r=0,08\)</td><td>\(1+r=1,08\)</td><td>\(N(t)=N_0(1,08)^t\)</td></tr><tr><td>Crecimiento 35%</td><td>\(r=0,35\)</td><td>\(1+r=1,35\)</td><td>\(N(t)=N_0(1,35)^t\)</td></tr><tr><td>Disminución 12%</td><td>\(r=0,12\)</td><td>\(1-r=0,88\)</td><td>\(N(t)=N_0(0,88)^t\)</td></tr></tbody></table>
+      <div class="example"><div class="example-title">Ejemplo 1: ajustar por nueva tasa</div><div class="example-body">
+        <p><strong>Enunciado.</strong> Un modelo inicial era \(N(t)=1000(1,05)^t\). Luego se observa que el crecimiento real está más cerca de 9% por periodo. Ajusta el modelo.</p>
+        <p class="label">Datos</p>
+        <ul class="data-list"><li>\(N_0=1000\) (cantidad inicial).</li><li>Nueva tasa: \(r=0,09\).</li><li>Factor nuevo: \(1+r=1,09\).</li></ul>
+        <div class="step-box"><p><strong>Modelo ajustado:</strong> \(N(t)=1000(1,09)^t\).</p><p><strong>Interpretación:</strong> no se cambió el valor inicial, solo el ritmo de crecimiento.</p></div>
+      </div></div>
+      <div class="soft-box"><strong>Advertencia:</strong> cambiar la tasa puede alterar mucho proyecciones lejanas. Un pequeño cambio en \(b\) se acumula con el tiempo.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 3 de 10</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Parámetros en modelos logarítmicos</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 3</span><span class="chip">Logarítmico</span><span class="chip">Escala</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Modelo base</div>
+      <div class="formula-box">\[
+        y=a+b\ln(x)
+      \]</div>
+      <table class="clean-table"><thead><tr><th>Parámetro</th><th>Qué controla</th><th>Interpretación</th></tr></thead><tbody><tr><td>\(a\)</td><td>Altura base.</td><td>Desplaza el modelo hacia arriba o abajo.</td></tr><tr><td>\(b\)</td><td>Intensidad del efecto logarítmico.</td><td>Si \(b\) es mayor, el cambio inicial es más fuerte.</td></tr><tr><td>\(x\)</td><td>Variable positiva.</td><td>Debe cumplirse \(x>0\).</td></tr></tbody></table>
+      <div class="example"><div class="example-title">Ejemplo 2: cambiar la intensidad del aprendizaje</div><div class="example-body">
+        <p><strong>Modelo A:</strong> \(P(h)=400+60\ln(h)\). <strong>Modelo B:</strong> \(P(h)=400+90\ln(h)\). Ambos parten del mismo valor base, pero B aumenta más por cada unidad logarítmica.</p>
+        <div class="step-box"><p><strong>Para \(h=5\):</strong> \(\ln(5)\approx1,609\).</p><p><strong>Modelo A:</strong> \(400+60(1,609)\approx496,5\).</p><p><strong>Modelo B:</strong> \(400+90(1,609)\approx544,8\).</p><p class="result-line">Conclusión: aumentar \(b\) eleva la proyección para el mismo valor de \(h\).</p></div>
+      </div></div>
+      <div class="soft-box"><strong>Interpretación:</strong> en un modelo logarítmico, \(b\) no es una tasa porcentual. Es un coeficiente que amplifica o reduce el efecto de \(\ln(x)\).</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 4 de 10</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Desplazamientos y restricciones</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 4</span><span class="chip">Traslación</span><span class="chip">Dominio</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Modelos con desplazamiento horizontal</div>
+      <p>Un modelo como \(y=a+b\ln(x-c)\) no empieza a tener sentido desde \(x>0\), sino desde \(x>c\). El parámetro \(c\) desplaza el inicio del modelo.</p>
+      <div class="formula-box">\[
+        y=a+b\ln(x-c)\qquad \Rightarrow \qquad x-c>0 \Rightarrow x>c
+      \]</div>
+      <div class="example"><div class="example-title">Ejemplo 3: adaptar un modelo al inicio real</div><div class="example-body">
+        <p><strong>Enunciado.</strong> Un modelo de rendimiento empieza a ser válido después de 3 días de adaptación. Se propone \(R(d)=50+20\ln(d-3)\). Explica el rol del parámetro 3.</p>
+        <div class="step-box"><p><strong>Argumento del logaritmo:</strong> \(d-3\).</p><p><strong>Condición matemática:</strong> \(d-3>0\).</p><p><strong>Resultado:</strong> \(d>3\).</p><p><strong>Interpretación:</strong> el parámetro 3 desplaza el inicio del modelo; antes del día 3 no se debe usar.</p></div>
+      </div></div>
+      <div class="two-col"><div class="plain-box"><strong>Subir \(a\):</strong> aumenta todas las proyecciones.</div><div class="plain-box"><strong>Aumentar \(c\):</strong> desplaza el inicio del modelo hacia la derecha.</div></div>
+      <table class="clean-table"><thead><tr><th>Cambio de parámetro</th><th>Qué se ve en la curva</th><th>Qué significa en contexto</th></tr></thead><tbody><tr><td>\(a\) aumenta</td><td>La curva queda más arriba.</td><td>Hay mayor rendimiento base.</td></tr><tr><td>\(b\) aumenta</td><td>La curva sube más rápido al inicio.</td><td>Cada aumento de \(x\) tiene más impacto.</td></tr><tr><td>\(c\) aumenta</td><td>El dominio comienza más tarde.</td><td>Existe un umbral antes de aplicar el modelo.</td></tr></tbody></table>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 5 de 10</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ajustar un modelo a una situación</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo desafiante</span><span class="chip">Ajuste</span><span class="chip">Comparación</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo 4: escoger el mejor ajuste</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Una población inicial es de 2000 personas. Los datos sugieren crecimiento cercano a 4% anual, pero una propuesta usa 9%. Compara ambos modelos para 5 años.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(N_0=2000\) (personas).</li><li>Modelo A: \(N_A(t)=2000(1,04)^t\).</li><li>Modelo B: \(N_B(t)=2000(1,09)^t\).</li><li>\(t=5\) (años).</li></ul>
+      <div class="step-box"><p><strong>Modelo A:</strong> \(N_A(5)=2000(1,04)^5\approx2000(1,217)=2433,3\).</p><p><strong>Modelo B:</strong> \(N_B(5)=2000(1,09)^5\approx2000(1,539)=3077,2\).</p><p><strong>Diferencia:</strong> \(3077,2-2433,3\approx643,9\) personas.</p><p class="result-line">Conclusión: cambiar la tasa de 4% a 9% produce una proyección mucho mayor.</p></div>
+      <div class="plain-box"><strong>Interpretación:</strong> el parámetro debe elegirse con evidencia. Una tasa demasiado alta puede llevar a decisiones exageradas sobre recursos, presupuesto o infraestructura.</div>
+      <table class="clean-table"><thead><tr><th>Pregunta</th><th>Respuesta con el modelo</th></tr></thead><tbody><tr><td>¿Qué parámetro cambió?</td><td>El factor de crecimiento: \(1,04\) versus \(1,09\).</td></tr><tr><td>¿Qué se mantuvo fijo?</td><td>El valor inicial \(N_0=2000\) personas y el tiempo \(t=5\) años.</td></tr><tr><td>¿Por qué importa?</td><td>Porque una tasa mayor se multiplica cinco veces, no se suma una sola vez.</td></tr></tbody></table>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 6 de 10</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: mueve parámetros</h2></div>
+  <div class="meta-chips"><span class="chip">Interacción</span><span class="chip">Parámetros</span><span class="chip">Curvas</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Observa qué hace cada parámetro</div>
+      <div class="tool-grid"><div class="input-control"><label for="param-model">Modelo</label><select id="param-model"><option value="exp">Exponencial \(a b^x\)</option><option value="log">Logarítmico \(a+b ln(x-c)\)</option></select></div><div class="input-control"><label for="pa">Parámetro \(a\)</label><input id="pa" type="number" value="500" step="10"></div><div class="input-control"><label for="pb">Parámetro \(b\)</label><input id="pb" type="number" value="1.12" step="0.01"></div><div class="input-control"><label for="pc">Parámetro \(c\)</label><input id="pc" type="number" value="0" step="0.5"></div></div>
+      <div class="btn-row"><button class="mini-btn" data-param="fast">Crecimiento rápido</button><button class="mini-btn" data-param="slow">Crecimiento lento</button><button class="mini-btn" data-param="log">Logarítmico desplazado</button></div>
+      <div id="param-result" class="result-panel" aria-live="polite"></div>
+      <div class="chart-box"><svg id="param-chart" viewBox="0 0 760 230" role="img" aria-label="Curva con parámetros ajustables"></svg></div>
+      <div class="soft-box"><strong>Actividad:</strong> cambia solo un parámetro y describe qué cambió: altura inicial, ritmo, forma o dominio.</div>
+      <div class="two-col"><div class="plain-box"><strong>Exploración 1:</strong> en el modelo exponencial, mantén \(a\) fijo y aumenta \(b\). Observa cómo la curva se separa más rápido del eje horizontal.</div><div class="plain-box"><strong>Exploración 2:</strong> en el modelo logarítmico, aumenta \(c\). Explica por qué aparecen valores no permitidos antes del umbral.</div></div>
+      <div class="step-box"><p><strong>Registro sugerido:</strong> escribe una oración con esta forma: “Al cambiar ___ de ___ a ___, el modelo cambia porque ___”. Esa explicación vale más que solo mirar la curva.</p></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 7 de 10</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios guiados</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios guiados</span><span class="chip">Paso a paso</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejercicio guiado 1</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Un modelo \(N(t)=700(1,08)^t\) debe ajustarse a una tasa de 12% sin cambiar el valor inicial. Escribe el nuevo modelo.</p>
+      <p class="label">Datos</p>
+      <ul class="data-list"><li>\(N_0=700\).</li><li>Nueva tasa \(r=0,12\).</li><li>Factor \(1+r=1,12\).</li></ul>
+      <div class="step-box"><p><strong>Reemplazo del parámetro:</strong> se cambia \(1,08\) por \(1,12\).</p><p class="result-line">Modelo ajustado: \(N(t)=700(1,12)^t\).</p></div>
+    </div></div>
+    <div class="example"><div class="example-title">Ejercicio guiado 2</div><div class="example-body">
+      <p><strong>Enunciado.</strong> En \(P(h)=350+70\ln(h)\), se quiere aumentar el efecto del estudio sin cambiar el valor base. ¿Qué parámetro se debe modificar?</p>
+      <div class="step-box"><p><strong>Valor base:</strong> \(a=350\).</p><p><strong>Efecto logarítmico:</strong> \(b=70\).</p><p><strong>Decisión:</strong> para aumentar el efecto de \(\ln(h)\), se aumenta \(b\).</p><p class="result-line">Respuesta: modificar el parámetro \(b\).</p></div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 8 de 10</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios</span><span class="chip">Autocorregible</span></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Parámetros</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">En \(N(t)=300(1,2)^t\), el valor inicial es:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 300<div class="opt-feedback">Correcto. Cuando \(t=0\), \(N(0)=300\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 1,2<div class="opt-feedback">Incorrecto. 1,2 es el factor de crecimiento.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(t\)<div class="opt-feedback">Incorrecto. \(t\) es la variable.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 0<div class="opt-feedback">Incorrecto. 0 es el valor de \(t\) al inicio.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">Si una tasa de crecimiento baja de 15% a 6%, el factor cambia de:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 1,15 a 1,06<div class="opt-feedback">Correcto. Se usa \(1+r\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 0,15 a 0,06<div class="opt-feedback">Incorrecto. Esas son tasas, no factores.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 0,85 a 0,94<div class="opt-feedback">Incorrecto. Esos son factores de disminución.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 15 a 6<div class="opt-feedback">Incorrecto. Falta convertir porcentajes.</div></div></div></div>
+  </div></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Ajuste</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">En \(y=80+25\ln(x-4)\), el parámetro 4 indica:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Desplazamiento horizontal y restricción \(x>4\)<div class="opt-feedback">Correcto. El argumento \(x-4\) debe ser positivo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Valor inicial exacto<div class="opt-feedback">Incorrecto. El valor base vertical es 80.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Tasa porcentual<div class="opt-feedback">Incorrecto. No es tasa de crecimiento exponencial.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> La variable dependiente<div class="opt-feedback">Incorrecto. La variable dependiente es \(y\).</div></div></div></div>
+  </div></div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 9 de 10</div></div>
+</div>
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Álgebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Solucionario y cierre</h2></div>
+  <div class="meta-chips"><span class="chip">Soluciones</span><span class="chip">PAES</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Respuestas explicadas</div>
+      <div class="solution"><strong>E1.</strong> En \(N(t)=300(1,2)^t\), el valor inicial es el coeficiente que multiplica la potencia. Además, \(N(0)=300(1,2)^0=300\). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E2.</strong> Para crecimiento, el factor se calcula como \(1+r\). Con 15%, \(r=0,15\), factor \(1,15\). Con 6%, \(r=0,06\), factor \(1,06\). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E3.</strong> En \(y=80+25\ln(x-4)\), el número 4 está dentro del argumento. Como \(x-4>0\), se obtiene \(x>4\). Además desplaza el inicio del modelo hacia la derecha. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="soft-box"><strong>Clave final:</strong> ajustar parámetros no es cambiar números al azar. Cada cambio debe responder a evidencia o a una característica concreta de la situación.</div>
+      <div class="plain-box"><strong>Frase modelo:</strong> “Se modifica el parámetro ___ porque representa ___. Al aumentarlo/disminuirlo, el modelo cambia en ___, por lo tanto la proyección ___”.</div>
+      <table class="clean-table"><thead><tr><th>Si el problema pide...</th><th>Debes mirar...</th><th>Respuesta esperada</th></tr></thead><tbody><tr><td>Comparar dos crecimientos</td><td>El valor de \(b\) o la tasa \(r\).</td><td>Cuál crece más y por qué.</td></tr><tr><td>Ajustar un valor inicial</td><td>El parámetro \(a\) o \(N_0\).</td><td>Nuevo punto de partida del modelo.</td></tr><tr><td>Explicar un umbral</td><td>El argumento del logaritmo.</td><td>Dominio e interpretación contextual.</td></tr></tbody></table>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · OA 3 parámetros · Página 10 de 10</div></div>
+</div>
+
+<script>
+(function(){
+  var type=document.getElementById('param-model'), a=document.getElementById('pa'), b=document.getElementById('pb'), c=document.getElementById('pc'), out=document.getElementById('param-result'), chart=document.getElementById('param-chart');
+  function fmt(x){return Math.round(x*100)/100;}
+  function y(x){var A=Number(a.value), B=Number(b.value), C=Number(c.value);if(type.value==='exp')return A*Math.pow(B,x);return A+B*Math.log(x-C);}
+  function draw(){var C=Number(c.value), start=type.value==='log'?C+0.2:0, end=10, pts=[], minY=Infinity,maxY=-Infinity;for(var i=0;i<=60;i++){var X=start+(end-start)*i/60;var Y=y(X);if(Number.isFinite(Y)){pts.push([X,Y]);minY=Math.min(minY,Y);maxY=Math.max(maxY,Y);}}var span=maxY-minY||1;function sx(X){return 70+((X-start)/(end-start))*620;}function sy(Y){return 165-((Y-minY)/span)*105;}var poly=pts.map(p=>sx(p[0])+','+sy(p[1])).join(' ');chart.innerHTML='<rect x="0" y="0" width="760" height="230" rx="8" fill="#fff"/><line x1="70" y1="170" x2="690" y2="170" stroke="#0B0F3F" stroke-width="2"/><line x1="70" y1="45" x2="70" y2="170" stroke="#0B0F3F" stroke-width="2"/><polyline points="'+poly+'" fill="none" stroke="#6A2C91" stroke-width="4"/><text x="380" y="205" text-anchor="middle" font-family="Inter" font-size="12">Curva generada por los parámetros actuales</text>';}
+  function tex(s){return window.katex?katex.renderToString(s,{throwOnError:false}):'\\('+s+'\\)';}
+  function update(){var A=Number(a.value), B=Number(b.value), C=Number(c.value);if(!Number.isFinite(A)||!Number.isFinite(B)||!Number.isFinite(C)){out.innerHTML='Ingresa parámetros válidos.';return;}if(type.value==='exp'&&B<=0){out.innerHTML='En un modelo exponencial, la base debe ser positiva.';chart.innerHTML='';return;}if(type.value==='exp'){out.innerHTML='<strong>Modelo:</strong> '+tex('y='+A+'('+B+')^x')+'<br><strong>Interpretación:</strong> '+tex('a')+' controla el valor inicial y '+tex('b')+' controla el ritmo multiplicativo.';}else{out.innerHTML='<strong>Modelo:</strong> '+tex('y='+A+'+'+B+'\\\\ln(x-'+C+')')+'<br><strong>Dominio:</strong> '+tex('x>'+C)+'.<br><strong>Interpretación:</strong> '+tex('a')+' desplaza verticalmente, '+tex('b')+' escala el efecto logarítmico y '+tex('c')+' desplaza el inicio.';}draw();}
+  [type,a,b,c].forEach(el=>{el.addEventListener('input',update);el.addEventListener('change',update);});
+  document.querySelectorAll('[data-param]').forEach(btn=>btn.addEventListener('click',function(){if(btn.dataset.param==='fast'){type.value='exp';a.value=500;b.value=1.25;c.value=0;}if(btn.dataset.param==='slow'){type.value='exp';a.value=500;b.value=1.05;c.value=0;}if(btn.dataset.param==='log'){type.value='log';a.value=60;b.value=25;c.value=2;}update();}));
+  update();
+})();
+</script>
+</body>
+</html>

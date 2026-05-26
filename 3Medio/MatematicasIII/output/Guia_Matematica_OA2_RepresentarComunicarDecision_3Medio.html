@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Representar información y comunicar decisiones — Matemática 3° Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:10.35pt;line-height:1.58}
+    .plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.72rem .82rem;margin:.58rem 0;line-height:1.52}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.72rem .82rem;margin:.58rem 0;line-height:1.52}.formula-box{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.72rem .9rem;margin:.58rem 0;text-align:center;font-size:1rem}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.72rem .9rem;margin:.58rem 0}.step-box p{margin:.3rem 0;line-height:1.55}.result-line{font-weight:800;color:#0B0F3F}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.6rem 0;padding:.58rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.82rem;color:#4b5563;line-height:1.42;margin-top:.3rem}.fig-caption strong{color:#6A2C91}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.62rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.52rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.62rem .68rem;line-height:1.45}.small-card strong{color:#6A2C91}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.62rem 0;overflow:hidden}.example-title{padding:.58rem .78rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.72rem .82rem}.label{font-weight:800;color:#6A2C91;margin-top:.45rem}.data-list{margin:.35rem 0 .35rem 1.1rem;padding:0}.data-list li{margin:.16rem 0;line-height:1.43}.clean-table{width:100%;border-collapse:collapse;font-size:9.25pt;margin:.55rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.36rem .42rem;vertical-align:top}
+    .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:.58rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.58rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.22rem;font-size:.85rem}.input-control textarea,.input-control select,.input-control input{width:100%;padding:.42rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.input-control textarea{min-height:58px;resize:vertical}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.65rem .8rem;line-height:1.58}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.42rem .82rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.42rem;flex-wrap:wrap;margin:.55rem 0}.chart-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.45rem;margin-top:.5rem}.chart-box svg{display:block;width:100%;height:auto}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s}.opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.45rem;padding:.5rem .6rem;border-radius:6px;line-height:1.5}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.7rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.7rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.62rem .72rem;margin:.48rem 0;line-height:1.5}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Representar información y comunicar una decisión</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 2</span><span class="chip">3° Medio</span><span class="chip">Estadística</span><span class="chip">Preparación PAES</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 2</span><span class="oa-text">Representar la información y utilizar medidas de dispersión para comunicar una decisión estadística fundamentada.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Qué aprenderás en esta guía</div>
+      <p>Tomar decisiones con datos significa observar información, ordenarla, representarla, calcular medidas y explicar qué conclusión se puede defender. No basta con decir “la alternativa A es mejor”: hay que mostrar por qué los datos sostienen esa afirmación.</p>
+      <p>Esta guía está pensada para estudiar desde cero. Por eso recordaremos qué es un dato, cómo se organiza una tabla, qué gráfico conviene usar, cómo se calculan cuartiles y cómo se construye un diagrama de caja. La meta es que puedas leer una situación, elegir una representación adecuada y redactar una decisión estadística clara.</p>
+      <figure class="visual-figure" aria-label="Ruta de aprendizaje de la guía">
+        <svg viewBox="0 0 760 210" role="img">
+          <rect x="14" y="18" width="732" height="162" rx="8" fill="#F8F4E9"/>
+          <g font-family="Inter">
+            <rect x="42" y="65" width="118" height="62" rx="8" fill="#fff" stroke="#6A2C91" stroke-width="3"/><text x="101" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Datos</text><text x="101" y="109" text-anchor="middle" font-size="11" fill="#0B0F3F">qué se entrega</text>
+            <rect x="187" y="65" width="118" height="62" rx="8" fill="#fff" stroke="#D4AF37" stroke-width="3"/><text x="246" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Tabla</text><text x="246" y="109" text-anchor="middle" font-size="11" fill="#0B0F3F">ordenar</text>
+            <rect x="332" y="65" width="118" height="62" rx="8" fill="#fff" stroke="#6A2C91" stroke-width="3"/><text x="391" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Gráfico</text><text x="391" y="109" text-anchor="middle" font-size="11" fill="#0B0F3F">visualizar</text>
+            <rect x="477" y="65" width="118" height="62" rx="8" fill="#fff" stroke="#D4AF37" stroke-width="3"/><text x="536" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Medida</text><text x="536" y="109" text-anchor="middle" font-size="11" fill="#0B0F3F">calcular</text>
+            <rect x="622" y="65" width="96" height="62" rx="8" fill="#fff" stroke="#6A2C91" stroke-width="3"/><text x="670" y="90" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Decidir</text><text x="670" y="109" text-anchor="middle" font-size="11" fill="#0B0F3F">comunicar</text>
+            <path d="M162 96 H181 M307 96 H326 M452 96 H471 M597 96 H616" stroke="#0B0F3F" stroke-width="3" marker-end="url(#arr1)"/>
+          </g>
+          <defs><marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#0B0F3F"/></marker></defs>
+        </svg>
+        <figcaption class="fig-caption"><strong>Idea central:</strong> una buena respuesta estadística conecta datos, representación, cálculo e interpretación. Cada parte cumple una función distinta.</figcaption>
+      </figure>
+      <div class="four-col"><div class="small-card"><strong>Dato</strong><br>Información entregada por el problema.</div><div class="small-card"><strong>Cálculo</strong><br>Operación que hacemos con los datos.</div><div class="small-card"><strong>Representación</strong><br>Forma visual para leer patrones.</div><div class="small-card"><strong>Decisión</strong><br>Conclusión justificada en contexto.</div></div>
+      <div class="soft-box"><strong>Regla de estudio:</strong> nunca mezcles datos con resultados calculados. Si el enunciado entrega \(8,9,10\), esos son datos. Si después obtienes \(R=2\), eso es desarrollo.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 1 de 16</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Conceptos base antes de graficar</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 1</span><span class="chip">Datos</span><span class="chip">Variables</span><span class="chip">Tabla</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Qué es un dato y qué es una variable</div>
+      <p>Un <strong>dato</strong> es una información concreta observada o medida. Una <strong>variable</strong> es la característica que estamos estudiando. Por ejemplo, si anotamos los puntajes de estudiantes en un ensayo PAES, cada puntaje es un dato y la variable es “puntaje obtenido”.</p>
+      <table class="clean-table"><thead><tr><th>Concepto</th><th>Significado</th><th>Ejemplo</th></tr></thead><tbody><tr><td><strong>Unidad de análisis</strong></td><td>Persona, objeto o situación que se observa.</td><td>Un estudiante de 3° medio.</td></tr><tr><td><strong>Variable</strong></td><td>Característica que se mide o clasifica.</td><td>Puntaje en un ensayo.</td></tr><tr><td><strong>Dato</strong></td><td>Valor observado de la variable.</td><td>\(x_1=610\) (puntos).</td></tr><tr><td><strong>Conjunto de datos</strong></td><td>Lista completa de valores observados.</td><td>\(580,610,620,650,690\).</td></tr></tbody></table>
+      <div class="two-col">
+        <div class="plain-box"><strong>Variable cualitativa:</strong> clasifica en categorías. Ejemplos: medio de transporte, asignatura favorita, comuna, respuesta sí/no.</div>
+        <div class="plain-box"><strong>Variable cuantitativa:</strong> se expresa con números medibles o contables. Ejemplos: puntaje, tiempo, estatura, cantidad de aciertos.</div>
+      </div>
+      <p>Esta diferencia importa porque no todos los gráficos sirven para lo mismo. Un gráfico de barras funciona muy bien para categorías; un diagrama de caja funciona para datos cuantitativos ordenables.</p>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Tabla de datos y tabla de frecuencias</div>
+      <p>Antes de graficar, conviene ordenar la información. Si hay pocos datos, se puede mostrar la lista ordenada. Si hay muchos datos repetidos, conviene una tabla de frecuencias.</p>
+      <div class="example"><div class="example-title">Ejemplo breve: asistencia a reforzamiento</div><div class="example-body">
+        <p><strong>Datos del problema.</strong> En una semana se registró la cantidad de estudiantes que asistieron a reforzamiento: \(12,15,12,18,15,12\).</p>
+        <table class="clean-table"><thead><tr><th>Valor</th><th>Frecuencia</th><th>Interpretación</th></tr></thead><tbody><tr><td>\(12\) estudiantes</td><td>3</td><td>Ocurrió tres días.</td></tr><tr><td>\(15\) estudiantes</td><td>2</td><td>Ocurrió dos días.</td></tr><tr><td>\(18\) estudiantes</td><td>1</td><td>Ocurrió un día.</td></tr></tbody></table>
+        <p><strong>Interpretación.</strong> La tabla no solo “ordena”: permite ver rápidamente qué valor se repite más y evita leer la lista completa cada vez.</p>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 2 de 16</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Elegir una representación adecuada</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 2</span><span class="chip">Barras</span><span class="chip">Líneas</span><span class="chip">Caja</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>No todos los gráficos responden la misma pregunta</div>
+      <p>Un error común es creer que cualquier gráfico sirve mientras “se vea bonito”. En estadística, el gráfico se elige según el tipo de variable y la pregunta que queremos responder. Si la pregunta cambia, puede cambiar la representación adecuada.</p>
+      <table class="clean-table"><thead><tr><th>Representación</th><th>Cuándo conviene</th><th>Qué permite comunicar</th><th>Cuándo no conviene</th></tr></thead><tbody><tr><td><strong>Tabla</strong></td><td>Cuando importan valores exactos.</td><td>Datos ordenados, frecuencias, base para cálculos.</td><td>Cuando se quiere ver rápidamente una tendencia visual.</td></tr><tr><td><strong>Gráfico de barras</strong></td><td>Variables cualitativas o categorías.</td><td>Comparación de frecuencias o cantidades por grupo.</td><td>Para mostrar dispersión de datos individuales.</td></tr><tr><td><strong>Gráfico de líneas</strong></td><td>Datos ordenados en el tiempo.</td><td>Tendencias, subidas, bajadas, cambios.</td><td>Si los datos no tienen orden temporal.</td></tr><tr><td><strong>Gráfico de puntos</strong></td><td>Pocos datos cuantitativos.</td><td>Concentración, separación, valores extremos.</td><td>Cuando hay demasiados datos superpuestos.</td></tr><tr><td><strong>Histograma</strong></td><td>Muchos datos cuantitativos agrupados en intervalos.</td><td>Forma de la distribución y concentración por tramos.</td><td>Con categorías no numéricas.</td></tr><tr><td><strong>Diagrama de caja</strong></td><td>Comparar cuartiles, mediana, RIC y extremos.</td><td>Resumen de dispersión central y valores alejados.</td><td>Si se necesitan ver todos los datos individuales.</td></tr></tbody></table>
+      <div class="soft-box"><strong>Criterio de decisión:</strong> primero identifica la variable. Después pregunta qué necesitas comunicar: frecuencia por categoría, cambio en el tiempo, dispersión de datos o comparación entre grupos.</div>
+      <figure class="visual-figure" aria-label="Tipos de gráficos y su uso">
+        <svg viewBox="0 0 760 255" role="img">
+          <rect x="14" y="12" width="732" height="218" rx="8" fill="#F8F4E9"/>
+          <g font-family="Inter">
+            <text x="88" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Barras</text>
+            <line x1="42" y1="142" x2="136" y2="142" stroke="#D9D9D9" stroke-width="2"/><rect x="55" y="88" width="16" height="54" fill="#6A2C91"/><rect x="82" y="68" width="16" height="74" fill="#D4AF37"/><rect x="109" y="104" width="16" height="38" fill="#6A2C91"/><text x="88" y="166" text-anchor="middle" font-size="11" fill="#0B0F3F">categorías</text>
+            <text x="235" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Líneas</text>
+            <line x1="188" y1="142" x2="282" y2="142" stroke="#D9D9D9" stroke-width="2"/><polyline points="190,118 214,102 238,108 262,70 282,82" fill="none" stroke="#6A2C91" stroke-width="4"/><circle cx="190" cy="118" r="4" fill="#6A2C91"/><circle cx="214" cy="102" r="4" fill="#6A2C91"/><circle cx="238" cy="108" r="4" fill="#6A2C91"/><circle cx="262" cy="70" r="4" fill="#6A2C91"/><circle cx="282" cy="82" r="4" fill="#6A2C91"/><text x="235" y="166" text-anchor="middle" font-size="11" fill="#0B0F3F">tiempo</text>
+            <text x="382" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Puntos</text>
+            <line x1="335" y1="120" x2="429" y2="120" stroke="#D9D9D9" stroke-width="2"/><circle cx="344" cy="120" r="6" fill="#6A2C91"/><circle cx="361" cy="120" r="6" fill="#6A2C91"/><circle cx="378" cy="120" r="6" fill="#6A2C91"/><circle cx="378" cy="101" r="6" fill="#6A2C91"/><circle cx="395" cy="120" r="6" fill="#6A2C91"/><circle cx="421" cy="120" r="6" fill="#D4AF37" stroke="#0B0F3F"/><text x="382" y="166" text-anchor="middle" font-size="11" fill="#0B0F3F">datos individuales</text>
+            <text x="529" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Histograma</text>
+            <line x1="482" y1="142" x2="576" y2="142" stroke="#D9D9D9" stroke-width="2"/><rect x="492" y="114" width="18" height="28" fill="#6A2C91"/><rect x="510" y="88" width="18" height="54" fill="#6A2C91"/><rect x="528" y="70" width="18" height="72" fill="#D4AF37"/><rect x="546" y="100" width="18" height="42" fill="#6A2C91"/><text x="529" y="166" text-anchor="middle" font-size="11" fill="#0B0F3F">intervalos</text>
+            <text x="670" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#6A2C91">Caja</text>
+            <line x1="620" y1="120" x2="720" y2="120" stroke="#0B0F3F" stroke-width="3"/><rect x="645" y="98" width="44" height="44" fill="#fff" stroke="#6A2C91" stroke-width="3"/><line x1="668" y1="98" x2="668" y2="142" stroke="#D4AF37" stroke-width="4"/><line x1="620" y1="106" x2="620" y2="134" stroke="#0B0F3F" stroke-width="3"/><line x1="720" y1="106" x2="720" y2="134" stroke="#0B0F3F" stroke-width="3"/><text x="670" y="166" text-anchor="middle" font-size="11" fill="#0B0F3F">cuartiles</text>
+            <text x="380" y="205" text-anchor="middle" font-size="12" fill="#0B0F3F">La representación se elige según el tipo de dato y la pregunta del problema.</text>
+          </g>
+        </svg>
+        <figcaption class="fig-caption"><strong>Idea visual:</strong> barras y líneas sí existen y son importantes; simplemente no responden la misma pregunta que un diagrama de caja.</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 3 de 16</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Leer gráficos sin confundirse</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 3</span><span class="chip">Ejes</span><span class="chip">Escala</span><span class="chip">Interpretación</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Qué mirar primero en un gráfico</div>
+      <p>Un gráfico no se lee de izquierda a derecha como un texto. Primero se identifican sus elementos: título, variable, escala, unidades y qué representa cada eje. Si no hacemos esto, podemos interpretar mal la información.</p>
+      <div class="three-col"><div class="plain-box"><strong>Título</strong><br>Indica de qué trata la información.</div><div class="plain-box"><strong>Ejes y unidades</strong><br>Dicen qué variable se mide y en qué unidad.</div><div class="plain-box"><strong>Escala</strong><br>Permite comparar distancias visuales con diferencias reales.</div></div>
+      <figure class="visual-figure" aria-label="Lectura de un gráfico de líneas">
+        <svg viewBox="0 0 760 255" role="img">
+          <rect x="20" y="18" width="720" height="205" rx="8" fill="#fff"/>
+          <text x="380" y="46" text-anchor="middle" font-family="Inter" font-size="16" font-weight="800" fill="#0B0F3F">Tiempo de estudio antes de una prueba</text>
+          <line x1="90" y1="180" x2="670" y2="180" stroke="#0B0F3F" stroke-width="2"/>
+          <line x1="90" y1="70" x2="90" y2="180" stroke="#0B0F3F" stroke-width="2"/>
+          <text x="63" y="75" font-family="Inter" font-size="11" fill="#4b5563">horas</text>
+          <text x="650" y="205" font-family="Inter" font-size="11" fill="#4b5563">días</text>
+          <polyline points="110,158 210,145 310,128 410,112 510,91 630,82" fill="none" stroke="#6A2C91" stroke-width="4"/>
+          <circle cx="110" cy="158" r="5" fill="#6A2C91"/><circle cx="210" cy="145" r="5" fill="#6A2C91"/><circle cx="310" cy="128" r="5" fill="#6A2C91"/><circle cx="410" cy="112" r="5" fill="#6A2C91"/><circle cx="510" cy="91" r="5" fill="#6A2C91"/><circle cx="630" cy="82" r="5" fill="#6A2C91"/>
+          <text x="112" y="202" font-family="Inter" font-size="11">Lun</text><text x="212" y="202" font-family="Inter" font-size="11">Mar</text><text x="312" y="202" font-family="Inter" font-size="11">Mié</text><text x="412" y="202" font-family="Inter" font-size="11">Jue</text><text x="512" y="202" font-family="Inter" font-size="11">Vie</text><text x="632" y="202" font-family="Inter" font-size="11">Sáb</text>
+          <text x="480" y="74" font-family="Inter" font-size="12" font-weight="800" fill="#6A2C91">tendencia creciente</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Interpretación:</strong> el gráfico de líneas es adecuado porque los datos están ordenados por tiempo. Permite comunicar una tendencia.</figcaption>
+      </figure>
+      <div class="example"><div class="example-title">Ejemplo simple: elegir representación según la pregunta</div><div class="example-body">
+        <p><strong>Enunciado.</strong> Un preuniversitario quiere comunicar cómo cambió la asistencia de lunes a viernes: \(L=18\), \(M=22\), \(W=25\), \(J=20\), \(V=28\) estudiantes. ¿Qué gráfico conviene?</p>
+        <p class="label">Datos del problema</p>
+        <ul class="data-list"><li>\(L=18\) (estudiantes), \(M=22\) (estudiantes), \(W=25\) (estudiantes).</li><li>\(J=20\) (estudiantes), \(V=28\) (estudiantes).</li></ul>
+        <p class="label">Desarrollo del razonamiento</p>
+        <div class="step-box"><p><strong>1. Tipo de variable:</strong> la asistencia es cuantitativa y está registrada por día.</p><p><strong>2. Pregunta:</strong> se quiere comunicar cambio durante la semana.</p><p><strong>3. Representación adecuada:</strong> gráfico de líneas, porque el orden temporal importa.</p><p class="result-line">Resultado final: conviene un gráfico de líneas.</p><p><strong>Interpretación:</strong> la asistencia no se mantiene constante; sube de lunes a miércoles, baja el jueves y vuelve a subir el viernes.</p></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 4 de 16</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Medidas de dispersión: por qué importan</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 4</span><span class="chip">Rango</span><span class="chip">RIC</span><span class="chip">Desviación estándar</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>El centro no cuenta toda la historia</div>
+      <p>Dos grupos pueden tener el mismo promedio, pero comportarse de manera muy distinta. Por eso necesitamos medidas de dispersión: nos dicen qué tan separados están los datos, qué tan regular es una situación o si existen valores extremos.</p>
+      <div class="example"><div class="example-title">Comparación intuitiva</div><div class="example-body">
+        <p><strong>Grupo A:</strong> \(60,62,64,66,68\). <strong>Grupo B:</strong> \(40,50,64,78,88\). Ambos tienen centro cercano, pero B es mucho más irregular.</p>
+        <figure class="visual-figure" aria-label="Comparación de dispersión">
+          <svg viewBox="0 0 760 180" role="img">
+            <rect x="14" y="16" width="732" height="132" rx="8" fill="#fff"/>
+            <line x1="110" y1="65" x2="680" y2="65" stroke="#D9D9D9" stroke-width="3"/><line x1="110" y1="120" x2="680" y2="120" stroke="#D9D9D9" stroke-width="3"/>
+            <text x="55" y="70" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">A</text><text x="55" y="125" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">B</text>
+            <circle cx="405" cy="65" r="7" fill="#6A2C91"/><circle cx="425" cy="65" r="7" fill="#6A2C91"/><circle cx="445" cy="65" r="7" fill="#6A2C91"/><circle cx="465" cy="65" r="7" fill="#6A2C91"/><circle cx="485" cy="65" r="7" fill="#6A2C91"/>
+            <circle cx="210" cy="120" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="310" cy="120" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="445" cy="120" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="585" cy="120" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="680" cy="120" r="7" fill="#D4AF37" stroke="#0B0F3F"/>
+          </svg>
+          <figcaption class="fig-caption"><strong>Lectura:</strong> el grupo A está concentrado; el grupo B se extiende mucho más. La dispersión cambia la decisión.</figcaption>
+        </figure>
+      </div></div>
+      <table class="clean-table"><thead><tr><th>Medida</th><th>Fórmula</th><th>Qué comunica</th><th>Cuándo usarla</th></tr></thead><tbody><tr><td><strong>Rango</strong></td><td>\(R=M-m\)</td><td>Amplitud total entre máximo y mínimo.</td><td>Para una primera idea rápida de variabilidad.</td></tr><tr><td><strong>RIC</strong></td><td>\(RIC=Q_3-Q_1\)</td><td>Amplitud del 50% central.</td><td>Cuando hay valores extremos o interesa el grupo central.</td></tr><tr><td><strong>Desviación estándar</strong></td><td>\(\sigma=\sqrt{\frac{\sum(x_i-\bar{x})^2}{n}}\)</td><td>Distancia típica de los datos al promedio.</td><td>Para comparar regularidad respecto de la media.</td></tr></tbody></table>
+      <div class="soft-box"><strong>Comunicar bien:</strong> no digas solo “el rango es 40”. Explica qué significa: “los datos se extienden 40 unidades entre el menor y el mayor valor”.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 5 de 16</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Cuartiles desde cero</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 5</span><span class="chip">Cuartiles</span><span class="chip">Posiciones</span><span class="chip">RIC</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Qué son los cuartiles</div>
+      <p>Los cuartiles son valores que dividen los datos ordenados en cuatro partes. Para entenderlos, imagina una fila de datos de menor a mayor. \(Q_1\) marca aproximadamente el primer 25%, \(Q_2\) marca el 50% o mediana, y \(Q_3\) marca el 75%.</p>
+      <div class="three-col"><div class="plain-box"><strong>\(Q_1\)</strong><br>Primer cuartil. Deja cerca del 25% de los datos a la izquierda.</div><div class="plain-box"><strong>\(Q_2\)</strong><br>Segundo cuartil o mediana. Divide los datos en dos mitades.</div><div class="plain-box"><strong>\(Q_3\)</strong><br>Tercer cuartil. Deja cerca del 75% de los datos a la izquierda.</div></div>
+      <div class="formula-box">\[
+        P_{Q_1}=\frac{n+1}{4}\qquad
+        P_{Q_2}=\frac{n+1}{2}\qquad
+        P_{Q_3}=\frac{3(n+1)}{4}
+      \]</div>
+      <p>En estas fórmulas, \(n\) es la cantidad de datos y \(P\) indica posición. No entrega directamente el valor del cuartil; entrega dónde buscarlo en la lista ordenada.</p>
+      <div class="soft-box"><strong>Convención usada en esta guía:</strong> usaremos la fórmula de posición \(P_{Q_k}\). Si la posición es entera, se toma ese dato. Si la posición queda entre dos datos, se interpola. En muchos cursos también se enseña el método de medianas de mitades; lo importante es declarar y aplicar una convención de forma coherente.</div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="sec-num">2</span>Cómo se calcula el RIC</div>
+      <p>El rango intercuartílico, o \(RIC\), mide la amplitud del 50% central. Es útil porque no se deja dominar tanto por valores extremos.</p>
+      <div class="formula-box">\[
+        RIC=Q_3-Q_1
+      \]</div>
+      <p>Si \(Q_1=9\) y \(Q_3=12\), entonces \(RIC=12-9=3\). Esto significa que la mitad central de los datos ocupa una amplitud de 3 unidades.</p>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 6 de 16</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplos de cálculo de cuartiles</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 6</span><span class="chip">Ejemplo simple</span><span class="chip">Ejemplo intermedio</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo 1: posiciones exactas</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Los tiempos de respuesta de una aplicación son \(8,9,10,10,11,12,45\) segundos. Calcula \(Q_1\), \(Q_2\), \(Q_3\) y \(RIC\).</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(x_1=8\) (s), \(x_2=9\) (s), \(x_3=10\) (s), \(x_4=10\) (s).</li><li>\(x_5=11\) (s), \(x_6=12\) (s), \(x_7=45\) (s).</li><li>\(n=7\) (datos).</li></ul>
+      <p class="label">Desarrollo del cálculo</p>
+      <div class="step-box"><p><strong>1. Ordenar datos:</strong> \(8,\ 9,\ 10,\ 10,\ 11,\ 12,\ 45\). Ya están ordenados.</p><p><strong>2. Posición de \(Q_1\):</strong> \(P_{Q_1}=\frac{7+1}{4}=2\). Entonces \(Q_1=x_2=9\) (s).</p><p><strong>3. Posición de \(Q_2\):</strong> \(P_{Q_2}=\frac{7+1}{2}=4\). Entonces \(Q_2=x_4=10\) (s).</p><p><strong>4. Posición de \(Q_3\):</strong> \(P_{Q_3}=\frac{3(7+1)}{4}=6\). Entonces \(Q_3=x_6=12\) (s).</p><p><strong>5. RIC:</strong> \(RIC=Q_3-Q_1=12-9=3\) (s).</p><p class="result-line">Resultado final: \(Q_1=9\) (s), \(Q_2=10\) (s), \(Q_3=12\) (s), \(RIC=3\) (s).</p></div>
+      <p><strong>Interpretación.</strong> La mitad central de los tiempos está entre 9 y 12 segundos. El dato 45 segundos está lejos del grupo central y debe mencionarse al comunicar la decisión.</p>
+    </div></div>
+    <div class="example"><div class="example-title">Ejemplo 2: posición entre dos datos</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Un curso registra estos puntajes: \(500,540,560,580,600,620,660,700,760\). Calcula \(Q_1\) y \(Q_3\).</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(x_1=500\) (puntos), \(x_2=540\) (puntos), \(x_3=560\) (puntos), \(x_4=580\) (puntos), \(x_5=600\) (puntos).</li><li>\(x_6=620\) (puntos), \(x_7=660\) (puntos), \(x_8=700\) (puntos), \(x_9=760\) (puntos).</li><li>\(n=9\) (datos).</li></ul>
+      <p class="label">Desarrollo del cálculo</p>
+      <div class="step-box"><p><strong>1. Posición de \(Q_1\):</strong> \(P_{Q_1}=\frac{9+1}{4}=2,5\). Está entre \(x_2=540\) y \(x_3=560\).</p><p><strong>2. Interpolar \(Q_1\):</strong> como está justo a la mitad, \(Q_1=\frac{540+560}{2}=550\) (puntos).</p><p><strong>3. Posición de \(Q_3\):</strong> \(P_{Q_3}=\frac{3(9+1)}{4}=7,5\). Está entre \(x_7=660\) y \(x_8=700\).</p><p><strong>4. Interpolar \(Q_3\):</strong> \(Q_3=\frac{660+700}{2}=680\) (puntos).</p><p class="result-line">Resultado final: \(Q_1=550\) (puntos), \(Q_3=680\) (puntos).</p></div>
+      <p><strong>Interpretación.</strong> El 50% central de puntajes se ubica aproximadamente entre 550 y 680 puntos.</p>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 7 de 16</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Cómo se construye un diagrama de caja</h2></div>
+  <div class="meta-chips"><span class="chip">Teoría 7</span><span class="chip">Caja</span><span class="chip">Bigotes</span><span class="chip">Cinco números</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resumen de cinco números</div>
+      <p>Un diagrama de caja se construye con cinco valores: mínimo, \(Q_1\), mediana o \(Q_2\), \(Q_3\) y máximo. Por eso también se dice que usa el resumen de cinco números.</p>
+      <table class="clean-table"><thead><tr><th>Valor</th><th>Símbolo</th><th>Función en el diagrama</th></tr></thead><tbody><tr><td>Mínimo</td><td>\(m\)</td><td>Inicio del bigote izquierdo.</td></tr><tr><td>Primer cuartil</td><td>\(Q_1\)</td><td>Inicio de la caja.</td></tr><tr><td>Mediana</td><td>\(Q_2\)</td><td>Línea dentro de la caja.</td></tr><tr><td>Tercer cuartil</td><td>\(Q_3\)</td><td>Fin de la caja.</td></tr><tr><td>Máximo</td><td>\(M\)</td><td>Fin del bigote derecho.</td></tr></tbody></table>
+      <div class="step-box"><p><strong>1. Ordenar los datos.</strong> Sin datos ordenados no se pueden ubicar correctamente los cuartiles.</p><p><strong>2. Calcular \(m\), \(Q_1\), \(Q_2\), \(Q_3\) y \(M\).</strong> Estos valores no se inventan: salen del desarrollo.</p><p><strong>3. Dibujar un eje numérico.</strong> Debe cubrir desde el mínimo hasta el máximo.</p><p><strong>4. Dibujar la caja.</strong> La caja va desde \(Q_1\) hasta \(Q_3\).</p><p><strong>5. Marcar la mediana.</strong> Se dibuja una línea vertical dentro de la caja en \(Q_2\).</p><p><strong>6. Dibujar bigotes.</strong> Un bigote une \(m\) con \(Q_1\), y el otro une \(Q_3\) con \(M\).</p></div>
+      <figure class="visual-figure" aria-label="Diagrama de caja anotado">
+        <svg viewBox="0 0 760 215" role="img">
+          <rect x="0" y="0" width="760" height="215" rx="8" fill="#fff"/>
+          <line x1="80" y1="140" x2="680" y2="140" stroke="#D9D9D9" stroke-width="3"/>
+          <line x1="100" y1="96" x2="210" y2="96" stroke="#0B0F3F" stroke-width="3"/><line x1="450" y1="96" x2="650" y2="96" stroke="#0B0F3F" stroke-width="3"/>
+          <rect x="210" y="68" width="240" height="56" rx="6" fill="#F8F4E9" stroke="#6A2C91" stroke-width="3"/>
+          <line x1="310" y1="68" x2="310" y2="124" stroke="#6A2C91" stroke-width="4"/>
+          <line x1="100" y1="76" x2="100" y2="116" stroke="#0B0F3F" stroke-width="3"/><line x1="650" y1="76" x2="650" y2="116" stroke="#0B0F3F" stroke-width="3"/>
+          <text x="100" y="155" text-anchor="middle" font-family="Inter" font-size="12">mínimo</text><text x="210" y="155" text-anchor="middle" font-family="Inter" font-size="12">Q1</text><text x="310" y="155" text-anchor="middle" font-family="Inter" font-size="12">Q2</text><text x="450" y="155" text-anchor="middle" font-family="Inter" font-size="12">Q3</text><text x="650" y="155" text-anchor="middle" font-family="Inter" font-size="12">máximo</text>
+          <text x="330" y="52" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#6A2C91">caja = 50% central</text>
+          <text x="155" y="58" text-anchor="middle" font-family="Inter" font-size="12" fill="#0B0F3F">bigote</text><text x="550" y="58" text-anchor="middle" font-family="Inter" font-size="12" fill="#0B0F3F">bigote</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura:</strong> una caja corta indica que el 50% central está concentrado. Un bigote largo indica que los datos se extienden más hacia ese lado.</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 8 de 16</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo simple: elegir gráfico y comunicar</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo simple</span><span class="chip">Barras</span><span class="chip">Categorías</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo: medio de transporte de estudiantes</div><div class="example-body">
+      <p><strong>Enunciado.</strong> En un curso se pregunta cómo llegan al colegio. Los resultados son: bus 14 estudiantes, metro 8 estudiantes, caminando 6 estudiantes y auto 4 estudiantes. Se debe comunicar cuál es el medio más usado.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(B=14\) (estudiantes en bus).</li><li>\(M=8\) (estudiantes en metro).</li><li>\(C=6\) (estudiantes caminando).</li><li>\(A=4\) (estudiantes en auto).</li></ul>
+      <p class="label">Elección de representación</p>
+      <div class="step-box"><p><strong>1. Tipo de variable:</strong> el medio de transporte es cualitativo, porque son categorías.</p><p><strong>2. Pregunta:</strong> comparar cantidades por categoría.</p><p><strong>3. Gráfico adecuado:</strong> gráfico de barras, porque permite comparar frecuencias por categoría.</p></div>
+      <figure class="visual-figure" aria-label="Gráfico de barras de transporte">
+        <svg viewBox="0 0 760 230" role="img">
+          <rect x="0" y="0" width="760" height="230" rx="8" fill="#fff"/>
+          <line x1="90" y1="170" x2="690" y2="170" stroke="#0B0F3F" stroke-width="2"/><line x1="90" y1="45" x2="90" y2="170" stroke="#0B0F3F" stroke-width="2"/>
+          <rect x="145" y="65" width="70" height="105" fill="#6A2C91"/><rect x="275" y="110" width="70" height="60" fill="#D4AF37"/><rect x="405" y="125" width="70" height="45" fill="#6A2C91"/><rect x="535" y="140" width="70" height="30" fill="#D4AF37"/>
+          <text x="180" y="192" text-anchor="middle" font-family="Inter" font-size="12">Bus</text><text x="310" y="192" text-anchor="middle" font-family="Inter" font-size="12">Metro</text><text x="440" y="192" text-anchor="middle" font-family="Inter" font-size="12">Caminando</text><text x="570" y="192" text-anchor="middle" font-family="Inter" font-size="12">Auto</text>
+          <text x="180" y="58" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800">14</text><text x="310" y="103" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800">8</text><text x="440" y="118" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800">6</text><text x="570" y="133" text-anchor="middle" font-family="Inter" font-size="12" font-weight="800">4</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Representación adecuada:</strong> el gráfico de barras compara categorías. No necesitamos cuartiles porque no hay datos numéricos ordenables.</figcaption>
+      </figure>
+      <p class="label">Resultado e interpretación</p>
+      <div class="plain-box"><strong>Conclusión:</strong> el medio más usado es el bus, con \(B=14\) estudiantes. Como \(14>8>6>4\), el bus supera a las demás categorías. Si el colegio quiere coordinar horarios de llegada, debería considerar especialmente a quienes usan bus.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 9 de 16</div></div>
+</div>
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo intermedio: comparar estabilidad</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo intermedio</span><span class="chip">Puntos</span><span class="chip">Rango</span><span class="chip">Decisión</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo: dos proveedores de material escolar</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Dos proveedores registran sus tiempos de entrega en días. Proveedor A: \(3,4,4,5,5\). Proveedor B: \(1,3,4,6,7\). Se debe comunicar cuál proveedor es más estable.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(A_1=3\) (días), \(A_2=4\) (días), \(A_3=4\) (días), \(A_4=5\) (días), \(A_5=5\) (días).</li><li>\(B_1=1\) (días), \(B_2=3\) (días), \(B_3=4\) (días), \(B_4=6\) (días), \(B_5=7\) (días).</li></ul>
+      <p class="label">Representación elegida</p>
+      <p>Como son pocos datos cuantitativos y queremos ver dispersión, conviene un gráfico de puntos. Este gráfico permite ver cada entrega y comparar concentración.</p>
+      <figure class="visual-figure" aria-label="Gráfico de puntos para proveedores">
+        <svg viewBox="0 0 760 170" role="img">
+          <rect x="14" y="12" width="732" height="125" rx="8" fill="#fff"/>
+          <line x1="100" y1="58" x2="690" y2="58" stroke="#D9D9D9" stroke-width="3"/><line x1="100" y1="108" x2="690" y2="108" stroke="#D9D9D9" stroke-width="3"/>
+          <text x="50" y="63" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">A</text><text x="50" y="113" font-family="Inter" font-size="14" font-weight="800" fill="#6A2C91">B</text>
+          <circle cx="322" cy="58" r="7" fill="#6A2C91"/><circle cx="420" cy="58" r="7" fill="#6A2C91"/><circle cx="420" cy="40" r="7" fill="#6A2C91"/><circle cx="518" cy="58" r="7" fill="#6A2C91"/><circle cx="518" cy="40" r="7" fill="#6A2C91"/>
+          <circle cx="125" cy="108" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="322" cy="108" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="420" cy="108" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="592" cy="108" r="7" fill="#D4AF37" stroke="#0B0F3F"/><circle cx="690" cy="108" r="7" fill="#D4AF37" stroke="#0B0F3F"/>
+          <text x="100" y="155" font-family="Inter" font-size="12">1 día</text><text x="665" y="155" font-family="Inter" font-size="12">7 días</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura visual:</strong> A se concentra entre 3 y 5 días; B se extiende desde 1 hasta 7 días.</figcaption>
+      </figure>
+      <p class="label">Fórmula y desarrollo</p>
+      <div class="formula-box">\[R=M-m\]</div>
+      <div class="step-box"><p><strong>Proveedor A:</strong> máximo \(M_A=5\) (días), mínimo \(m_A=3\) (días). Entonces \(R_A=5-3=2\) (días).</p><p><strong>Proveedor B:</strong> máximo \(M_B=7\) (días), mínimo \(m_B=1\) (días). Entonces \(R_B=7-1=6\) (días).</p><p class="result-line">Resultado final: A es más estable porque \(R_A=2\) (días) y \(R_B=6\) (días).</p></div>
+      <div class="plain-box"><strong>Comunicación:</strong> “El proveedor A presenta entregas más regulares, porque sus tiempos varían solo 2 días entre el mínimo y el máximo. El proveedor B varía 6 días, por lo que es menos estable para planificar”.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 10 de 16</div></div>
+</div>
+
+<div class="page" id="page11">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo desafiante: caja, RIC y valor extremo</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo desafiante</span><span class="chip">Cuartiles</span><span class="chip">Diagrama de caja</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo: tiempos de respuesta de una aplicación</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Una aplicación registra tiempos de respuesta en segundos: \(8,9,10,10,11,12,45\). Se debe comunicar si el servicio suele responder de forma estable.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(x_1=8\) (s), \(x_2=9\) (s), \(x_3=10\) (s), \(x_4=10\) (s), \(x_5=11\) (s), \(x_6=12\) (s), \(x_7=45\) (s).</li><li>\(n=7\) (datos).</li></ul>
+      <p class="label">Desarrollo matemático</p>
+      <div class="step-box"><p><strong>1. Cuartiles:</strong> \(P_{Q_1}=2\), \(P_{Q_2}=4\), \(P_{Q_3}=6\). Entonces \(Q_1=9\) (s), \(Q_2=10\) (s), \(Q_3=12\) (s).</p><p><strong>2. RIC:</strong> \(RIC=Q_3-Q_1=12-9=3\) (s).</p><p><strong>3. Rango:</strong> \(M=45\) (s), \(m=8\) (s). Entonces \(R=45-8=37\) (s).</p><p><strong>4. Comparación:</strong> el \(RIC=3\) (s) es pequeño, pero el rango \(R=37\) (s) es grande por el valor 45.</p></div>
+      <p class="label">Representación</p>
+      <figure class="visual-figure" aria-label="Diagrama de caja para tiempos de respuesta">
+        <svg viewBox="0 0 760 205" role="img">
+          <rect x="0" y="0" width="760" height="205" rx="8" fill="#fff"/>
+          <line x1="75" y1="126" x2="675" y2="126" stroke="#D9D9D9" stroke-width="3"/>
+          <line x1="75" y1="92" x2="93" y2="92" stroke="#0B0F3F" stroke-width="3"/><line x1="147" y1="92" x2="675" y2="92" stroke="#0B0F3F" stroke-width="3"/>
+          <rect x="93" y="68" width="54" height="48" rx="6" fill="#F8F4E9" stroke="#6A2C91" stroke-width="3"/><line x1="111" y1="68" x2="111" y2="116" stroke="#6A2C91" stroke-width="3"/>
+          <line x1="75" y1="78" x2="75" y2="106" stroke="#0B0F3F" stroke-width="3"/><line x1="675" y1="78" x2="675" y2="106" stroke="#0B0F3F" stroke-width="3"/>
+          <text x="75" y="145" text-anchor="middle" font-family="Inter" font-size="12">8</text><text x="93" y="145" text-anchor="middle" font-family="Inter" font-size="12">9</text><text x="111" y="145" text-anchor="middle" font-family="Inter" font-size="12">10</text><text x="147" y="145" text-anchor="middle" font-family="Inter" font-size="12">12</text><text x="675" y="145" text-anchor="middle" font-family="Inter" font-size="12">45</text>
+          <text x="120" y="45" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#6A2C91">50% central entre 9 y 12 s</text><text x="555" y="72" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#0B0F3F">bigote largo por 45 s</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura:</strong> la caja es pequeña, por lo que la mitad central es estable. El valor 45 queda lejos y debe comunicarse como riesgo o caso a revisar.</figcaption>
+      </figure>
+      <div class="plain-box"><strong>Conclusión recomendada:</strong> “El servicio suele responder de forma estable para la mayoría de los casos, ya que el 50% central se ubica entre 9 y 12 segundos. Sin embargo, existe un tiempo de 45 segundos que aumenta mucho el rango; conviene investigar ese caso antes de concluir que todo el servicio es inestable”.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 11 de 16</div></div>
+</div>
+
+<div class="page" id="page12">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: representar y decidir</h2></div>
+  <div class="meta-chips"><span class="chip">Interacción</span><span class="chip">Datos propios</span><span class="chip">Cuartiles</span><span class="chip">Gráfico</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Explora qué cambia al representar</div>
+      <p>Ingresa una lista de datos numéricos y elige una representación. La herramienta calcula mínimo, máximo, cuartiles, rango y RIC. Úsala para comprobar los ejemplos y para practicar con tus propios datos.</p>
+      <div class="tool-grid"><div class="input-control"><label for="lab-data">Datos numéricos</label><textarea id="lab-data">8,9,10,10,11,12,45</textarea></div><div class="input-control"><label for="lab-chart-type">Representación</label><select id="lab-chart-type"><option value="dot">Gráfico de puntos</option><option value="box">Diagrama de caja</option><option value="line">Gráfico de líneas</option><option value="bar">Gráfico de barras</option></select></div></div>
+      <div class="btn-row"><button class="mini-btn" data-lab="app">Aplicación</button><button class="mini-btn" data-lab="puntajes">Puntajes</button><button class="mini-btn" data-lab="regular">Grupo regular</button><button class="mini-btn" data-lab="irregular">Grupo irregular</button></div>
+      <div id="lab-summary" class="result-panel" aria-live="polite"></div>
+      <div class="chart-box"><svg id="lab-chart" viewBox="0 0 760 210" role="img" aria-label="Representación interactiva"></svg></div>
+      <div class="soft-box"><strong>Uso pedagógico:</strong> si al cambiar de gráfico la conclusión se vuelve menos clara, probablemente esa representación no es la más adecuada para la pregunta.</div>
+      <div class="two-col">
+        <div class="plain-box"><strong>Qué mirar en la salida:</strong> compara rango y RIC. Si el rango es grande pero el RIC es pequeño, puede existir un valor extremo que no representa a la mayoría.</div>
+        <div class="plain-box"><strong>Cómo redactar:</strong> escribe primero qué muestra el gráfico, luego qué medida lo respalda y finalmente qué decisión se puede defender.</div>
+      </div>
+      <div class="plain-box"><strong>Mini desafío:</strong> prueba los botones “grupo regular” e “irregular”. Observa que ambos pueden tener valores centrales parecidos, pero el gráfico de puntos y las medidas de dispersión comunican niveles de estabilidad distintos.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 12 de 16</div></div>
+</div>
+
+<div class="page" id="page13">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios guiados</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios 1 de 4</span><span class="chip">Guiados</span><span class="chip">Paso a paso</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejercicio guiado 1: escoger representación</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Una municipalidad quiere comunicar cuántos estudiantes usan bus, metro, bicicleta o auto para llegar al colegio. ¿Qué representación conviene?</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>Variable: medio de transporte.</li><li>Tipo de variable: cualitativa, porque son categorías.</li><li>Objetivo: comparar cantidades por categoría.</li></ul>
+      <p class="label">Desarrollo</p>
+      <div class="step-box"><p><strong>1.</strong> Como la variable es categórica, no tiene sentido calcular cuartiles.</p><p><strong>2.</strong> Se necesita comparar frecuencias entre categorías.</p><p><strong>3.</strong> La representación adecuada es un gráfico de barras.</p><p class="result-line">Respuesta: gráfico de barras.</p></div>
+    </div></div>
+    <div class="example"><div class="example-title">Ejercicio guiado 2: calcular cuartiles</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Calcula \(Q_1\), \(Q_2\), \(Q_3\) y \(RIC\) para los datos \(4,5,6,6,7,8,9\).</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(x_1=4\), \(x_2=5\), \(x_3=6\), \(x_4=6\), \(x_5=7\), \(x_6=8\), \(x_7=9\).</li><li>\(n=7\) (datos).</li></ul>
+      <p class="label">Desarrollo</p>
+      <div class="step-box"><p><strong>1. Posiciones:</strong> \(P_{Q_1}=\frac{7+1}{4}=2\), \(P_{Q_2}=\frac{7+1}{2}=4\), \(P_{Q_3}=\frac{3(7+1)}{4}=6\).</p><p><strong>2. Valores:</strong> \(Q_1=x_2=5\), \(Q_2=x_4=6\), \(Q_3=x_6=8\).</p><p><strong>3. RIC:</strong> \(RIC=Q_3-Q_1=8-5=3\).</p><p class="result-line">Resultado: \(Q_1=5\), \(Q_2=6\), \(Q_3=8\), \(RIC=3\).</p></div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 13 de 16</div></div>
+</div>
+
+<div class="page" id="page14">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios 2 de 4</span><span class="chip">Autocorregible</span><span class="chip">PAES</span></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-b">Básico</span><span style="color:#fff;font-size:10pt;">Representación</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">Si la variable es “asignatura favorita” y se quiere comparar cuántos estudiantes eligieron cada asignatura, la mejor representación es:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Gráfico de barras<div class="opt-feedback">Correcto. Es una variable cualitativa con categorías.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Diagrama de caja<div class="opt-feedback">Incorrecto. El diagrama de caja requiere datos cuantitativos ordenables.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> RIC<div class="opt-feedback">Incorrecto. El RIC es una medida, no una representación.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Gráfico de líneas<div class="opt-feedback">Incorrecto. No hay evolución temporal.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Básico</span></div><div class="ex-stmt">Para datos \(10,12,14,16,18\), el rango es:</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 18<div class="opt-feedback">Incorrecto. 18 es el máximo, no el rango.</div></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 8<div class="opt-feedback">Correcto. \(R=M-m=18-10=8\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 14<div class="opt-feedback">Incorrecto. 14 es la mediana.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 5<div class="opt-feedback">Incorrecto. 5 es la cantidad de datos.</div></div></div></div>
+  </div></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Cuartiles y decisión</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">Para datos \(4,5,6,6,7,8,9\), el \(RIC\) es:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> 3<div class="opt-feedback">Correcto. \(Q_1=5\), \(Q_3=8\), entonces \(RIC=8-5=3\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> 5<div class="opt-feedback">Incorrecto. 5 es \(Q_1\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> 6<div class="opt-feedback">Incorrecto. 6 es la mediana.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> 9<div class="opt-feedback">Incorrecto. 9 es el máximo.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">4</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">Si el 50% central de los datos está muy concentrado, pero hay un máximo muy alejado, la comunicación más responsable es:</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Decir que todos los datos son inestables<div class="opt-feedback">Incorrecto. La mayoría puede estar concentrada.</div></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Comunicar concentración central y advertir el extremo<div class="opt-feedback">Correcto. Esta conclusión reconoce ambas evidencias.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> Ocultar el valor extremo<div class="opt-feedback">Incorrecto. Una decisión honesta debe mencionarlo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Usar solo una tabla sin interpretación<div class="opt-feedback">Incorrecto. La tabla debe acompañarse con análisis.</div></div></div></div>
+  </div></div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 14 de 16</div></div>
+</div>
+
+<div class="page" id="page15">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Solucionario explicado</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios 3 de 4</span><span class="chip">Soluciones</span><span class="chip">Paso a paso</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Respuestas desarrolladas</div>
+      <div class="solution"><strong>E1.</strong> Datos del problema: la variable es “asignatura favorita”, por lo tanto es cualitativa. Desarrollo: cuando se comparan categorías, se usa una representación que muestre frecuencias por categoría. El gráfico de barras permite ver qué asignatura tuvo más elecciones. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E2.</strong> Datos del problema: \(m=10\), \(M=18\). Fórmula: \(R=M-m\), porque el rango mide amplitud total. Reemplazo: \(R=18-10\). Desarrollo: \(18-10=8\). Resultado: \(R=8\). <span class="final">Respuesta correcta: B.</span></div>
+      <div class="solution"><strong>E3.</strong> Datos del problema: \(4,5,6,6,7,8,9\), con \(n=7\). Posiciones: \(P_{Q_1}=2\), \(P_{Q_2}=4\), \(P_{Q_3}=6\). Entonces \(Q_1=5\), \(Q_2=6\), \(Q_3=8\). Fórmula: \(RIC=Q_3-Q_1\). Reemplazo: \(RIC=8-5=3\). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E4.</strong> Si el 50% central está concentrado, el \(RIC\) comunica estabilidad en la mayoría de los datos. Pero si el máximo está muy alejado, el rango y el diagrama de caja advierten un valor extremo. Por eso la conclusión responsable debe incluir ambas ideas: concentración central y advertencia del extremo. <span class="final">Respuesta correcta: B.</span></div>
+      <div class="solution"><strong>PAES 1.</strong> La pregunta pide regularidad, no solo rendimiento promedio. Si los promedios son similares, se debe mirar dispersión. Menor dispersión significa que los resultados se alejan menos del centro, por lo que el grupo es más constante. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>PAES 2.</strong> En un diagrama de caja, la caja representa desde \(Q_1\) hasta \(Q_3\), es decir, el 50% central. Si la caja es pequeña, ese 50% está concentrado. Si un bigote es largo hacia la derecha, existen valores altos alejados. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="plain-box"><strong>Error frecuente:</strong> confundir “valor extremo” con “todos los datos son extremos”. Un valor extremo puede afectar el rango, pero no necesariamente describe el comportamiento de la mayoría.</div>
+      <div class="soft-box"><strong>Clave PAES:</strong> muchas preguntas no piden solo calcular. Piden interpretar qué medida o gráfico respalda mejor una decisión.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 15 de 16</div></div>
+</div>
+
+<div class="page" id="page16">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guía de Estudio</strong>Matemática · 3° Medio<br>Eje: Probabilidad y estadística<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Desafío final tipo PAES</h2></div>
+  <div class="meta-chips"><span class="chip">Ejercicios 4 de 4</span><span class="chip">PAES</span><span class="chip">Decisión</span></div>
+  <div class="content">
+    <div class="paes-wrap"><div class="paes-head"><span class="paes-badge">PAES — Representación y decisión</span></div><div class="paes-body">
+      <div class="paes-item"><div class="paes-num">1</div><div class="paes-stmt">Dos cursos tienen promedios similares en un ensayo. El curso A tiene datos muy concentrados y el curso B tiene datos muy dispersos. Si el colegio quiere identificar el curso con rendimiento más regular, ¿qué debería comunicar?</div><div class="paes-opts"><div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> El curso A es más regular porque sus datos están menos dispersos<div class="opt-feedback">Correcto. La regularidad se relaciona con menor dispersión, no solo con el promedio.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> El curso B es más regular porque tiene mayor dispersión<div class="opt-feedback">Incorrecto. Mayor dispersión significa menor regularidad.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> No se puede usar ninguna medida de dispersión<div class="opt-feedback">Incorrecto. Justamente se necesitan medidas de dispersión.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> Solo importa el promedio<div class="opt-feedback">Incorrecto. El promedio no informa qué tan separados están los datos.</div></div></div></div>
+      <div class="paes-item"><div class="paes-num">2</div><div class="paes-stmt">Un informe muestra un diagrama de caja con una caja pequeña y un bigote derecho muy largo. ¿Qué interpretación es más adecuada?</div><div class="paes-opts"><div class="paes-opt opt-correct" onclick="this.classList.add('revealed')"><span class="paes-l">A</span> El 50% central está concentrado, pero hay datos altos alejados<div class="opt-feedback">Correcto. La caja pequeña indica concentración central y el bigote largo indica extensión hacia valores altos.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">B</span> Todos los datos son iguales<div class="opt-feedback">Incorrecto. Si todos fueran iguales, no habría bigote largo.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">C</span> No se puede interpretar la dispersión<div class="opt-feedback">Incorrecto. El diagrama de caja está diseñado para interpretar dispersión.</div></div><div class="paes-opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="paes-l">D</span> La variable debe ser cualitativa<div class="opt-feedback">Incorrecto. El diagrama de caja usa datos cuantitativos.</div></div></div></div>
+    </div></div>
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Cierre de aprendizaje</div>
+      <p>Una buena comunicación estadística no es una frase decorativa al final. Es el resultado de un proceso: identificar datos, escoger una representación, calcular una medida adecuada y explicar qué significa en el contexto.</p>
+      <div class="plain-box"><strong>Frase modelo:</strong> “Según la representación y el cálculo realizado, la alternativa ___ es más adecuada para ___, porque ___ . Sin embargo, se debe considerar ___, ya que ___”.</div>
+      <div class="soft-box"><strong>Para estudiar:</strong> vuelve a los ejemplos y cambia los datos en el taller interactivo. Pregúntate siempre: ¿qué dato me entregaron?, ¿qué calculé yo?, ¿qué muestra el gráfico?, ¿qué decisión puedo defender?</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matemática 3° Medio · Representar y comunicar · Página 16 de 16</div></div>
+</div>
+
+<script>
+(function(){
+  var input=document.getElementById('lab-data');
+  var type=document.getElementById('lab-chart-type');
+  var summary=document.getElementById('lab-summary');
+  var chart=document.getElementById('lab-chart');
+  function parse(text){return text.split(/[,\s;]+/).map(function(x){return Number(x.replace(',','.'));}).filter(function(x){return Number.isFinite(x);});}
+  function fmt(x){return Math.round(x*100)/100;}
+  function mean(arr){return arr.reduce(function(a,b){return a+b;},0)/arr.length;}
+  function q(arr,k){var s=arr.slice().sort(function(a,b){return a-b;});var pos=(k*(s.length+1))/4;if(pos<=1)return s[0];if(pos>=s.length)return s[s.length-1];var lo=Math.floor(pos), hi=Math.ceil(pos);if(lo===hi)return s[lo-1];var f=pos-lo;return s[lo-1]+f*(s[hi-1]-s[lo-1]);}
+  function stats(arr){var s=arr.slice().sort(function(a,b){return a-b;});var min=s[0], max=s[s.length-1], q1=q(s,1), q2=q(s,2), q3=q(s,3);return {sorted:s,min:min,max:max,q1:q1,q2:q2,q3:q3,range:max-min,ric:q3-q1,mean:mean(s)};}
+  function scale(v,min,max){var span=max-min||1;return 70+((v-min)/span)*620;}
+  function drawDot(s){var min=s.min,max=s.max,seen={};var parts=['<rect x="0" y="0" width="760" height="210" rx="8" fill="#fff"/>','<line x1="70" y1="112" x2="690" y2="112" stroke="#D9D9D9" stroke-width="3"/>'];s.sorted.forEach(function(v){seen[v]=(seen[v]||0)+1;parts.push('<circle cx="'+scale(v,min,max)+'" cy="'+(112-(seen[v]-1)*18)+'" r="7" fill="#6A2C91"/>');});parts.push('<text x="70" y="150" font-family="Inter" font-size="12">'+fmt(min)+'</text><text x="670" y="150" font-family="Inter" font-size="12">'+fmt(max)+'</text>');return parts.join('');}
+  function drawBox(s){var min=s.min,max=s.max,xMin=scale(min,min,max),xQ1=scale(s.q1,min,max),xQ2=scale(s.q2,min,max),xQ3=scale(s.q3,min,max),xMax=scale(max,min,max);return ['<rect x="0" y="0" width="760" height="210" rx="8" fill="#fff"/>','<line x1="70" y1="128" x2="690" y2="128" stroke="#D9D9D9" stroke-width="3"/>','<line x1="'+xMin+'" y1="92" x2="'+xQ1+'" y2="92" stroke="#0B0F3F" stroke-width="3"/>','<line x1="'+xQ3+'" y1="92" x2="'+xMax+'" y2="92" stroke="#0B0F3F" stroke-width="3"/>','<rect x="'+xQ1+'" y="66" width="'+Math.max(8,xQ3-xQ1)+'" height="52" rx="6" fill="#F8F4E9" stroke="#6A2C91" stroke-width="3"/>','<line x1="'+xQ2+'" y1="66" x2="'+xQ2+'" y2="118" stroke="#6A2C91" stroke-width="4"/>','<line x1="'+xMin+'" y1="78" x2="'+xMin+'" y2="106" stroke="#0B0F3F" stroke-width="3"/>','<line x1="'+xMax+'" y1="78" x2="'+xMax+'" y2="106" stroke="#0B0F3F" stroke-width="3"/>','<text x="'+xMin+'" y="150" text-anchor="middle" font-family="Inter" font-size="12">'+fmt(min)+'</text>','<text x="'+xQ1+'" y="150" text-anchor="middle" font-family="Inter" font-size="12">Q1 '+fmt(s.q1)+'</text>','<text x="'+xQ2+'" y="170" text-anchor="middle" font-family="Inter" font-size="12">Q2 '+fmt(s.q2)+'</text>','<text x="'+xQ3+'" y="150" text-anchor="middle" font-family="Inter" font-size="12">Q3 '+fmt(s.q3)+'</text>','<text x="'+xMax+'" y="150" text-anchor="middle" font-family="Inter" font-size="12">'+fmt(max)+'</text>'].join('');}
+  function drawLine(s){var min=s.min,max=s.max;var n=s.sorted.length;var pts=s.sorted.map(function(v,i){return [70+(i/(Math.max(1,n-1)))*620,150-((v-min)/(max-min||1))*90];});var poly=pts.map(function(p){return p[0]+','+p[1];}).join(' ');var parts=['<rect x="0" y="0" width="760" height="210" rx="8" fill="#fff"/>','<line x1="70" y1="160" x2="690" y2="160" stroke="#D9D9D9" stroke-width="3"/>','<polyline points="'+poly+'" fill="none" stroke="#6A2C91" stroke-width="4"/>'];pts.forEach(function(p){parts.push('<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" fill="#6A2C91"/>');});return parts.join('');}
+  function drawBar(s){var min=0,max=s.max;var w=620/s.sorted.length;var parts=['<rect x="0" y="0" width="760" height="210" rx="8" fill="#fff"/>','<line x1="70" y1="170" x2="690" y2="170" stroke="#0B0F3F" stroke-width="2"/>'];s.sorted.forEach(function(v,i){var h=(v/(max||1))*100;var x=80+i*w;parts.push('<rect x="'+x+'" y="'+(170-h)+'" width="'+Math.max(12,w-10)+'" height="'+h+'" fill="'+(i%2?'#D4AF37':'#6A2C91')+'"/><text x="'+(x+Math.max(12,w-10)/2)+'" y="'+(165-h)+'" text-anchor="middle" font-family="Inter" font-size="10">'+fmt(v)+'</text>');});return parts.join('');}
+  function update(){var arr=parse(input.value);if(arr.length<3){summary.innerHTML='Ingresa al menos 3 datos numéricos.';chart.innerHTML='';return;}var s=stats(arr);summary.innerHTML='<strong>Datos ordenados:</strong> '+s.sorted.join(', ')+'<br><strong>Media:</strong> '+fmt(s.mean)+' · <strong>Mínimo:</strong> '+fmt(s.min)+' · <strong>Máximo:</strong> '+fmt(s.max)+' · <strong>Rango:</strong> '+fmt(s.range)+'<br><strong>Q1:</strong> '+fmt(s.q1)+' · <strong>Q2:</strong> '+fmt(s.q2)+' · <strong>Q3:</strong> '+fmt(s.q3)+' · <strong>RIC:</strong> '+fmt(s.ric)+'<br><strong>Interpretación:</strong> el 50% central se ubica aproximadamente entre '+fmt(s.q1)+' y '+fmt(s.q3)+'.';chart.innerHTML=type.value==='box'?drawBox(s):type.value==='line'?drawLine(s):type.value==='bar'?drawBar(s):drawDot(s);}
+  input.addEventListener('input',update);type.addEventListener('change',update);
+  document.querySelectorAll('[data-lab]').forEach(function(btn){btn.addEventListener('click',function(){if(btn.dataset.lab==='app'){input.value='8,9,10,10,11,12,45';type.value='box';}if(btn.dataset.lab==='puntajes'){input.value='500,540,560,580,600,620,660,700,760';type.value='box';}if(btn.dataset.lab==='regular'){input.value='60,62,64,66,68';type.value='dot';}if(btn.dataset.lab==='irregular'){input.value='40,50,64,78,88';type.value='dot';}update();});});
+  update();
+})();
+</script>
+</body>
+</html>

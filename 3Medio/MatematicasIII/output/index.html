@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matematica 3 Medio - Indice de Guias | MaestrIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#F8F4E9 0%,#fff 100%);color:#0B0F3F;line-height:1.6;min-height:100vh;}
+
+    /* HEADER */
+    .top-header{background:#fff;color:#0B0F3F;padding:0 1.5rem;border-bottom:3px solid #D4AF37;box-shadow:0 3px 14px rgba(11,15,63,.08);}
+    .top-header-inner{max-width:1200px;margin:0 auto;min-height:92px;display:flex;align-items:center;justify-content:center;position:relative;}
+    .brand-block{display:flex;align-items:center;justify-content:center;}
+    .brand-block img{height:90px;width:auto;display:block;}
+    .header-links{position:absolute;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;font-size:8pt;line-height:1.5;}
+    .header-links a{color:#6A2C91;text-decoration:none;font-size:8pt;font-weight:700;}
+    .header-links a:hover{text-decoration:underline;}
+
+    /* HERO */
+    .hero{max-width:1200px;margin:2rem auto 1rem;padding:0 1.5rem;text-align:center;}
+    .hero h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#0B0F3F;margin-bottom:.6rem;}
+    .hero h2 span{color:#6A2C91;}
+    .hero p{font-size:1.05rem;color:#555;max-width:760px;margin:0 auto;}
+    .hero-stats{display:flex;justify-content:center;gap:1.5rem;margin:1.4rem 0;flex-wrap:wrap;}
+    .stat{background:#fff;border:2px solid #D4AF37;border-radius:12px;padding:.7rem 1.2rem;text-align:center;min-width:90px;}
+    .stat .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.8rem;font-weight:800;color:#6A2C91;line-height:1;}
+    .stat .stat-label{font-size:.72rem;color:#0B0F3F;margin-top:.15rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+
+    /* RUTA */
+    .route-box{max-width:1200px;margin:1.4rem auto 0;padding:0 1.5rem;}
+    .route-inner{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;box-shadow:0 4px 14px rgba(11,15,63,.06);}
+    .route-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:800;color:#0B0F3F;margin-bottom:.65rem;}
+    .route-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+    .route-step{background:#FAFAFB;border-left:4px solid #D4AF37;border-radius:8px;padding:.8rem;}
+    .route-step strong{display:block;color:#6A2C91;font-size:.85rem;margin-bottom:.25rem;}
+    .route-step span{font-size:.8rem;color:#555;line-height:1.45;}
+
+    /* OA SECTIONS */
+    .oa-section{max-width:1200px;margin:2.5rem auto;padding:0 1.5rem;}
+    .oa-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:3px solid #D4AF37;}
+    .oa-badge{background:#6A2C91;color:#fff;padding:.45rem .9rem;border-radius:8px;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;flex-shrink:0;}
+    .oa-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:700;color:#0B0F3F;flex:1;}
+    .oa-count{color:#6A2C91;font-size:.85rem;font-weight:700;background:#FFF8E1;padding:.3rem .7rem;border-radius:12px;flex-shrink:0;}
+    .oa-desc{color:#555;font-size:.95rem;margin-bottom:1.2rem;line-height:1.5;}
+
+    /* GRID DE GUIAS */
+    .guides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;}
+    .guide-card{background:#fff;border:1px solid #D9D9D9;border-radius:12px;padding:1.2rem;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden;}
+    .guide-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(106,44,145,.18);border-color:#6A2C91;}
+    .guide-card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%;background:linear-gradient(180deg,#6A2C91,#D4AF37);}
+    .guide-num{display:inline-block;background:#F8F4E9;color:#6A2C91;font-weight:800;font-size:.78rem;padding:.25rem .55rem;border-radius:6px;width:fit-content;margin-bottom:.6rem;}
+    .guide-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:#0B0F3F;margin-bottom:.4rem;line-height:1.25;}
+    .guide-desc{font-size:.85rem;color:#555;line-height:1.5;flex:1;margin-bottom:.7rem;}
+    .guide-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;}
+    .guide-tag{background:#F8F4E9;color:#6A2C91;font-size:.7rem;padding:.18rem .5rem;border-radius:10px;font-weight:600;}
+    .guide-link{display:inline-flex;align-items:center;gap:.4rem;color:#6A2C91;font-weight:700;font-size:.88rem;margin-top:auto;}
+    .guide-card:hover .guide-link{color:#552072;}
+    .guide-link::after{content:'→';transition:transform .2s;}
+    .guide-card:hover .guide-link::after{transform:translateX(4px);}
+
+    /* FOOTER */
+    .site-footer{background:#0B0F3F;color:#fff;border-top:2.5px solid #D4AF37;padding:8px 30px;margin-top:3rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+    .site-footer p{margin:0;}
+    .site-footer .footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:9pt;font-weight:700;color:#D4AF37;line-height:1.1;}
+    .site-footer .footer-brand span{color:rgba(255,255,255,.55);font-weight:400;}
+    .footer-meta{font-size:7.3pt;color:rgba(255,255,255,.55);text-align:right;line-height:1.3;}
+    .site-footer a{color:#D4AF37;text-decoration:none;}
+    .site-footer a:hover{text-decoration:underline;}
+
+    @media (max-width:760px){
+      .hero h2{font-size:1.6rem;}
+      .top-header{padding:0 1rem;}
+      .top-header-inner{min-height:82px;flex-direction:column;}
+      .brand-block img{height:80px;}
+      .header-links{position:static;align-items:center;margin-top:.2rem;padding-bottom:.6rem;}
+      .stat{min-width:75px;padding:.55rem .8rem;}
+      .stat .stat-num{font-size:1.4rem;}
+      .route-steps{grid-template-columns:1fr;}
+      .oa-header{align-items:flex-start;flex-direction:column;gap:.55rem;}
+      .site-footer{flex-direction:column;text-align:center;gap:.25rem;padding:10px 18px;}
+      .footer-meta{text-align:center;}
+    }
+
+    @media print{
+      *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+      body{background:#fff;}
+      .top-header{background:#fff !important;}
+      .guide-card{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+      .oa-section{page-break-inside:avoid;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="top-header">
+  <div class="top-header-inner">
+    <div class="brand-block">
+      <img src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" />
+    </div>
+    <div class="header-links">
+      <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a>
+      <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h2>Matemática <span>3° Medio</span></h2>
+  <p>Colección de guías interactivas para estadística, probabilidad condicional, modelos exponenciales y logarítmicos, y geometría de la circunferencia. Diseñadas para estudiantes de enseñanza media, exámenes libres y preparación PAES.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">OA</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Guías</div></div>
+    <div class="stat"><div class="stat-num">120</div><div class="stat-label">Páginas</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Talleres</div></div>
+    <div class="stat"><div class="stat-num">120</div><div class="stat-label">Preguntas</div></div>
+  </div>
+</section>
+
+<section class="route-box">
+  <div class="route-inner">
+    <div class="route-title">Ruta sugerida de estudio</div>
+    <div class="route-steps">
+      <div class="route-step"><strong>1. Comparar datos</strong><span>Comenzar con medidas de dispersión, gráficos y decisiones basadas en variabilidad.</span></div>
+      <div class="route-step"><strong>2. Decidir con probabilidad</strong><span>Avanzar hacia probabilidad condicional, árboles y tablas de doble entrada.</span></div>
+      <div class="route-step"><strong>3. Modelar cambios</strong><span>Trabajar crecimiento, decrecimiento, parámetros, dominios e intervalos de sentido.</span></div>
+      <div class="route-step"><strong>4. Justificar geometría</strong><span>Cerrar con relaciones métricas en circunferencia, cálculo, explicación y justificación.</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====== OA 2 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 2</span>
+    <span class="oa-title">Estadística, dispersión y probabilidad condicional</span>
+    <span class="oa-count">5 guías</span>
+  </div>
+  <p class="oa-desc">Tomar decisiones en situaciones de incerteza mediante análisis estadístico, medidas de dispersión, representación de información y probabilidades condicionales.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA2_MedidasDispersion_3Medio.html">
+      <span class="guide-num">GUÍA 2.1</span>
+      <h3 class="guide-title">Medidas de dispersión para comparar situaciones</h3>
+      <p class="guide-desc">Extrae e interpreta información estadística calculando rango, varianza, desviación estándar y otras medidas para comparar conjuntos de datos.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 2</span><span class="guide-tag">Estadística</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_DispersionDecisiones_3Medio.html">
+      <span class="guide-num">GUÍA 2.2</span>
+      <h3 class="guide-title">Dispersión para tomar decisiones</h3>
+      <p class="guide-desc">Analiza datos con medidas de dispersión para decidir entre situaciones con promedios similares pero variabilidad diferente.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 2</span><span class="guide-tag">Decisiones</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_RepresentarComunicarDecision_3Medio.html">
+      <span class="guide-num">GUÍA 2.3</span>
+      <h3 class="guide-title">Representar información y comunicar decisiones</h3>
+      <p class="guide-desc">Usa tablas, gráficos, diagramas de caja y medidas de dispersión para comunicar conclusiones estadísticas de forma clara y fundamentada.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 2</span><span class="guide-tag">Gráficos</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_ProbabilidadCondicionalDecisiones_3Medio.html">
+      <span class="guide-num">GUÍA 2.4</span>
+      <h3 class="guide-title">Probabilidad condicional para tomar decisiones</h3>
+      <p class="guide-desc">Selecciona y relaciona información para calcular probabilidades condicionadas y tomar decisiones en contextos de incerteza.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 2</span><span class="guide-tag">Probabilidad</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA2_ArbolesTablasProbabilidadCondicional_3Medio.html">
+      <span class="guide-num">GUÍA 2.5</span>
+      <h3 class="guide-title">Árboles y tablas de doble entrada</h3>
+      <p class="guide-desc">Representa probabilidades condicionales con árboles y tablas de doble entrada, identificando eventos, totales y condiciones.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 2</span><span class="guide-tag">Tablas y árboles</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 3 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 3</span>
+    <span class="oa-title">Modelos exponenciales y logarítmicos</span>
+    <span class="oa-count">4 guías</span>
+  </div>
+  <p class="oa-desc">Aplicar modelos matemáticos de crecimiento y decrecimiento mediante funciones exponenciales y logarítmicas, interpretando parámetros, intervalos y proyecciones.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA3_ModelosExponencialesLogaritmicos_ValoresProyecciones_3Medio.html">
+      <span class="guide-num">GUÍA 3.1</span>
+      <h3 class="guide-title">Modelos exponenciales y logarítmicos para proyectar</h3>
+      <p class="guide-desc">Utiliza modelos de crecimiento y decrecimiento para determinar valores futuros, interpretar tasas y realizar proyecciones contextualizadas.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Proyecciones</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA3_IntervalosSentido_ModelosExponencialesLogaritmicos_3Medio.html">
+      <span class="guide-num">GUÍA 3.2</span>
+      <h3 class="guide-title">Intervalos donde un modelo tiene sentido</h3>
+      <p class="guide-desc">Identifica dominio matemático y dominio contextual para decidir dónde un modelo exponencial o logarítmico representa la situación real.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Dominio</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA3_VariacionParametros_ModelosExponencialesLogaritmicos_3Medio.html">
+      <span class="guide-num">GUÍA 3.3</span>
+      <h3 class="guide-title">Variación de parámetros en modelos</h3>
+      <p class="guide-desc">Ajusta parámetros para modificar crecimiento, decrecimiento, desplazamiento y escala de modelos exponenciales o logarítmicos.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Parámetros</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA3_ConstruccionModelosExponencialesLogaritmicos_3Medio.html">
+      <span class="guide-num">GUÍA 3.4</span>
+      <h3 class="guide-title">Construir modelos exponenciales y logarítmicos</h3>
+      <p class="guide-desc">Construye modelos desde datos, porcentajes o condiciones iniciales para resolver problemas de crecimiento y decrecimiento.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 3</span><span class="guide-tag">Modelación</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ====== OA 4 ====== -->
+<section class="oa-section">
+  <div class="oa-header">
+    <span class="oa-badge">OA 4</span>
+    <span class="oa-title">Geometría de la circunferencia</span>
+    <span class="oa-count">3 guías</span>
+  </div>
+  <p class="oa-desc">Resolver problemas de geometría euclidiana que involucran relaciones métricas entre ángulos, arcos y cuerdas en la circunferencia, de forma manuscrita y con apoyo tecnológico.</p>
+
+  <div class="guides-grid">
+    <a class="guide-card" href="Guia_Matematica_OA4_RelacionesMetricas_Circunferencia_Medidas_3Medio.html">
+      <span class="guide-num">GUÍA 4.1</span>
+      <h3 class="guide-title">Relaciones métricas en la circunferencia</h3>
+      <p class="guide-desc">Utiliza relaciones entre ángulos, arcos y cuerdas para determinar medidas de objetos geométricos en la circunferencia.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Medidas</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA4_JustificacionPropiedades_Circunferencia_3Medio.html">
+      <span class="guide-num">GUÍA 4.2</span>
+      <h3 class="guide-title">Justificación de propiedades en la circunferencia</h3>
+      <p class="guide-desc">Justifica el uso de propiedades sobre ángulos, arcos o cuerdas antes de resolver problemas geométricos paso a paso.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Justificación</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+
+    <a class="guide-card" href="Guia_Matematica_OA4_ExplicarRelacionesMetricas_Circunferencia_3Medio.html">
+      <span class="guide-num">GUÍA 4.3</span>
+      <h3 class="guide-title">Explicar relaciones métricas en la circunferencia</h3>
+      <p class="guide-desc">Explica relaciones entre ángulos, arcos y cuerdas usando dibujos, esquemas, lenguaje geométrico y proposiciones claras.</p>
+      <div class="guide-tags"><span class="guide-tag">10 páginas</span><span class="guide-tag">OA 4</span><span class="guide-tag">Explicación</span></div>
+      <span class="guide-link">Abrir guía</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p class="footer-brand">MaestrIA <span>· Domina la materia</span></p>
+  <div class="footer-meta">
+    Matemática 3° Medio · Currículum chileno · Preparación PAES<br />
+    <a href="https://www.MaestriaAI.cl" target="_blank">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank">@Maestria.app</a>
+  </div>
+</footer>
+
+</body>
+</html>

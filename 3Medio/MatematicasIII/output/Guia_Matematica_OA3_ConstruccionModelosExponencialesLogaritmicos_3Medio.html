@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Construccion de modelos exponenciales y logaritmicos - Matematica 3 Medio | MaestrIA</title>
+  <link rel="stylesheet" href="../../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:9.85pt;line-height:1.45}
+    .plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .66rem;margin:.42rem 0;line-height:1.42}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.56rem .66rem;margin:.42rem 0;line-height:1.42}.formula-box{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.58rem .72rem;margin:.42rem 0;text-align:center;font-size:.95rem}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.56rem .68rem;margin:.42rem 0}.step-box p{margin:.18rem 0;line-height:1.38}.result-line{font-weight:800;color:#0B0F3F}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.48rem 0;padding:.48rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.78rem;color:#4b5563;line-height:1.34;margin-top:.22rem}.fig-caption strong{color:#6A2C91}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.54rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.44rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem .56rem;line-height:1.36}.small-card strong{color:#6A2C91}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.46rem 0;overflow:hidden}.example-title{padding:.48rem .66rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.56rem .66rem}.label{font-weight:800;color:#6A2C91;margin-top:.32rem}.data-list{margin:.24rem 0 .24rem 1.05rem;padding:0}.data-list li{margin:.08rem 0;line-height:1.32}.clean-table{width:100%;border-collapse:collapse;font-size:8.8pt;margin:.4rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.28rem .34rem;vertical-align:top}
+    .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.48rem;margin:.48rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.18rem;font-size:.78rem}.input-control input,.input-control select{width:100%;padding:.36rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .68rem;line-height:1.45}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.38rem .76rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.38rem;flex-wrap:wrap;margin:.45rem 0}.chart-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.38rem;margin-top:.4rem}.chart-box svg{display:block;width:100%;height:auto}
+    .opt,.paes-opt{cursor:pointer;transition:background .2s}.opt:hover,.paes-opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.42rem;padding:.48rem .58rem;border-radius:6px;line-height:1.45}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.66rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.66rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.6rem .68rem;margin:.45rem 0;line-height:1.48}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Construir modelos exponenciales y logaritmicos</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 3</span><span class="chip">3° Medio</span><span class="chip">Modelacion</span><span class="chip">Proyecciones</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 3</span><span class="oa-text">Construir modelos de situaciones de crecimiento y decrecimiento que involucran funciones exponencial y logaritmica, para determinar valores o hacer proyecciones.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Modelar es traducir una situacion a matematica</div>
+      <p>Construir un modelo no significa elegir una formula al azar. Significa leer una situacion, reconocer que cambia, decidir que variable representa ese cambio y escribir una funcion que permita calcular o proyectar.</p>
+      <p>En esta guia aprenderas a construir modelos cuando el cambio es multiplicativo, como ocurre en poblaciones, dinero, visualizaciones, depreciacion, enfriamiento o aprendizaje acumulado.</p>
+      <div class="four-col"><div class="small-card"><strong>Variable</strong><br>Que cantidad cambia.</div><div class="small-card"><strong>Unidad</strong><br>En que se mide.</div><div class="small-card"><strong>Parametro</strong><br>Numero que ajusta el modelo.</div><div class="small-card"><strong>Decision</strong><br>Que se quiere estimar.</div></div>
+      <figure class="visual-figure" aria-label="Proceso de construccion de un modelo">
+        <svg viewBox="0 0 760 210" role="img">
+          <rect x="35" y="45" width="150" height="90" rx="8" fill="#F4F4F6" stroke="#D9D9D9"/><text x="110" y="78" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#0B0F3F">Contexto</text><text x="110" y="105" text-anchor="middle" font-family="Inter" font-size="11" fill="#4b5563">datos, unidades</text>
+          <path d="M195 90 H285" stroke="#6A2C91" stroke-width="4" marker-end="url(#a)"/>
+          <rect x="295" y="45" width="170" height="90" rx="8" fill="#fff" stroke="#D4AF37"/><text x="380" y="78" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#0B0F3F">Modelo</text><text x="380" y="105" text-anchor="middle" font-family="Inter" font-size="11" fill="#4b5563">formula + parametros</text>
+          <path d="M475 90 H565" stroke="#6A2C91" stroke-width="4" marker-end="url(#a)"/>
+          <rect x="575" y="45" width="150" height="90" rx="8" fill="#F8F4E9" stroke="#D4AF37"/><text x="650" y="78" text-anchor="middle" font-family="Inter" font-size="13" font-weight="800" fill="#0B0F3F">Proyeccion</text><text x="650" y="105" text-anchor="middle" font-family="Inter" font-size="11" fill="#4b5563">resultado interpretable</text>
+          <defs><marker id="a" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6A2C91"/></marker></defs>
+          <text x="380" y="170" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">Un buen modelo siempre conserva las unidades y explica que significa cada numero.</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Idea central:</strong> primero se comprende el fenomeno; despues se calcula.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Meta de aprendizaje:</strong> que puedas construir una funcion desde el enunciado, usarla para proyectar y explicar si la respuesta tiene sentido.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 1 de 12</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Como decidir que modelo usar</h2></div>
+  <div class="meta-chips"><span class="chip">Teoria 1</span><span class="chip">Lectura de contexto</span><span class="chip">Variables</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Una guia de decision</div>
+      <p>Antes de escribir una formula, conviene preguntarse como cambia la cantidad. Si aumenta o disminuye por el mismo porcentaje en cada periodo, normalmente se usa un modelo exponencial. Si aumenta rapido al comienzo y despues cada vez mas lento, puede aparecer un modelo logaritmico.</p>
+      <table class="clean-table"><thead><tr><th>Señal en el enunciado</th><th>Modelo probable</th><th>Forma comun</th><th>Interpretacion</th></tr></thead><tbody><tr><td>Crece 8% cada mes.</td><td>Exponencial de crecimiento.</td><td>\(N(t)=N_0(1+r)^t\)</td><td>Cada periodo se multiplica por el mismo factor.</td></tr><tr><td>Disminuye 15% por año.</td><td>Exponencial de decrecimiento.</td><td>\(V(t)=V_0(1-r)^t\)</td><td>Se conserva una fraccion del valor anterior.</td></tr><tr><td>Se reduce a la mitad cada cierto tiempo.</td><td>Exponencial con vida media.</td><td>\(M(t)=M_0\left(\frac12\right)^{t/h}\)</td><td>Cada \(h\) unidades queda la mitad.</td></tr><tr><td>Mejora rapido al inicio y despues se estabiliza.</td><td>Logaritmico.</td><td>\(y=a+b\ln(x)\)</td><td>El crecimiento existe, pero cada vez aporta menos.</td></tr></tbody></table>
+      <div class="two-col"><div class="plain-box"><strong>Variable independiente:</strong> normalmente tiempo, horas, distancia, intentos o inversion. Es lo que controla el avance del fenomeno.</div><div class="plain-box"><strong>Variable dependiente:</strong> cantidad que se quiere predecir: personas, puntaje, dinero, masa, temperatura o rendimiento.</div></div>
+      <div class="formula-box">\[
+        \text{Modelo}=\text{valor inicial}\cdot\text{factor}^{\text{tiempo}}
+      \]</div>
+      <div class="soft-box"><strong>Consejo PAES:</strong> si el problema pide "proyectar", no basta calcular; tambien debes interpretar la proyeccion en el contexto y revisar si el intervalo es razonable.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 2 de 12</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Modelo exponencial desde porcentaje</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo simple</span><span class="chip">Crecimiento</span><span class="chip">Paso a paso</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo 1: estudiantes inscritos en un taller</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Un taller de preparacion tiene 120 estudiantes inscritos. Cada mes se espera que la cantidad aumente en 10%. Construye un modelo y estima la cantidad de estudiantes despues de 5 meses.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(N_0=120\) (estudiantes iniciales).</li><li>\(r=0,10\) (tasa de crecimiento mensual).</li><li>\(t=5\) (meses despues del inicio).</li><li>\(N(t)\) = cantidad estimada de estudiantes despues de \(t\) meses.</li></ul>
+      <p class="label">Formula utilizada</p>
+      <div class="formula-box">\[
+        N(t)=N_0(1+r)^t
+      \]</div>
+      <p>Esta formula se usa porque la cantidad aumenta por el mismo porcentaje cada mes. \(N_0\) representa el valor inicial, \(r\) la tasa de crecimiento escrita como decimal y \(t\) el numero de periodos.</p>
+      <p class="label">Reemplazo y desarrollo</p>
+      <div class="step-box"><p><strong>1. Convertir porcentaje:</strong> \(10\%=0,10\).</p><p><strong>2. Construir el factor:</strong> \(1+r=1+0,10=1,10\).</p><p><strong>3. Escribir el modelo:</strong> \(N(t)=120(1,10)^t\).</p><p><strong>4. Reemplazar \(t=5\):</strong> \(N(5)=120(1,10)^5\).</p><p><strong>5. Calcular potencia:</strong> \((1,10)^5=1,61051\).</p><p><strong>6. Multiplicar:</strong> \(120\cdot1,61051=193,2612\).</p><p class="result-line">Resultado final: \(N(5)\approx193\) estudiantes.</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> si la tasa mensual se mantiene, despues de 5 meses se esperan aproximadamente 193 estudiantes. Como se cuentan personas, el resultado se redondea al entero mas cercano.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 3 de 12</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Modelo exponencial desde dos datos</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo intermedio</span><span class="chip">Dos puntos</span><span class="chip">Factor</span></div>
+  <div class="content">
+    <div class="section">
+      <p>A veces el problema no entrega el porcentaje. En ese caso podemos construir el factor multiplicativo usando dos datos: el valor inicial y otro valor observado despues de cierto tiempo.</p>
+      <div class="formula-box">\[
+        N(t)=N_0\cdot b^t,\qquad b=\sqrt[k]{\frac{N(k)}{N_0}}=\left(\frac{N(k)}{N_0}\right)^{1/k}
+      \]</div>
+      <p>La formula para \(b\) sirve porque necesitamos encontrar el numero que, repetido \(k\) veces como multiplicacion, transforma \(N_0\) en \(N(k)\).</p>
+    </div>
+    <div class="example"><div class="example-title">Ejemplo 2: visitas a una plataforma</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Una plataforma tiene 500 visitas el dia inicial. Despues de 4 semanas tiene 720 visitas. Construye un modelo exponencial y proyecta las visitas para la semana 8.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(N_0=500\) (visitas iniciales).</li><li>\(N(4)=720\) (visitas despues de 4 semanas).</li><li>\(k=4\) (semanas transcurridas entre los datos).</li><li>\(t=8\) (semana de proyeccion).</li></ul>
+      <p class="label">Reemplazo y desarrollo</p>
+      <div class="step-box"><p><strong>1. Calcular la razon total:</strong> \(\frac{N(4)}{N_0}=\frac{720}{500}=1,44\).</p><p><strong>2. Buscar el factor semanal:</strong> \(b=(1,44)^{1/4}\).</p><p><strong>3. Calcular:</strong> \(b\approx1,0954\).</p><p><strong>4. Construir modelo:</strong> \(N(t)=500(1,0954)^t\).</p><p><strong>5. Proyectar semana 8:</strong> \(N(8)=500(1,0954)^8\).</p><p><strong>6. Calcular potencia:</strong> \((1,0954)^8\approx2,0736\).</p><p><strong>7. Multiplicar:</strong> \(500\cdot2,0736=1036,8\).</p><p class="result-line">Resultado final: \(N(8)\approx1037\) visitas.</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> el modelo supone que el crecimiento semanal se mantiene. Si hubo una campaña especial solo en esas semanas, la proyeccion podria ser exagerada.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 4 de 12</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Construir modelos de decrecimiento</h2></div>
+  <div class="meta-chips"><span class="chip">Decrecimiento</span><span class="chip">Porcentaje</span><span class="chip">Vida media</span></div>
+  <div class="content">
+    <div class="section">
+      <p>En un modelo de decrecimiento exponencial, la cantidad no baja restando siempre lo mismo, sino multiplicando por un factor menor que 1. Por eso el valor disminuye rapido al inicio y despues la disminucion absoluta se vuelve menor.</p>
+      <div class="two-col"><div class="formula-box">\[
+        V(t)=V_0(1-r)^t
+      \]</div><div class="formula-box">\[
+        M(t)=M_0\left(\frac12\right)^{t/h}
+      \]</div></div>
+      <table class="clean-table"><thead><tr><th>Parametro</th><th>Significado</th><th>Unidad</th></tr></thead><tbody><tr><td>\(V_0\) o \(M_0\)</td><td>valor inicial</td><td>pesos, gramos, litros, etc.</td></tr><tr><td>\(r\)</td><td>porcentaje de perdida escrito como decimal</td><td>sin unidad</td></tr><tr><td>\(h\)</td><td>tiempo necesario para reducirse a la mitad</td><td>horas, dias, años, etc.</td></tr></tbody></table>
+    </div>
+    <div class="example"><div class="example-title">Ejemplo 3: depreciacion de un computador</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Un computador cuesta $650.000 y pierde 18% de su valor cada año. Construye un modelo y estima su valor despues de 3 años.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(V_0=650000\) (pesos).</li><li>\(r=0,18\) (perdida anual).</li><li>\(t=3\) (años).</li><li>\(V(t)\) = valor estimado despues de \(t\) años.</li></ul>
+      <div class="step-box"><p><strong>1. Factor de conservacion:</strong> \(1-r=1-0,18=0,82\).</p><p><strong>2. Modelo:</strong> \(V(t)=650000(0,82)^t\).</p><p><strong>3. Reemplazar:</strong> \(V(3)=650000(0,82)^3\).</p><p><strong>4. Potencia:</strong> \((0,82)^3=0,551368\).</p><p><strong>5. Multiplicar:</strong> \(650000\cdot0,551368=358389,2\).</p><p class="result-line">Resultado final: \(V(3)\approx\$358.389\).</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> despues de 3 años, el computador conservaria cerca del 55,1% de su valor inicial si la depreciacion porcentual se mantiene.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 5 de 12</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Vida media: otra forma de construir un modelo</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo desafiante</span><span class="chip">Exponente fraccionario</span><span class="chip">Interpretacion</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejemplo 4: eliminacion de un medicamento</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Un medicamento tiene una cantidad inicial de 80 mg en el organismo. Su vida media es de 6 horas, es decir, cada 6 horas queda la mitad. Construye un modelo y estima la cantidad despues de 18 horas.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(M_0=80\) (mg iniciales).</li><li>\(h=6\) (horas para reducirse a la mitad).</li><li>\(t=18\) (horas transcurridas).</li><li>\(M(t)\) = cantidad de medicamento despues de \(t\) horas.</li></ul>
+      <p class="label">Formula utilizada</p>
+      <div class="formula-box">\[
+        M(t)=M_0\left(\frac12\right)^{t/h}
+      \]</div>
+      <p>El exponente \(t/h\) indica cuantas vidas medias han ocurrido. Si \(t=18\) y \(h=6\), han pasado \(18/6=3\) vidas medias.</p>
+      <p class="label">Reemplazo y desarrollo</p>
+      <div class="step-box"><p><strong>1. Construir modelo:</strong> \(M(t)=80\left(\frac12\right)^{t/6}\).</p><p><strong>2. Reemplazar \(t=18\):</strong> \(M(18)=80\left(\frac12\right)^{18/6}\).</p><p><strong>3. Simplificar exponente:</strong> \(18/6=3\).</p><p><strong>4. Calcular potencia:</strong> \(\left(\frac12\right)^3=\frac18=0,125\).</p><p><strong>5. Multiplicar:</strong> \(80\cdot0,125=10\).</p><p class="result-line">Resultado final: \(M(18)=10\) mg.</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> despues de 18 horas quedan 10 mg. El resultado tiene sentido porque 18 horas equivalen a tres reducciones sucesivas a la mitad: 80, 40, 20, 10.</div>
+    </div></div>
+    <div class="soft-box"><strong>Chequeo rapido:</strong> en decrecimiento exponencial, el resultado debe ser positivo y menor que el valor inicial cuando \(t>0\).</div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 6 de 12</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Construir modelos logaritmicos</h2></div>
+  <div class="meta-chips"><span class="chip">Logaritmico</span><span class="chip">Aprendizaje</span><span class="chip">Dos puntos</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Un modelo logaritmico suele aparecer cuando hay progreso rapido al inicio, pero cada nueva unidad de esfuerzo aporta menos que la anterior. Por ejemplo, estudiar las primeras horas puede subir mucho el rendimiento, pero despues el avance se vuelve mas lento.</p>
+      <div class="formula-box">\[
+        y=a+b\ln(x),\qquad x>0
+      \]</div>
+      <p>En este modelo, \(a\) fija una altura base y \(b\) indica cuanto pesa el efecto logaritmico. La condicion \(x>0\) es obligatoria porque no se puede calcular \(\ln(x)\) si \(x\le0\).</p>
+    </div>
+    <div class="example"><div class="example-title">Ejemplo 5: puntaje segun horas de estudio</div><div class="example-body">
+      <p><strong>Enunciado.</strong> En una preparacion, un estudiante obtiene 420 puntos con 1 hora semanal de estudio y 570 puntos con 6 horas semanales. Construye un modelo \(P(h)=a+b\ln(h)\) y estima el puntaje para 10 horas semanales.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(P(1)=420\) (puntos con 1 hora semanal).</li><li>\(P(6)=570\) (puntos con 6 horas semanales).</li><li>\(h=10\) (horas semanales para proyectar).</li><li>\(P(h)\) = puntaje estimado.</li></ul>
+      <p class="label">Desarrollo</p>
+      <div class="step-box"><p><strong>1. Usar \(P(1)=420\):</strong> \(420=a+b\ln(1)\).</p><p><strong>2. Como \(\ln(1)=0\):</strong> \(420=a+b\cdot0\), entonces \(a=420\).</p><p><strong>3. Usar \(P(6)=570\):</strong> \(570=420+b\ln(6)\).</p><p><strong>4. Restar 420:</strong> \(150=b\ln(6)\).</p><p><strong>5. Despejar \(b\):</strong> \(b=\frac{150}{\ln(6)}\).</p><p><strong>6. Calcular:</strong> \(\ln(6)\approx1,7918\), entonces \(b\approx83,71\).</p><p><strong>7. Modelo:</strong> \(P(h)=420+83,71\ln(h)\).</p><p><strong>8. Proyectar \(h=10\):</strong> \(P(10)=420+83,71\ln(10)\).</p><p><strong>9. Calcular:</strong> \(P(10)\approx420+83,71(2,3026)=612,8\).</p><p class="result-line">Resultado final: \(P(10)\approx613\) puntos.</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> pasar de 6 a 10 horas aumenta el puntaje, pero no con el mismo salto que al inicio. Esa es la idea de crecimiento logaritmico.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 7 de 12</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: constructor de modelos</h2></div>
+  <div class="meta-chips"><span class="chip">Interaccion</span><span class="chip">Construccion</span><span class="chip">Grafico</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Arma el modelo y observa la curva</div>
+      <p>Elige el tipo de modelo. Luego cambia los datos y revisa como se forma la funcion. La herramienta entrega el modelo, el valor proyectado y una visualizacion general de la curva.</p>
+      <div class="tool-grid"><div class="input-control"><label for="build-type">Tipo de modelo</label><select id="build-type"><option value="percent">Exponencial por porcentaje</option><option value="points">Exponencial por dos datos</option><option value="half">Vida media</option><option value="log">Logaritmico por dos datos</option></select></div><div class="input-control"><label for="build-a">Dato 1</label><input id="build-a" type="number" value="120" step="1"></div><div class="input-control"><label for="build-b">Dato 2</label><input id="build-b" type="number" value="10" step="0.01"></div><div class="input-control"><label for="build-t">Proyectar en</label><input id="build-t" type="number" value="5" step="0.1"></div></div>
+      <div class="btn-row"><button class="mini-btn" data-build="growth">Crecimiento 10%</button><button class="mini-btn" data-build="visits">Dos datos</button><button class="mini-btn" data-build="medicine">Vida media</button><button class="mini-btn" data-build="learning">Logaritmico</button></div>
+      <div id="build-result" class="result-panel" aria-live="polite"></div>
+      <div class="chart-box"><svg id="build-chart" viewBox="0 0 760 235" role="img" aria-label="Grafico del modelo construido"></svg></div>
+      <div class="soft-box"><strong>Actividad:</strong> cambia el dato de proyeccion y observa si la curva crece rapido, decrece o se estabiliza. Luego explica el resultado con unidades.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 8 de 12</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios guiados</h2></div>
+  <div class="meta-chips"><span class="chip">Practica guiada</span><span class="chip">Modelos</span><span class="chip">Desarrollo</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Ejercicio guiado 1: aumento porcentual</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Una cuenta tiene $90.000 y aumenta 3% mensual. Construye el modelo para \(C(t)\) y estima el saldo despues de 6 meses.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(C_0=90000\) (pesos iniciales).</li><li>\(r=0,03\) (aumento mensual).</li><li>\(t=6\) (meses).</li></ul>
+      <div class="step-box"><p><strong>1. Factor:</strong> \(1+r=1+0,03=1,03\).</p><p><strong>2. Modelo:</strong> \(C(t)=90000(1,03)^t\).</p><p><strong>3. Reemplazo:</strong> \(C(6)=90000(1,03)^6\).</p><p><strong>4. Potencia:</strong> \((1,03)^6\approx1,1941\).</p><p><strong>5. Multiplicacion:</strong> \(90000\cdot1,1941=107469\).</p><p class="result-line">Resultado: \(C(6)\approx\$107.469\).</p></div>
+    </div></div>
+    <div class="example"><div class="example-title">Ejercicio guiado 2: perdida porcentual</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Una bateria de 5000 mAh pierde 12% de carga por hora de uso. Construye el modelo y estima la carga tras 4 horas.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(B_0=5000\) (mAh iniciales).</li><li>\(r=0,12\) (perdida por hora).</li><li>\(t=4\) (horas).</li></ul>
+      <div class="step-box"><p><strong>1. Factor de conservacion:</strong> \(1-r=1-0,12=0,88\).</p><p><strong>2. Modelo:</strong> \(B(t)=5000(0,88)^t\).</p><p><strong>3. Reemplazo:</strong> \(B(4)=5000(0,88)^4\).</p><p><strong>4. Potencia:</strong> \((0,88)^4\approx0,5997\).</p><p><strong>5. Multiplicacion:</strong> \(5000\cdot0,5997=2998,5\).</p><p class="result-line">Resultado: \(B(4)\approx2999\) mAh.</p></div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 9 de 12</div></div>
+</div>
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Autocorregible</span><span class="chip">PAES</span><span class="chip">Modelacion</span></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-b">Basico</span><span style="color:#fff;font-size:10pt;">Construccion directa</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Basico</span></div><div class="ex-stmt">Una poblacion inicial de 300 animales aumenta 6% anual. ¿Que modelo representa la situacion?</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(P(t)=300(1,06)^t\)<div class="opt-feedback">Correcto. El factor es \(1+0,06=1,06\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(P(t)=300(0,06)^t\)<div class="opt-feedback">Incorrecto. \(0,06\) es la tasa, no el factor de crecimiento.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(P(t)=300+1,06t\)<div class="opt-feedback">Incorrecto. Eso es lineal, no multiplicativo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(P(t)=300(0,94)^t\)<div class="opt-feedback">Incorrecto. Ese factor modela disminucion de 6%.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Basico</span></div><div class="ex-stmt">Un objeto pierde 20% de su valor cada año. Si vale $400.000 al inicio, el modelo correcto es:</div><div class="opts"><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(V(t)=400000(1,20)^t\)<div class="opt-feedback">Incorrecto. Ese modelo aumenta 20%.</div></div><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(V(t)=400000(0,80)^t\)<div class="opt-feedback">Correcto. Si pierde 20%, conserva 80%, entonces el factor es \(0,80\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(V(t)=400000-20t\)<div class="opt-feedback">Incorrecto. Mezcla porcentaje con resta fija.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(V(t)=0,20(400000)^t\)<div class="opt-feedback">Incorrecto. El valor inicial debe multiplicar al factor, no ser la base de la potencia.</div></div></div></div>
+  </div></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Construir desde datos</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">Una cantidad pasa de 200 a 338 en 3 periodos. Para un modelo \(N(t)=200b^t\), el factor \(b\) se obtiene con:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(b=\left(\frac{338}{200}\right)^{1/3}\)<div class="opt-feedback">Correcto. Se necesita el factor que repetido 3 veces lleva de 200 a 338.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(b=\frac{338-200}{3}\)<div class="opt-feedback">Incorrecto. Eso calcula aumento promedio lineal, no factor multiplicativo.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(b=\frac{200}{338}\)<div class="opt-feedback">Incorrecto. Falta considerar los 3 periodos.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(b=338^3\)<div class="opt-feedback">Incorrecto. Eso no relaciona el dato inicial con el final.</div></div></div></div>
+  </div></div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 10 de 12</div></div>
+</div>
+
+<div class="page" id="page11">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Problemas de desarrollo</h2></div>
+  <div class="meta-chips"><span class="chip">Practica</span><span class="chip">Desarrollo escrito</span><span class="chip">Interpretacion</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>Resuelve mostrando datos, formula y desarrollo</div>
+      <div class="plain-box"><strong>4.</strong> Una comunidad digital tiene 1800 usuarios y crece 7% mensual. Construye el modelo y proyecta la cantidad de usuarios en 9 meses.</div>
+      <div class="plain-box"><strong>5.</strong> Una sustancia tiene 64 g y su vida media es de 4 horas. Construye un modelo para la masa \(M(t)\) y calcula la masa despues de 12 horas.</div>
+      <div class="plain-box"><strong>6.</strong> Un estudiante obtiene 450 puntos con 1 hora semanal de practica y 540 puntos con 4 horas semanales. Construye un modelo \(P(h)=a+b\ln(h)\) y estima el puntaje para 8 horas semanales.</div>
+      <div class="soft-box"><strong>Antes de revisar el solucionario:</strong> verifica que tus datos tengan variable, simbolo, valor y unidad; por ejemplo, \(t=9\) (meses) o \(M_0=64\) (g).</div>
+      <figure class="visual-figure" aria-label="Curvas de practica">
+        <svg viewBox="0 0 760 205" role="img">
+          <rect x="30" y="20" width="700" height="145" rx="8" fill="#fff"/>
+          <line x1="85" y1="145" x2="690" y2="145" stroke="#0B0F3F" stroke-width="2"/><line x1="85" y1="45" x2="85" y2="145" stroke="#0B0F3F" stroke-width="2"/>
+          <path d="M90 135 C210 125, 330 96, 450 65 C540 45, 620 38, 680 32" fill="none" stroke="#6A2C91" stroke-width="4"/>
+          <path d="M90 45 C210 67, 330 93, 450 115 C545 131, 620 139, 680 143" fill="none" stroke="#D4AF37" stroke-width="4"/>
+          <path d="M90 136 C170 95, 280 72, 420 58 C520 50, 610 47, 680 45" fill="none" stroke="#0B0F3F" stroke-width="3" stroke-dasharray="8 7"/>
+          <text x="355" y="188" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">Crecimiento, decrecimiento y crecimiento logaritmico tienen formas distintas.</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura:</strong> identificar la forma ayuda a elegir la familia de modelos.</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 11 de 12</div></div>
+</div>
+
+<div class="page" id="page12">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Algebra y funciones<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Solucionario explicado</h2></div>
+  <div class="meta-chips"><span class="chip">Soluciones</span><span class="chip">Paso a paso</span><span class="chip">Cierre</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="solution"><strong>E1.</strong> Datos: \(P_0=300\) (animales), \(r=0,06\) (crecimiento anual), \(t\) (años). Como aumenta 6%, el factor es \(1+0,06=1,06\). El modelo es \(P(t)=300(1,06)^t\). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E2.</strong> Datos: \(V_0=400000\) (pesos), \(r=0,20\) (perdida anual), \(t\) (años). Si pierde 20%, conserva \(1-0,20=0,80\). El modelo es \(V(t)=400000(0,80)^t\). <span class="final">Respuesta correcta: B.</span></div>
+      <div class="solution"><strong>E3.</strong> Datos: \(N_0=200\) (cantidad inicial), \(N(3)=338\) (cantidad final), \(k=3\) (periodos). En \(N(t)=200b^t\), se cumple \(338=200b^3\). Dividiendo por 200: \(b^3=\frac{338}{200}\). Aplicando raiz cubica: \(b=\left(\frac{338}{200}\right)^{1/3}\). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E4.</strong> Datos: \(U_0=1800\) (usuarios), \(r=0,07\) (crecimiento mensual), \(t=9\) (meses). Formula: \(U(t)=U_0(1+r)^t\). Reemplazo: \(U(t)=1800(1,07)^t\). Proyeccion: \(U(9)=1800(1,07)^9\). Desarrollo: \((1,07)^9\approx1,8385\), entonces \(1800\cdot1,8385=3309,3\). <span class="final">Resultado: aproximadamente 3309 usuarios.</span></div>
+      <div class="solution"><strong>E5.</strong> Datos: \(M_0=64\) (g), \(h=4\) (horas), \(t=12\) (horas). Formula: \(M(t)=M_0\left(\frac12\right)^{t/h}\). Reemplazo: \(M(12)=64\left(\frac12\right)^{12/4}\). Desarrollo: \(12/4=3\), \(\left(\frac12\right)^3=\frac18\), \(64\cdot\frac18=8\). <span class="final">Resultado: \(M(12)=8\) g.</span></div>
+      <div class="solution"><strong>E6.</strong> Datos: \(P(1)=450\) (puntos), \(P(4)=540\) (puntos), \(h=8\) (horas). Modelo: \(P(h)=a+b\ln(h)\). Como \(\ln(1)=0\), \(450=a\). Luego \(540=450+b\ln(4)\). Entonces \(90=b\ln(4)\), y \(b=\frac{90}{\ln(4)}\approx64,92\). Modelo: \(P(h)=450+64,92\ln(h)\). Proyeccion: \(P(8)=450+64,92\ln(8)\approx450+64,92(2,0794)=585,0\). <span class="final">Resultado: aproximadamente 585 puntos.</span></div>
+      <div class="soft-box"><strong>Cierre:</strong> una construccion completa debe indicar que representa cada variable, escribir el modelo con unidades, calcular paso a paso e interpretar la proyeccion. Ese orden evita errores frecuentes en preguntas de aplicacion.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 3 construccion de modelos · Pagina 12 de 12</div></div>
+</div>
+
+<script>
+(function(){
+  var type=document.getElementById('build-type'), a=document.getElementById('build-a'), b=document.getElementById('build-b'), t=document.getElementById('build-t'), out=document.getElementById('build-result'), chart=document.getElementById('build-chart');
+  function fmt(n){return Number.isFinite(n)?n.toLocaleString('es-CL',{maximumFractionDigits:2}):'no definido';}
+  function calcValue(x){
+    var m=type.value, A=Number(a.value), B=Number(b.value);
+    if(m==='percent'){return A*Math.pow(1+B/100,x);}
+    if(m==='points'){var factor=Math.pow(B/A,1/4);return A*Math.pow(factor,x);}
+    if(m==='half'){return A*Math.pow(0.5,x/B);}
+    if(m==='log'){if(x<=0||B<=0){return NaN;}var p1=A, p2=Number(b.value);var coef=(p2-p1)/Math.log(4);return p1+coef*Math.log(x);}
+    return NaN;
+  }
+  function update(){
+    var m=type.value, A=Number(a.value), B=Number(b.value), T=Number(t.value), text='', model='', value=calcValue(T);
+    if(m==='percent'){
+      var f=1+B/100;
+      model='N(t)='+fmt(A)+'('+f.toFixed(4)+')^t';
+      text='<strong>Tipo:</strong> exponencial por porcentaje.<br><strong>Datos:</strong> valor inicial = '+fmt(A)+', tasa = '+fmt(B)+'%.<br><strong>Construccion:</strong> factor = 1 + '+(B/100).toFixed(4)+' = '+f.toFixed(4)+'.<br><strong>Modelo:</strong> '+model+'.<br><strong>Proyeccion:</strong> N('+fmt(T)+') = '+fmt(value)+'.';
+    }
+    if(m==='points'){
+      var factor=Math.pow(B/A,1/4);
+      model='N(t)='+fmt(A)+'('+factor.toFixed(4)+')^t';
+      text='<strong>Tipo:</strong> exponencial desde dos datos, suponiendo que el segundo dato ocurre en t=4.<br><strong>Datos:</strong> N(0) = '+fmt(A)+', N(4) = '+fmt(B)+'.<br><strong>Construccion:</strong> b = (N(4)/N(0))^(1/4) = '+factor.toFixed(4)+'.<br><strong>Modelo:</strong> '+model+'.<br><strong>Proyeccion:</strong> N('+fmt(T)+') = '+fmt(value)+'.';
+    }
+    if(m==='half'){
+      model='M(t)='+fmt(A)+'(1/2)^(t/'+fmt(B)+')';
+      text='<strong>Tipo:</strong> vida media.<br><strong>Datos:</strong> cantidad inicial = '+fmt(A)+', vida media = '+fmt(B)+' unidades de tiempo.<br><strong>Construccion:</strong> el exponente t/h cuenta cuantas mitades han ocurrido.<br><strong>Modelo:</strong> '+model+'.<br><strong>Proyeccion:</strong> M('+fmt(T)+') = '+fmt(value)+'.';
+    }
+    if(m==='log'){
+      var coef=(B-A)/Math.log(4);
+      model='P(h)='+fmt(A)+'+'+fmt(coef)+' ln(h)';
+      text='<strong>Tipo:</strong> logaritmico desde P(1) y P(4).<br><strong>Datos:</strong> P(1) = '+fmt(A)+', P(4) = '+fmt(B)+'.<br><strong>Construccion:</strong> a = P(1), porque ln(1)=0; b = (P(4)-P(1))/ln(4) = '+fmt(coef)+'.<br><strong>Modelo:</strong> '+model+'.<br><strong>Proyeccion:</strong> P('+fmt(T)+') = '+fmt(value)+'.';
+    }
+    out.innerHTML=text;
+    draw();
+  }
+  function draw(){
+    var vals=[], maxX=10;
+    if(type.value==='half'){maxX=Math.max(12,Number(t.value)||12);}
+    if(type.value==='log'){maxX=Math.max(10,Number(t.value)||10);}
+    for(var i=0;i<=60;i++){var x=(maxX*i)/60;if(type.value==='log'&&x===0){x=0.1;}var y=calcValue(x);if(Number.isFinite(y)){vals.push({x:x,y:y});}}
+    if(!vals.length){chart.innerHTML='<rect width="760" height="235" rx="8" fill="#fff"/><text x="380" y="120" text-anchor="middle" font-family="Inter" font-size="14">No se puede graficar con estos datos.</text>';return;}
+    var minY=Math.min.apply(null,vals.map(function(p){return p.y;})), maxY=Math.max.apply(null,vals.map(function(p){return p.y;}));if(maxY===minY){maxY=minY+1;}
+    function sx(x){return 70+(x/maxX)*620;}function sy(y){return 190-((y-minY)/(maxY-minY))*140;}
+    var d=vals.map(function(p,i){return (i?'L':'M')+sx(p.x).toFixed(1)+' '+sy(p.y).toFixed(1);}).join(' ');
+    chart.innerHTML='<rect x="0" y="0" width="760" height="235" rx="8" fill="#fff"/><line x1="70" y1="190" x2="690" y2="190" stroke="#0B0F3F" stroke-width="2"/><line x1="70" y1="45" x2="70" y2="190" stroke="#0B0F3F" stroke-width="2"/><path d="'+d+'" fill="none" stroke="#6A2C91" stroke-width="4"/><text x="380" y="220" text-anchor="middle" font-family="Inter" font-size="12">variable independiente</text><text x="34" y="118" text-anchor="middle" font-family="Inter" font-size="12" transform="rotate(-90 34 118)">valor proyectado</text><text x="690" y="207" text-anchor="middle" font-family="Inter" font-size="11">'+fmt(maxX)+'</text>';
+  }
+  [type,a,b,t].forEach(function(el){el.addEventListener('input',update);el.addEventListener('change',update);});
+  document.querySelectorAll('[data-build]').forEach(function(btn){btn.addEventListener('click',function(){var v=btn.dataset.build;if(v==='growth'){type.value='percent';a.value=120;b.value=10;t.value=5;}if(v==='visits'){type.value='points';a.value=500;b.value=720;t.value=8;}if(v==='medicine'){type.value='half';a.value=80;b.value=6;t.value=18;}if(v==='learning'){type.value='log';a.value=420;b.value=570;t.value=10;}update();});});
+  update();
+})();
+</script>
+</body>
+</html>

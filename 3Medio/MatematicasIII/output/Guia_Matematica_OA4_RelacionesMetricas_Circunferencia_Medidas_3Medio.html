@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relaciones metricas en la circunferencia - Medidas | Matematica 3 Medio - MaestrIA</title>
+  <link rel="stylesheet" href="../../../2Medio/MatematicasII/Template/maestria-style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+  <style>
+    .pdf-bar{position:fixed;top:1rem;right:1rem;z-index:1000}.btn-pdf{background:#6A2C91;color:#fff;border:0;border-radius:25px;padding:.65rem 1.3rem;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(106,44,145,.35)}
+    .page{display:flex;flex-direction:column}.footer{margin-top:auto}.content p{font-size:9.85pt;line-height:1.45}
+    .plain-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .66rem;margin:.42rem 0;line-height:1.42}.soft-box{background:#F8F4E9;border:1px solid #D4AF37;border-radius:8px;padding:.56rem .66rem;margin:.42rem 0;line-height:1.42}.formula-box{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.58rem .72rem;margin:.42rem 0;text-align:center;font-size:.95rem}.step-box{background:#fff;border-left:4px solid #6A2C91;border-top:1px solid #D9D9D9;border-right:1px solid #D9D9D9;border-bottom:1px solid #D9D9D9;border-radius:0 8px 8px 0;padding:.56rem .68rem;margin:.42rem 0}.step-box p{margin:.18rem 0;line-height:1.38}.result-line{font-weight:800;color:#0B0F3F}
+    .visual-figure{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.48rem 0;padding:.48rem;box-shadow:0 2px 8px rgba(11,15,63,.05)}.visual-figure svg{display:block;width:100%;height:auto}.fig-caption{font-size:.78rem;color:#4b5563;line-height:1.34;margin-top:.22rem}.fig-caption strong{color:#6A2C91}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.54rem;align-items:start}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:.44rem}.small-card{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem .56rem;line-height:1.36}.small-card strong{color:#6A2C91}
+    .example{background:#fff;border:1px solid #D9D9D9;border-radius:8px;margin:.46rem 0;overflow:hidden}.example-title{padding:.48rem .66rem;border-bottom:1px solid #D9D9D9;font-weight:800;color:#0B0F3F}.example-body{padding:.56rem .66rem}.label{font-weight:800;color:#6A2C91;margin-top:.32rem}.data-list{margin:.24rem 0 .24rem 1.05rem;padding:0}.data-list li{margin:.08rem 0;line-height:1.32}.clean-table{width:100%;border-collapse:collapse;font-size:8.8pt;margin:.4rem 0}.clean-table th{background:#F4F4F6;color:#0B0F3F;text-align:left}.clean-table th,.clean-table td{border:1px solid #D9D9D9;padding:.28rem .34rem;vertical-align:top}
+    .tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.48rem;margin:.48rem 0}.input-control{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.5rem}.input-control label{display:block;font-weight:800;color:#6A2C91;margin-bottom:.18rem;font-size:.78rem}.input-control input,.input-control select{width:100%;padding:.36rem;border:1px solid #D9D9D9;border-radius:6px;font-family:'Inter',sans-serif}.result-panel{background:#F4F4F6;border:1px solid #D9D9D9;border-radius:8px;padding:.56rem .68rem;line-height:1.45}.mini-btn{background:#6A2C91;color:#fff;border:0;border-radius:20px;padding:.38rem .76rem;font-weight:700;cursor:pointer}.btn-row{display:flex;gap:.38rem;flex-wrap:wrap;margin:.45rem 0}.chart-box{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.38rem;margin-top:.4rem}.chart-box svg{display:block;width:100%;height:auto}
+    .opt{cursor:pointer;transition:background .2s}.opt:hover{background:rgba(106,44,145,.06)}.opt-feedback{display:none}.revealed .opt-feedback{display:block;font-size:.82rem;margin-top:.42rem;padding:.48rem .58rem;border-radius:6px;line-height:1.45}.opt-correct.revealed{background:#FFF8E1;border-left:4px solid #D4AF37;padding-left:.66rem}.opt-incorrect.revealed{background:rgba(106,44,145,.08);border-left:4px solid #6A2C91;padding-left:.66rem}.solution{background:#fff;border:1px solid #D9D9D9;border-radius:8px;padding:.6rem .68rem;margin:.45rem 0;line-height:1.48}.solution strong{color:#6A2C91}.solution .final{font-weight:800;color:#0B0F3F}
+    @media(max-width:760px){.pdf-bar{display:none}.two-col,.three-col,.four-col,.tool-grid{grid-template-columns:1fr}}@media print{.pdf-bar,.btn-row{display:none!important}.page{box-shadow:none;page-break-after:always}.opt-feedback{display:block!important}}
+  </style>
+</head>
+<body>
+<div class="pdf-bar"><button class="btn-pdf" onclick="window.print()">Exportar a PDF</button></div>
+
+<div class="page" id="page1">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Relaciones metricas en la circunferencia</h2><p style="font-size:8pt;color:#6A2C91;font-weight:600;margin-top:4px;">Autor: Paulo Figueroa</p></div>
+  <div class="meta-chips"><span class="chip">OA 4</span><span class="chip">3° Medio</span><span class="chip">Angulos</span><span class="chip">Arcos y cuerdas</span></div>
+  <div class="oa-box"><span class="oa-badge">OA 4</span><span class="oa-text">Utilizar relaciones metricas entre angulos, arcos o cuerdas en la circunferencia para determinar medidas de objetos geometricos.</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="sec-num">1</span>La circunferencia como sistema de medidas</div>
+      <p>En una circunferencia, los angulos, arcos y cuerdas no son datos aislados. Cuando conocemos uno de ellos, muchas veces podemos determinar otros usando relaciones metricas. Esta guia se enfoca en calcular medidas con orden y con interpretacion geometrica.</p>
+      <div class="four-col"><div class="small-card"><strong>Centro</strong><br>Punto fijo desde donde se mide el radio.</div><div class="small-card"><strong>Arco</strong><br>Parte de la circunferencia entre dos puntos.</div><div class="small-card"><strong>Cuerda</strong><br>Segmento que une dos puntos de la circunferencia.</div><div class="small-card"><strong>Secante</strong><br>Recta que corta la circunferencia en dos puntos.</div></div>
+      <figure class="visual-figure" aria-label="Elementos basicos de una circunferencia">
+        <svg viewBox="0 0 760 220" role="img">
+          <circle cx="380" cy="110" r="82" fill="#fff" stroke="#0B0F3F" stroke-width="3"/>
+          <circle cx="380" cy="110" r="4" fill="#6A2C91"/><text x="392" y="113" font-family="Inter" font-size="13" font-weight="800">O</text>
+          <line x1="380" y1="110" x2="462" y2="110" stroke="#D4AF37" stroke-width="4"/><text x="418" y="101" font-family="Inter" font-size="12">radio</text>
+          <line x1="316" y1="59" x2="444" y2="161" stroke="#6A2C91" stroke-width="4"/><text x="265" y="55" font-family="Inter" font-size="12">cuerda</text>
+          <path d="M316 59 A82 82 0 0 1 462 110" fill="none" stroke="#D4AF37" stroke-width="6"/><text x="400" y="38" font-family="Inter" font-size="12">arco</text>
+          <line x1="210" y1="175" x2="545" y2="62" stroke="#4b5563" stroke-width="2" stroke-dasharray="7 6"/><text x="540" y="58" font-family="Inter" font-size="12">secante</text>
+          <text x="380" y="205" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">El objetivo es conectar medidas: arco, angulo y cuerda.</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Lectura visual:</strong> una misma pareja de puntos puede definir una cuerda, un arco y varios angulos asociados.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Meta de la guia:</strong> calcular medidas en circunferencias usando relaciones claras, no memorizacion suelta.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 1 de 10</div></div>
+</div>
+
+<div class="page" id="page2">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Angulo central, arco y angulo inscrito</h2></div>
+  <div class="meta-chips"><span class="chip">Teoria 1</span><span class="chip">Relacion base</span><span class="chip">Arcos</span></div>
+  <div class="content">
+    <div class="section">
+      <p>El angulo central tiene su vertice en el centro de la circunferencia. Su medida coincide con la medida del arco que intercepta. El angulo inscrito tiene su vertice sobre la circunferencia y mide la mitad del arco que intercepta.</p>
+      <div class="two-col"><div class="formula-box">\[
+        m(\angle AOB)=m(\widehat{AB})
+      \]</div><div class="formula-box">\[
+        m(\angle ACB)=\frac{m(\widehat{AB})}{2}
+      \]</div></div>
+      <table class="clean-table"><thead><tr><th>Elemento</th><th>Como se reconoce</th><th>Relacion metrica</th></tr></thead><tbody><tr><td>Angulo central</td><td>Vertice en el centro.</td><td>Igual al arco interceptado.</td></tr><tr><td>Angulo inscrito</td><td>Vertice sobre la circunferencia.</td><td>Mitad del arco interceptado.</td></tr><tr><td>Arco interceptado</td><td>Arco que queda entre los lados del angulo.</td><td>Puede ser el doble de un angulo inscrito.</td></tr></tbody></table>
+      <figure class="visual-figure" aria-label="Angulo central e inscrito">
+        <svg viewBox="0 0 760 210" role="img">
+          <circle cx="230" cy="105" r="72" fill="#fff" stroke="#0B0F3F" stroke-width="3"/><circle cx="230" cy="105" r="4" fill="#6A2C91"/>
+          <line x1="230" y1="105" x2="302" y2="105" stroke="#6A2C91" stroke-width="4"/><line x1="230" y1="105" x2="194" y2="43" stroke="#6A2C91" stroke-width="4"/><path d="M194 43 A72 72 0 0 1 302 105" fill="none" stroke="#D4AF37" stroke-width="6"/><text x="230" y="190" text-anchor="middle" font-family="Inter" font-size="12">Central: igual al arco</text>
+          <circle cx="535" cy="105" r="72" fill="#fff" stroke="#0B0F3F" stroke-width="3"/><line x1="499" y1="43" x2="607" y2="105" stroke="#6A2C91" stroke-width="4"/><line x1="535" y1="177" x2="499" y2="43" stroke="#6A2C91" stroke-width="4"/><line x1="535" y1="177" x2="607" y2="105" stroke="#6A2C91" stroke-width="4"/><path d="M499 43 A72 72 0 0 1 607 105" fill="none" stroke="#D4AF37" stroke-width="6"/><text x="535" y="190" text-anchor="middle" font-family="Inter" font-size="12">Inscrito: mitad del arco</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Clave:</strong> no basta ver un angulo; hay que identificar donde esta su vertice.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Pregunta de control:</strong> si un angulo inscrito mide \(38^\circ\), el arco interceptado mide \(76^\circ\).</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 2 de 10</div></div>
+</div>
+
+<div class="page" id="page3">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 1: calcular arcos y angulos</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo simple</span><span class="chip">Inscrito</span><span class="chip">Central</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Problema: del angulo inscrito al arco</div><div class="example-body">
+      <p><strong>Enunciado.</strong> En una circunferencia, el angulo inscrito \(\angle ACB\) mide \(42^\circ\) e intercepta el arco \(\widehat{AB}\). Determina la medida del arco \(\widehat{AB}\) y del angulo central \(\angle AOB\) que intercepta el mismo arco.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(m(\angle ACB)=42^\circ\) (angulo inscrito).</li><li>\(\widehat{AB}\) = arco interceptado.</li><li>\(\angle AOB\) = angulo central que intercepta \(\widehat{AB}\).</li></ul>
+      <p class="label">Formula o propiedad</p>
+      <div class="formula-box">\[
+        m(\angle ACB)=\frac{m(\widehat{AB})}{2}
+      \]</div>
+      <p>Se usa porque el vertice \(C\) esta sobre la circunferencia. Un angulo inscrito mide la mitad del arco que intercepta.</p>
+      <p class="label">Desarrollo paso a paso</p>
+      <div class="step-box"><p><strong>1. Reemplazar el dato:</strong> \(42^\circ=\frac{m(\widehat{AB})}{2}\).</p><p><strong>2. Multiplicar por 2:</strong> \(2\cdot42^\circ=m(\widehat{AB})\).</p><p><strong>3. Calcular:</strong> \(84^\circ=m(\widehat{AB})\).</p><p><strong>4. Relacion con el angulo central:</strong> \(m(\angle AOB)=m(\widehat{AB})\).</p><p class="result-line">Resultado final: \(m(\widehat{AB})=84^\circ\) y \(m(\angle AOB)=84^\circ\).</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> el angulo central es mayor que el inscrito porque abre desde el centro. El inscrito ve el mismo arco desde la circunferencia, por eso mide la mitad.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 3 de 10</div></div>
+</div>
+
+<div class="page" id="page4">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Cuerdas y arcos iguales</h2></div>
+  <div class="meta-chips"><span class="chip">Teoria 2</span><span class="chip">Cuerdas</span><span class="chip">Simetria</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Dos cuerdas iguales en una misma circunferencia determinan arcos iguales y angulos centrales iguales. Esta relacion permite trasladar informacion desde segmentos hacia arcos y angulos.</p>
+      <div class="formula-box">\[
+        \overline{AB}=\overline{CD}\quad \Rightarrow \quad m(\widehat{AB})=m(\widehat{CD})
+      \]</div>
+      <table class="clean-table"><thead><tr><th>Si sabes que...</th><th>Puedes concluir que...</th><th>Por que</th></tr></thead><tbody><tr><td>Dos cuerdas son congruentes.</td><td>Sus arcos menores son congruentes.</td><td>Estan a igual distancia del centro.</td></tr><tr><td>Dos arcos son congruentes.</td><td>Sus cuerdas son congruentes.</td><td>Subtienden el mismo angulo central.</td></tr><tr><td>Dos angulos centrales son iguales.</td><td>Sus arcos y cuerdas son iguales.</td><td>El radio es el mismo.</td></tr></tbody></table>
+      <div class="example"><div class="example-title">Ejemplo 2: arcos desde cuerdas iguales</div><div class="example-body">
+        <p><strong>Enunciado.</strong> En una circunferencia, las cuerdas \(\overline{AB}\) y \(\overline{CD}\) son iguales. Si \(m(\widehat{AB})=68^\circ\), determina \(m(\widehat{CD})\).</p>
+        <p class="label">Datos del problema</p>
+        <ul class="data-list"><li>\(\overline{AB}=\overline{CD}\) (cuerdas congruentes).</li><li>\(m(\widehat{AB})=68^\circ\) (arco asociado a la cuerda \(\overline{AB}\)).</li></ul>
+        <div class="step-box"><p><strong>1. Propiedad:</strong> cuerdas iguales determinan arcos iguales.</p><p><strong>2. Igualdad de arcos:</strong> \(m(\widehat{AB})=m(\widehat{CD})\).</p><p><strong>3. Reemplazo:</strong> \(68^\circ=m(\widehat{CD})\).</p><p class="result-line">Resultado final: \(m(\widehat{CD})=68^\circ\).</p></div>
+        <div class="plain-box"><strong>Interpretacion:</strong> no se necesita conocer el radio. La igualdad de cuerdas ya garantiza la igualdad de los arcos correspondientes.</div>
+      </div></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 4 de 10</div></div>
+</div>
+
+<div class="page" id="page5">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Longitud de cuerda con radio y angulo central</h2></div>
+  <div class="meta-chips"><span class="chip">Teoria 3</span><span class="chip">Trigonometria</span><span class="chip">Cuerda</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Cuando se conoce el radio y el angulo central, la longitud de una cuerda se puede calcular formando un triangulo isosceles con dos radios. Al dividirlo por la mitad aparecen dos triangulos rectangulos.</p>
+      <div class="formula-box">\[
+        c=2r\cdot \sin\left(\frac{\theta}{2}\right)
+      \]</div>
+      <p>Donde \(c\) es la longitud de la cuerda, \(r\) es el radio de la circunferencia y \(\theta\) es el angulo central que intercepta la cuerda.</p>
+      <figure class="visual-figure" aria-label="Formula de cuerda">
+        <svg viewBox="0 0 760 210" role="img">
+          <circle cx="380" cy="105" r="80" fill="#fff" stroke="#0B0F3F" stroke-width="3"/><circle cx="380" cy="105" r="4" fill="#6A2C91"/>
+          <line x1="380" y1="105" x2="310" y2="66" stroke="#6A2C91" stroke-width="3"/><line x1="380" y1="105" x2="450" y2="66" stroke="#6A2C91" stroke-width="3"/><line x1="310" y1="66" x2="450" y2="66" stroke="#D4AF37" stroke-width="5"/>
+          <line x1="380" y1="105" x2="380" y2="66" stroke="#4b5563" stroke-dasharray="6 5" stroke-width="2"/><text x="386" y="89" font-family="Inter" font-size="12">\(\theta/2\)</text><text x="342" y="56" font-family="Inter" font-size="12">cuerda \(c\)</text><text x="332" y="95" font-family="Inter" font-size="12">\(r\)</text><text x="426" y="95" font-family="Inter" font-size="12">\(r\)</text>
+          <text x="380" y="190" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">La mitad de la cuerda es \(r\sin(\theta/2)\).</text>
+        </svg>
+        <figcaption class="fig-caption"><strong>Idea:</strong> se calcula media cuerda y luego se duplica.</figcaption>
+      </figure>
+      <div class="soft-box"><strong>Cuidado:</strong> si la calculadora usa radianes, debes convertir. En esta guia trabajaremos con grados.</div>
+      <table class="clean-table"><thead><tr><th>Si el angulo central...</th><th>Entonces la cuerda...</th><th>Explicacion visual</th></tr></thead><tbody><tr><td>Es pequeño.</td><td>Es corta.</td><td>Los puntos del borde quedan cerca.</td></tr><tr><td>Se acerca a \(180^\circ\).</td><td>Se acerca al diametro.</td><td>Los puntos quedan casi opuestos.</td></tr><tr><td>Es \(180^\circ\).</td><td>Es exactamente el diametro.</td><td>La cuerda pasa por el centro.</td></tr></tbody></table>
+      <div class="plain-box"><strong>Chequeo de sentido:</strong> una cuerda nunca puede medir mas que el diametro \(2r\). Si un calculo entrega una cuerda mayor que \(2r\), hay un error en la formula, en el angulo o en la calculadora.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 5 de 10</div></div>
+</div>
+
+<div class="page" id="page6">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejemplo 3: calcular una cuerda</h2></div>
+  <div class="meta-chips"><span class="chip">Ejemplo intermedio</span><span class="chip">Longitud</span><span class="chip">Paso a paso</span></div>
+  <div class="content">
+    <div class="example"><div class="example-title">Problema: cuerda de un reloj mural</div><div class="example-body">
+      <p><strong>Enunciado.</strong> Un reloj circular tiene radio \(r=18\) cm. Dos marcas del borde forman un angulo central de \(80^\circ\). Calcula la distancia recta entre esas dos marcas, es decir, la longitud de la cuerda.</p>
+      <p class="label">Datos del problema</p>
+      <ul class="data-list"><li>\(r=18\) (cm), radio del reloj.</li><li>\(\theta=80^\circ\), angulo central.</li><li>\(c\) = longitud de la cuerda (cm).</li></ul>
+      <p class="label">Formula utilizada</p>
+      <div class="formula-box">\[
+        c=2r\cdot \sin\left(\frac{\theta}{2}\right)
+      \]</div>
+      <p>Esta formula sirve porque la cuerda se puede dividir en dos partes iguales usando el radio perpendicular a la cuerda. Se forma un triangulo rectangulo.</p>
+      <p class="label">Reemplazo y desarrollo</p>
+      <div class="step-box"><p><strong>1. Mitad del angulo:</strong> \(\frac{\theta}{2}=\frac{80^\circ}{2}=40^\circ\).</p><p><strong>2. Reemplazar:</strong> \(c=2\cdot18\cdot\sin(40^\circ)\).</p><p><strong>3. Multiplicar radios:</strong> \(2\cdot18=36\).</p><p><strong>4. Calcular seno:</strong> \(\sin(40^\circ)\approx0,6428\).</p><p><strong>5. Multiplicar:</strong> \(c\approx36\cdot0,6428=23,1408\).</p><p class="result-line">Resultado final: \(c\approx23,14\) cm.</p></div>
+      <div class="plain-box"><strong>Interpretacion:</strong> la distancia recta entre las marcas es menor que el arco que las une, porque la cuerda cruza por dentro de la circunferencia.</div>
+    </div></div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 6 de 10</div></div>
+</div>
+
+<div class="page" id="page7">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Angulos formados por secantes</h2></div>
+  <div class="meta-chips"><span class="chip">Teoria 4</span><span class="chip">Secantes</span><span class="chip">Arcos</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Cuando dos secantes se cortan fuera de una circunferencia, el angulo exterior mide la mitad de la diferencia entre los arcos interceptados. Esta relacion aparece mucho en problemas donde se entregan dos arcos y se pide un angulo.</p>
+      <div class="formula-box">\[
+        m(\angle P)=\frac{m(\widehat{AB})-m(\widehat{CD})}{2}
+      \]</div>
+      <div class="example"><div class="example-title">Ejemplo 4: angulo exterior</div><div class="example-body">
+        <p><strong>Enunciado.</strong> Desde un punto exterior \(P\) salen dos secantes a una circunferencia. Los arcos interceptados miden \(150^\circ\) y \(46^\circ\). Calcula el angulo exterior en \(P\).</p>
+        <p class="label">Datos del problema</p>
+        <ul class="data-list"><li>Arco mayor: \(150^\circ\).</li><li>Arco menor: \(46^\circ\).</li><li>\(\angle P\) = angulo exterior formado por secantes.</li></ul>
+        <div class="step-box"><p><strong>1. Formula:</strong> \(m(\angle P)=\frac{\text{arco mayor}-\text{arco menor}}{2}\).</p><p><strong>2. Reemplazo:</strong> \(m(\angle P)=\frac{150^\circ-46^\circ}{2}\).</p><p><strong>3. Restar:</strong> \(150^\circ-46^\circ=104^\circ\).</p><p><strong>4. Dividir por 2:</strong> \(\frac{104^\circ}{2}=52^\circ\).</p><p class="result-line">Resultado final: \(m(\angle P)=52^\circ\).</p></div>
+      </div></div>
+      <div class="soft-box"><strong>Comparacion util:</strong> angulo inscrito usa la mitad de un arco; angulo exterior con secantes usa la mitad de una diferencia de arcos.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 7 de 10</div></div>
+</div>
+
+<div class="page" id="page8">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Taller interactivo: calcula y observa</h2></div>
+  <div class="meta-chips"><span class="chip">Interaccion</span><span class="chip">Calculadora</span><span class="chip">Circunferencia</span></div>
+  <div class="content">
+    <div class="section">
+      <p>Selecciona una relacion, cambia los datos y observa como se modifica la medida calculada. La idea es asociar formula, dibujo y significado.</p>
+      <div class="tool-grid"><div class="input-control"><label for="circle-mode">Relacion</label><select id="circle-mode"><option value="inscribed">Angulo inscrito desde arco</option><option value="arc">Arco desde angulo inscrito</option><option value="chord">Longitud de cuerda</option><option value="secant">Angulo exterior por secantes</option></select></div><div class="input-control"><label for="circle-a">Dato A</label><input id="circle-a" type="number" value="96" step="1"></div><div class="input-control"><label for="circle-b">Dato B</label><input id="circle-b" type="number" value="18" step="1"></div><div class="input-control"><label for="circle-c">Dato C</label><input id="circle-c" type="number" value="80" step="1"></div></div>
+      <div class="btn-row"><button class="mini-btn" data-circle="ins">Inscrito</button><button class="mini-btn" data-circle="chord">Cuerda</button><button class="mini-btn" data-circle="sec">Secantes</button></div>
+      <div id="circle-result" class="result-panel" aria-live="polite"></div>
+      <div class="chart-box"><svg id="circle-chart" viewBox="0 0 760 235" role="img" aria-label="Circunferencia interactiva"></svg></div>
+      <div class="soft-box"><strong>Actividad:</strong> cambia solo un dato y explica si el resultado aumenta, disminuye o se mantiene. Usa unidades: grados o centimetros.</div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 8 de 10</div></div>
+</div>
+
+<div class="page" id="page9">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Ejercicios para practicar</h2></div>
+  <div class="meta-chips"><span class="chip">Autocorregible</span><span class="chip">PAES</span><span class="chip">Medidas</span></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-b">Basico</span><span style="color:#fff;font-size:10pt;">Angulos y arcos</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">1</span><span class="diff diff-b">Basico</span></div><div class="ex-stmt">Un angulo inscrito intercepta un arco de \(112^\circ\). Su medida es:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(56^\circ\)<div class="opt-feedback">Correcto. El angulo inscrito mide la mitad del arco: \(112^\circ/2=56^\circ\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(112^\circ\)<div class="opt-feedback">Incorrecto. Esa seria la medida del angulo central.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(224^\circ\)<div class="opt-feedback">Incorrecto. Eso duplica el arco, no corresponde.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(28^\circ\)<div class="opt-feedback">Incorrecto. Se dividio dos veces.</div></div></div></div>
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">2</span><span class="diff diff-b">Basico</span></div><div class="ex-stmt">Si dos cuerdas de una misma circunferencia son congruentes, entonces:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> Determinan arcos congruentes<div class="opt-feedback">Correcto. Cuerdas iguales determinan arcos iguales.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> Determinan arcos siempre de \(180^\circ\)<div class="opt-feedback">Incorrecto. Solo ocurre si las cuerdas son diametros.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> No tienen relacion con los arcos<div class="opt-feedback">Incorrecto. Si estan en la misma circunferencia, si hay relacion.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> Sus radios son distintos<div class="opt-feedback">Incorrecto. En una misma circunferencia todos los radios son iguales.</div></div></div></div>
+  </div></div>
+  <div class="ex-section"><div class="ex-section-head"><span class="ex-level-badge diff-m">Intermedio</span><span style="color:#fff;font-size:10pt;">Calculo</span></div><div class="ex-section-body">
+    <div class="ex-item"><div class="ex-header-row"><span class="ex-num-label">3</span><span class="diff diff-m">Intermedio</span></div><div class="ex-stmt">Desde un punto exterior se forman dos secantes. Los arcos interceptados miden \(132^\circ\) y \(40^\circ\). El angulo exterior mide:</div><div class="opts"><div class="opt opt-correct" onclick="this.classList.add('revealed')"><span class="opt-letter">A</span> \(46^\circ\)<div class="opt-feedback">Correcto. \((132^\circ-40^\circ)/2=92^\circ/2=46^\circ\).</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">B</span> \(86^\circ\)<div class="opt-feedback">Incorrecto. Se sumaron y dividieron, pero para secantes exteriores se resta.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">C</span> \(92^\circ\)<div class="opt-feedback">Incorrecto. Falta dividir por 2.</div></div><div class="opt opt-incorrect" onclick="this.classList.add('revealed')"><span class="opt-letter">D</span> \(172^\circ\)<div class="opt-feedback">Incorrecto. Esa es la suma de los arcos.</div></div></div></div>
+  </div></div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 9 de 10</div></div>
+</div>
+
+<div class="page" id="page10">
+  <div class="header"><img class="header-logo" src="../../../2Medio/MatematicasII/Template/logo.png" alt="MaestrIA" /><div class="header-right"><strong>Guia de Estudio</strong>Matematica · 3° Medio<br>Eje: Geometria<br><a href="https://www.MaestriaAI.cl" target="_blank" class="link-mia">www.MaestriaAI.cl</a> · <a href="https://www.instagram.com/Maestria.app" target="_blank" class="link-mia">@Maestria.app</a></div></div>
+  <div class="guide-banner"><h2>Solucionario explicado</h2></div>
+  <div class="meta-chips"><span class="chip">Soluciones</span><span class="chip">Desarrollo</span><span class="chip">Cierre</span></div>
+  <div class="content">
+    <div class="section">
+      <div class="solution"><strong>E1.</strong> Datos: \(m(\widehat{AB})=112^\circ\) (arco interceptado). Formula: \(m(\angle)=\frac{m(\widehat{AB})}{2}\), porque el angulo es inscrito. Reemplazo: \(m(\angle)=112^\circ/2=56^\circ\). <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E2.</strong> Datos: dos cuerdas congruentes en una misma circunferencia. Propiedad: cuerdas iguales determinan arcos iguales. Por eso los arcos asociados tambien son congruentes. <span class="final">Respuesta correcta: A.</span></div>
+      <div class="solution"><strong>E3.</strong> Datos: arco mayor \(=132^\circ\), arco menor \(=40^\circ\). Formula para secantes exteriores: \(m(\angle)=\frac{\text{arco mayor}-\text{arco menor}}{2}\). Reemplazo: \(m(\angle)=\frac{132^\circ-40^\circ}{2}=\frac{92^\circ}{2}=46^\circ\). <span class="final">Respuesta correcta: A.</span></div>
+      <table class="clean-table"><thead><tr><th>Relacion</th><th>Formula rapida</th><th>Uso</th></tr></thead><tbody><tr><td>Angulo central</td><td>\(m(\angle)=m(\widehat{arco})\)</td><td>Vertice en el centro.</td></tr><tr><td>Angulo inscrito</td><td>\(m(\angle)=m(\widehat{arco})/2\)</td><td>Vertice sobre la circunferencia.</td></tr><tr><td>Cuerda</td><td>\(c=2r\sin(\theta/2)\)</td><td>Radio y angulo central conocidos.</td></tr><tr><td>Secantes exteriores</td><td>\(m(\angle)=\frac{A-a}{2}\)</td><td>Dos arcos interceptados.</td></tr></tbody></table>
+      <div class="soft-box"><strong>Cierre:</strong> en geometria de circunferencia, el primer paso siempre es identificar el tipo de angulo o segmento. Despues la formula se vuelve natural.</div>
+      <div class="plain-box"><strong>Checklist antes de entregar:</strong> identifica el vertice, marca el arco usado, escribe la formula con unidades y revisa si el resultado debe quedar en grados o en centimetros.</div>
+      <div class="step-box"><p><strong>Frase final recomendada:</strong> “Se usa esta relacion porque ___; al reemplazar los datos se obtiene ___; por lo tanto la medida pedida es ___”.</p></div>
+    </div>
+  </div>
+  <div class="footer"><div class="footer-brand">MaestrIA <span>· Domina la materia</span></div><div class="footer-meta">Matematica 3° Medio · OA 4 medidas · Pagina 10 de 10</div></div>
+</div>
+
+<script>
+(function(){
+  var mode=document.getElementById('circle-mode'), a=document.getElementById('circle-a'), b=document.getElementById('circle-b'), c=document.getElementById('circle-c'), out=document.getElementById('circle-result'), chart=document.getElementById('circle-chart');
+  function fmt(n){return Number.isFinite(n)?n.toLocaleString('es-CL',{maximumFractionDigits:2}):'no definido';}
+  function degSin(x){return Math.sin(x*Math.PI/180);}
+  function update(){
+    var A=Number(a.value), B=Number(b.value), C=Number(c.value), text='', result=0;
+    if(mode.value==='inscribed'){result=A/2;text='<strong>Relacion:</strong> angulo inscrito desde arco.<br><strong>Datos:</strong> arco = '+fmt(A)+'°.<br><strong>Calculo:</strong> angulo = arco/2 = '+fmt(A)+'/2 = '+fmt(result)+'°.';}
+    if(mode.value==='arc'){result=2*A;text='<strong>Relacion:</strong> arco desde angulo inscrito.<br><strong>Datos:</strong> angulo inscrito = '+fmt(A)+'°.<br><strong>Calculo:</strong> arco = 2 · angulo = 2 · '+fmt(A)+' = '+fmt(result)+'°.';}
+    if(mode.value==='chord'){result=2*B*degSin(C/2);text='<strong>Relacion:</strong> longitud de cuerda.<br><strong>Datos:</strong> radio = '+fmt(B)+' cm, angulo central = '+fmt(C)+'°.<br><strong>Calculo:</strong> c = 2r sen(θ/2) = 2·'+fmt(B)+'·sen('+fmt(C/2)+'°) = '+fmt(result)+' cm.';}
+    if(mode.value==='secant'){result=(A-B)/2;text='<strong>Relacion:</strong> angulo exterior por secantes.<br><strong>Datos:</strong> arco mayor = '+fmt(A)+'°, arco menor = '+fmt(B)+'°.<br><strong>Calculo:</strong> angulo = (A - a)/2 = ('+fmt(A)+' - '+fmt(B)+')/2 = '+fmt(result)+'°.';}
+    out.innerHTML=text; draw(result);
+  }
+  function polar(cx,cy,r,ang){var rad=(ang-90)*Math.PI/180;return [cx+r*Math.cos(rad),cy+r*Math.sin(rad)];}
+  function arcPath(cx,cy,r,start,end){var p1=polar(cx,cy,r,start),p2=polar(cx,cy,r,end),large=end-start>180?1:0;return 'M'+p1[0].toFixed(1)+' '+p1[1].toFixed(1)+' A'+r+' '+r+' 0 '+large+' 1 '+p2[0].toFixed(1)+' '+p2[1].toFixed(1);}
+  function draw(result){var cx=380,cy=116,r=82,pa=polar(cx,cy,r,315),pb=polar(cx,cy,r,45);chart.innerHTML='<rect width="760" height="235" rx="8" fill="#fff"/><circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#fff" stroke="#0B0F3F" stroke-width="3"/><path d="'+arcPath(cx,cy,r,315,405)+'" fill="none" stroke="#D4AF37" stroke-width="7"/><line x1="'+cx+'" y1="'+cy+'" x2="'+pa[0]+'" y2="'+pa[1]+'" stroke="#6A2C91" stroke-width="3"/><line x1="'+cx+'" y1="'+cy+'" x2="'+pb[0]+'" y2="'+pb[1]+'" stroke="#6A2C91" stroke-width="3"/><line x1="'+pa[0]+'" y1="'+pa[1]+'" x2="'+pb[0]+'" y2="'+pb[1]+'" stroke="#6A2C91" stroke-width="4"/><circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#6A2C91"/><text x="380" y="218" text-anchor="middle" font-family="Inter" font-size="12" fill="#4b5563">Resultado calculado: '+fmt(result)+(mode.value==='chord'?' cm':'°')+'</text>';}
+  [mode,a,b,c].forEach(function(el){el.addEventListener('input',update);el.addEventListener('change',update);});
+  document.querySelectorAll('[data-circle]').forEach(function(btn){btn.addEventListener('click',function(){if(btn.dataset.circle==='ins'){mode.value='inscribed';a.value=96;b.value=18;c.value=80;}if(btn.dataset.circle==='chord'){mode.value='chord';a.value=96;b.value=18;c.value=80;}if(btn.dataset.circle==='sec'){mode.value='secant';a.value=150;b.value=46;c.value=80;}update();});});
+  update();
+})();
+</script>
+</body>
+</html>
